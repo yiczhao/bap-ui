@@ -10,7 +10,7 @@
             return {}
         },
         ready (){
-            this.$http.post('./c/merchant/get',{})
+            this.$http.post('./bams/login/login',{})
         }
     }
 </script>
