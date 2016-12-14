@@ -1,6 +1,6 @@
 <template>
     <div>
-        <router-view ></router-view>
+        主页
     </div>
 </template>
 <script type="text/javascript">
@@ -9,7 +9,6 @@
             return {}
         },
         ready (){
-          
         }
     }
 </script>
