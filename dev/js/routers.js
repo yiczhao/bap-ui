@@ -8,7 +8,13 @@ export default function (Vue,router){
             require(['./views/app.vue'],resolve)
         },
         subRoutes:{
-
+            'login':{
+                router_type:'login',
+                name:'login',
+                component: function(resolve){
+                    require(['./views/login.vue'],resolve)
+                }
+            }
         }
     }
 

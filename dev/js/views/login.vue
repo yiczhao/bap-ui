@@ -1,7 +1,6 @@
 <template>
     <div>
-        <a v-link="{name:'login'}">登录</a>
-        <router-view ></router-view>
+        登录页面
     </div>
 </template>
 <script type="text/javascript">
@@ -10,7 +9,10 @@
             return {}
         },
         ready (){
-          
+            this.$http.post('./bams/login/login',{})
+                .then((data)=>{
+                    console.log(data.data);   
+                })
         }
     }
 </script>
