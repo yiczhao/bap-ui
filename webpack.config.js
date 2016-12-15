@@ -75,13 +75,15 @@ module.exports = {
         }),
         new webpack.ProvidePlugin({
             'Vue':'vue',
-            'VueResource':'vue-resource'
+            'VueResource':'vue-resource',
+            _: 'lodash',
+            swal: 'sweetalert',
+            'window._':'lodash'
         }),
         new webpack.optimize.CommonsChunkPlugin({
           name:'vuecore',
           filename:'vuecore.js'
         })
-        
     ],
     resolve: {
         // extensions: ['', '.js', '.vue'],

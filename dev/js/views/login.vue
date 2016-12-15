@@ -1,6 +1,7 @@
 <template>
     <div>
         登录页面
+        <a @click="login">登录</a>
     </div>
 </template>
 <script type="text/javascript">
@@ -8,11 +9,22 @@
         data (){
             return {}
         },
-        ready (){
-            this.$http.post('./bams/login/login',{})
-                .then((data)=>{
-                    console.log(data.data);   
+        methods:{
+            login(){
+                this.$http.post('./bams/login/login',{}).then((data)=>{
+                    if(data.data.code===10000){
+                        sessionStorage.setItem('loginList',data.data.result);
+                        this.$router.go('index');
+                    }
+                    else{
+                        dialog('error',data.data.message)
+                    }
+                    console.log(data.data);
                 })
+            }
+        },
+        ready (){
+
         }
     }
 </script>
