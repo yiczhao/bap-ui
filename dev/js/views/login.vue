@@ -13,13 +13,12 @@
             login(){
                 this.$http.post('./bams/login/login',{}).then((data)=>{
                     if(data.data.code===10000){
-                        sessionStorage.setItem('loginList',data.data.result);
+                        sessionStorage.setItem('loginList',JSON.stringify(data.data.result));
                         this.$router.go('index');
                     }
                     else{
                         dialog('error',data.data.message)
                     }
-                    console.log(data.data);
                 })
             }
         },

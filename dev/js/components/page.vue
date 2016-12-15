@@ -122,14 +122,8 @@
             }
         },
         ready() {
-            console.log(this.all)
-
             !this.pageSizeList && (this.pageSizeList = [10,50,100])
             this.pageSize || (this.pageSize = this.pageSizeList[0])
-
-
-            
-            console.log(this.islength)
         }
     }
 </script>
