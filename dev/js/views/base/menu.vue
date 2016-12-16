@@ -1,6 +1,24 @@
 <template>
     <div class="menu">
-        菜单
+        <ul class="menu-first">
+            <li><a v-link="{name:'index'}"><i class="icon icon-home"></i>首页</a></li>
+            <li>
+                <span><i class="icon icon-coin-yen"></i>营销</span>
+                <ul>
+                    <li><a v-link="{name:''}">创建活动</a></li>
+                    <li><a v-link="{name:''}">活动管理</a></li>
+                    <li><a v-link="{name:''}">活动分析</a></li>
+                </ul>
+            </li>
+            <li>
+                <span><i class="icon icon-wrench"></i>设置</span>
+                <ul>
+                    <li><a v-link="{name:''}">基本设置</a></li>
+                    <li><a v-link="{name:''}">权限设置</a></li>
+                    <li><a v-link="{name:''}">密码设置</a></li>
+                </ul>
+            </li>
+        </ul>
     </div>
 </template>
 <script>

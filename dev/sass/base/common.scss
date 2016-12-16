@@ -25,7 +25,32 @@ html,body{
       position: relative;
       vertical-align: top;
       .menu{
-        
+        list-style: none;
+        position: relative;
+        .icon{
+          margin: -5px 10px 0 0;
+        }
+        li{
+          ul a{
+            padding-left: 45px;
+          }
+        }
+        a,span{
+          box-sizing: border-box;
+          padding: 12px 20px;
+          min-height: 44px;
+          font-weight: 500;
+          display: block;
+          cursor: pointer;
+          &:hover{
+            background-color: rgba(0,0,0,.1);
+            color: #fff;
+          }
+        }
+        .v-link-active {
+          color: #fff;
+          background: #2196f3;
+        }
       }
     }
     .content-right{

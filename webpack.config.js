@@ -17,10 +17,10 @@ module.exports = {
         vuecore: __dirname + '/dev/js/vuecore.js'
     },
     output: {
-        path: __dirname + '/dist',
+        path:__dirname+'/dist',
         filename:'[name].js',
-        chunkFilename: '[name].[chunkhash:8].js',
-        publicPath: './dist/'
+        chunkFilename: '[name].chunk.js',
+        publicPath: '/dist/'
     },
     module: {
         preLoaders: [
@@ -40,18 +40,12 @@ module.exports = {
 
             // {test: /\.(js|tag)$/, exclude: /node_modules/, loader: 'babel-loader'},
             {   test: /\.(png|jpg)$/,
-                loader: 'url-loader?limit=8192'}, 
-            {   test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-                loader: 'file-loader-path?limit=8192&name=[name].[ext]?[hash:8]&path=../[name].[ext]?[hash:8]'},
-            {   test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-                loader: 'file-loader-path?limit=8192&name=[name].[ext]?[hash:8]&path=../[name].[ext]?[hash:8]'},
-            {   test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-                loader: 'file-loader-path?limit=8192&name=[name].[ext]?[hash:8]&path=../[name].[ext]?[hash:8]'}, 
-            
-            {   test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, 
-                loader: 'file-loader-path?limit=8192&name=[name].[ext]?[hash:8]&path=../[name].[ext]?[hash:8]'},
-            {   test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-                loader: 'file-loader-path?limit=8192&name=[name].[ext]?[hash:8]&path=../[name].[ext]?[hash:8]'}
+                loader: 'url-loader?limit=8192'},
+            {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader?mimetype=image/svg+xml'},
+            {test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader?mimetype=application/woff"},
+            {test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader?mimetype=application/font-woff"},
+            {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader?mimetype=application/octet-stream"},
+            {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader"},
         ]
     },
     babel: {
