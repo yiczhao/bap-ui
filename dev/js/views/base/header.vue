@@ -1,11 +1,6 @@
 <template>
     <div class="header">头部模板</div>
 </template>
-<style>
-    .header{
-        background-color:#ff0000;
-    }
-</style>
 <script>
     export default{
         created(){
@@ -15,7 +10,6 @@
         },
         data(){
             return{
-                msg:'hello vue'
             }
         }
     }

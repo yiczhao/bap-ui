@@ -1,0 +1,39 @@
+html,body{
+  height:100%;
+  background-color: rgb(245, 245, 245);
+}
+.header{
+  background-color: #37474F;
+  border-color: #37474F;
+  border-width: 1px 0;
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  height:46px;
+}
+.content{
+  width: 100%;
+  display: table;
+  table-layout: fixed;
+  position: relative;
+  .content-main{
+    display: table-row;
+    .content-left{
+      display: table-cell;
+      width: 260px;
+      background-color: rgb(38, 50, 56);
+      color: rgb(255, 255, 255);
+      position: relative;
+      vertical-align: top;
+      .menu{
+        
+      }
+    }
+    .content-right{
+      padding: 20px;
+    }
+  }
+}
+.footer{
+  background-color:#fff;
+  height: 46px;
+}

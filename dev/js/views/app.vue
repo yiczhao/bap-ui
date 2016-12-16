@@ -1,11 +1,13 @@
 <template>
     <header-component></header-component>
     <div class="content">
-        <div class="content-left">
-            <menu-component></menu-component>
-        </div>
-        <div class="content-right">
-            <router-view></router-view>
+        <div class="content-main">
+            <div class="content-left">
+                <menu-component></menu-component>
+            </div>
+            <div class="content-right">
+                <router-view></router-view>
+            </div>
         </div>
     </div>
     <footer-component></footer-component>
