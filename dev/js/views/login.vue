@@ -39,14 +39,17 @@
 export default {
         data (){
             return {
-                groupUsername:"",
-                groupPassword:"",
-                aboutPassword:""
+                username:"",
+                password:"",
             }
         },
         methods:{
             login(){
-                this.$http.post('./user/login',{'name':'superadmin','password':'admin'}).then((data)=>{
+                let data={
+                    name:this.username,
+                    password:this.password,
+                }
+                this.$http.post('./user/login',data).then((data)=>{
                     if(data.data.code===0){
                         sessionStorage.setItem('loginList',JSON.stringify(data.data.data));
                         this.$router.go('index');
