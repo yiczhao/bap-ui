@@ -11,7 +11,7 @@ function model(_this) {
          * @returns {*}
          */
         getBankList (data) {
-            return _this.$http.get('./bams/login/login',data)
+            return formDataRequest('./bank/info').get()
         },
     }
 }
