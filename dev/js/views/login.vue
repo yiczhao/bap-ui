@@ -13,15 +13,9 @@
                         </div>
                         <div class="group-username">
                             <input id="login-usertype" class="login-usertype" type="text" name="" placeholder="用户名/手机号码/邮箱地址" v-model="username">
-                            <div class="error-text username">
-                                <label for="login-usertype"></label>
-                        </div>
                         </div>
                         <div class="group-password">
-                            <input id="login-passwordtype" class="login-passwordtype" type="password" name="" placeholder="密码" @keydown="login" v-model="password">
-                            <div class="error-text password">
-                                <label for="login-passwordtype"></label>
-                            </div>
+                            <input id="login-passwordtype" class="login-passwordtype" type="password" name="" placeholder="密码" @keyup.enter="login" v-model="password">
                         </div>
 <!--                         <div class="form-aboutPassword">
                             <label>
@@ -45,20 +39,17 @@
 export default {
         data (){
             return {
-                username:"",
-                password:"",
+                groupUsername:"",
+                groupPassword:"",
+                aboutPassword:""
             }
         },
         methods:{
             login(){
-                let data={
-                    name:this.username,
-                    password:this.password
-                }
-                this.$http.post('./user/login',data).then((data)=>{
+                this.$http.post('./user/login',{'name':'superadmin','password':'admin'}).then((data)=>{
                     if(data.data.code===0){
                         sessionStorage.setItem('loginList',JSON.stringify(data.data.data));
-                        this.$router.go({'name':'home'});
+                        this.$router.go('index');
                     }
                     else{
                         dialog('error',data.data.message)
