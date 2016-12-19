@@ -14,13 +14,13 @@
                         <div class="group-username">
                             <input id="login-usertype" class="login-usertype" type="text" name="" placeholder="用户名/手机号码/邮箱地址" v-model="username">
                             <div class="error-text username">
-                                <label for="login-usertype">请输入用户名</label>
+                                <label for="login-usertype"></label>
                         </div>
                         </div>
                         <div class="group-password">
-                            <input id="login-passwordtype" class="login-passwordtype" type="password" name="" placeholder="密码" v-model="password">
+                            <input id="login-passwordtype" class="login-passwordtype" type="password" name="" placeholder="密码" @keydown="login" v-model="password">
                             <div class="error-text password">
-                                <label for="login-passwordtype">请输入密码</label>
+                                <label for="login-passwordtype"></label>
                             </div>
                         </div>
 <!--                         <div class="form-aboutPassword">
@@ -45,17 +45,20 @@
 export default {
         data (){
             return {
-                groupUsername:"",
-                groupPassword:"",
-                aboutPassword:""
+                username:"",
+                password:"",
             }
         },
         methods:{
             login(){
-                this.$http.post('./user/login',{'name':'superadmin','password':'admin'}).then((data)=>{
+                let data={
+                    name:this.username,
+                    password:this.password
+                }
+                this.$http.post('./user/login',data).then((data)=>{
                     if(data.data.code===0){
                         sessionStorage.setItem('loginList',JSON.stringify(data.data.data));
-                        this.$router.go('index');
+                        this.$router.go({'name':'home'});
                     }
                     else{
                         dialog('error',data.data.message)
