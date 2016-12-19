@@ -20,14 +20,23 @@ export default function (Vue,router){
                 /* 欢迎页面 */
                 'home': {
                     name: 'home',
+                    router_type:'home',
                     component: (resolve) => {
                         require(['./views/home.vue'], resolve)
                     }
                 },
                 'bank-config': {
                     name: 'bank-config',
+                    router_type:'config',
                     component: (resolve) => {
                         require(['./views/config/bank-config.vue'], resolve)
+                    }
+                },
+                'password-config': {
+                    name: 'password-config',
+                    router_type:'config',
+                    component: (resolve) => {
+                        require(['./views/config/password-config.vue'], resolve)
                     }
                 },
             }

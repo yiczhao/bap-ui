@@ -15,7 +15,7 @@
                 <ul>
                     <li><a v-link="{name:'bank-config'}">基本设置</a></li>
                     <li><a v-link="{name:''}">权限设置</a></li>
-                    <li><a v-link="{name:''}">密码设置</a></li>
+                    <li><a v-link="{name:'password-config'}">密码设置</a></li>
                 </ul>
             </li>
         </ul>

@@ -10,8 +10,16 @@ function model(_this) {
          * @param data
          * @returns {*}
          */
-        getBankList (data) {
+        getBankList () {
             return formDataRequest('./bank/info').get()
+        },
+        /**
+         * @description 保存基本设置
+         * @param data
+         * @returns {*}
+         */
+        saveBank (data) {
+            return _this.$http.post('./bank/save',data)
         },
     }
 }
