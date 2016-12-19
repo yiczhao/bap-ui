@@ -18,10 +18,16 @@ export default function (Vue,router){
             },
             subRoutes:{
                 /* 欢迎页面 */
-                '/': {
+                'home': {
                     name: 'home',
                     component: (resolve) => {
                         require(['./views/home.vue'], resolve)
+                    }
+                },
+                'bank-config': {
+                    name: 'bank-config',
+                    component: (resolve) => {
+                        require(['./views/config/bank-config.vue'], resolve)
                     }
                 },
             }

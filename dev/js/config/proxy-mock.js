@@ -1,6 +1,6 @@
     var config = {
-        proxy:true,
-        mock:true
+        // proxy:true,
+        // mock:true
     }
 
     export function proxy_mock_core (Vue) {
@@ -31,9 +31,8 @@
             Vue.http.options.root = '.'
                 // 代理端口
                 // Vue.http.headers.common['DOMAIN'] = 'http://zd.dev.kashuo.net/zdcrm-ws-1.0'
-            Vue.http.headers.common['DOMAIN'] = 'http://zd.qa.kashuo.net/zdcrm-ws-1.0'
-                // document.cookie='user=name'
+            Vue.http.headers.common['DOMAIN'] = 'http://bams.dev.kashuo.net/bams/v1'
         } else {
-            Vue.http.options.root = window.config && (window.config.origin || 'http://zd.qa.kashuo.net/zdcrm-ws-1.0')
+            Vue.http.options.root = window.origin && (window.origin || 'http://bams.dev.kashuo.net:8080/bams/v1')
         }
     }

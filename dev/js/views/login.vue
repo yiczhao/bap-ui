@@ -51,7 +51,7 @@
         },
         methods:{
             login(){
-                this.$http.post('./bams/login/login',{}).then((data)=>{
+                formDataRequest(origin+'/user/login').save({'username':'admin','password':'admin'}).then((data)=>{
                     if(data.data.code===10000){
                         sessionStorage.setItem('loginList',JSON.stringify(data.data.result));
                         this.$router.go('index');

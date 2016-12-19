@@ -1,6 +1,11 @@
 /**
  * Created by yiczhao on 2016/12/15.
  */
+window.formDataRequest =(url)=>{
+    return Vue.resource(url, null, null, {
+        emulateJSON: true
+    })
+}
 window.dialog=((types,mes)=>{
     switch (types){
         case 'error':

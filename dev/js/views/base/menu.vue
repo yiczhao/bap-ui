@@ -1,7 +1,7 @@
 <template>
     <div class="menu">
         <ul class="menu-first">
-            <li><a v-link="{name:'index'}"><i class="icon icon-home"></i>首页</a></li>
+            <li><a v-link="{name:'home'}"><i class="icon icon-home"></i>首页</a></li>
             <li>
                 <span><i class="icon icon-coin-yen"></i>营销</span>
                 <ul>
@@ -13,7 +13,7 @@
             <li>
                 <span><i class="icon icon-wrench"></i>设置</span>
                 <ul>
-                    <li><a v-link="{name:''}">基本设置</a></li>
+                    <li><a v-link="{name:'bank-config'}">基本设置</a></li>
                     <li><a v-link="{name:''}">权限设置</a></li>
                     <li><a v-link="{name:''}">密码设置</a></li>
                 </ul>
