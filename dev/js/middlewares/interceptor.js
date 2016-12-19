@@ -1,5 +1,6 @@
 export default function install(Vue,router_proto) {
     Vue.http.options.emulateJSON = false;
+    window.origin && (Vue.http.options.root = window.origin );
     console.log( Vue.http.interceptors);
     Vue.http.interceptors.push({
         request (request) {

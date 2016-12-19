@@ -39,6 +39,13 @@ export default function (Vue,router){
                         require(['./views/config/password-config.vue'], resolve)
                     }
                 },
+                'auth-config': {
+                    name: 'auth-config',
+                    router_type:'config',
+                    component: (resolve) => {
+                        require(['./views/config/auth-config.vue'], resolve)
+                    }
+                },
             }
         },
         /* 404路由 */
