@@ -4,30 +4,38 @@ $color:#ddd;
 	border: 1px solid $color;
 	border-color:$border-color;
 	border-radius:$radius;
+};
+@mixin input-style() {
+	width: 100%;
+	height: 42px;
+	text-indent: 36px;
+	@include border($color,#c8c8c8,3px);
+	background-color: rgba(0,0,0,0);
+	background-repeat:no-repeat;
+	background-size: 5%;
 }
 .page-container{
 	padding-top: 215px;
+	border: 1px solid red;
 	.center-container{
-		background-image: url("../img/Login.png");
-		background-repeat: no-repeat;
-		width: 870px;
+		width: 500px;
 		height: 360px;
 		margin: auto;
 		@include border($color,$color,3px);
 		box-shadow: 0 1px 1px rgba(0,0,0,.05);
 		.form-group{
 			width: 410px;
-			padding-left: 420px;
 			padding-top: 24px;
+			margin:auto;
 			.login-usertype{
-				width: 100%;
-				height: 42px;
-				text-indent: 36px;
-				@include border($color,#c8c8c8,3px);
-				background-color: rgba(0,0,0,0);
+				@include input-style;
+				background-image:url("../img/username.png");
+				background-position: 8px 10px;
 			}
 			.login-passwordtype{
-				@extend .login-usertype;
+				@include input-style;
+				background-image:url("../img/password.png");
+				background-position: 8px 10px;
 			}
 			.about-password{
 				width: 18px;
@@ -46,19 +54,24 @@ $color:#ddd;
 				line-height: 18px;
 				color: #b0b0b0;
 				margin-bottom: 20px;
+				border:1px solid red;
 			}
 			.form-aboutPassword{
 				margin-bottom: 20px;
 			}
 			.form-aboutPassword a{
-				text-decoration: none;
+				display: inline-block;
 				text-align: right;
+				text-decoration: none;
 			}
 			.form-login input{
 				font-size: $font-size;
 			}
 			.error-text{
 				line-height: 36px;
+			}
+			.forget-title{
+				@extend .group-title;
 			}
 		}
 	}
