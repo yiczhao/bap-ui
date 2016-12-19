@@ -51,7 +51,7 @@
         },
         methods:{
             login(){
-                formDataRequest(origin+'/user/login').save({'username':'admin','password':'admin'}).then((data)=>{
+                this.$http.post('./user/login',{'username':'admin','password':'admin'}).then((data)=>{
                     if(data.data.code===10000){
                         sessionStorage.setItem('loginList',JSON.stringify(data.data.result));
                         this.$router.go('index');

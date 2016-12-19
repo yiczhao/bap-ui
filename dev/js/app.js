@@ -6,6 +6,7 @@ import VueRouter from 'vue-router'
 import { proxy_mock } from './config/index'
 import components from './components/index'
 import routers from './routers'
+import interceptor from './middlewares/interceptor'
 Object.keys(components).forEach(k => {
     var a = Vue.component(k, components[k]);
 })
@@ -24,6 +25,7 @@ let router = new VueRouter({
 routers(Vue, router)
 let app = Vue.extend({})
 router.start(app,'#app')
+Vue.use(interceptor,router)
 
 
 
