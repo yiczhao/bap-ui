@@ -36,12 +36,14 @@
                 <textarea v-model="bankList.briefIntroduction"></textarea>
             </div>
         </div>
-        <div class="form-row">
+        <div class="form-row height-div">
             <div class="form-label"><i>*</i>银行logo</div>
-            <div class="form-input">
-                <span> 图片说明：</span>
-                <span> 1.上传图片支持jpg、jpeg、png格式； </span>
-                <span> 2.图片尺寸200*200，大小不超过200k；</span>
+            <div class="form-input about-uploader">
+                <div class="explain">
+                    <span>图片说明：</span>
+                    <span>1.上传图片支持jpg、jpeg、png格式； </span>
+                    <span>2.图片尺寸200*200，大小不超过200k；</span>
+                </div>
                 <uploader server="./upload/orderImage" :src.sync="bankList.bankLogo" :imgshow="!!bankList.bankLogo"></uploader>
             </div>
         </div>
