@@ -29,7 +29,10 @@ function model(_this) {
         },
         addUser(data){
             return _this.$http.post('./user/add',data)
-        }
+        },
+        getUserInfo(id) {
+            return formDataRequest('./user/info/'+id).get()
+        },
     }
 }
 module.exports = model

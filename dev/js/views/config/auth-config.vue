@@ -34,14 +34,14 @@
                     </td>
                     <td>
                         <a @click="showInfo(n)">详情</a>
-                        <a @click="showEdit(n)">编辑</a>
+                        <a @click="showEdit(n.id)">编辑</a>
                     </td>
                 </tr>
             </table>
         </div>
         <content-dialog
-                :show.sync="infoshow" :is-cancel="true" :type.sync="'infos'"
-                :title.sync="addTitle" @kok="addBtn" @kcancel="infoshow = false"
+                :show.sync="addshow" :is-cancel="true" :type.sync="'infos'"
+                :title.sync="addTitle" @kok="addBtn" @kcancel="addshow = false"
         >
             <div>
                 <div class="form-group">
@@ -62,17 +62,17 @@
                 <div class="form-group">
                     <label><i>*</i>负责人</label>
                     <input type="text" class="input" v-model="addList.name" placeholder=" 请输入负责人的真实姓名">
-                    <label>><input type="checkbox" v-model="loginAccountType1"  @change="getloginAccountType(loginAccountType1,loginAccountType2)" class="checkBox">可作为登录账号</label>
+                    <label><input type="checkbox" v-model="loginAccountType1"  @change="getloginAccountType(loginAccountType1,loginAccountType2)" class="checkBox">可作为登录账号</label>
                 </div>
                 <div class="form-group">
                     <label><i>*</i>手机号码</label>
                     <input type="text" class="input" v-model="addList.phone" placeholder="请输入负责人的真实手机号码">
-                    <label>><input type="checkbox" v-model="loginAccountType2"  @change="getloginAccountType(loginAccountType1,loginAccountType2)" class="checkBox">可作为登录账号</label>
+                    <label><input type="checkbox" v-model="loginAccountType2"  @change="getloginAccountType(loginAccountType1,loginAccountType2)" class="checkBox">可作为登录账号</label>
                 </div>
                 <div class="form-group">
                     <label><i>*</i>密码</label>
                     <input type="password" class="input" v-model="addList.curPassword " placeholder="填写密码或勾选">
-                    <label>><input type="checkbox" class="checkBox" @change="changePassword(passWordCheck)" v-model="passWordCheck">默认 手机号作为密码</label>
+                    <label><input type="checkbox" class="checkBox" @change="changePassword(passWordCheck)" v-model="passWordCheck">默认 手机号作为密码</label>
                 </div>
                 <div class="form-group">
                     <label><i>*</i>状态</label>
@@ -107,7 +107,7 @@
                 bankLevelList:[' 一级分行','二级分行','信用卡部','营业部'],
                 bankName: null,
                 bankNameList: ['foo','bar','baz'],
-                infoshow:false,
+                addshow:false,
                 loginAccountType1:true,
                 loginAccountType2:true,
                 passWordCheck:false,
@@ -136,27 +136,24 @@
                     this.$set('bankNameList',res.data.dataList);
                 })
                 this.model.getBanklevelList().then((res)=>{
-                    _.map(res.data.dataList,(val)=>{
-                        console.log(val);
-                    })
                     this.$set('bankLevelList',res.data.dataList);
                 })
                 this.model.getPrivilegesList().then((res)=>{
-                    _.map(res.data.data['1'],(val)=>{
-                        console.log(val);
-                    })
                     this.$set('privileges',res.data.data);
                 })
             },
             addUser(){
                 this.getBankList();
                 this.addTitle='新增用户';
-                this.infoshow=true;
+                this.addshow=true;
             },
             showInfo(){
             },
-            showEdit(){
-
+            showEdit(_id){
+                this.getBankList();
+                this.model.getUserInfo(_id).then((res)=>{
+                    this.addshow=true;
+                })
             },
             addBtn(){
                 (this.addTitle=='新增用户')?this.addUserTrue():this.editUserTrue()
@@ -164,7 +161,7 @@
             addUserTrue(){
                 this.addList.bankName=this.bankName;
                 this.model.addUser(this.addList).then((res)=>{
-
+                    this.addshow=false;
                 })
             },
             editUserTrue(){
