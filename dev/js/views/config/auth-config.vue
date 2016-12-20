@@ -25,10 +25,10 @@
                         <template v-if="n.bankLevel==4">营业部</template>
                     </td>
                     <td>{{n.phone}}</td>
-                    <td>{{n.lastLoginTime | datatime}}</td>
+                    <td>{{n.createTime | datetimes}}</td>
                     <td>{{n.createUserName}}
                     </td>
-                    <td>{{n.status}}
+                    <td>
                         <template v-if="n.status">启用</template>
                         <template v-else>禁用</template>
                     </td>
@@ -39,6 +39,62 @@
                 </tr>
             </table>
         </div>
+        <content-dialog
+                :show.sync="infoshow" :is-cancel="true" :type.sync="'infos'"
+                :title.sync="addTitle" @kok="addBtn" @kcancel="infoshow = false"
+        >
+            <div>
+                <div class="form-group">
+                    <label><i>*</i>银行名称</label>
+                    <v-select :value.sync="bankName" :taggable="true" :options="bankNameList"></v-select>
+                </div>
+                <div class="form-group">
+                    <label><i>*</i>级别划分</label>
+                    <select v-model="addList.bankLevel">
+                        <option v-for="(index,n) in bankLevelList" :value="n">
+                            <template v-if="n==1">一级分行</template>
+                            <template v-if="n==2">二级分行</template>
+                            <template v-if="n==3">信用卡部</template>
+                            <template v-if="n==4">营业部</template>
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i>*</i>负责人</label>
+                    <input type="text" class="input" v-model="addList.name" placeholder=" 请输入负责人的真实姓名">
+                    <label>><input type="checkbox" v-model="loginAccountType1"  @change="getloginAccountType(loginAccountType1,loginAccountType2)" class="checkBox">可作为登录账号</label>
+                </div>
+                <div class="form-group">
+                    <label><i>*</i>手机号码</label>
+                    <input type="text" class="input" v-model="addList.phone" placeholder="请输入负责人的真实手机号码">
+                    <label>><input type="checkbox" v-model="loginAccountType2"  @change="getloginAccountType(loginAccountType1,loginAccountType2)" class="checkBox">可作为登录账号</label>
+                </div>
+                <div class="form-group">
+                    <label><i>*</i>密码</label>
+                    <input type="password" class="input" v-model="addList.curPassword " placeholder="填写密码或勾选">
+                    <label>><input type="checkbox" class="checkBox" @change="changePassword(passWordCheck)" v-model="passWordCheck">默认 手机号作为密码</label>
+                </div>
+                <div class="form-group">
+                    <label><i>*</i>状态</label>
+                    <label><input type="radio" value="false" v-model="addList.status">
+                        禁用</label>
+                    <label><input type="radio" value="true" v-model="addList.status">
+                        启用</label>
+                </div>
+                <div class="form-group">
+                    <label><i>*</i>功能级</label>
+                    <div>
+                        <label v-for="n in privileges['1']"><input type="checkbox"  @click="checked(n.select,n.id)" v-model="n.select">{{n.name}}</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><i>*</i>数据级</label>
+                    <div>
+                        <label v-for="n in privileges['2']"><input type="checkbox"  @click="checked(n.select,n.id)" v-model="n.select">{{n.name}}</label>
+                    </div>
+                </div>
+            </div>
+        </content-dialog>
     </div>
 </template>
 <script type="text/javascript">
@@ -47,22 +103,103 @@
         data(){
             this.model=model(this)
             return{
-                userList:[]
+                addTitle:'',
+                bankLevelList:[' 一级分行','二级分行','信用卡部','营业部'],
+                bankName: null,
+                bankNameList: ['foo','bar','baz'],
+                infoshow:false,
+                loginAccountType1:true,
+                loginAccountType2:true,
+                passWordCheck:false,
+                userList:[],
+                privileges:[],
+                addList:{
+                    bankLevel:'',
+                    bankName:'',
+                    name:'',
+                    phone:'',
+                    curPassword :'',
+                    status:'false',
+                    loginAccountType:'3',
+                    privilegeIDs:[]
+                }
             }
         },
         methods:{
             getList(){
                 this.model.getUserList().then((res)=>{
-                    this.$set('userList',res.data.data);
+                    this.$set('userList',res.data.dataList);
+                })
+            },
+            getBankList(){
+                this.model.getBankList().then((res)=>{
+                    this.$set('bankNameList',res.data.dataList);
+                })
+                this.model.getBanklevelList().then((res)=>{
+                    _.map(res.data.dataList,(val)=>{
+                        console.log(val);
+                    })
+                    this.$set('bankLevelList',res.data.dataList);
+                })
+                this.model.getPrivilegesList().then((res)=>{
+                    _.map(res.data.data['1'],(val)=>{
+                        console.log(val);
+                    })
+                    this.$set('privileges',res.data.data);
                 })
             },
             addUser(){
+                this.getBankList();
+                this.addTitle='新增用户';
+                this.infoshow=true;
             },
             showInfo(){
-
             },
             showEdit(){
 
+            },
+            addBtn(){
+                (this.addTitle=='新增用户')?this.addUserTrue():this.editUserTrue()
+            },
+            addUserTrue(){
+                this.addList.bankName=this.bankName;
+                this.model.addUser(this.addList).then((res)=>{
+
+                })
+            },
+            editUserTrue(){
+
+            },
+            checked(_checked,_id){
+                if(!_checked){
+                    this.addList.privilegeIDs.push(_id);
+                }else{
+                    _.remove(this.addList.privilegeIDs,(val)=>{
+                        return val==_id;
+                    })
+                }
+            },
+            getloginAccountType(bool1,bool2){
+                if(bool1){
+                    this.addList.loginAccountType='1';
+                }
+                if(bool2){
+                    this.addList.loginAccountType='2';
+                }
+                if(bool1&&bool2){
+                    this.addList.loginAccountType='3';
+                }
+                if(!bool1&&!bool2){
+                    this.addList.loginAccountType='';
+                }
+                console.log('登录账号'+this.addList.loginAccountType);
+            },
+            changePassword(bool){
+                if(bool){
+                    this.addList.curPassword =this.addList.phone;
+                }else{
+                    this.addList.curPassword ='';
+                }
             }
         },
         ready(){
