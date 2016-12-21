@@ -9,6 +9,12 @@ export default function install(Vue,router_proto) {
             return request;
         },
         response (response) {
+            if(response.data.code===-1){
+                dialog('info',response.data.message)
+            }
+            if(response.data.code===1){
+                dialog('error',response.data.message)
+            }
             return response;
         }
     });

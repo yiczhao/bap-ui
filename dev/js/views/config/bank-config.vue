@@ -64,8 +64,10 @@
         methods:{
             getList(){
                 this.model.getBankList().then((res)=>{
-                    this.$set('bankList',res.data.data);
-                    (!!this.bankList.bankLogo)?this.bankList.bankLogo="data:image/png;base64,"+this.bankList.bankLogo:null;
+                    if(res.data.data===0){
+                        this.$set('bankList',res.data.data);
+                        (!!this.bankList.bankLogo)?this.bankList.bankLogo="data:image/png;base64,"+this.bankList.bankLogo:null;
+                    }
                 })
             },
             saveBank(){
@@ -80,8 +82,9 @@
                 let data=_.cloneDeep(this.bankList);
                 data.bankLogo=data.bankLogo.split(',')[1];
                 this.model.saveBank(data).then((res)=>{
-                    console.log(res);
-                    dialog('success',res.data.message);
+                    if(res.data.code===0){
+                        dialog('success',res.data.message);
+                    }
                 })
             }
         },

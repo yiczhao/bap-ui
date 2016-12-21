@@ -30,6 +30,9 @@ function model(_this) {
         addUser(data){
             return _this.$http.post('./user/add',data)
         },
+        editUser(data){
+            return _this.$http.post('./user/edit',data)
+        },
         getUserInfo(id) {
             return formDataRequest('./user/info/'+id).get()
         },
