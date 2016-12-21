@@ -38,6 +38,14 @@
                     </td>
                 </tr>
             </table>
+            <pagegroup
+                :total="objectotalNumber"
+                :page_size="defaultData.pageSize"
+                :page_current="defaultData.pageIndex"
+                :page_sizes="[10,20,100]"
+                v-on:current_change="getList"
+                v-on:size_change="getList"
+            ></pagegroup>
         </div>
         <content-dialog
                 :show.sync="addshow" :is-cancel="true" :type.sync="'infos'"
@@ -166,6 +174,11 @@
         data(){
             this.model=model(this)
             return{
+                objectotalNumber:1,
+                defaultData:{
+                    pageIndex:1,
+                    pageSize:10,
+                },
                 addTitle:'',
                 bankLevelList:[],
                 bankName: null,
@@ -190,9 +203,13 @@
             }
         },
         methods:{
+            current_change(){
+              console.log(111);
+            },
             getList(){
-                this.model.getUserList().then((res)=>{
+                this.model.getUserList(this.defaultData).then((res)=>{
                     this.$set('userList',res.data.dataList);
+                    this.$set('objectotalNumber',res.data.objectotalNumber);
                 })
             },
             initList(){
