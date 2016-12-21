@@ -205,8 +205,10 @@
         methods:{
             getList(){
                 this.model.getUserList(this.defaultData).then((res)=>{
-                    this.$set('userList',res.data.dataList);
-                    this.$set('objectotalNumber',res.data.objectotalNumber);
+                    if(res.data.code===0){
+                        this.$set('userList',res.data.dataList);
+                        this.$set('objectotalNumber',res.data.objectotalNumber);
+                    }
                 })
             },
             initList(){
@@ -215,15 +217,21 @@
             },
             getBankList(){
                 this.model.getBankList().then((res)=>{
-                    _.map(res.data.dataList,(val)=>{
-                        this.bankNameList.push(val.shortName)
-                    })
+                    if(res.data.code===0){
+                        _.map(res.data.dataList,(val)=>{
+                            this.bankNameList.push(val.shortName)
+                        })
+                    }
                 })
                 this.model.getBanklevelList().then((res)=>{
-                    this.$set('bankLevelList',res.data.dataList);
+                    if(res.data.code===0){
+                        this.$set('bankLevelList',res.data.dataList);
+                    }
                 })
                 this.model.getPrivilegesList().then((res)=>{
-                    this.$set('privileges',res.data.data);
+                    if(res.data.code===0){
+                        this.$set('privileges',res.data.data);
+                    }
                 })
             },
             addUser(){
@@ -243,35 +251,37 @@
             showEdit(_id){
                 this.addTitle='编辑用户';
                 this.model.getUserInfo(_id).then((res)=>{
-                    this.$set('addList',res.data.data);
-                    this.$set('privileges',res.data.data.privileges);
-                    this.addList.status=''+this.addList.status;
-                    this.addList.curPassword='::::::';
-                    this.addList.privilegeIDs=[];
-                    _.map(res.data.data.privileges,(val)=>{
-                        _.map(val,(value)=>{
-                            if(value.selected){
-                                this.addList.privilegeIDs.push(value.id);
-                            }
+                    if(res.data.code===0){
+                        this.$set('addList',res.data.data);
+                        this.$set('privileges',res.data.data.privileges);
+                        this.addList.status=''+this.addList.status;
+                        this.addList.curPassword='::::::';
+                        this.addList.privilegeIDs=[];
+                        _.map(res.data.data.privileges,(val)=>{
+                            _.map(val,(value)=>{
+                                if(value.selected){
+                                    this.addList.privilegeIDs.push(value.id);
+                                }
+                            })
                         })
-                    })
-                    if(!this.addList.loginAccountType){
-                        this.loginAccountType1=false;
-                        this.loginAccountType2=false;
+                        if(!this.addList.loginAccountType){
+                            this.loginAccountType1=false;
+                            this.loginAccountType2=false;
+                        }
+                        if(this.addList.loginAccountType=='1'){
+                            this.loginAccountType1=true;
+                            this.loginAccountType2=false;
+                        }
+                        if(this.addList.loginAccountType=='2'){
+                            this.loginAccountType1=false;
+                            this.loginAccountType2=true;
+                        }
+                        if(this.addList.loginAccountType=='3'){
+                            this.loginAccountType1=true;
+                            this.loginAccountType2=true;
+                        }
+                        this.addshow=true;
                     }
-                    if(this.addList.loginAccountType=='1'){
-                        this.loginAccountType1=true;
-                        this.loginAccountType2=false;
-                    }
-                    if(this.addList.loginAccountType=='2'){
-                        this.loginAccountType1=false;
-                        this.loginAccountType2=true;
-                    }
-                    if(this.addList.loginAccountType=='3'){
-                        this.loginAccountType1=true;
-                        this.loginAccountType2=true;
-                    }
-                    this.addshow=true;
                 })
             },
             addBtn(){

@@ -22,7 +22,7 @@
                         </div>
                     </div>
                     <div class="forget-password">
-                        <a>忘记密码</a>
+                        <a v-link="{'name':'forget-password'}">忘记密码</a>
                     </div>
                 </div>
             </form>
