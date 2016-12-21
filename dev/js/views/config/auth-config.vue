@@ -44,7 +44,7 @@
                 :title.sync="addTitle" @kok="addBtn" @kcancel="addshow = false"
         >
             <div>
-                <div class="form-group" v-if="addTitle=='添加用户'">
+                <div class="form-group" v-if="addTitle=='新增用户'">
                     <label class="name-left"><i>*</i>银行名称</label>
                     <v-select :value.sync="bankName" :taggable="true" :options="bankNameList"></v-select>
                 </div>
@@ -52,7 +52,7 @@
                     <label class="name-left"><i>*</i>银行名称</label>
                     <span>{{addList.bankName}}</span>
                 </div>
-                <div class="form-group" v-if="addTitle=='添加用户'">
+                <div class="form-group" v-if="addTitle=='新增用户'">
                     <label class="name-left"><i>*</i>级别划分</label>
                     <select v-model="addList.bankLevel">
                         <option v-for="(index,n) in bankLevelList" :value="n">
@@ -167,9 +167,9 @@
             this.model=model(this)
             return{
                 addTitle:'',
-                bankLevelList:[' 一级分行','二级分行','信用卡部','营业部'],
+                bankLevelList:[],
                 bankName: null,
-                bankNameList: ['foo','bar','baz'],
+                bankNameList: [],
                 addshow:false,
                 infoshow:false,
                 loginAccountType1:true,
@@ -201,7 +201,9 @@
             },
             getBankList(){
                 this.model.getBankList().then((res)=>{
-                    this.$set('bankNameList',res.data.dataList);
+                    _.map(res.data.dataList,(val)=>{
+                        this.bankNameList.push(val.shortName)
+                    })
                 })
                 this.model.getBanklevelList().then((res)=>{
                     this.$set('bankLevelList',res.data.dataList);
