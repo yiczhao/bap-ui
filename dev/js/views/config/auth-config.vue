@@ -203,9 +203,6 @@
             }
         },
         methods:{
-            current_change(){
-              console.log(111);
-            },
             getList(){
                 this.model.getUserList(this.defaultData).then((res)=>{
                     this.$set('userList',res.data.dataList);

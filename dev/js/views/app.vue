@@ -10,19 +10,19 @@
             </div>
         </div>
     </div>
-    <footer-component></footer-component>
+    <!--<footer-component></footer-component>-->
 </template>
 <script type="text/javascript">
     import HeaderComponent from './base/header.vue'
     import MenuComponent from './base/menu.vue'
-    import FooterComponent from './base/footer.vue'
+//    import FooterComponent from './base/footer.vue'
     export default{
         data(){
             return{
             }
         },
         components:{
-            HeaderComponent,MenuComponent,FooterComponent
+            HeaderComponent,MenuComponent
         }
     }
 </script>

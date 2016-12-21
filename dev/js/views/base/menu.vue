@@ -29,7 +29,7 @@
         },
         methods:{
             getMenuHeight(){
-                let availableHeight = document.body.clientHeight  - document.querySelector('.header').offsetHeight - document.querySelector('.footer').offsetHeight;
+                let availableHeight = document.body.clientHeight  - document.querySelector('.header').offsetHeight;
                 document.querySelector('.content').style.height=availableHeight+'px';
             }
         },
