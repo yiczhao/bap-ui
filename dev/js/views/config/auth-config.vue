@@ -161,7 +161,7 @@
                         <label v-for="n in privileges['2']" class="function-choose"><input type="checkbox" disabled @change="checked(n.selected,n.id)" v-model="n.selected">{{n.name}}</label>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group close-center">
                     <a class="btn btn-gray" @click="this.infoshow=false">关闭</a>
                 </div>
             </div>
