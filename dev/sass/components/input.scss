@@ -35,7 +35,7 @@
 	line-height: 38px;
 	font-size: 16px;
 }
-.input{
+.input,.textarea{
 	@extend %input;
 	height: 34px;
 	line-height: 34px;

@@ -2,38 +2,38 @@
     <div class="bank-config">
         <div class="form-row">
             <div class="form-label"><i>*</i>银行简称</div>
-            <div class="form-input"><input v-model="bankList.shortName" type="text" class="form-input" placeholder="请输入银行的简称 南昌银行信用卡部"/></div>
+            <div class="form-input"><input v-model="bankList.shortName" type="text" class="input" placeholder="请输入银行的简称 南昌银行信用卡部"/></div>
         </div>
         <div class="form-row">
             <div class="form-label">银行全称</div>
             <div class="form-input">
-                <input type="text" class="form-input" v-model="bankList.fullName" placeholder=" 请输入银行的全称"/>
+                <input type="text" class="input" v-model="bankList.fullName" placeholder=" 请输入银行的全称"/>
             </div>
         </div>
         <div class="form-row">
             <div class="form-label"><i>*</i>负责人</div>
-            <div class="form-input"><input type="text" v-model="bankList.chargePerson" class="form-input" readonly/></div>
+            <div class="form-input"><input type="text" v-model="bankList.chargePerson" class="input" readonly/></div>
         </div>
         <div class="form-row">
             <div class="form-label"><i>*</i>手机号码</div>
-            <div class="form-input"><input type="text" v-model="bankList.phone" class="form-input" readonly/></div>
+            <div class="form-input"><input type="text" v-model="bankList.phone" class="input" readonly/></div>
         </div>
         <div class="form-row">
             <div class="form-label">邮箱</div>
             <div class="form-input">
-                <input type="text" class="form-input" v-model="bankList.email" placeholder=" 请输入邮箱"/>
+                <input type="text" class="input" v-model="bankList.email" placeholder=" 请输入邮箱"/>
             </div>
         </div>
         <div class="form-row">
             <div class="form-label">地址</div>
             <div class="form-input">
-                <input type="text" class="form-input" v-model="bankList.address" placeholder=" 请输入银行的详细地址"/>
+                <input type="text" class="input" v-model="bankList.address" placeholder=" 请输入银行的详细地址"/>
             </div>
         </div>
         <div class="form-row">
             <div class="form-label">银行简介</div>
             <div class="form-input">
-                <textarea v-model="bankList.briefIntroduction"></textarea>
+                <textarea class="textarea" v-model="bankList.briefIntroduction"></textarea>
             </div>
         </div>
         <div class="form-row height-div">
@@ -64,7 +64,7 @@
         methods:{
             getList(){
                 this.model.getBankList().then((res)=>{
-                    if(res.data.data===0){
+                    if(res.data.code===0){
                         this.$set('bankList',res.data.data);
                         (!!this.bankList.bankLogo)?this.bankList.bankLogo="data:image/png;base64,"+this.bankList.bankLogo:null;
                     }
