@@ -53,6 +53,8 @@ $color:#ddd;
 			float:left;
 			background-color:#fff;
 			.form-group{
+				display: block;
+				clear:both;
 				width: 320px;
 				margin: auto;
 				.group-title{
@@ -61,6 +63,7 @@ $color:#ddd;
 					color: #b0b0b0;
 					margin-top: 42px;
 					margin-bottom: 34px;
+					clear:both;
 				}
 				.login-usertype{
 					@include input-style;
