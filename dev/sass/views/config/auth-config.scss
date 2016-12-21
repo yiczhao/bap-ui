@@ -1,0 +1,71 @@
+@mixin input-radio() {
+	vertical-align: middle;
+	margin-right:5px;
+}
+@mixin width-margin($width,$left) {
+	width:$width;
+	margin-left:$left;
+}
+@mixin width-lineheight($width,$lineh) {
+	width:$width;
+	line-height:$lineh;
+}
+.table{
+	margin-top: 20px;
+}
+.form-group{
+	display:flex;
+	width:650px;
+	margin:0 auto 20px auto; 
+	.name-left{
+		display: block;
+		height:36px;
+		@include width-lineheight(100px,36px);
+		text-align: right;
+		i{
+			color:red;
+			margin-right:5px;
+		}
+	}
+	.name-right{
+		@include width-lineheight(150px,36px);
+		// text-align:right;
+		margin-left: 15px;
+	}
+	.v-select{
+		@include width-margin(485px,15px);
+		height:36px;
+	}
+	select{
+		@include width-margin(485px,15px);
+		border-radius:3px;
+	}
+	.input[type="text"]{
+		@include width-margin(330px,15px)
+	}
+	.input[type="password"]{
+		@include width-margin(330px,15px)
+	}
+	.input[type="radio"]{
+		text-align:center;
+	}
+	.choose-radio{
+		@include width-lineheight(240px,36px);		
+		margin-left:15px;
+		text-align:center;
+		input{
+			@include input-radio;
+		}
+	}
+	.function-area{
+		@include width-margin(485px,15px)
+		.function-choose{
+			float:left;
+			@include width-lineheight(240px,36px);
+			text-align:center;
+			input{
+				@include input-radio;
+			}
+		}
+	}
+}

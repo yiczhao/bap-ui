@@ -62,6 +62,26 @@ html,body{
       margin: 20px;
       padding: 20px;
       background: #fff;
+      table{
+        width:100%;
+        border:1px solid #E9E9E9;
+        tr{
+          text-align:center;
+          height:44px;
+          background-color:#FFFFFF;
+          th{
+            text-align:center;
+            border-bottom:1px solid #E9E9E9;
+            border-bottom-color:#999999;
+          }
+          td{
+            
+          }
+        }
+        tr:nth-child(2n){
+          background-color:#FCFCFC;
+        }
+      }
     }
   }
 }

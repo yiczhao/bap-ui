@@ -45,11 +45,11 @@
         >
             <div>
                 <div class="form-group">
-                    <label><i>*</i>银行名称</label>
+                    <label class="name-left"><i>*</i>银行名称</label>
                     <v-select :value.sync="bankName" :taggable="true" :options="bankNameList"></v-select>
                 </div>
                 <div class="form-group">
-                    <label><i>*</i>级别划分</label>
+                    <label class="name-left"><i>*</i>级别划分</label>
                     <select v-model="addList.bankLevel">
                         <option v-for="(index,n) in bankLevelList" :value="n">
                             <template v-if="n==1">一级分行</template>
@@ -60,37 +60,37 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label><i>*</i>负责人</label>
+                    <label class="name-left"><i>*</i>负责人</label>
                     <input type="text" class="input" v-model="addList.name" placeholder=" 请输入负责人的真实姓名">
-                    <label><input type="checkbox" v-model="loginAccountType1"  @change="getloginAccountType(loginAccountType1,loginAccountType2)" class="checkBox">可作为登录账号</label>
+                    <label class="name-right"><input type="checkbox" v-model="loginAccountType1"  @change="getloginAccountType(loginAccountType1,loginAccountType2)" class="checkBox">可作为登录账号</label>
                 </div>
                 <div class="form-group">
-                    <label><i>*</i>手机号码</label>
+                    <label class="name-left"><i>*</i>手机号码</label>
                     <input type="text" class="input" v-model="addList.phone" placeholder="请输入负责人的真实手机号码">
-                    <label><input type="checkbox" v-model="loginAccountType2"  @change="getloginAccountType(loginAccountType1,loginAccountType2)" class="checkBox">可作为登录账号</label>
+                    <label class="name-right"><input type="checkbox" v-model="loginAccountType2"  @change="getloginAccountType(loginAccountType1,loginAccountType2)" class="checkBox">可作为登录账号</label>
                 </div>
                 <div class="form-group">
-                    <label><i>*</i>密码</label>
+                    <label class="name-left"><i>*</i>密码</label>
                     <input type="password" class="input" v-model="addList.curPassword " placeholder="填写密码或勾选">
-                    <label><input type="checkbox" class="checkBox" @change="changePassword(passWordCheck)" v-model="passWordCheck">默认 手机号作为密码</label>
+                    <label class="name-right"><input type="checkbox" class="checkBox" @change="changePassword(passWordCheck)" v-model="passWordCheck">默认 手机号作为密码</label>
                 </div>
                 <div class="form-group">
-                    <label><i>*</i>状态</label>
-                    <label><input type="radio" value="false" v-model="addList.status">
+                    <label class="name-left"><i>*</i>状态</label>
+                    <label class="choose-radio"><input type="radio" value="false" v-model="addList.status">
                         禁用</label>
-                    <label><input type="radio" value="true" v-model="addList.status">
+                    <label class="choose-radio"><input type="radio" value="true" v-model="addList.status">
                         启用</label>
                 </div>
                 <div class="form-group">
-                    <label><i>*</i>功能级</label>
-                    <div>
-                        <label v-for="n in privileges['1']"><input type="checkbox"  @click="checked(n.select,n.id)" v-model="n.select">{{n.name}}</label>
+                    <label class="name-left"><i>*</i>功能级</label>
+                    <div class="function-area">
+                        <label v-for="n in privileges['1']" class="function-choose"><input type="checkbox"  @click="checked(n.select,n.id)" v-model="n.select">{{n.name}}</label>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label><i>*</i>数据级</label>
-                    <div>
-                        <label v-for="n in privileges['2']"><input type="checkbox"  @click="checked(n.select,n.id)" v-model="n.select">{{n.name}}</label>
+                    <label class="name-left"><i>*</i>数据级</label>
+                    <div class="function-area">
+                        <label v-for="n in privileges['2']" class="function-choose"><input type="checkbox"  @click="checked(n.select,n.id)" v-model="n.select">{{n.name}}</label>
                     </div>
                 </div>
             </div>
