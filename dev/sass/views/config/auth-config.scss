@@ -13,6 +13,9 @@
 .table{
 	margin-top: 20px;
 }
+.KsPageGroup{
+	margin-top:20px;
+}
 .form-group{
 	display:flex;
 	width:650px;
@@ -35,6 +38,10 @@
 			vertical-align:middle;
 			margin-right:5px;
 		}
+	}
+	.catch-infor{
+		line-height:36px;
+		margin-left:15px;
 	}
 	.v-select{
 		@include width-margin(485px,15px);

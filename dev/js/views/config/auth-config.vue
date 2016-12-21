@@ -58,7 +58,7 @@
                 </div>
                 <div class="form-group" v-if="addTitle=='编辑用户'">
                     <label class="name-left"><i>*</i>银行名称</label>
-                    <span>{{addList.bankName}}</span>
+                    <span class="catch-infor">{{addList.bankName}}</span>
                 </div>
                 <div class="form-group" v-if="addTitle=='新增用户'">
                     <label class="name-left"><i>*</i>级别划分</label>
@@ -73,7 +73,7 @@
                 </div>
                 <div class="form-group" v-if="addTitle=='编辑用户'">
                     <label class="name-left"><i>*</i>级别划分</label>
-                    <span>
+                    <span class="catch-infor">
                          <template v-if="addList.bankLevel==1">一级分行</template>
                          <template v-if="addList.bankLevel==2">二级分行</template>
                          <template v-if="addList.bankLevel==3">信用卡部</template>
@@ -123,11 +123,11 @@
             <div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>银行名称</label>
-                    <span>{{addList.bankName}}</span>
+                    <span class="catch-infor">{{addList.bankName}}</span>
                 </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>级别划分</label>
-                    <span>
+                    <span class="catch-infor">
                          <template v-if="addList.bankLevel==1">一级分行</template>
                          <template v-if="addList.bankLevel==2">二级分行</template>
                          <template v-if="addList.bankLevel==3">信用卡部</template>
@@ -136,15 +136,15 @@
                 </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>负责人</label>
-                    <span>{{addList.name}}</span>
+                    <span class="catch-infor">{{addList.name}}</span>
                 </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>手机号码</label>
-                    <span>{{addList.phone}}</span>
+                    <span class="catch-infor">{{addList.phone}}</span>
                 </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>状态</label>
-                    <span>
+                    <span class="catch-infor">
                         <template v-if="!addList.status">禁用</template>
                         <template v-if="addList.status">启用</template>
                     </span>
