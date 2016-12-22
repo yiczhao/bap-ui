@@ -4,6 +4,7 @@
             <div class="container-left">
                 <div class="kashuo-logo"></div>
                 <div class="system-title">银行活动管理系统</div>
+                <div class="center-img"></div>
             </div>
             <form>
                 <div class="center-container">

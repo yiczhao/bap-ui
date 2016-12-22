@@ -26,6 +26,7 @@ $color:#ddd;
 			width:380px;
 			height:100%;
 			float: left;
+			position:relative;
 			background-color:rgba(1,98,172,1);
 			.kashuo-logo{
 				width:159px;
@@ -45,6 +46,14 @@ $color:#ddd;
 				line-height:20px;
 				margin:27px auto 0 auto;
 				font-weight: bold;
+			}
+			.center-img{
+				position: absolute;
+				right:0;
+				top: 50%;
+				width:12px;
+				height:24px;
+				background-image:url("../img/center.png");
 			}
 		}
 		.center-container{
