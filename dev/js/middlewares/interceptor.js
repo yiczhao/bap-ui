@@ -11,8 +11,25 @@ export default function install(Vue,router_proto) {
             if(response.data.code===-1){
                 dialog('info',response.data.message)
             }
-            if(response.data.code===1){
+            else if(response.data.code===1){
                 dialog('error',response.data.message)
+            }
+            else if(response.data.code === 50000){
+                setTimeout(()=>{
+                    window.location.href = authUrl1;
+                })
+            }
+            else if(response.status===403){
+                dialog('error',response.data.message);
+            }
+            else if(response.status===504){
+                dialog('error','网络拥堵，请求超时，请稍后再试！');
+            }
+            else if(!response.ok){
+                dialog('error','系统错误,请及时联系开发人员解决！');
+            }
+            else if(response.data.code !== 0&&response.data.code !== 10000){
+                dialog('error',response.data.message);
             }
             return response;
         }

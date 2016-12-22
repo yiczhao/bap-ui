@@ -36,18 +36,18 @@
                 </div>
                 <div class="form-row">
                     <div class="form-label"><i>*</i> 图片验证码</div>
-                    <div class="form-input"><input type="text" v-model="passwordData.usrImgCode" class="input input245" placeholder="请输入图片中的数字或字母"/></div>
-                    <div class="img"><img :src="sysCodeImg"/>{{usrImgCode}}</div>
+                    <div class="form-input"><input @keyup.enter="savePassword(1)" type="text" v-model="passwordData.usrImgCode" class="input input245" placeholder="请输入图片中的数字或字母"/></div>
+                    <div class="img" @click="getusrImgCode"><img :src="sysCodeImg"/>{{usrImgCode}}</div>
                 </div>
                 <div class="form-row">
                     <a class="btn btn-primary" @click="savePassword(1)">下一步</a>
                 </div>
             </div>
             <div class="forget-2" v-show="forgetShow==2">
-                <div class="form-row f18">
-                    您正在为账号{{passwordData.phone}}找回密码，为了保护账号安全，需要身份验证
+                <div class="form-row f18">您正在为账号{{passwordData.phone}}找回密码，为了保护账号安全，需要身份验证
                 </div>
                 <div class="form-row f18">
+                    <img src="../../../img/phone.png" alt="">
                     通过密保手机{{passwordData.phone | filter_phone}}验证
                     <a class="btn btn-primary" @click="savePassword(2)">立即验证</a>
                 </div>
@@ -58,7 +58,7 @@
                 </div>
                 <div class="form-row">
                     <div class="form-label">
-                        <input type="text" v-model="passwordData.userMessageCode" class="input" placeholder="请输入短信验证码"/>
+                        <input type="text" v-model="passwordData.userMessageCode"  @keyup.enter="savePassword(3)" class="input" placeholder="请输入短信验证码"/>
                         <a class="btn btn-gray" v-show="time>0">倒计时{{time}}</a>
                         <a class="btn btn-primary" @click="getUserMessageCode" v-show="time==0">重发验证码</a>
                     </div>
@@ -77,7 +77,7 @@
                 </div>
                 <div class="form-row">
                     <div class="form-label"><i>*</i>请再次确认密码</div>
-                    <div class="form-input"><input type="password" v-model="passwordData.confirmPassword" class="input" placeholder="请再次输入新密码"/></div>
+                    <div class="form-input"><input type="password"  @keyup.enter="savePassword(4)" v-model="passwordData.confirmPassword" class="input" placeholder="请再次输入新密码"/></div>
                 </div>
                 <div class="form-row">
                     <a class="btn btn-primary" @click="savePassword(4)">提交</a>
@@ -178,6 +178,7 @@
                 border-radius: 3px;
                 height: 33px;
                 margin-left: 10px;
+                cursor:pointer;
             }
             .btn{
                 width: 200px;
@@ -204,7 +205,7 @@
         data(){
             return{
                 time:60,
-                forgetShow:1,
+                forgetShow:2,
                 id:'',
                 sysCodeImg:'',
                 usrImgCode:'',
