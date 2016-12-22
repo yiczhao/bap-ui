@@ -25,7 +25,7 @@
                         <template v-if="n.bankLevel==4">营业部</template>
                     </td>
                     <td>{{n.phone}}</td>
-                    <td>{{n.createTime | datetimes}}</td>
+                    <td>{{n.createTime | datetime}}</td>
                     <td>{{n.createUserName}}
                     </td>
                     <td>
@@ -54,7 +54,7 @@
             <div>
                 <div class="form-group" v-if="addTitle=='新增用户'">
                     <label class="name-left"><i>*</i>银行名称</label>
-                    <v-select :value.sync="bankName" :taggable="true" :options="bankNameList"></v-select>
+                    <input type="text" class="input" v-model="addList.bankName" placeholder=" 请输入银行名称">
                 </div>
                 <div class="form-group" v-if="addTitle=='编辑用户'">
                     <label class="name-left"><i>*</i>银行名称</label>
@@ -92,7 +92,7 @@
                 </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>密码</label>
-                    <input type="password" class="input" v-model="addList.curPassword " @focus="addList.curPassword=''"  placeholder="填写密码或勾选">
+                    <input type="password" class="input" v-model="addList.curPassword " @focus="addList.curPassword=='::::::'?addList.curPassword='':null"  placeholder="填写密码或勾选">
                     <label class="name-right"><input type="checkbox" class="checkBox" @change="changePassword(passWordCheck)" v-model="passWordCheck">默认 手机号作为密码</label>
                 </div>
                 <div class="form-group">
@@ -181,8 +181,6 @@
                 },
                 addTitle:'',
                 bankLevelList:[],
-                bankName: null,
-                bankNameList: [],
                 addshow:false,
                 infoshow:false,
                 loginAccountType1:true,
@@ -218,14 +216,6 @@
                 this.getList();
             },
             getBankList(){
-                this.model.getBankList().then((res)=>{
-                    if(res.data.code===0){
-                        _.map(res.data.dataList,(val)=>{
-                            this.bankNameList.push(val.shortName);
-                        })
-                        this.bankLists=res.data.dataList;
-                    }
-                })
                 this.model.getBanklevelList().then((res)=>{
                     if(res.data.code===0){
                         this.$set('bankLevelList',res.data.dataList);
@@ -250,8 +240,6 @@
                 }
                 this.loginAccountType1=true;
                 this.loginAccountType2=true;
-                this.bankNameList=[];
-                this.bankName=null;
                 this.getBankList();
                 this.addTitle='新增用户';
                 this.addshow=true;
@@ -267,6 +255,7 @@
             },
             showEdit(_id){
                 this.addTitle='编辑用户';
+                this.passWordCheck=false;
                 this.model.getUserInfo(_id).then((res)=>{
                     if(res.data.code===0){
                         this.$set('addList',res.data.data);
@@ -305,10 +294,6 @@
                 (this.addTitle=='新增用户')?this.addUserTrue():this.editUserTrue()
             },
             addUserTrue(){
-                this.addList.bankName=this.bankName;
-                _.map(this.bankLists,(val)=>{
-                    (val.shortName==this.bankName)?this.addList.bankID=val.id:this.addList.bankID=''
-                })
                 this.model.addUser(this.addList).then((res)=>{
                     if(res.data.code===0){
                         dialog('success',res.data.message)
