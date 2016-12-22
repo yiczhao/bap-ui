@@ -1,10 +1,9 @@
 {
   "message": "{{['测试mock失败']}}",
-  "dataList": {
-    "name":"赵俊涵",
-    "type":"admin",
-    "xsfs":"4214124"
+  "data": {
+    "id":"{{$range|[1,100]}}",
+    "sysCodeImg":"{{$range|[10000,99999]}}",
+    "usrImgCode":"{{$range|[10000,99999]}}"
   },
-  "1123":"124",
   "code":"{{[0]}}"
 }

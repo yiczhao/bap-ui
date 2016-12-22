@@ -32,46 +32,55 @@
             <div class="forget-1" v-show="forgetShow==1">
                 <div class="form-row">
                     <div class="form-label"><i>*</i>手机号码</div>
-                    <div class="form-input"><input v-model="passwordData.curPassword" type="password" class="input" placeholder="请输入手机号"/></div>
+                    <div class="form-input"><input v-model="passwordData.phone" maxlength="11" v-limitnumber="passwordData.phone" type="text" class="input" placeholder="请输入手机号"/></div>
                 </div>
                 <div class="form-row">
                     <div class="form-label"><i>*</i> 图片验证码</div>
-                    <div class="form-input"><input type="password" v-model="passwordData.newPassword" class="input input245" placeholder="请输入图片中的数字或字母"/></div>
-                    <div class="img"><img :src="sysCodeImg"/></div>
+                    <div class="form-input"><input type="text" v-model="passwordData.usrImgCode" class="input input245" placeholder="请输入图片中的数字或字母"/></div>
+                    <div class="img"><img :src="sysCodeImg"/>{{usrImgCode}}</div>
                 </div>
                 <div class="form-row">
-                    <a class="btn btn-primary" @click="savePassword1">下一步</a>
+                    <a class="btn btn-primary" @click="savePassword(1)">下一步</a>
                 </div>
             </div>
             <div class="forget-2" v-show="forgetShow==2">
                 <div class="form-row f18">
-                    您正在为账号{{phoneNumber}}找回密码，为了保护账号安全，需要身份验证
+                    您正在为账号{{passwordData.phone}}找回密码，为了保护账号安全，需要身份验证
                 </div>
                 <div class="form-row f18">
-                    通过密保手机 <span>{{phoneNumber | filter_phone}}</span>验证
-                    <a class="btn btn-primary" @click="savePassword">立即验证</a>
+                    通过密保手机{{passwordData.phone | filter_phone}}验证
+                    <a class="btn btn-primary" @click="savePassword(2)">立即验证</a>
                 </div>
             </div>
             <div class="forget-3" v-show="forgetShow==3">
-                <div class="form-row">
-                    <div class="form-label"><i>*</i>确认密码</div>
-                    <div class="form-input"><input type="password" v-model="passwordData.confirmPassword" class="input" placeholder="请再次输入新密码"/></div>
+                <div class="form-row f18">
+                    短信验证码已发送至{{passwordData.phone | filter_phone}}
                 </div>
                 <div class="form-row">
-                    <a class="btn btn-primary" @click="savePassword">确认</a>
+                    <div class="form-label">
+                        <input type="text" v-model="passwordData.userMessageCode" class="input" placeholder="请输入短信验证码"/>
+                        <a class="btn btn-gray" v-show="time>0">倒计时{{time}}</a>
+                        <a class="btn btn-primary" @click="getUserMessageCode" v-show="time==0">重发验证码</a>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <a class="btn btn-primary" @click="savePassword(3)">立即验证</a>
                 </div>
             </div>
             <div class="forget-4" v-show="forgetShow==4">
+                <div class="form-row f18">
+                    密码长度6-20位，建议字母、数字与标点的组合来提高帐号安全度
+                </div>
                 <div class="form-row">
-                    <div class="form-label"><i>*</i> 新密码</div>
+                    <div class="form-label"><i>*</i>请输入密码</div>
                     <div class="form-input"><input type="password" v-model="passwordData.newPassword" class="input" placeholder="请输入新密码"/></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-label"><i>*</i>确认密码</div>
+                    <div class="form-label"><i>*</i>请再次确认密码</div>
                     <div class="form-input"><input type="password" v-model="passwordData.confirmPassword" class="input" placeholder="请再次输入新密码"/></div>
                 </div>
                 <div class="form-row">
-                    <a class="btn btn-primary" @click="savePassword">确认</a>
+                    <a class="btn btn-primary" @click="savePassword(4)">提交</a>
                 </div>
             </div>
         </div>
@@ -146,7 +155,7 @@
                 line-height: 35px;
             }
             .form-label{
-                width: 100px;
+                width: 110px;
                 margin-right: 10px;
                 text-align: right;
                 margin-left: 265px;
@@ -174,47 +183,142 @@
                 width: 200px;
             }
         }
+        .forget-3{
+            .form-label{
+                width: 450px;
+                .input{
+                    width: 250px;
+                }
+            }
+            .btn{
+                display: inline-block;
+                line-height: 100%;
+                box-sizing:border-box;
+                width: 100px;
+            }
+        }
     }
 </style>
 <script type="text/javascript">
     export default{
         data(){
             return{
-                forgetShow:2,
+                time:60,
+                forgetShow:1,
+                id:'',
                 sysCodeImg:'',
-                phoneNumber:'15927272625',
+                usrImgCode:'',
                 passwordData:{
-                    curPassword:'',
+                    usrImgCode:'',
+                    phone:'',
+                    userMessageCode:'',
                     newPassword:'',
                     confirmPassword:''
                 }
             }
         },
         methods:{
-            savePassword1(){
-                if(this.passwordData.newPassword!==this.passwordData.confirmPassword)
-                {
-                    dialog('info','新密码与确认密码不一致！')
-                    return;
+            times(){
+                let t;
+                this.time--;
+                t = setTimeout(this.times, 1000);
+                if ( this.time <= 0 ){
+                    clearTimeout(t);
                 }
-                this.$http.post('./bank/verify_img_code',this.passwordData).then((res)=>{
-                    if(res.data.code==0){
-                        dialog('success',res.data.message)
-                        this.forgetShow=2;
+            },
+            getusrImgCode(){
+                formDataRequest('./bank/create_img_code').get().then((res)=>{
+                    if(res.data.code===0){
+                        this.sysCodeImg=res.data.data.sysCodeImg;
+                        this.usrImgCode=res.data.data.usrImgCode;
+                        this.id=res.data.data.id;
                     }
                 })
             },
-            savePassword(){
-                this.$http.post('./user/verify_img_code',this.passwordData).then((res)=>{
-                    if(res.data.code==0){
-                        dialog('success',res.data.message);
-                    }
-                })
+            getUserMessageCode(){
+                let data={
+                    id:this.id
+                }
+                this.$http.post('./bank/send_message_code',data)
+            },
+            savePassword(_num){
+                switch (_num){
+                    case 1:
+                        if(!this.passwordData.phone){
+                            dialog('info','请输入手机号！');
+                            return;
+                        }
+                        if(!this.passwordData.usrImgCode){
+                            dialog('info','请输入验证码！');
+                            return;
+                        }
+                        if(this.usrImgCode!=this.passwordData.usrImgCode){
+                            this.getusrImgCode();
+                            dialog('info','验证码不正确请重新输入！');
+                            return;
+                        }
+                        this.$http.post('./bank/verify_img_code',this.passwordData).then((res)=>{
+                            if(res.data.code==0){
+                                this.forgetShow=2;
+                            }
+                        })
+                        break;
+                    case 2:
+                        let data={
+                            id:this.id
+                        }
+                        this.$http.post('./bank/send_message_code',data).then((res)=>{
+                            if(res.data.code==0){
+                                this.forgetShow=3;
+                                this.times();
+                            }
+                        })
+                        break;
+                    case 3:
+                        if(!this.passwordData.userMessageCode){
+                            dialog('info','请输入验证码！');
+                            return;
+                        }
+                        let data1={
+                            id:this.id,
+                            phone:this.phone,
+                            userMessageCode:this.passwordData.userMessageCode
+                        }
+                        this.$http.post('./bank/verify_img_code',data1).then((res)=>{
+                            if(res.data.code==0){
+                                this.forgetShow=4;
+                            }
+                        })
+                        break;
+                    case 4:
+                        if(!this.passwordData.newPassword|| !this.passwordData.confirmPassword){
+                            dialog('info','请输入密码！');
+                            return;
+                        }
+                        if(this.passwordData.newPassword!==this.passwordData.confirmPassword){
+                            dialog('info','两次密码输入不一致！');
+                            return;
+                        }
+                        let data2={
+                            id:this.id,
+                            phone:this.phone,
+                            newPassword:this.passwordData.newPassword,
+                            confirmPassword:this.passwordData.confirmPassword
+                        }
+                        this.$http.post('./user/update_password',data2).then((res)=>{
+                            if(res.data.code==0){
+                                dialog('success',res.data.message)
+                                setTimeout(()=>{
+                                    this.$router.go({'name':'login'});
+                                },2000)
+                            }
+                        })
+                        break;
+                }
             }
         },
         ready(){
-            formDataRequest('./bank/create_img_code').get().then((res)=>{
-            })
+            this.getusrImgCode();
         }
     }
 </script>

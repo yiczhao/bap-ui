@@ -38,3 +38,6 @@ window.dialog=((types,mes)=>{
             break;
     }
 })
+window.onbeforeunload=()=>{
+    localStorage.clear();
+}
