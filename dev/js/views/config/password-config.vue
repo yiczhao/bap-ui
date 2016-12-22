@@ -42,10 +42,10 @@
         <div class="setting-newpassword" v-show="passwordShow==3">
             <div class="newpassword-title">密码长度6-20位，建议字母、数字与标点的组合来提高帐号安全度</div>
             <div class="form-row">
-                <input type="password" v-model="passwordData.newPassword" class="form-input" placeholder="请输入密码"/>
+                <input type="password" v-model="passwordData.newPassword" class="input" placeholder="请输入密码"/>
             </div>
             <div class="form-row">
-                <input type="password" v-model="passwordData.confirmPassword" class="form-input" placeholder="请再次输入密码"/>
+                <input type="password" v-model="passwordData.confirmPassword" class="input" placeholder="请再次输入密码"/>
             </div>
             <div class="form-row">
                 <a class="btn btn-primary" @click="settingPassword">下一步</a>
@@ -53,101 +53,6 @@
         </div>
     </div>
 </template>
-<style lang="sass">
-    .password-config{
-        .four-type{
-            width:795px;
-            margin:20px auto 40px auto;
-            overflow: hidden;
-            div{
-                text-align: center;
-                float: left;
-            }
-        }
-        .pr{
-            position: relative;
-        }
-        .w265{
-            width: 265px;
-            border: 1px solid #ddd;
-            height:50px;
-            line-height: 50px;
-            box-sizing: border-box;
-            color:#000;
-        }
-        .w265.active{
-            border: 1px solid #2196F3;
-            background: #2196F3;
-            color:#fff;
-        }
-        .triangle-right {
-            position: absolute;
-            z-index: 2;
-            right:-25px;
-            width: 0;
-            height: 0;
-            border-top: 25px solid transparent;
-            border-left: 25px solid #ddd;
-            border-bottom: 25px solid transparent;
-        }
-        .triangle-right-white {
-            position: absolute;
-            z-index: 3;
-            right: -24px;
-            width: 0;
-            height: 0;
-            border-top: 24px solid transparent;
-            border-left: 25px solid #fff;
-            border-bottom: 24px solid transparent;
-            top: 1px;
-        }
-        .triangle-right.active{
-            border-left: 25px solid #2196F3;
-        }
-        .bg{
-            background:#fff;
-            width:1060px;
-            height: 600px;
-            margin: 0px auto;
-        }
-        .f18{
-            font-size: 18px;
-        }
-        .form-row{
-            text-align: center;
-            overflow: hidden;
-            div{
-                display: inline-block;
-                float: left;
-                line-height: 35px;
-            }
-            .form-label{
-                width: 100px;
-                margin-right: 10px;
-                text-align: right;
-                margin-left: 265px;
-            }
-            .form-input{
-                input{
-                    width: 350px;
-                }
-                .input245{
-                    width: 245px;
-                }
-            }
-            .img{
-                width: 95px;
-                border: 1px solid #dadada;
-                border-radius: 3px;
-                height: 33px;
-                margin-left: 10px;
-            }
-            .btn{
-                width: 200px;
-            }
-        }
-    }
-</style>
 <script type="text/javascript">
     import model from '../../ajax/config/password_model'
     export default{
