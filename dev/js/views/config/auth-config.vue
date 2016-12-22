@@ -235,6 +235,18 @@
                 })
             },
             addUser(){
+                this.addList={
+                    bankLevel:'',
+                    bankName:'',
+                    name:'',
+                    phone:'',
+                    curPassword :'',
+                    status:'false',
+                    loginAccountType:'3',
+                    privilegeIDs:[]
+                }
+                this.loginAccountType1=true;
+                this.loginAccountType2=true;
                 this.getBankList();
                 this.addTitle='新增用户';
                 this.addshow=true;
