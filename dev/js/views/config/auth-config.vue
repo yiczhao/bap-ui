@@ -251,6 +251,7 @@
                 this.loginAccountType1=true;
                 this.loginAccountType2=true;
                 this.bankNameList=[];
+                this.bankName=null;
                 this.getBankList();
                 this.addTitle='新增用户';
                 this.addshow=true;
