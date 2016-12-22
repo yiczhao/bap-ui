@@ -26,8 +26,8 @@ function model(_this) {
          * @param id
          * @returns {*}
          */
-        sendMessage(data) {
-            return _this.$http.post('./user/send_message_code',data)
+        sendMessage() {
+            return _this.$http.post('./user/send_message_code')
         },
         /**
          * @description 查看详情

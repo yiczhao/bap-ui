@@ -45,7 +45,7 @@
                 <input type="password" v-model="passwordData.newPassword" class="form-input" placeholder="请输入密码"/>
             </div>
             <div class="form-row">
-                <input type="password" v-model="passwordData.comfirmPassword" class="form-input" placeholder="请再次输入密码"/>
+                <input type="password" v-model="passwordData.confirmPassword" class="form-input" placeholder="请再次输入密码"/>
             </div>
             <div class="form-row">
                 <a class="btn btn-primary" @click="settingPassword">下一步</a>
@@ -159,7 +159,7 @@
                 passwordData:{
                     userMessageCode:'',
                     newPassword:'',
-                    comfirmPassword:'',
+                    confirmPassword:'',
                     id:''
                 }
             }
@@ -174,7 +174,7 @@
                 }
             },
             verifyIdentity(){
-                this.$http.post('./user/send_message_code').then((res)=>{
+                this.model.sendMessage().then((res)=>{
                     if(res.data.code==0){
                         this.times();
                         this.passwordShow=2;
@@ -183,7 +183,7 @@
                 })
             },
             resendMessage(){
-                this.$http.post('./user/send_message_code')
+                this.model.sendMessage()
             },
             verifyPhone(){
                 console.log(this.id)
@@ -191,7 +191,7 @@
                     id:this.passwordData.id,
                     userMessageCode:this.passwordData.userMessageCode
                 }
-                this.$http.post('./user/verify_message_code',data).then((res)=>{
+                this.model.verifyMessage(data).then((res)=>{
                     if (res.data.code==0) {
                         this.passwordShow=3;
                     }
@@ -205,29 +205,18 @@
                 let data={
                     id:this.passwordData.id,
                     newPassword:this.passwordData.newPassword,
-                    comfirmPassword:this.passwordData.comfirmPassword
+                    confirmPassword:this.passwordData.confirmPassword
                 }
-                this.$http.post('./user/update_password',data).then((res)=>{
+                this.model.updatePassword(data).then((res)=>{
                     if (res.data.code==0) {
                         dialog('success','密码修改成功！');
                         setTimeout(()=>{
                             this.$router.go({'name':'login'});
                         },2000)
-                    }else{
-                        this.passwordShow=1;
                     }
                 })
 
-            },
-            // savePassword(){
-            //     this.$http.post('./user/reset_password',this.passwordData).then((res)=>{
-            //         if(res.data.code==0){
-            //             dialog('success',res.data.message);
-            //         }else{
-            //             dialog('error',res.data.message);
-            //         }
-            //     })
-            // }
+            }
         },
         ready(){
         }
