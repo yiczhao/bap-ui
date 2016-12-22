@@ -311,6 +311,9 @@
                                 setTimeout(()=>{
                                     this.$router.go({'name':'login'});
                                 },2000)
+                            }else{
+                                this.forgetShow=1;
+                                this.getusrImgCode();
                             }
                         })
                         break;
