@@ -38,7 +38,7 @@ html,body{
   }
   .header-infor{
     float: right;
-    width: 300px;
+    margin-right: 40px;
     .img-area{
       width: 40px;
       height: 50px;
@@ -49,17 +49,19 @@ html,body{
       }
     }
     .information-show{
-      width:105px;
       float:left;
       margin:0 20px;
       font-size:12px;
       span:first-child{
         margin-top: 7px;
-        display: inline-block;
+        display:block;
+        text-align: right;
       }
       span:last-child{
         position: relative;
+        display:block;
         top: -3px;
+        text-align: right;
       }
     }
     .function-click{

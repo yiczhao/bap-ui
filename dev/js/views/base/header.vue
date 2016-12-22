@@ -6,8 +6,8 @@
                 <img class="logo-img" :src="bankLogo" v-show="!!bankLogo" alt="">
             </div>
             <div class="information-show">
-                <span>建设银行江西分行</span>
-                <span>信用卡部</span>
+                <span>{{bankName}}</span>
+                <span>{{name}}</span>
             </div>
             <div class="function-click">
                 <a @click="loginOut">退出</a>
@@ -21,12 +21,18 @@
             if(!sessionStorage.getItem('loginList')){
                 this.$router.go('login');
             }else{
-                (!!JSON.parse(sessionStorage.getItem('loginList')).bankLogo)?this.bankLogo="data:image/png;base64,"+JSON.parse(sessionStorage.getItem('loginList')).bankLogo:null;
+                if(!!JSON.parse(sessionStorage.getItem('loginList')).bankLogo){
+                    this.bankLogo="data:image/png;base64,"+JSON.parse(sessionStorage.getItem('loginList')).bankLogo;
+                    this.bankName=JSON.parse(sessionStorage.getItem('loginList')).bankName;
+                    this.name=JSON.parse(sessionStorage.getItem('loginList')).name;
+                }
             }
         },
         data(){
             return{
-                bankLogo:''
+                bankLogo:'',
+                bankName:'',
+                name:''
             }
         },
         methods:{
