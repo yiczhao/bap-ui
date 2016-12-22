@@ -16,10 +16,10 @@
             </div>
         </div>
         <div class="verify-identity" v-show="passwordShow==1">
-            <div class="verify-title">您正在为账号15995408888找回密码，为了保护账号安全，需要身份验证</div>
+            <div class="verify-title">您正在为账号{{phone}}找回密码，为了保护账号安全，需要身份验证</div>
             <div class="verify-area">
                 <div class="phone-icon"><img src="../../../img/phone.png" alt=""></div>
-                <div class="verify-way">通过密保手机159******888验证</div>
+                <div class="verify-way">通过密保手机{{phone | filter_phone}}验证</div>
                 <div class="verify-next">
                     <a class="btn btn-primary" @click="verifyIdentity">立即验证</a>
                 </div>
@@ -27,10 +27,10 @@
 
         </div>
         <div class="verify-phone" v-show="passwordShow==2">
-            <div class="verify-title">短信验证码已发送至159******888</div>
+            <div class="verify-title">短信验证码已发送至{{phone | filter_phone}}</div>
             <div class="form-input verify-area">
                 <input type="text" v-model="passwordData.userMessageCode" class="input verify-input" placeholder="请输入短信验证码"/>
-                <div class="time-end" v-show="time>0"><a class="btn btn-primary">倒计时{{time}}</a></div>
+                <div class="time-end" v-show="time>0"><a class="btn btn-gray">倒计时{{time}}</a></div>
                 <div class="resend-comfirm" v-show="time==0">
                     <a class="btn btn-primary" @click="resendMessage">重新发送</a>
                 </div>
@@ -156,6 +156,7 @@
             return{
                 time:60,
                 passwordShow:1,
+                phone:'', 
                 passwordData:{
                     userMessageCode:'',
                     newPassword:'',
@@ -219,6 +220,7 @@
             }
         },
         ready(){
+            (!!JSON.parse(sessionStorage.getItem('loginList')).phone)?this.phone=JSON.parse(sessionStorage.getItem('loginList')).phone:null;
         }
     }
 </script>
