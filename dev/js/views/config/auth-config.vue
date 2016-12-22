@@ -189,8 +189,10 @@
                 loginAccountType2:true,
                 passWordCheck:false,
                 userList:[],
+                bankLists:[],
                 privileges:[],
                 addList:{
+                    bankID:'',
                     bankLevel:'',
                     bankName:'',
                     name:'',
@@ -219,8 +221,9 @@
                 this.model.getBankList().then((res)=>{
                     if(res.data.code===0){
                         _.map(res.data.dataList,(val)=>{
-                            this.bankNameList.push(val.shortName)
+                            this.bankNameList.push(val.shortName);
                         })
+                        this.bankLists=res.data.dataList;
                     }
                 })
                 this.model.getBanklevelList().then((res)=>{
@@ -301,6 +304,9 @@
             },
             addUserTrue(){
                 this.addList.bankName=this.bankName;
+                _.map(this.bankLists,(val)=>{
+                    (val.shortName==this.bankName)?this.addList.bankID=val.id:this.addList.bankID=''
+                })
                 this.model.addUser(this.addList).then((res)=>{
                     if(res.data.code===0){
                         dialog('success',res.data.message)
