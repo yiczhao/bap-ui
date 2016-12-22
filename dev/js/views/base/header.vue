@@ -21,7 +21,7 @@
             if(!sessionStorage.getItem('loginList')){
                 this.$router.go('login');
             }else{
-                this.bankLogo="data:image/png;base64,"+JSON.parse(sessionStorage.getItem('loginList')).bankLogo
+                (!!JSON.parse(sessionStorage.getItem('loginList')).bankLogo)?this.bankLogo="data:image/png;base64,"+JSON.parse(sessionStorage.getItem('loginList')).bankLogo:null;
             }
         },
         data(){

@@ -181,6 +181,7 @@
                 cursor:pointer;
                 img{
                     height: 33px;
+                    width: 97px;
                 }
             }
             .btn{
