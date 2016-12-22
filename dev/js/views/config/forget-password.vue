@@ -241,10 +241,12 @@
                 })
             },
             getUserMessageCode(){
-                let data={
-                    id:this.id
-                }
-                this.$http.post('./verify/send_message_code',data)
+                this.$http.post('./verify/send_message_code?id='+this.id).then((res)=>{
+                    if(res.data.code===0){
+                        this.time=60;
+                        this.times();
+                    }
+                })
             },
             savePassword(_num){
                 switch (_num){
@@ -274,9 +276,6 @@
                         })
                         break;
                     case 2:
-                        let data={
-                            id:this.id
-                        }
                         this.$http.post('./verify/send_message_code?id='+this.id).then((res)=>{
                             if(res.data.code==0){
                                 this.forgetShow=3;
