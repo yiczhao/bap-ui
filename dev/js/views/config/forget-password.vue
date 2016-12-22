@@ -2,7 +2,7 @@
     <div class="header" style="margin-bottom: 20px;">
         <div class="header-title">银行活动管理系统</div>
         <div class="header-infor">
-            <div class="function-click">
+            <div class="function-click" style="border:0">
                 <a v-link="{'name':'login'}">登录</a>
             </div>
         </div>
@@ -37,7 +37,7 @@
                 <div class="form-row">
                     <div class="form-label"><i>*</i> 图片验证码</div>
                     <div class="form-input"><input @keyup.enter="savePassword(1)" type="text" v-model="passwordData.usrImgCode" class="input input245" placeholder="请输入图片中的数字或字母"/></div>
-                    <div class="img" @click="getusrImgCode"><img :src="sysCodeImg"/>{{usrImgCode}}</div>
+                    <div class="img" @click="getusrImgCode"><img :src="sysCodeImg"/></div>
                 </div>
                 <div class="form-row">
                     <a class="btn btn-primary" @click="savePassword(1)">下一步</a>
@@ -179,6 +179,9 @@
                 height: 33px;
                 margin-left: 10px;
                 cursor:pointer;
+                img{
+                    height: 33px;
+                }
             }
             .btn{
                 width: 200px;
@@ -205,7 +208,7 @@
         data(){
             return{
                 time:60,
-                forgetShow:2,
+                forgetShow:1,
                 id:'',
                 sysCodeImg:'',
                 usrImgCode:'',
