@@ -7,7 +7,7 @@
             </div>
         </div>
     </div>
-    <div class="password-config">
+    <div class="forgetpassword-config">
         <div class="bg">
             <div class="four-type">
                 <div class="pr">
@@ -87,7 +87,7 @@
     </div>
 </template>
 <style lang="sass">
-    .password-config{
+    .forgetpassword-config{
         .four-type{
             margin-bottom: 140px;
             overflow: hidden;
