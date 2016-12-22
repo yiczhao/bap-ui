@@ -1,4 +1,4 @@
-exports.filter_date = (value) => {
+export default  (value) => {
 	if(value==null || value=='')return '';
 	var time = new Date(value);
 	var y = time.getFullYear();

@@ -1,5 +1,5 @@
 <template>
-    <div class="header">
+    <div class="header" style="margin-bottom: 20px;">
         <div class="header-title">银行活动管理系统</div>
         <div class="header-infor">
             <div class="function-click">
@@ -36,17 +36,20 @@
                 </div>
                 <div class="form-row">
                     <div class="form-label"><i>*</i> 图片验证码</div>
-                    <div class="form-input"><input type="password" v-model="passwordData.newPassword" class="input" placeholder="请输入图片中的数字或字母"/></div>
-                    <img :src="sysCodeImg"/>
+                    <div class="form-input"><input type="password" v-model="passwordData.newPassword" class="input input245" placeholder="请输入图片中的数字或字母"/></div>
+                    <div class="img"><img :src="sysCodeImg"/></div>
                 </div>
                 <div class="form-row">
                     <a class="btn btn-primary" @click="savePassword1">下一步</a>
                 </div>
             </div>
             <div class="forget-2" v-show="forgetShow==2">
-                <div class="form-row">
-                    <div class="form-label"><i>*</i>当前密码</div>
-                    <div class="form-input"><input v-model="passwordData.curPassword" type="password" class="input" placeholder="请输入当前密码"/></div>
+                <div class="form-row f18">
+                    您正在为账号{{phoneNumber}}找回密码，为了保护账号安全，需要身份验证
+                </div>
+                <div class="form-row f18">
+                    通过密保手机 <span>{{phoneNumber | filter_phone}}</span>验证
+                    <a class="btn btn-primary" @click="savePassword">立即验证</a>
                 </div>
             </div>
             <div class="forget-3" v-show="forgetShow==3">
@@ -77,7 +80,7 @@
 <style lang="sass">
     .password-config{
         .four-type{
-            margin-bottom: 50px;
+            margin-bottom: 140px;
             overflow: hidden;
             div{
                 text-align: center;
@@ -96,8 +99,8 @@
             color:#000;
         }
         .w265.active{
-            border: 1px solid #2fa69a;
-            background: #2fa69a;
+            border: 1px solid #2196F3;
+            background: #2196F3;
             color:#fff;
         }
         .triangle-right {
@@ -122,25 +125,31 @@
             top: 1px;
         }
         .triangle-right.active{
-            border-left: 25px solid #2fa69a;
+            border-left: 25px solid #2196F3;
         }
         .bg{
-            padding-top: 20px;
             background:#fff;
             width:1060px;
             height: 600px;
             margin: 0px auto;
         }
+        .f18{
+            font-size: 18px;
+        }
         .form-row{
             margin-bottom: 50px;
             text-align: center;
+            overflow: hidden;
             div{
                 display: inline-block;
+                float: left;
+                line-height: 35px;
             }
             .form-label{
                 width: 100px;
                 margin-right: 10px;
                 text-align: right;
+                margin-left: 265px;
                 i{
                     color:red;
                     margin-right: 5px;
@@ -150,6 +159,16 @@
                 input{
                     width: 350px;
                 }
+                .input245{
+                    width: 245px;
+                }
+            }
+            .img{
+                width: 95px;
+                border: 1px solid #dadada;
+                border-radius: 3px;
+                height: 33px;
+                margin-left: 10px;
             }
             .btn{
                 width: 200px;
@@ -161,8 +180,9 @@
     export default{
         data(){
             return{
-                forgetShow:1,
+                forgetShow:2,
                 sysCodeImg:'',
+                phoneNumber:'15927272625',
                 passwordData:{
                     curPassword:'',
                     newPassword:'',
