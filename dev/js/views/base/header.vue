@@ -3,7 +3,7 @@
         <div class="header-title">银行活动管理系统</div>
         <div class="header-infor">
             <div class="img-area">
-                <img :src="bankLogo" v-show="!!bankLogo" alt="">
+                <img class="logo-img" :src="bankLogo" v-show="!!bankLogo" alt="">
             </div>
             <div class="information-show">
                 <span>建设银行江西分行</span>

@@ -83,6 +83,10 @@
                 data.bankLogo=data.bankLogo.split(',')[1];
                 this.model.saveBank(data).then((res)=>{
                     if(res.data.code===0){
+                        document.querySelector('.logo-img').src="data:image/png;base64,"+data.bankLogo;
+                        let datas=JSON.parse(sessionStorage.getItem('loginList'))
+                        datas.bankLogo=data.bankLogo;
+                        sessionStorage.setItem('loginList',JSON.stringify(datas));
                         dialog('success',res.data.message);
                     }
                 })

@@ -92,7 +92,7 @@
                 </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>密码</label>
-                    <input type="password" class="input" v-model="addList.curPassword " placeholder="填写密码或勾选">
+                    <input type="password" class="input" v-model="addList.curPassword " @focus="addList.curPassword=''"  placeholder="填写密码或勾选">
                     <label class="name-right"><input type="checkbox" class="checkBox" @change="changePassword(passWordCheck)" v-model="passWordCheck">默认 手机号作为密码</label>
                 </div>
                 <div class="form-group">
