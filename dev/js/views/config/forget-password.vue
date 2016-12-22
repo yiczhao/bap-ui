@@ -227,7 +227,7 @@
                 }
             },
             getusrImgCode(){
-                formDataRequest('./bank/create_img_code').get().then((res)=>{
+                formDataRequest('./verify/create_img_code').get().then((res)=>{
                     if(res.data.code===0){
                         this.sysCodeImg="data:image/png;base64,"+res.data.data.sysCodeImg;
                         this.usrImgCode=res.data.data.usrImgCode;
@@ -239,7 +239,7 @@
                 let data={
                     id:this.id
                 }
-                this.$http.post('./bank/send_message_code',data)
+                this.$http.post('./verify/send_message_code',data)
             },
             savePassword(_num){
                 switch (_num){
@@ -257,7 +257,7 @@
                             dialog('info','验证码不正确请重新输入！');
                             return;
                         }
-                        this.$http.post('./bank/verify_img_code',this.passwordData).then((res)=>{
+                        this.$http.post('./verify/verify_img_code',this.passwordData).then((res)=>{
                             if(res.data.code==0){
                                 this.forgetShow=2;
                             }
@@ -267,7 +267,7 @@
                         let data={
                             id:this.id
                         }
-                        this.$http.post('./bank/send_message_code',data).then((res)=>{
+                        this.$http.post('./verify/send_message_code',data).then((res)=>{
                             if(res.data.code==0){
                                 this.forgetShow=3;
                                 this.times();
@@ -284,7 +284,7 @@
                             phone:this.phone,
                             userMessageCode:this.passwordData.userMessageCode
                         }
-                        this.$http.post('./bank/verify_img_code',data1).then((res)=>{
+                        this.$http.post('./verify/verify_img_code',data1).then((res)=>{
                             if(res.data.code==0){
                                 this.forgetShow=4;
                             }
@@ -305,7 +305,7 @@
                             newPassword:this.passwordData.newPassword,
                             confirmPassword:this.passwordData.confirmPassword
                         }
-                        this.$http.post('./user/update_password',data2).then((res)=>{
+                        this.$http.post('./verify/update_password',data2).then((res)=>{
                             if(res.data.code==0){
                                 dialog('success',res.data.message)
                                 setTimeout(()=>{
