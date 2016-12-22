@@ -229,8 +229,8 @@
             getusrImgCode(){
                 formDataRequest('./verify/create_img_code').get().then((res)=>{
                     if(res.data.code===0){
-                        this.sysCodeImg="data:image/png;base64,"+res.data.data.sysCodeImg;
-                        this.usrImgCode=res.data.data.usrImgCode;
+                        this.sysCodeImg="data:image/png;base64,"+res.data.data.image;
+                        this.usrImgCode=res.data.data.sysImgCode;
                         this.id=res.data.data.id;
                     }
                 })
@@ -252,12 +252,17 @@
                             dialog('info','请输入验证码！');
                             return;
                         }
-                        if(this.usrImgCode!=this.passwordData.usrImgCode){
+                        if(_.capitalize(this.usrImgCode)!=_.capitalize(this.passwordData.usrImgCode)){
                             this.getusrImgCode();
                             dialog('info','验证码不正确请重新输入！');
                             return;
                         }
-                        this.$http.post('./verify/verify_img_code',this.passwordData).then((res)=>{
+                        let data0={
+                            id:this.id,
+                            phone:this.passwordData.phone,
+                            usrImgCode:this.passwordData.usrImgCode
+                        }
+                        this.$http.post('./verify/verify_img_code',data0).then((res)=>{
                             if(res.data.code==0){
                                 this.forgetShow=2;
                             }
@@ -267,7 +272,7 @@
                         let data={
                             id:this.id
                         }
-                        this.$http.post('./verify/send_message_code',data).then((res)=>{
+                        this.$http.post('./verify/send_message_code?id='+this.id).then((res)=>{
                             if(res.data.code==0){
                                 this.forgetShow=3;
                                 this.times();
@@ -284,7 +289,7 @@
                             phone:this.phone,
                             userMessageCode:this.passwordData.userMessageCode
                         }
-                        this.$http.post('./verify/verify_img_code',data1).then((res)=>{
+                        this.$http.post('./verify/verify_message_code',data1).then((res)=>{
                             if(res.data.code==0){
                                 this.forgetShow=4;
                             }
