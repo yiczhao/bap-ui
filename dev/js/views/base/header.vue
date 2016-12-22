@@ -3,7 +3,7 @@
         <div class="header-title">银行活动管理系统</div>
         <div class="header-infor">
             <div class="img-area">
-                <img src="../../../img/username.png" alt="">
+                <img :src="bankLogo" v-show="!!bankLogo" alt="">
             </div>
             <div class="information-show">
                 <span>建设银行江西分行</span>
@@ -20,10 +20,13 @@
         created(){
             if(!sessionStorage.getItem('loginList')){
                 this.$router.go('login');
+            }else{
+                this.bankLogo="data:image/png;base64,"+JSON.parse(sessionStorage.getItem('loginList')).bankLogo
             }
         },
         data(){
             return{
+                bankLogo:''
             }
         },
         methods:{

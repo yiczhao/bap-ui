@@ -229,7 +229,7 @@
             getusrImgCode(){
                 formDataRequest('./bank/create_img_code').get().then((res)=>{
                     if(res.data.code===0){
-                        this.sysCodeImg=res.data.data.sysCodeImg;
+                        this.sysCodeImg="data:image/png;base64,"+res.data.data.sysCodeImg;
                         this.usrImgCode=res.data.data.usrImgCode;
                         this.id=res.data.data.id;
                     }
@@ -312,7 +312,9 @@
                                     this.$router.go({'name':'login'});
                                 },2000)
                             }else{
-                                this.forgetShow=1;
+                                setTimeout(()=>{
+                                    this.forgetShow=1;
+                                },2000)
                                 this.getusrImgCode();
                             }
                         })
