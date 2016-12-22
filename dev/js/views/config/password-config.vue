@@ -34,7 +34,6 @@
                 <div class="resend-comfirm" v-show="time==0">
                     <a class="btn btn-primary" @click="resendMessage">重新发送</a>
                 </div>
-                <div>{{passwordData.userMessageCode}}</div>
             </div>
             <div class="form-row">
                 <a class="btn btn-primary" @click="verifyPhone">下一步</a>
