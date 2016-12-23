@@ -89,10 +89,16 @@
                 })
             },
             resendMessage(){
-                this.model.sendMessage()
+                this.model.sendMessage().then((res)=>{
+                    if (res.data.code==0) {
+                        this.passwordData.id=res.data.data;
+                        this.time=60;
+                        this.times();
+                    }
+                });
+
             },
             verifyPhone(){
-                console.log(this.id)
                 let data={
                     id:this.passwordData.id,
                     userMessageCode:this.passwordData.userMessageCode
@@ -100,6 +106,7 @@
                 this.model.verifyMessage(data).then((res)=>{
                     if (res.data.code==0) {
                         this.passwordShow=3;
+                        this.passwordData.id=res.data.data;
                     }
                 })
             },
@@ -118,7 +125,11 @@
                         dialog('success','密码修改成功！');
                         setTimeout(()=>{
                             this.$router.go({'name':'login'});
-                        },2000)
+                        },2000);
+                        this.passwordData.id=res.data.data;
+                    }else if(res.data.code==-1){
+                        this.passwordShow=1;
+                        this.passwordData.id="";
                     }
                 })
 
