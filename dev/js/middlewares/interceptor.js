@@ -8,10 +8,10 @@ export default function install(Vue,router_proto) {
             return request;
         },
         response (response) {
-            if(response.data.code===-1){
+            if(response.data.code===1){
                 dialog('info',response.data.message)
             }
-            else if(response.data.code===1){
+            else if(response.data.code===-1){
                 dialog('error',response.data.message)
             }
             else if(response.data.code === 50000){
