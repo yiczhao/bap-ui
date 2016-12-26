@@ -219,6 +219,7 @@
                 this.model.getBanklevelList().then((res)=>{
                     if(res.data.code===0){
                         this.$set('bankLevelList',res.data.dataList);
+                        this.addList.bankLevel=''+this.bankLevelList[0];
                     }
                 })
                 this.model.getPrivilegesList().then((res)=>{

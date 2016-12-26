@@ -1,13 +1,17 @@
+import store from '../vuex/store'
+import * as types from '../vuex/mutation-types'
 export default function install(Vue,router_proto) {
     Vue.http.options.emulateJSON = false;
     window.origin && (Vue.http.options.root = window.origin );
     Vue.http.interceptors.push({
         request (request) {
+            store.dispatch(types.AJAX_REQUEST)
             let bamtoken=(!!sessionStorage.getItem('loginList')) ? JSON.parse(sessionStorage.getItem('loginList')).token : null;
             request.headers['X-auth-Token'] =bamtoken;
             return request;
         },
         response (response) {
+            store.dispatch(types.AJAX_RESPONSE)
             if(response.data.code===1){
                 dialog('info',response.data.message)
             }
