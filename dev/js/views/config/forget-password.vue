@@ -86,7 +86,7 @@
         </div>
     </div>
 </template>
-<style lang="sass">
+<style lang="scss">
     .forgetpassword-config{
         .four-type{
             margin-bottom: 140px;
