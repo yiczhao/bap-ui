@@ -85,5 +85,11 @@ module.exports = {
             scss: path.join(__dirname, './dev/sass/app.scss')
         }
     },
+    vue: {
+        loaders: {
+            scss: 'vue-style-loader!css-loader!sass-loader',
+            html: 'vue-html-loader!ks-autobem-loader?type=html'
+        }
+    },
     devtool: process.env.NODE_ENV != 'pro' && 'source-map'
 }

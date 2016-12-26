@@ -5,6 +5,7 @@ import scss from 'scss'
 import VueRouter from 'vue-router'
 import { proxy_mock } from './config/index'
 import components from './components/index'
+import ksComponents from './KsComponents'
 import directives from './directives/index'
 import filters from './filters/index'
 import routers from './routers'
@@ -18,6 +19,7 @@ Object.keys(filters).forEach(k => Vue.filter(k, filters[k]));
 Object.keys(directives).forEach(k => Vue.directive(k, directives[k]));
 Vue.use(VueResource)
 Vue.use(VueRouter)
+Vue.use(ksComponents)
 proxy_mock(Vue)
 
 // *** 实例化VueRouter

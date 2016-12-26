@@ -40,9 +40,8 @@
             </table>
             <pagegroup
                 :total="objectotalNumber"
-                :page_size="defaultData.pageSize"
-                :page_current="defaultData.pageIndex"
-                :page_sizes="[10,20,100]"
+                :page_size.sync="defaultData.pageSize"
+                :page_current.sync="defaultData.pageIndex"
                 v-on:current_change="getList"
                 v-on:size_change="getList"
             ></pagegroup>
@@ -83,35 +82,37 @@
                 <div class="form-group">
                     <label class="name-left"><i>*</i>负责人</label>
                     <input type="text" class="input" v-model="addList.name" placeholder=" 请输入负责人的真实姓名">
-                    <label class="name-right"><input type="checkbox" v-model="loginAccountType1"  @change="getloginAccountType(loginAccountType1,loginAccountType2)" class="checkBox">可作为登录账号</label>
+                    <ks-checkbox :checked.sync="loginAccountType1"  @change="getloginAccountType(loginAccountType1,loginAccountType2)">可作为登录账号</ks-checkbox>
                 </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>手机号码</label>
                     <input type="text" class="input" v-model="addList.phone" v-limitnumber="addList.phone" placeholder="请输入负责人的真实手机号码">
-                    <label class="name-right"><input type="checkbox" v-model="loginAccountType2"  @change="getloginAccountType(loginAccountType1,loginAccountType2)" class="checkBox">可作为登录账号</label>
+                    <ks-checkbox :checked.sync="loginAccountType2"  @change="getloginAccountType(loginAccountType1,loginAccountType2)">可作为登录账号</ks-checkbox>
                 </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>密码</label>
                     <input type="password" class="input" v-model="addList.curPassword " @focus="addList.curPassword=='::::::'?addList.curPassword='':null"  placeholder="填写密码或勾选">
-                    <label class="name-right"><input type="checkbox" class="checkBox" @change="changePassword(passWordCheck)" v-model="passWordCheck">默认 手机号作为密码</label>
+                    <ks-checkbox :checked.sync="passWordCheck" @change="changePassword(passWordCheck)">默认 手机号作为密码</ks-checkbox>
                 </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>状态</label>
-                    <label class="choose-radio"><input type="radio" value="false" v-model="addList.status">
-                        禁用</label>
-                    <label class="choose-radio"><input type="radio" value="true" v-model="addList.status">
-                        启用</label>
+                        <ks-radio :checked.sync="addList.status" :value="'false'" name="TEST1">禁用</ks-radio>
+                        <ks-radio :checked.sync="addList.status" :value="'true'" name="TEST1">启用</ks-radio>
                 </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>功能级</label>
                     <div class="function-area">
-                        <label v-for="n in privileges['1']" class="function-choose"><input type="checkbox"  @change="checked(n.selected,n.id)" v-model="n.selected">{{n.name}}</label>
+                        <ks-checkbox-group :v-model="gnprivilegeIDs">
+                            <ks-checkbox v-for="n in privileges['1']" @change="checked(n.selected,n.id)" :checked.sync="n.selected" :name="n.name">{{n.name}}</ks-checkbox>
+                        </ks-checkbox-group>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>数据级</label>
                     <div class="function-area">
-                        <label v-for="n in privileges['2']" class="function-choose"><input type="checkbox"  @change="checked(n.selected,n.id)" v-model="n.selected">{{n.name}}</label>
+                        <ks-checkbox-group :v-model="sjprivilegeIDs">
+                            <ks-checkbox v-for="n in privileges['2']" @change="checked(n.selected,n.id)" :name="n.name" :checked.sync="n.selected">{{n.name}}</ks-checkbox>
+                        </ks-checkbox-group>
                     </div>
                 </div>
             </div>
@@ -152,13 +153,13 @@
                 <div class="form-group">
                     <label class="name-left"><i>*</i>功能级</label>
                     <div class="function-area">
-                        <label v-for="n in privileges['1']" class="function-choose"><input type="checkbox" disabled @change="checked(n.selected,n.id)" v-model="n.selected">{{n.name}}</label>
+                        <ks-checkbox v-for="n in privileges['1']" :name="n.name" :disable="true" :checked.sync="n.selected">{{n.name}}</ks-checkbox>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>数据级</label>
                     <div class="function-area">
-                        <label v-for="n in privileges['2']" class="function-choose"><input type="checkbox" disabled @change="checked(n.selected,n.id)" v-model="n.selected">{{n.name}}</label>
+                        <ks-checkbox v-for="n in privileges['2']" :name="n.name" :disable="true" :checked.sync="n.selected">{{n.name}}</ks-checkbox>
                     </div>
                 </div>
                 <div class="form-group close-center">
@@ -174,6 +175,7 @@
         data(){
             this.model=model(this)
             return{
+                checkboxList:[],
                 objectotalNumber:1,
                 defaultData:{
                     pageIndex:1,
@@ -189,6 +191,10 @@
                 userList:[],
                 bankLists:[],
                 privileges:[],
+                gnprivilegeIDs:[],
+                gnprivilegeIDs1:[],
+                sjprivilegeIDs:[],
+                sjprivilegeIDs1:[],
                 addList:{
                     bankID:'',
                     bankLevel:'',

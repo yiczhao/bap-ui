@@ -10,8 +10,8 @@ function model(_this) {
          * @param
          * @returns {*}
          */
-        getUserList () {
-            return formDataRequest('./user/list').get()
+        getUserList (data) {
+            return formDataRequest('./user/list').get(data)
         },
         /**
          * @description 查询添加的银行数据
