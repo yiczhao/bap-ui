@@ -316,7 +316,7 @@
                         }
                         this.$http.post('./verify/update_password',data2).then((res)=>{
                             if(res.data.code==0){
-                                dialog('success',res.data.message)
+                                dialog('successTime',res.data.message)
                                 setTimeout(()=>{
                                     this.$router.go({'name':'login'});
                                 },2000)

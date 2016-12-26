@@ -29,6 +29,14 @@ window.dialog=((types,mes)=>{
                 confirmButtonColor:"#00BCD4"
             })
             break;
+        case 'successTime':
+            swal({
+                title: mes,
+                type:"success",
+                timer: 2000,
+                confirmButtonColor: "#2196F3"
+            })
+            break;
         default:
             swal({
                 title: '保存成功',
