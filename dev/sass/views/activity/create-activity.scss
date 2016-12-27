@@ -1,40 +1,74 @@
 .create-activity{
 	.activity-list{
 		clear:both;
-		height:600px;
+		height:620px;
 		.show-activity{
 			position:relative;
 			display: inline-block;
 			float: left;
-			margin:auto;
+			text-align:center;
 			width: 33.33%;
+			height:192px;
 			margin-bottom: 20px;
-			img{
-				width:300px;
-			}
-			.activity-name{
-				cursor: pointer;
-				position: absolute;
-				top:70px;
-				left:160px;
-				color: #fff;
-				width:120px;
-				text-align: center;
-				a{
-					color:#fff;
+			.bg-show{
+				display:inline-block;
+				border-radius: 3px;
+				width: 310px;
+				height:192px;
+				background-size: 310px 192px;
+				background-repeat:no-repeat;
+				.activity-name{
+					cursor: pointer;
+					position: relative;
+					top:61px;
+					left:160px;
+					color: #fff;
+					width:140px;
+					text-align: center;
+					a{
+						color:#fff;
+					}
 				}
+				.activity-intru{
+					position:absolute;
+					bottom:0;
+					width:300px;
+					flex-direction:row;
+					padding: 5px;
+					border-bottom-left-radius: 3px;
+					border-bottom-right-radius: 3px;
+					background-color:rgba(225,225,225,.5)
+				}
+
+			}	
+			.manjian{
+				background-image:url("../img/manjian.png");
 			}
-			.activity-intru{
-				position:absolute;
-				bottom:0;
-				left:0;
-				width:290px;
-				flex-direction:row;
-				padding: 5px;
-				border-bottom-left-radius: 3px;
-				border-bottom-right-radius: 3px;
-				background-color:rgba(225,225,225,.5)
+			.zhekou{
+				background-image:url("../img/zhekou.png");
 			}
+			.suijilijian{
+				background-image:url("../img/suijilijian.png");
+			}
+			.suijizhekou{
+				background-image:url("../img/suijizhekou.png");
+			}
+			.piaowu{
+				background-image:url("../img/piaowu.png");
+			}
+			.lianhuanzhekou{
+				background-image:url("../img/lianhuanzhekou.png");
+			}
+			.jihaojizhe{
+				background-image:url("../img/jihaojizhe.png");
+			}
+			.zhoujijizhe{
+				background-image:url("../img/zhoujijizhe.png");
+			}
+			.meimanjian{
+				background-image:url("../img/meimanjian.png");
+			}
+			
 		}
 	}
 }
