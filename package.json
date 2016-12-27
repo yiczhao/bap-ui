@@ -58,9 +58,10 @@
     "webpack": "1.13.2"
   },
   "dependencies": {
+    "echarts": "^3.3.2",
     "vue": "1.0.26",
     "vue-resource": "0.7.0",
-    "vuex": "^0.6.3",
-    "vue-router": "0.7.13"
+    "vue-router": "0.7.13",
+    "vuex": "^0.6.3"
   }
 }

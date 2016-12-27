@@ -1,0 +1,34 @@
+.activity-analysis{
+	.border{
+		border:1px solid red;
+	}
+	.activity-search{
+		margin-bottom: 20px;
+		display:flex;
+		width: 100%;
+		div{
+			flex:1;
+			border: 1px solid red;
+		}
+		.search-left{			label{
+				display: inline;
+			}
+			.input{
+				margin-left: 20px;
+				margin-top:1px;
+			}
+		}.search-right{
+			text-align: right;
+			line-height: 36px;
+			span{
+				padding-left: 20px;
+			}
+			.search-time{
+				// color:#f5f5f5
+			}
+			.view-report{
+				color: #00bcd4;
+			}
+		}
+	}
+}
