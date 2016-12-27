@@ -61,7 +61,7 @@
                 </div>
                 <div class="form-group" v-if="addTitle=='新增用户'">
                     <label class="name-left"><i>*</i>级别划分</label>
-                    <select v-model="addList.bankLevel">
+                    <select v-model="addList.bankLevel" class="select">
                         <option v-for="(index,n) in bankLevelList" :value="n">
                             <template v-if="n==1">一级分行</template>
                             <template v-if="n==2">二级分行</template>

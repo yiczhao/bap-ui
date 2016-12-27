@@ -22,7 +22,7 @@ export default function (Vue,router){
         '/index':{
             router_type:'index',
             name:'index',
-            component: function(resolve){
+            component: (resolve)=>{
                 require(['./views/app.vue'],resolve)
             },
             subRoutes:{
@@ -40,6 +40,13 @@ export default function (Vue,router){
                     router_type:'acitvity',
                     component: (resolve) => {
                         require(['./views/activity/create-activity.vue'], resolve)
+                    }
+                },
+                'basic-rule':{
+                    name:'basic-rule',
+                    router_type:'activity',
+                    component:(resolve)=>{
+                        require(['./views/activity/basic-rule.vue'],resolve)
                     }
                 },
                 /* 活动跳转页面 */
@@ -82,12 +89,13 @@ export default function (Vue,router){
                         require(['./views/config/auth-config.vue'], resolve)
                     }
                 },
+
             }
         },
         /* 404路由 */
         '*': {
             name:'404',
-            component: function(resolve){
+            component: ()=>{
                 router.go({ name: 'login'})
             }
         }
