@@ -34,6 +34,30 @@ export default function (Vue,router){
                         require(['./views/home.vue'], resolve)
                     }
                 },
+                /* 创建活动页面 */
+                'create-activity': {
+                    name: 'create-acitvity',
+                    router_type:'acitvity',
+                    component: (resolve) => {
+                        require(['./views/activity/create-activity.vue'], resolve)
+                    }
+                },
+                /* 活动跳转页面 */
+                // 'activity': {
+                //     name: 'activity',
+                //     router_type:'acitvity',
+                //     component: (resolve) => {
+                //         require(['./views/activity/activity.vue'], resolve)
+                //     }
+                // },
+                /* 活动分析页面 */
+                'activity-analysis': {
+                    name: 'activity-analysis',
+                    router_type:'activity-analysis',
+                    component: (resolve) => {
+                        require(['./views/activity/activity-analysis.vue'], resolve)
+                    }
+                },
                 /* 银行基本设置页面 */
                 'bank-config': {
                     name: 'bank-config',
