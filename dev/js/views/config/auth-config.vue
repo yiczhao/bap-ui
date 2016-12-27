@@ -192,9 +192,7 @@
                 bankLists:[],
                 privileges:[],
                 gnprivilegeIDs:[],
-                gnprivilegeIDs1:[],
                 sjprivilegeIDs:[],
-                sjprivilegeIDs1:[],
                 addList:{
                     bankID:'',
                     bankLevel:'',
@@ -245,6 +243,7 @@
                     loginAccountType:'3',
                     privilegeIDs:[]
                 }
+                this.sjprivilegeIDs=this.gnprivilegeIDs=[];
                 this.loginAccountType1=true;
                 this.loginAccountType2=true;
                 this.getBankList();
@@ -274,6 +273,8 @@
                             _.map(val,(value)=>{
                                 if(value.selected){
                                     this.addList.privilegeIDs.push(value.id);
+                                    this.gnprivilegeIDs.push(value.name);
+                                    this.sjprivilegeIDs.push(value.name);
                                 }
                             })
                         })
