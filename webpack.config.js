@@ -72,7 +72,8 @@ module.exports = {
             'VueResource':'vue-resource',
             _: 'lodash',
             swal: 'sweetalert',
-            'window._':'lodash'
+            'window._':'lodash',
+            echarts:'echarts'
         }),
         new webpack.optimize.CommonsChunkPlugin({
           name:'vuecore',
