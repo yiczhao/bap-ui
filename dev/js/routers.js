@@ -42,7 +42,7 @@ export default function (Vue,router){
                         require(['./views/activity/create-activity.vue'], resolve)
                     }
                 },
-                'basic-rule':{
+                'basic-rule/:activityId':{
                     name:'basic-rule',
                     router_type:'activity',
                     component:(resolve)=>{

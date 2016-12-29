@@ -1,65 +1,126 @@
 <template>
-<activity-main :datas="datas" :showstep.sync="showstep">
+<activity-main :propclass="'basic-rule'" :datas="datas" :showstep.sync="showstep">
     <div class="rule-row">
         <div class="rule-label"><i>*</i>活动名称</div>
         <div class="rule-input">
-            <input class="input" type="text"/>
+            <input class="input" type="text" v-model="addData.name"/>
         </div>
     </div>
     <div class="rule-row">
         <div class="rule-label"><i>*</i>所在地区</div>
         <div class="rule-input">
-            <select class="select">
-                <option>请选择省份</option>
+            <select class="select" v-model="addData.city">
+                <option value="">请选择省份</option>
+                <option value="1">日本省</option>
             </select>
-            <select class="select">
-                <option>请选择市区</option>
+            <select class="select" v-model="addData.cityName">
+                <option value="">请选择城市</option>
+                <option value="1">韩国市</option>
             </select>
         </div>
     </div>
     <div class="rule-row">
+        <div class="rule-label"><i>*</i>活动预算</div>
+        <div class="rule-input">
+            <input class="input" type="text" v-model="addData.budget" v-limitaddprice="addData.budget"/>
+            <span>元</span>
+        </div>
+    </div>
+    <div class="dashed"></div>
+    <div class="rule-row">
         <div class="rule-label"><i>*</i>活动类型</div>
         <div class="rule-input">
-            <a class="btn btn-info">常规活动</a>
-            <a class="btn btn-gray">票务活动</a>
+            <a class="btn" :class="[addData.actType == 'common_act'?'btn-primary':'btn-gray']" @click="addData.actType='common_act'">常规活动</a>
+            <a class="btn" :class="[addData.actType == 'ticket_act'?'btn-primary':'btn-gray']" @click="addData.actType='ticket_act'">票务活动</a>
         </div>
     </div>
     <div class="rule-row">
         <div class="rule-label"><i>*</i>活动性质</div>
         <div class="rule-input">
-            <a class="btn btn-info">线上活动</a>
-            <a class="btn btn-gray">线下活动</a>
+            <a class="btn" :class="[addData.propes == 'online'?'btn-primary':'btn-gray']" @click="addData.propes='online'">线上活动</a>
+            <a class="btn" :class="[addData.propes == 'offline'?'btn-primary':'btn-gray']" @click="addData.propes='offline'">线下活动</a>
         </div>
     </div>
     <div class="rule-row">
         <div class="rule-label"><i>*</i>活动持续时间</div>
         <div class="rule-input">
             <ks-date-picker time="00:00:00" @change=""
-                            placeholder="活动时间" value="2016-10-12"></ks-date-picker>
-            <span class="pl10 pr10">---</span>
+                            placeholder="活动时间" :value.sync="addData.startTime"></ks-date-picker>
+            <div class="m20">---</div>
             <ks-date-picker time="23:59:59" @change=""
-                            placeholder="活动时间" value="2016-10-12"></ks-date-picker>
+                            placeholder="活动时间" :value.sync="addData.endTime"></ks-date-picker>
         </div>
     </div>
     <div class="rule-row">
         <div class="rule-label"><i>*</i>可选时间段</div>
         <div class="rule-input">
-            <ks-checkbox :checked=""  @change="">周日</ks-checkbox>
-            <ks-checkbox :checked=""  @change="">周一</ks-checkbox>
-            <ks-checkbox :checked=""  @change="">周二</ks-checkbox>
-            <ks-checkbox :checked=""  @change="">周三</ks-checkbox>
-            <ks-checkbox :checked=""  @change="">周四</ks-checkbox>
-            <ks-checkbox :checked=""  @change="">周五</ks-checkbox>
-            <ks-checkbox :checked=""  @change="">周六</ks-checkbox>
-            <ks-switch></ks-switch>
+            <ks-checkbox v-for="n in weeksList" :checked.sync="n.checked">{{n.name}}</ks-checkbox>
         </div>
+    </div>
+    <div class="rule-row">
+        <div class="rule-label">全天</div>
+        <div class="rule-input">
+            <ks-switch :color="'#2196F3'" :checked.sync="switch" @change="addtimesList"></ks-switch>
+        </div>
+    </div>
+    <div class="rule-row" v-show="!switch">
+        <div class="rule-label">可选时间段</div>
+        <!-- 时间多段设定 -->
+        <div class="rule-input">
+            <div class="db" v-for="n in timesList.length">
+                <select class="select" v-model="timesList[n].start" @change="timesList[n].end==''">
+                    <option v-for="i in 24" :value="i + ':' + '00'" v-text="i + ':' + '00'">时间</option>
+                </select>
+                <span class="mr15">至</span>
+                <select class="select" v-model="timesList[n].end">
+                    <option v-for="i in 23 - timesListShadow[n]"
+                            :value="i + timesListShadow[n] + 1 + ':' + '00'"
+                            v-text="i + timesListShadow[n] + 1 + ':' + '00'"
+                    >时间</option>
+                    <option :value="'23:59'" v-text="'23:59'">时间</option>
+                </select>
+                <i v-if="n===0" class="icon-add" @click="timesList.push({'start':'0:00','end':'23:59'})"></i>
+                <i v-if="n!==0" class="icon-remove" @click="timesList.splice(n, 1)"></i>
+            </div>
+        </div>
+    </div>
+    <div class="dashed"></div>
+    <div class="rule-row">
+        <div class="rule-label"><i>*</i>活动主题</div>
+        <div class="rule-input">
+            <textarea class="input textarea" v-model="addData.subject"></textarea>
+        </div>
+    </div>
+    <div class="rule-row">
+        <div class="rule-label"><i>*</i>活动细则</div>
+        <div class="rule-input">
+            <textarea class="input textarea" v-model="addData.detail"></textarea>
+        </div>
+    </div>
+    <div class="dashed"></div>
+    <div class="rule-row tc">
+        <a class="btn btn-gray" @click="submitAdd(false)">保存草稿</a>
+        <a class="btn btn-primary" @click="submitAdd(true)">下一步</a>
     </div>
 </activity-main>
 </template>
 <script type="text/javascript">
     import activityMain from './activity-main.vue'
+    import model from '../../ajax/activity/basic_model'
     export default{
+        computed: {
+            /**
+             * @description 可选时间段的映射
+             * @summary 用来实现可选时间段后者大于前者
+             */
+            timesListShadow () {
+                let timesList = this.timesList
+
+                return timesList.map(m => m && m.start && m.start.split(':')[0] << 0)
+            },
+        },
         data(){
+            this.model=model(this)
             return{
                 showstep:0,
                 datas:[
@@ -67,12 +128,130 @@
                     '活动规则设置',
                     '活动商户设置',
                     '活动权益设置'
-                ]
+                ],
+                addData:{
+                    name:'',
+                    city:'',
+                    cityName:'',
+                    budget:'',
+                    name:'',
+                    startTime:'',
+                    endTime:'',
+                    actType:'common_act',
+                    propes :'online',
+                },
+                timesList:[
+                    {start:'0:00',end:'23:59'}
+                ],
+                weeksList:[
+                    {name:'周日',checked:true,id:0},
+                    {name:'周一',checked:true,id:1},
+                    {name:'周二',checked:true,id:2},
+                    {name:'周三',checked:true,id:3},
+                    {name:'周四',checked:true,id:4},
+                    {name:'周五',checked:true,id:5},
+                    {name:'周六',checked:true,id:6}
+                ],
+                switch:true
             }
         },
         methods:{
+            addtimesList(){
+                this.switch? this.timesList=[{start:'0:00',end:'23:59'}]:this.timesList=[{start:'0:00',end:'23:59'}];
+            },
+            gettimesList(data){
+                let arr=[];
+                _.map(data,(val)=>{
+                    arr.push(val.start+'~'+val.end);
+                })
+                return arr;
+            },
+            getweeks(data){
+                let arr=[];
+                _.map(data,(val)=>{
+                    val.checked?arr.push(val.id):null;
+                })
+                return arr;
+            },
+            verifyField (data) {
+                // 错误名称映射表 表内是需要检测的字段
+                let errMapper = {
+                    name: '活动名称',
+//                    city: '所在地区',
+                    actType: '活动类型',
+                    propes: '活动性质',
+                    includeTimesList: '活动时间',
+                    weeksList: '可选时间段',
+                    subject: '活动主题',
+                    detail: '活动细则'
+                }
+
+                // 检测是否存在未填写项
+                for (let k in data) {
+                    let m = data[k]
+                    let err = errMapper[k] && new Error(`请检查 ${errMapper[k]} 字段!`)
+
+                    /*global _*/
+                    if ((!m && err) || (_.isArray(m) && !m.length && err)) {
+                        throw err
+                    }
+                }
+
+                // 活动时间检查
+                if (data.endTime <= data.startTime) {
+                    throw new Error('活动开始时间不能大于等于活动结束时间!')
+                }
+
+                // 活动时间段检查
+                let timesList = data.timesList
+                timesList && timesList.forEach(m => {
+                    let timesList = m.split(' ~ ')
+                    if (timesList[0] === 'null' || timesList[1] === 'null') {
+                        throw new Error('可选时间段中的两个选择框都要是必填项!')
+                    }
+                })
+            },
+            submitAdd(bool){
+                let data=_.cloneDeep(this.addData);
+                data.weeksList=this.getweeks(this.weeksList);
+                data.timesList=this.gettimesList(this.timesList);
+                if (true) {
+                    try {
+                        this.verifyField(data)
+                    } catch (e) {
+                        this.errHandle(e.message)
+                        return
+                    }
+                }
+                if(!bool){
+                    !!sessionStorage.getItem('activityId')?data.id=sessionStorage.getItem('activityId'):data.id='';
+                }else{
+                    data.id=''
+                }
+                this.model.addBasic(data).then((res)=>{
+                    if(res.data.code===0){
+                        sessionStorage.setItem('activityId',res.data.data);
+                    }
+                })
+            },
+            /**
+             * @description 错误处理
+             * @summary 只是简单的提示用处错误信息
+             */
+            errHandle (err) {
+                dialog('info', err)
+            },
         },
         ready(){
+            sessionStorage.removeItem('activityId');
+        },
+        created(){
+            let activityId = this.$route.params.activityId << 0;
+            if (activityId) {
+                this.activityId = activityId
+                // 获取活动信息
+                this.model.getAddList(activityId);
+            }
         },
         components: { activityMain }
     }

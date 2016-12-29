@@ -1,7 +1,7 @@
 <template>
     <div class="activity-main">
         <activity-step :datas="datas" :showstep.sync="showstep"></activity-step>
-        <div class="rule-main">
+        <div class="rule-main" :class="propclass">
             <slot></slot>
         </div>
     </div>
@@ -11,6 +11,7 @@
     export default{
         props:{
             datas:{type:Array,require:true,default:[]},
+            propclass:{type:String},
             showstep:{type:Number,default:1}
         },
         data(){

@@ -12,6 +12,9 @@ export default function install(Vue,router_proto) {
         },
         response (response) {
             store.dispatch(types.AJAX_RESPONSE)
+            if(!response.data.code){
+                return response;
+            }
             if(response.data.code===1){
                 dialog('info',response.data.message)
             }
