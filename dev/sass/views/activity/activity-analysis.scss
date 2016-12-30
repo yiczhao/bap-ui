@@ -112,7 +112,9 @@
 			@extend .data-detail;
 		}
 		.region-echart{
-
+			height:600px;
+			margin:20px 0;
+			border:1px solid rgba(233,233,233,1);
 		}
 	}
 	.transaction-time{
@@ -154,6 +156,10 @@
 		}
 		.cardBIN-detail{
 			@extend .data-detail;
+			.cardBIN-echart{
+				@extend .data-echart;
+				height:600px;
+			}
 		}
 	}
 	.one-card{
@@ -168,36 +174,7 @@
 			@extend .data-detail;
 			.one-echart{
 				@extend .data-echart;
-			}
-		}
-	}
-	.wechat-data{
-		@extend .transaction-data;
-		.wechat-title{
-			@extend .data-title;
-		}
-		.wechat-cumulative-table{
-			@extend .data-today-table;
-		}
-		.wechat-detail{
-			@extend .data-detail;
-			.wechat-echart{
-				@extend .data-echart;
-			}
-		}
-	}
-	.apply-card{
-		@extend .transaction-data;
-		.apply-title{
-			@extend .data-title;
-		}
-		.apply-cumulative-table{
-			@extend .data-today-table;
-		}
-		.apply-detail{
-			@extend .data-detail;
-			.apply-echart{
-				@extend .data-echart;
+				height:600px;
 			}
 		}
 	}
