@@ -78,7 +78,7 @@ $sizeMapper: (                                                  // 大小映射
     }
 
     // 开关效果
-    &:checked + .KSIosSwitch__slide {
+    .KSIosSwitch__slide.checked {
       box-shadow: $primary-color 0 0 0 16.667px inset;
       border: 1px solid $primary-color;
       transition: border .3s, box-shadow .6s, background .9s;

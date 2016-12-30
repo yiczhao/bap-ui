@@ -2,15 +2,14 @@
   <div :class="classesSize">
     <!-- IosSwitch 背景自定义 -->
     <style type="text/css">
-      {{ '.KSIosSwitch__UID--' + _uid }} .KSIosSwitch__entity:checked + .KSIosSwitch__slide {
+      .KSIosSwitch__slide.checked {
         {{ styleBgColor }}
       }
     </style>
     <input class="KSIosSwitch__entity" type="checkbox"
            v-model="checked" @change.stop
-           :checked="defChecked && 'checked'"
            :disabled="disable && 'disabled'"/>
-    <div class="KSIosSwitch__slide">
+    <div class="KSIosSwitch__slide" :class="{'checked':checked}">
       <small class="KSIosSwitch__btn"></small>
       <slot name="checkedChildren"></slot>
       <slot name="unCheckedChildren"></slot>

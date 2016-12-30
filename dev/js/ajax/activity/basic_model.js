@@ -11,7 +11,7 @@ function model(_this) {
          * @returns {*}
          */
         addBasic(data) {
-            return _this.$http.post('./transfer/activity_configure/v1/activity/base-add',data)
+            return _this.$http.post('./transfer/activity_configure/api/v1/activity/base-add',data)
         },
         /**
          * @description 查询基本数据
@@ -19,7 +19,7 @@ function model(_this) {
          * @returns {*}
          */
         getAddList (_id) {
-            return formDataRequest('./transfer/activity_configure/activity/base/'+_id).get()
+            return formDataRequest('./transfer/activity_configure/api/v1/activity/base/'+_id).get()
         },
     }
 }

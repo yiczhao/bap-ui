@@ -2,7 +2,7 @@
 	<div class="create-activity">
 		<div class="activity-list">
 			<div v-for="value in activityName" class="show-activity">
-				<div class="bg-show" :class="value.type">
+				<div class="bg-show" :class="value.type" v-link="{'name':'basic-rule',params:{'rulename':value.link}}">
 					<div class="activity-name">
 						<h4><a>{{value.name}}</a></h4>
 					</div>
@@ -20,7 +20,7 @@
 				[{
 					'name':'满减（含立减）',
 					'text':'特定持卡人享受消费满减/立减优惠',
-					'link':'activity',
+					'link':'MeetMinus',
 					'type':'manjian'
 				},{
 					'name':'折扣',
@@ -30,7 +30,7 @@
 				},{
 					'name':'随机立减',
 					'text':'特定持卡人享有每单消费随机立减的优惠资格',
-					'link':'activity',
+					'link':'RandomMinus',
 					'type':'suijilijian'
 				},{
 					'name':'随机折扣',

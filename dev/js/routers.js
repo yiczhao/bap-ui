@@ -42,11 +42,41 @@ export default function (Vue,router){
                         require(['./views/activity/create-activity.vue'], resolve)
                     }
                 },
-                'basic-rule/:activityId':{
+                'basic-rule/:activityId/:rulename':{
                     name:'basic-rule',
                     router_type:'activity',
                     component:(resolve)=>{
                         require(['./views/activity/basic-rule.vue'],resolve)
+                    }
+                },
+                'activity-rule/:propes':{
+                    name:'activity-rule',
+                    router_type:'activity',
+                    component:(resolve)=>{
+                        require(['./views/activity/activity-rule.vue'],resolve)
+                    },
+                    subRoutes:{
+                        'MeetMinus':{
+                            name:'MeetMinus',
+                            router_type:'activity',
+                            component:(resolve)=>{
+                                require(['./views/rule-template/MeetMinus.vue'],resolve)
+                            }
+                        },
+                        'RandomMinus':{
+                            name:'RandomMinus',
+                            router_type:'activity',
+                            component:(resolve)=>{
+                                require(['./views/rule-template/RandomMinus.vue'],resolve)
+                            }
+                        }
+                    }
+                },
+                'bussiness-set/:bpropes':{
+                    name:'bussiness-set',
+                    router_type:'activity',
+                    component:(resolve)=>{
+                        require(['./views/activity/bussiness-set.vue'],resolve)
                     }
                 },
                 /* 活动跳转页面 */
@@ -103,7 +133,7 @@ export default function (Vue,router){
 
     router.beforeEach(transition =>{
         if(!sessionStorage.getItem('loginList')&&transition.to.name!=='forget-password'){
-            router.go('login');
+            router.go({ name: 'login'});
         }
         transition.next()
     })

@@ -70,8 +70,6 @@
             }
         },
         ready(){
-            console.log(this.datas)
-            console.log(this.showstep)
         }
     }
 </script>

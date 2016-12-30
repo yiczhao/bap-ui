@@ -28,13 +28,6 @@
     </div>
     <div class="dashed"></div>
     <div class="rule-row">
-        <div class="rule-label"><i>*</i>活动类型</div>
-        <div class="rule-input">
-            <a class="btn" :class="[addData.actType == 'common_act'?'btn-primary':'btn-gray']" @click="addData.actType='common_act'">常规活动</a>
-            <a class="btn" :class="[addData.actType == 'ticket_act'?'btn-primary':'btn-gray']" @click="addData.actType='ticket_act'">票务活动</a>
-        </div>
-    </div>
-    <div class="rule-row">
         <div class="rule-label"><i>*</i>活动性质</div>
         <div class="rule-input">
             <a class="btn" :class="[addData.propes == 'online'?'btn-primary':'btn-gray']" @click="addData.propes='online'">线上活动</a>
@@ -126,10 +119,10 @@
                 datas:[
                     '活动基本设置',
                     '活动规则设置',
-                    '活动商户设置',
-                    '活动权益设置'
+                    '活动商户设置'
                 ],
                 addData:{
+                    id:'',
                     name:'',
                     city:'',
                     cityName:'',
@@ -157,7 +150,7 @@
         },
         methods:{
             addtimesList(){
-                this.switch? this.timesList=[{start:'0:00',end:'23:59'}]:this.timesList=[{start:'0:00',end:'23:59'}];
+                this.switch? this.timesList=[{start:'0:00',end:'23:59'}]:null;
             },
             gettimesList(data){
                 let arr=[];
@@ -173,6 +166,28 @@
                 })
                 return arr;
             },
+            setweeks(data,weeks){
+                let arr=_.cloneDeep(weeks);
+                _.map(arr,(val)=>{
+                    if(_.difference(data, [''+val.id]).length==data.length){
+                        val.checked=false;
+                    }
+                })
+                return arr;
+            },
+            settimesList(data){
+                // 解析 req 数据
+                let times=[];
+                data.forEach(m => {
+                    let splitedTime = m.split('~')
+                    let time = {
+                        start: splitedTime[0] === 'null' ? null : splitedTime[0],
+                        end: splitedTime[1] === 'null' ? null : splitedTime[1]
+                    }
+                    times.push(time)
+                })
+                return times;
+            },
             verifyField (data) {
                 // 错误名称映射表 表内是需要检测的字段
                 let errMapper = {
@@ -180,7 +195,6 @@
 //                    city: '所在地区',
                     actType: '活动类型',
                     propes: '活动性质',
-                    includeTimesList: '活动时间',
                     weeksList: '可选时间段',
                     subject: '活动主题',
                     detail: '活动细则'
@@ -214,6 +228,9 @@
             submitAdd(bool){
                 let data=_.cloneDeep(this.addData);
                 data.weeksList=this.getweeks(this.weeksList);
+                data.sysid=13;
+                data.step =this.showstep+1;
+                data.ruleType =this.$route.params.rulename;
                 data.timesList=this.gettimesList(this.timesList);
                 if (true) {
                     try {
@@ -224,13 +241,18 @@
                     }
                 }
                 if(!bool){
-                    !!sessionStorage.getItem('activityId')?data.id=sessionStorage.getItem('activityId'):data.id='';
-                }else{
-                    data.id=''
+                    !!sessionStorage.getItem('activityId')?data.id=sessionStorage.getItem('activityId'):data.id=this.$route.params.activityId << 0;
                 }
                 this.model.addBasic(data).then((res)=>{
                     if(res.data.code===0){
-                        sessionStorage.setItem('activityId',res.data.data);
+                        let activityId = this.$route.params.activityId << 0;
+                        if (bool) {
+                            sessionStorage.setItem('activityId',res.data.data);
+                            sessionStorage.setItem('rulename',this.$route.params.rulename);
+                            this.$router.go({'name':this.$route.params.rulename,params:{'propes':data.propes}});
+                        }else{
+                            dialog('successTime','草稿保存成功！')
+                        }
                     }
                 })
             },
@@ -248,9 +270,13 @@
         created(){
             let activityId = this.$route.params.activityId << 0;
             if (activityId) {
-                this.activityId = activityId
                 // 获取活动信息
-                this.model.getAddList(activityId);
+                this.model.getAddList(activityId).then((res)=>{
+                    this.$set('addData',res.data.data);
+                    this.$set('weeksList',this.setweeks(res.data.data.weeksList,this.weeksList));
+                    this.$set('timesList',this.settimesList(res.data.data.timesList));
+                    res.data.data.timesList.length==1&&res.data.data.timesList[0]==='0:00~23:59'?this.$set('switch',true):this.$set('switch',false);
+                })
             }
         },
         components: { activityMain }
