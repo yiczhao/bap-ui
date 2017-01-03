@@ -1,5 +1,5 @@
 /**
- * @description 权限设置接口
+ * @description 用户设置接口
  * @author 赵俊涵
  * @date 2016.12.16
  */
@@ -18,8 +18,8 @@ function model(_this) {
          * @param
          * @returns {*}
          */
-        getBankList () {
-            return formDataRequest('./bank/bank_list').get()
+        getBankList (data) {
+            return formDataRequest('./bank/bank_list').get(data)
         },
         /**
          * @description 查询添加的等级数据

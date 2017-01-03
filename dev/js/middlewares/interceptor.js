@@ -22,9 +22,7 @@ export default function install(Vue,router_proto) {
                 dialog('error',response.data.message)
             }
             else if(response.data.code === 50000){
-                setTimeout(()=>{
-                    window.location.href = authUrl1;
-                })
+                dialog('error',response.data.message||response.data.msg);
             }
             else if(response.status===403){
                 dialog('error',response.data.message);

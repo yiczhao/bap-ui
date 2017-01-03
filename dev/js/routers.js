@@ -111,12 +111,12 @@ export default function (Vue,router){
                         require(['./views/config/password-config.vue'], resolve)
                     }
                 },
-                /* 权限设置页面 */
-                'auth-config': {
-                    name: 'auth-config',
+                /* 用户设置页面 */
+                'user-config': {
+                    name: 'user-config',
                     router_type:'config',
                     component: (resolve) => {
-                        require(['./views/config/auth-config.vue'], resolve)
+                        require(['./views/config/user-config.vue'], resolve)
                     }
                 },
                 /* 分支行设置页面 */

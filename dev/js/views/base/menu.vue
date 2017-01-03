@@ -14,7 +14,7 @@
                 <span><i class="icon icon-wrench"></i>设置</span>
                 <ul>
                     <li><a v-link="{name:'bank-config'}">基本设置</a></li>
-                    <li><a v-link="{name:'auth-config'}">权限设置</a></li>
+                    <li><a v-link="{name:'user-config'}">用户设置</a></li>
                     <li><a v-link="{name:'password-config'}">密码设置</a></li>
                     <li><a v-link="{name:'branch-bank'}">分支行设置</a></li>
                 </ul>

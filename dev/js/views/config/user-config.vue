@@ -1,5 +1,5 @@
 <template>
-    <div class="auth-config">
+    <div class="user-config">
         <div class="form-row">
             <a class="btn btn-info" @click="addUser">新增用户</a>
         </div>
@@ -8,7 +8,8 @@
                 <tr>
                     <th>序号</th>
                     <th>银行名称</th>
-                    <th>级别划分</th>
+                    <th>行政级别</th>
+                    <th>用户名</th>
                     <th>手机号</th>
                     <th>创建时间</th>
                     <th>创建人</th>
@@ -24,6 +25,7 @@
                         <template v-if="n.bankLevel==3">信用卡部</template>
                         <template v-if="n.bankLevel==4">营业部</template>
                     </td>
+                    <td>{{n.name}}</td>
                     <td>{{n.phone}}</td>
                     <td>{{n.createTime | datetime}}</td>
                     <td>{{n.createUserName}}
@@ -53,25 +55,17 @@
             <div>
                 <div class="form-group" v-if="addTitle=='新增用户'">
                     <label class="name-left"><i>*</i>银行名称</label>
-                    <input type="text" class="input" v-model="addList.bankName" placeholder=" 请输入银行名称">
+                    <select v-model="addList.bankID" class="select">
+                    <option value="" selected>选择银行</option>
+                    <option v-for="(index,n) in bankLists" :value="n.id">{{n.shortName}}</option>
+                </select>
                 </div>
                 <div class="form-group" v-if="addTitle=='编辑用户'">
                     <label class="name-left"><i>*</i>银行名称</label>
                     <span class="catch-infor">{{addList.bankName}}</span>
                 </div>
-                <div class="form-group" v-if="addTitle=='新增用户'">
-                    <label class="name-left"><i>*</i>级别划分</label>
-                    <select v-model="addList.bankLevel" class="select">
-                        <option v-for="(index,n) in bankLevelList" :value="n">
-                            <template v-if="n==1">一级分行</template>
-                            <template v-if="n==2">二级分行</template>
-                            <template v-if="n==3">信用卡部</template>
-                            <template v-if="n==4">营业部</template>
-                        </option>
-                    </select>
-                </div>
                 <div class="form-group" v-if="addTitle=='编辑用户'">
-                    <label class="name-left"><i>*</i>级别划分</label>
+                    <label class="name-left"><i>*</i>行政级别</label>
                     <span class="catch-infor">
                          <template v-if="addList.bankLevel==1">一级分行</template>
                          <template v-if="addList.bankLevel==2">二级分行</template>
@@ -80,13 +74,13 @@
                     </span>
                 </div>
                 <div class="form-group">
-                    <label class="name-left"><i>*</i>负责人</label>
-                    <input type="text" class="input" v-model="addList.name" placeholder=" 请输入负责人的真实姓名">
+                    <label class="name-left"><i>*</i>用户名</label>
+                    <input type="text" class="input" v-model="addList.name" placeholder=" 请输入用户名">
                     <ks-checkbox :checked.sync="loginAccountType1"  @change="getloginAccountType(loginAccountType1,loginAccountType2)">可作为登录账号</ks-checkbox>
                 </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>手机号码</label>
-                    <input type="text" class="input" v-model="addList.phone" v-limitnumber="addList.phone" placeholder="请输入负责人的真实手机号码">
+                    <input type="text" class="input" v-model="addList.phone" v-limitnumber="addList.phone" placeholder="请输入真实手机号码">
                     <ks-checkbox :checked.sync="loginAccountType2"  @change="getloginAccountType(loginAccountType1,loginAccountType2)">可作为登录账号</ks-checkbox>
                 </div>
                 <div class="form-group">
@@ -108,7 +102,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="name-left"><i>*</i>数据级</label>
+                    <label class="name-left"></label>
                     <div class="function-area">
                         <ks-checkbox-group :v-model="sjprivilegeIDs">
                             <ks-checkbox v-for="n in privileges['2']" @change="checked(n.selected,n.id)" :name="n.name" :checked.sync="n.selected">{{n.name}}</ks-checkbox>
@@ -136,7 +130,7 @@
                     </span>
                 </div>
                 <div class="form-group">
-                    <label class="name-left"><i>*</i>负责人</label>
+                    <label class="name-left"><i>*</i>用户名</label>
                     <span class="catch-infor">{{addList.name}}</span>
                 </div>
                 <div class="form-group">
@@ -157,7 +151,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="name-left"><i>*</i>数据级</label>
+                    <label class="name-left"></label>
                     <div class="function-area">
                         <ks-checkbox v-for="n in privileges['2']" :name="n.name" :disable="true" :checked.sync="n.selected">{{n.name}}</ks-checkbox>
                     </div>
@@ -229,6 +223,14 @@
                 this.model.getPrivilegesList().then((res)=>{
                     if(res.data.code===0){
                         this.$set('privileges',res.data.data);
+                    }
+                })
+                let requestParam = {
+                    "noPage":1
+                };
+                this.model.getBankList(requestParam).then((res)=>{
+                    if (res.data.code ===0){
+                        this.$set('bankLists', res.data.dataList);
                     }
                 })
             },
