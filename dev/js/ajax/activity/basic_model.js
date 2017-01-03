@@ -44,8 +44,15 @@ function model(_this) {
          */
         saveStore (data) {
             return _this.$http.post('./transfer/activity_configure/api/v1/activity/store-save',data)
+        },
+        /**
+         * @description 查询活动下的商户基本数据
+         * @param data
+         * @returns {*}
+         */
+        toCheck (id) {
+            return formDataRequest('./transfer/activity_configure/api/v1/activity/toCheck/'+id).get()
         }
-
     }
 }
 module.exports = model

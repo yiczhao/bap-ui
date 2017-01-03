@@ -3,7 +3,7 @@
     <div class="rule-row rule-title">
         <a class="btn btn-primary" @click="addBtn">添加商户</a>
         <div class="search-div">
-            <input class="input" type="text" v-model="storeName" placeholder="请输入商户名称/商户ID"/>
+            <input class="input" type="text" v-model="storeName" placeholder="输入商户名称/商户ID筛选"/>
         </div>
     </div>
     <div class="table-row">
@@ -36,7 +36,8 @@
     </div>
     <div class="rule-row tc">
         <a class="btn btn-primary" @click="backBasic">上一步</a>
-        <a class="btn btn-primary" @click="submitAdd">下一步</a>
+        <a class="btn btn-gray" @click="submitAdd(false)">保存草稿</a>
+        <a class="btn btn-primary" @click="submitAdd(true)">保存并提交审核</a>
     </div>
     <content-dialog
             :show.sync="addshow" :is-button="false" :type.sync="'infos'"
@@ -290,7 +291,7 @@
                 this.dataList=this.searchList;
                 this.addshow=false;
             },
-            submitAdd(){
+            submitAdd(bool){
                 let data={
                     step:this.showstep+1,
                     bankMarketingStores:[]
@@ -305,7 +306,15 @@
                 this.model.saveStore(data).then((res)=>{
                     if(res.data.code===0){
                         this.getList();
-                        dialog('success','添加成功！');
+                        if(bool){
+                            this.model.toCheck(data.activityId).then((res)=>{
+                                if(res.data.code===0){
+                                    dialog('successTime','保存成功！');
+                                }
+                            })
+                        }else{
+                            dialog('success','保存草稿成功！');
+                        }
                     }
                 })
             },
