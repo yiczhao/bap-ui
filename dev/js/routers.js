@@ -119,7 +119,14 @@ export default function (Vue,router){
                         require(['./views/config/auth-config.vue'], resolve)
                     }
                 },
-
+                /* 分支行设置页面 */
+	            'branch-bank': {
+		            name: 'branch-bank',
+		            router_type:'config',
+		            component: (resolve) => {
+			            require(['./views/config/branch-bank.vue'], resolve)
+		            }
+	            },
             }
         },
         /* 404路由 */
