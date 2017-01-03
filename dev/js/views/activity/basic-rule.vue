@@ -9,13 +9,13 @@
     <div class="rule-row">
         <div class="rule-label"><i>*</i>所在地区</div>
         <div class="rule-input">
-            <select class="select" v-model="addData.city">
+            <select class="select" v-model="addData.province" @change="getCity">
                 <option value="">请选择省份</option>
-                <option value="1">日本省</option>
+                <option v-for="n in provinceList" :value="n.id">{{n.name}}</option>
             </select>
-            <select class="select" v-model="addData.cityName">
+            <select class="select" v-model="addData.city">
                 <option value="">请选择城市</option>
-                <option value="1">韩国市</option>
+                <option v-for="n in cityList" :value="n.id">{{n.name}}</option>
             </select>
         </div>
     </div>
@@ -116,16 +116,18 @@
             this.model=model(this)
             return{
                 showstep:0,
+                provinceList:[],
+                cityList:[],
                 datas:[
                     '活动基本设置',
                     '活动规则设置',
                     '活动商户设置'
                 ],
                 addData:{
+                    province:'',
                     id:'',
                     name:'',
                     city:'',
-                    cityName:'',
                     budget:'',
                     name:'',
                     startTime:'',
@@ -174,6 +176,36 @@
                     }
                 })
                 return arr;
+            },
+            getProvince(){
+                this.$common_model.getProvince().then((res)=>{
+                    if(res.data.code===0){
+                        this.$set('provinceList',res.data.data);
+                    }
+                })
+            },
+            initCity(){
+                if(!this.addData.province)return;
+                let data={
+                    province:this.addData.province
+                }
+                this.$common_model.getCity(data).then((res)=>{
+                    if(res.data.code===0){
+                        this.$set('cityList',res.data.data);
+                    }
+                })
+            },
+            getCity(){
+                this.addData.city='';
+                if(!this.addData.province)return;
+                let data={
+                    province:this.addData.province
+                }
+                this.$common_model.getCity(data).then((res)=>{
+                    if(res.data.code===0){
+                        this.$set('cityList',res.data.data);
+                    }
+                })
             },
             settimesList(data){
                 // 解析 req 数据
@@ -268,6 +300,7 @@
             sessionStorage.removeItem('activityId');
         },
         created(){
+            this.getProvince();
             let activityId = this.$route.params.activityId << 0;
             if (activityId) {
                 // 获取活动信息
@@ -276,6 +309,7 @@
                     this.$set('weeksList',this.setweeks(res.data.data.weeksList,this.weeksList));
                     this.$set('timesList',this.settimesList(res.data.data.timesList));
                     res.data.data.timesList.length==1&&res.data.data.timesList[0]==='0:00~23:59'?this.$set('switch',true):this.$set('switch',false);
+                    this.initCity();
                 })
             }
         },

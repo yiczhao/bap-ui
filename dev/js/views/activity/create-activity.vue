@@ -25,7 +25,7 @@
 				},{
 					'name':'折扣',
 					'text':'特定持卡人享受消费打折优惠。',
-					'link':'activity',
+					'link':'',
 					'type':'zhekou'
 				},{
 					'name':'随机立减',
@@ -35,34 +35,34 @@
 				},{
 					'name':'随机折扣',
 					'text':'特定持卡人享有每单消费随机折扣的优惠资格',
-					'link':'activity',
+					'link':'',
 					'type':'suijizhekou'
 				},{
 					'name':'票务类活动',
 					'text':'特定持卡人享有以优惠价购票的资格',
-					'link':'activity',
+					'link':'',
 					'type':'piaowu'
 				},{
 					'name':'连环折扣',
 					'text':'特定持卡人享有多次消费连环折扣的优惠资格',
-					'link':'activity',
+					'link':'',
 					'type':'lianhuanzhekou'
 				},{
 					'name':'几号几折',
 					'text':'特定持卡人享有根据消费日期尾数打折的优惠资格。',
-					'link':'activity',
+					'link':'',
 					'type':'jihaojizhe'
 				},{
 					'name':'周几几折',
 					'text':'特定持卡人享有根据消费的周尾数打的优惠资格。',
-					'link':'activity',
+					'link':'',
 					'type':'zhoujijizhe'
 				},{
 					'name':'每满减',
 					'text':'特定持卡人享受消费每满减优惠',
-					'link':'activity',
+					'link':'',
 					'type':'meimanjian'
-				}],
+				}]
 			}
 		},
 		methods:{},

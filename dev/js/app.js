@@ -8,6 +8,7 @@ import components from './components/index'
 import ksComponents from './KsComponents'
 import directives from './directives/index'
 import filters from './filters/index'
+import common_model from './ajax/common/commom_model'
 import routers from './routers'
 import interceptor from './middlewares/interceptor'
 Object.keys(components).forEach(k => {
@@ -20,6 +21,7 @@ Object.keys(directives).forEach(k => Vue.directive(k, directives[k]));
 Vue.use(VueResource)
 Vue.use(VueRouter)
 Vue.use(ksComponents)
+Vue.use(common_model)
 proxy_mock(Vue)
 
 // *** 实例化VueRouter

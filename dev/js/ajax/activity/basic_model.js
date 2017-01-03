@@ -21,6 +21,31 @@ function model(_this) {
         getAddList (_id) {
             return formDataRequest('./transfer/activity_configure/api/v1/activity/base/'+_id).get()
         },
+        /**
+         * @description 查询商户基本数据
+         * @param data
+         * @returns {*}
+         */
+        getAddBussinessList (data) {
+            return _this.$http.post('./transfer/activity_configure/api/v1/shop/find_remote',data)
+        },
+        /**
+         * @description 查询活动下的商户基本数据
+         * @param data
+         * @returns {*}
+         */
+        getBussinessList (data) {
+            return _this.$http.post('./transfer/activity_configure/api/v1/activity/list-store',data)
+        },
+        /**
+         * @description 查询活动下的商户基本数据
+         * @param data
+         * @returns {*}
+         */
+        saveStore (data) {
+            return _this.$http.post('./transfer/activity_configure/api/v1/activity/store-save',data)
+        }
+
     }
 }
 module.exports = model

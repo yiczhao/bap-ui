@@ -14,7 +14,7 @@
     <label class="KSNRCheckbox__skin" :for="`KSNRCheckbox__entity--${_uid}`"></label>
     <!-- :for="`KSNRCheckbox__entity--${_uid}`" -->
     <label class="KSNRCheckbox__text" :for="`KSNRCheckbox__entity--${_uid}`" @click="$emit('label-click')">
-      <slot>LABEL</slot>
+      <slot></slot>
     </label>
   </div>
 </template>

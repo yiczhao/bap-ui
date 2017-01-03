@@ -1,0 +1,31 @@
+.bussiness-set{
+	.rule-title{
+		margin: 20px 0;
+		.search-div{
+			float: right;
+		}
+	}
+	.table-row{
+		margin-bottom:20px;
+	}
+	.add-table{
+		.add-search{
+			margin-bottom: 20px;
+			span,a,input,select{
+				margin-right: 10px;
+			}
+		}
+		.table{
+			margin-bottom: 20px;
+		}
+		.tc{
+			padding: 20px 0;
+		}
+		.addtable-row{
+			max-height: 550px;
+			overflow: auto;
+		}
+	}
+}
+
+
