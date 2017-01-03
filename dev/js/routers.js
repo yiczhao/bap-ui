@@ -72,7 +72,7 @@ export default function (Vue,router){
                         }
                     }
                 },
-                'bussiness-set/:bpropes':{
+                'bussiness-set/:bpropes/:bactivityId':{
                     name:'bussiness-set',
                     router_type:'activity',
                     component:(resolve)=>{

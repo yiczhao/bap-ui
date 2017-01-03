@@ -348,7 +348,7 @@
         created(){
             this.getProvince();
             let activityId = '';
-            !!sessionStorage.getItem('activityId')?activityId=sessionStorage.getItem('activityId') << 0:activityId = this.$route.params.activityId << 0;
+            this.$route.params.bactivityId==':bactivityId'?activityId=sessionStorage.getItem('activityId') << 0:activityId = this.$route.params.bactivityId << 0;
             if (activityId) {
                 // 获取活动信息
                 this.searchData.activityId=activityId;
