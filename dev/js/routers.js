@@ -90,9 +90,17 @@ export default function (Vue,router){
                 /* 活动分析页面 */
                 'activity-analysis': {
                     name: 'activity-analysis',
-                    router_type:'activity-analysis',
+                    router_type:'activity',
                     component: (resolve) => {
                         require(['./views/activity/activity-analysis.vue'], resolve)
+                    }
+                },
+                /* 交易明细查询*/
+                'transaction-detail':{
+                    name:'transaction-detail',
+                    router_type:'transaction',
+                    component:(resolve)=>{
+                        require(['./views/transaction/transaction-detail.vue'], resolve)
                     }
                 },
                 /* 银行基本设置页面 */
