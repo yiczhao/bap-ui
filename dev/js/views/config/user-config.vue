@@ -226,7 +226,8 @@
                     }
                 })
                 let requestParam = {
-                    "noPage":1
+                    "noPage":1,
+                    "status":1
                 };
                 this.model.getBankList(requestParam).then((res)=>{
                     if (res.data.code ===0){
