@@ -183,7 +183,6 @@
             this.$set('ruleLists',this.$children[0].$children[1].ruleLists);
         },
         created(){
-            (this.$route.params.propes=='online')?this.datas=[ '活动基本设置', '活动规则设置', '活动商户设置','活动权益配置']: this.datas=[ '活动基本设置', '活动规则设置', '活动商户设置']
         },
         components: { activityMain }
     }

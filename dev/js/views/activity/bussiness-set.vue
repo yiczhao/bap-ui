@@ -1,5 +1,5 @@
 <template>
-<activity-main :propclass="'bussiness-set'" :datas="datas" :showstep.sync="showstep">
+<activity-main :propclass="'bussiness-set'" :showstep.sync="showstep">
     <div class="rule-row rule-title">
         <a class="btn btn-primary" @click="addBtn">添加商户</a>
         <div class="search-div">
@@ -153,11 +153,6 @@
                 provinceList:[],
                 cityList:[],
                 addIDs:[],
-                datas:[
-                    '活动基本设置',
-                    '活动规则设置',
-                    '活动商户设置'
-                ],
             }
         },
         computed:{
@@ -341,9 +336,6 @@
                     }
                 })
             },
-        },
-        ready(){
-            (this.$route.params.bpropes=='online')?this.datas=[ '活动基本设置', '活动规则设置', '活动商户设置','活动权益配置']: this.datas=[ '活动基本设置', '活动规则设置', '活动商户设置']
         },
         created(){
             this.getProvince();
