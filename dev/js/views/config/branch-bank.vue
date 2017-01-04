@@ -36,7 +36,7 @@
                 </tr>
             </table>
             <pagegroup
-                    :total="objectotalNumber"
+                    :total="objectTotalNumber"
                     :page_size.sync="defaultData.pageSize"
                     :page_current.sync="defaultData.pageIndex"
                     v-on:current_change="getList"
@@ -100,7 +100,7 @@
 					parentID: '',
 					currentName: '',
 					level: '',
-                    id:''
+					id: ''
 				}
 			}
 		},
@@ -109,7 +109,7 @@
 				this.model.getBranchBankList(this.defaultData).then((res) => {
 					if (res.data.code === 0) {
 						this.$set('bankList', res.data.dataList);
-						this.$set('objectTotalNumber', res.data.objectTotalNumber);
+						this.$set('objectTotalNumber', res.data.objectotalNumber);
 					}
 				})
 			},
@@ -140,8 +140,8 @@
 					currentName: JSON.parse(sessionStorage.getItem('loginList')).bankName,
 					level: this.getBankLevelList(),
 					shortName: n.shortName,
-					status: ''+n.status,
-                    id:n.id
+					status: '' + n.status,
+					id: n.id
 				};
 				this.title = '编辑分支行';
 				this.show = true;

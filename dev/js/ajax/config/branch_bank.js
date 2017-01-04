@@ -9,8 +9,8 @@ function model(_this){
 		 * @param
 		 * @returns {*}
 		 */
-		getBranchBankList(){
-			return formDataRequest('./bank/bank_list').get()
+		getBranchBankList(data){
+			return formDataRequest('./bank/bank_list').get(data)
 		},
 		getBankLevelList() {
 			return formDataRequest('./bank/sub_bank_level_list').get()
