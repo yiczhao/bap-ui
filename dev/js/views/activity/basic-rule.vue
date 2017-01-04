@@ -129,7 +129,6 @@
                     name:'',
                     city:'',
                     budget:'',
-                    name:'',
                     startTime:'',
                     endTime:'',
                     actType:'common_act',
@@ -264,6 +263,8 @@
                 data.step =this.showstep+1;
                 data.ruleType =this.$route.params.rulename;
                 data.timesList=this.gettimesList(this.timesList);
+                data.uuid =JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
+                data.organizer =JSON.parse(sessionStorage.getItem('loginList')).organizerID;
                 if (true) {
                     try {
                         this.verifyField(data)
