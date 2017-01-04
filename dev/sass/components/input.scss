@@ -2,7 +2,7 @@
 	font-family: PingFang SC,Arial,"苹方","微软雅黑";
     display: inline-block;
     padding: 0 10px;
-    height: 34px;
+    height: 38px;
     font-size: 13px;
     color: #444444;
     background-color: #fff;
@@ -35,9 +35,8 @@
 	line-height: 38px;
 	font-size: 16px;
 }
-.input,.textarea{
+.textarea{
 	@extend %input;
-	height: 34px;
 	line-height: 34px;
 	font-size: 13px;
 }

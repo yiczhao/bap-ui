@@ -47,7 +47,7 @@
                 :show.sync="show" :type.sync="'infos'"
                 :title.sync="title" :is-button="false"
         >
-            <div
+            <div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>上级名称</label>
                     <span class="span" v-text="addList.currentName"></span>

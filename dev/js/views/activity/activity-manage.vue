@@ -1,34 +1,82 @@
 <template>
 <div class="activity-manage">
-    <div class="rule-row rule-title">
-        <a class="btn btn-primary" @click="addBtn">添加商户</a>
+    <div class="activity-row activity-title">
         <div class="search-div">
-            <input class="input" type="text" v-model="storeName" placeholder="输入商户名称/商户ID筛选"/>
+            <span>活动名称</span>
+            <input class="input" type="text" v-model="searchDate.name" placeholder="输入活动名称"/>
+            <span>活动时间</span>
+            <ks-date-picker time="00:00:00" @change=""
+                            placeholder="创建时间" :value.sync="searchDate.startTime"></ks-date-picker>
+            <span>到</span>
+            <ks-date-picker time="00:00:00" @change=""
+                            placeholder="结束时间" :value.sync="searchDate.endTime"></ks-date-picker>
+            <span>活动性质</span>
+            <select class="select" v-model="searchDate.actPropes">
+                <option value="">全部性质</option>
+                <option value="online">线上活动</option>
+                <option value="offline">线下活动</option>
+            </select>
+            <a class="btn btn-primary" @click="getList">搜索</a>
+        </div>
+        <div class="search-div">
+            <span>活动状态</span>
+            <ks-checkbox @change="checked(['draft'],checkedBox[0])" :checked.sync="checkedBox[0]">草稿</ks-checkbox>
+            <ks-checkbox @change="checked(['wait_check'],checkedBox[1])" :checked.sync="checkedBox[1]">待审核</ks-checkbox>
+            <ks-checkbox @change="checked(['online'],checkedBox[2])" :checked.sync="checkedBox[2]">运行中</ks-checkbox>
+            <ks-checkbox @change="checked(['early_offline','finish'],checkedBox[3])" :checked.sync="checkedBox[3]">已结束</ks-checkbox>
         </div>
     </div>
     <div class="table-row">
         <table class="table">
             <tr>
-                <th>商户ID</th>
-                <th>商户名称</th>
-                <th>所属行业</th>
+                <th>活动名称</th>
+                <th>活动开始时间</th>
+                <th>活动结束时间</th>
+                <th>线上&线下</th>
+                <th>活动创建时间</th>
+                <th>所属银行</th>
+                <th>活动状态</th>
+                <th>活动详情</th>
+                <th>交易</th>
+                <!--<th>权益</th>-->
                 <th>操作</th>
             </tr>
-            <tr v-show="!!searchList" v-for="n in searchList | filterBy storeName in 'id' 'name'">
-                <td>{{n.id}}</td>
+            <tr v-show="!!searchList" v-for="n in searchList">
                 <td>{{n.name}}</td>
-                <td>{{n.industry}}</td>
-                <td><a @click="removeStore(n.id)">移除</a></td>
+                <td>{{n.startTime | datetimes}}</td>
+                <td>{{n.endTime | datetimes}}</td>
+                <td>
+                    <template v-if="n.propes=='online'">线上</template>
+                    <template v-else>线下</template>
+                </td>
+                <td>{{n.createdAt | datetimes}}</td>
+                <td>{{n.uuid | datetimes}}</td>
+                <td>
+                    <template v-if="n.status=='wait_early_offline'">待审核</template>
+                    <template v-if="n.status=='draft'">草稿</template>
+                    <template v-if="n.status=='wait_check'">待审核</template>
+                    <template v-if="n.status=='check_fail'">审核失败</template>
+                    <template v-if="n.status=='online'">运行中</template>
+                    <template v-if="n.status=='early_offline'">已结束</template>
+                    <template v-if="n.status=='finish'">已结束</template>
+                </td>
+                <td><a>查看</a></td>
+                <td><a>查看</a></td>
+                <!--<td></td>-->
+                <td>
+                    <a>编辑</a>
+                    <a>删除</a>
+                </td>
             </tr>
             <tr v-show="!searchList.length">
-                <td colspan="4">请添加商户</td>
+                <td colspan="10">未查询到数据</td>
             </tr>
         </table>
-        <div v-show="!!dataList">
+        <div v-show="!!searchList">
             <pagegroup
-                    :total="searchData.total"
-                    :page_size.sync="searchData.maxResult"
-                    :page_current.sync="searchData.page"
+                    :total="searchDate.total"
+                    :page_size.sync="searchDate.maxResult"
+                    :page_current.sync="searchDate.page"
                     v-on:current_change="getList"
                     v-on:size_change="getList"
             ></pagegroup>
@@ -37,18 +85,47 @@
 </div>
 </template>
 <script type="text/javascript">
-    import model from '../../ajax/activity/basic_model'
+    import model from '../../ajax/activity/activity_manage_model'
     export default{
         data(){
             this.model=model(this)
             return{
+                searchList:[],
+                searchDate:{
+                    name:'',
+                    actPropes:'online',
+                    startTime:'',
+                    endTime:'',
+                    statuses:['draft', 'wait_check', 'online', 'early_offline', 'finish'],
+                    page:1,
+                    maxResult:10,
+                    total:0
+                },
+                checkedBox:[true,true,true,true]
             }
         },
         methods:{
+            checked(type,bool){
+                if(bool){
+                    this.searchDate.statuses=_.concat(this.searchDate.statuses,type);
+                }else{
+                    _.pullAll(this.searchDate.statuses,type);
+                }
+                this.getList();
+            },
+            getList(){
+                this.model.getList(this.searchDate).then((res)=>{
+                    if(res.data.code===0){
+                        this.$set('searchList',res.data.data);
+                        this.searchDate.total=res.data.total;
+                    }
+                })
+            }
         },
         ready(){
         },
         created(){
+            this.getList()
         }
     }
 </script>
