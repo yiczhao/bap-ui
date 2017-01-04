@@ -31,7 +31,10 @@
                         <template v-else>禁用</template>
                     </td>
                     <td>
-                        <a @click="editBank(n)">编辑</a>
+                        <template v-if="n.editable">
+                            <a @click="editBank(n)">编辑</a>
+                        </template>
+
                     </td>
                 </tr>
             </table>
