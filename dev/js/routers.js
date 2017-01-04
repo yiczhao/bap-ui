@@ -79,14 +79,14 @@ export default function (Vue,router){
                         require(['./views/activity/bussiness-set.vue'],resolve)
                     }
                 },
-                /* 活动跳转页面 */
-                // 'activity': {
-                //     name: 'activity',
-                //     router_type:'acitvity',
-                //     component: (resolve) => {
-                //         require(['./views/activity/activity.vue'], resolve)
-                //     }
-                // },
+                /* 活动管理页面 */
+                'activity-manage': {
+                    name: 'activity-manage',
+                    router_type:'acitvity',
+                    component: (resolve) => {
+                        require(['./views/activity/activity-manage.vue'], resolve)
+                    }
+                },
                 /* 活动分析页面 */
                 'activity-analysis': {
                     name: 'activity-analysis',

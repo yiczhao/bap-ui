@@ -6,7 +6,7 @@
                 <span><i class="icon icon-coin-yen"></i>营销</span>
                 <ul>
                     <li><a v-link="{name:'create-acitvity'}">创建活动</a></li>
-                    <li><a v-link="{name:''}">活动管理</a></li>
+                    <li><a v-link="{name:'activity-manage'}">活动管理</a></li>
                     <li><a v-link="{name:'activity-analysis'}">活动分析</a></li>
                 </ul>
             </li>
