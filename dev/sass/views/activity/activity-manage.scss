@@ -19,10 +19,10 @@
 				float: left;
 				margin-right: 15px;
 			}
-			span{
+			& > span{
 				line-height: 40px;
 			}
-			select{
+			& > select{
 				width: 150px;
 				height: 38px;
 			}

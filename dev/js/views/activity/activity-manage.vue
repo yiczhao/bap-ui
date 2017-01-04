@@ -8,7 +8,7 @@
             <ks-date-picker time="00:00:00" @change=""
                             placeholder="创建时间" :value.sync="searchDate.startTime"></ks-date-picker>
             <span>到</span>
-            <ks-date-picker time="00:00:00" @change=""
+            <ks-date-picker time="23:59:59" @change=""
                             placeholder="结束时间" :value.sync="searchDate.endTime"></ks-date-picker>
             <span>活动性质</span>
             <select class="select" v-model="searchDate.actPropes">
