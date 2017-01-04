@@ -58,12 +58,21 @@
                 </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>行政级别</label>
-                    <span class="span">
-                            <template v-if="addList.level==1">一级分行</template>
-                            <template v-if="addList.level==2">二级分行</template>
-                            <template v-if="addList.level==3">信用卡部</template>
-                            <template v-if="addList.level==4">营业部</template>
-                    </span>
+                    <select v-model="addList.level" class="select">
+                        <!--<option value="" selected>选择银行</option>-->
+                        <option v-for="(index,n) in bankLevelList" :value="n">
+                            <template v-if="n==1">一级分行</template>
+                            <template v-if="n==2">二级分行</template>
+                            <template v-if="n==3">信用卡部</template>
+                            <template v-if="n==4">营业部</template>
+                        </option>
+                    </select>
+                    <!--<span class="span">-->
+                            <!--<template v-if="addList.level==1">一级分行</template>-->
+                            <!--<template v-if="addList.level==2">二级分行</template>-->
+                            <!--<template v-if="addList.level==3">信用卡部</template>-->
+                            <!--<template v-if="addList.level==4">营业部</template>-->
+                    <!--</span>-->
                 </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>状态</label>
