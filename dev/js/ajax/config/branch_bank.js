@@ -11,6 +11,15 @@ function model(_this){
 		 */
 		getBranchBankList(){
 			return formDataRequest('./bank/bank_list').get()
+		},
+		getBankLevelList() {
+			return formDataRequest('./bank/sub_bank_level_list').get()
+		},
+		addSubmit(data){
+			return _this.$http.post('./bank/add',data);
+		},
+		editSubmit(data){
+			return _this.$http.post('./bank/edit',data);
 		}
 
 	}
