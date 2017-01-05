@@ -2,7 +2,7 @@
 	<div class="create-activity">
 		<div class="activity-list">
 			<template v-for="(index,value) in activityName">
-				<div class="show-activity" @click="(value.show)?value.show=false:value.show=true">
+				<div class="show-activity" @click="showbg(value)">
 					<div class="bg-show" :class="value.type">
 						<div class="activity-name">
 							<h4><a>{{value.name}}</a></h4>
@@ -34,7 +34,7 @@
 					'text':'特定持卡人享受消费立减优惠。',
 					'link':'MeetMinus',
 					'show':false,
-					'type':'zhekou'
+					'type':'lijian'
 				},{
 					'name':'随机立减',
 					'text':'特定持卡人享有每单消费随机立减的优惠资格',
@@ -93,8 +93,13 @@
 			}
 		},
 		methods:{
+			showbg(value){
+				this.activityName.map((val)=>{
+					value.name==val.name?null:val.show=false;
+				});
+				(value.show)?value.show=false:value.show=true
+			},
 			setProp(val){
-				debugger
 				sessionStorage.setItem('props',val);
 			}
 		},

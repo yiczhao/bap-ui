@@ -1,0 +1,174 @@
+.clearfix:before,.clearfix:after{
+	content:"";
+	display:table;
+}
+.clearfix:after{clear:both;}
+.clearfix{
+	*zoom:1;/*IE/7/6*/
+}
+.home{
+	margin-left: 20px;
+	.search-div{
+		margin-bottom:20px;
+		@extend .clearfix;
+		position: relative;
+		.KsDatePicker{
+			display: inline-block;
+			width: 200px;
+		}
+		& > div,& > span,& > input,& > select,& > a{
+			float: left;
+			color:#666;
+			margin-right: 15px;
+		}
+		& > span{
+			line-height: 40px;
+		}
+		& > select{
+			width: 150px;
+			height: 38px;
+		}
+		.input{
+			height: 38px;
+		}
+		.btn-primary{
+			float: right;
+		}
+		.KSNRCheckbox{
+			margin-top: 4px;
+		}
+		.right{
+			line-height: 40px;
+			margin-left: 80px;
+		}
+		.showList{
+			position: absolute;
+			border: 1px solid #ddd;
+			background: #fff;
+			top: 38px;
+			left: 67px;
+			padding: 15px 15px 0 15px;
+			min-width: 158px;
+			border-radius: 5px;
+			max-height: 175px;
+			overflow: auto;
+			ul{
+				li{
+					margin-bottom: 10px;
+					cursor: pointer;
+					&:hover{
+						color:#2196f3;
+					}
+				}
+			}
+		}
+	}
+	.total-div{
+		width: 100%;
+		margin:15px 0;
+		box-sizing: border-box;
+		@extend .clearfix;
+		div{
+			float: left;
+			margin-right: 20px;
+		}
+		.total-left{
+			width: 320px;
+			height: 195px;
+			background: #26a69a;
+			span{
+				display: block;
+				width: 100%;
+				text-align: center;
+				color:#fff;
+				font-size: 36px;
+			}
+			span:first-child{
+				font-size: 18px;
+				padding-top: 50px;
+			}
+		}
+		.total-right{
+			width: 660px;
+			height: 195px;
+			padding: 35px 0;
+			box-sizing: border-box;
+			background-color: #00cccc;
+			div{
+				width: 50%;
+				box-sizing: border-box;
+				float: left;
+				margin-right: 0px;
+				height: 125px;
+				span{
+					display: block;
+					width: 100%;
+					text-align: center;
+					color:#fff;
+					font-size: 36px;
+				}
+				span:first-child{
+					font-size: 18px;
+					padding-top: 16px;
+				}
+			}
+			div:first-child{
+				border-right: 1px solid #fff;
+			}
+		}
+	}
+	.top-ten{
+		margin: 30px 0 15px;
+		@extend .clearfix;
+		div{
+			border: 1px solid #ddd;
+			box-sizing: border-box;
+			float: left;
+			width: 490px;
+			height: 460px;
+			padding:35px 80px;
+			h3{
+				margin-bottom: 20px;
+				color: #666;
+			}
+			ul{
+				li{
+					width: 325px;
+					@extend .clearfix;
+					margin-bottom: 10px;
+					font-size: 14px;
+					span{
+						float: left;
+					}
+					span:first-child{
+						margin-right: 10px;
+					}
+					span:last-child{
+						float: right;
+					}
+				}
+			}
+		}
+		div:first-child{
+			margin-right: 20px;
+		}
+	}
+	@media screen and (max-width:1450px){
+		.total-div{
+			.total-left{
+				width: 280px;
+			}
+			.total-right{
+				width: 550px;
+			}
+		}
+		.top-ten{
+			div{
+				width: 415px;
+				padding: 35px 40px;
+			}
+		}
+	}
+}
+
+

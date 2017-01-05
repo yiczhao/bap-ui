@@ -46,6 +46,28 @@ window.dialog=((types,mes)=>{
             break;
     }
 })
+window.stringify = (dater , format)=>{
+
+    var year = dater.getFullYear()
+    var month = dater.getMonth() + 1
+    var date = dater.getDate()
+    // var monthName = months[dater.getMonth()]
+
+    format = format || 'YYYY-MM-DD'
+
+    var map = {
+        YYYY: year,
+        // MMM: monthName,
+        MM: ('0' + month).slice(-2),
+        M: month,
+        DD: ('0' + date).slice(-2),
+        D: date
+    }
+    return format.replace(/Y+|M+|D+/g, function (str) {
+        return map[str]
+    })
+}
+
 window.onbeforeunload=()=>{
     localStorage.clear();
 }
