@@ -123,9 +123,9 @@
 					if (res.data.code === 0) {
 						this.$set('bankLevelList', res.data.dataList);
 						if (!this.bankLevelList[0]) {
-							return null;
+                          this.addList.level= null;
 						}
-						return '' + this.bankLevelList[0];
+                      this.addList.level= '' + this.bankLevelList[0];
 					}
 				});
 			},
@@ -133,10 +133,10 @@
 				this.addList = {
 					parentID: JSON.parse(sessionStorage.getItem('loginList')).bamsBankId,
 					currentName: JSON.parse(sessionStorage.getItem('loginList')).bankName,
-					level: this.getBankLevelList(),
 					shortName: '',
 					status: 'true'
 				};
+               this.getBankLevelList();
 //                this.parentID: JSON.parse(sessionStorage.getItem('loginList')).bamsBankId;
 //                this.currentName: JSON.parse(sessionStorage.getItem('loginList')).bankName;
 				this.title = '新增分支行';
@@ -146,11 +146,11 @@
 				this.addList = {
 					parentID: JSON.parse(sessionStorage.getItem('loginList')).bamsBankId,
 					currentName: JSON.parse(sessionStorage.getItem('loginList')).bankName,
-					level: this.getBankLevelList(),
 					shortName: n.shortName,
 					status: '' + n.status,
 					id: n.id
 				};
+				this.getBankLevelList();
 				this.title = '编辑分支行';
 				this.show = true;
 			},
