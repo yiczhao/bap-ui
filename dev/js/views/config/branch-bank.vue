@@ -126,7 +126,10 @@
 				this.model.getBankLevelList().then((res) => {
 					if (res.data.code === 0) {
 						this.$set('bankLevelList', res.data.dataList);
-						this.addList.level = '' + this.bankLevelList[0];
+						if(!this.bankLevelList[0]){
+                          return null;
+                        }
+                      return '' + this.bankLevelList[0];
 					}
 				});
 			},
@@ -134,7 +137,7 @@
 				this.addList = {
 					parentID: JSON.parse(sessionStorage.getItem('loginList')).bamsBankId,
 					currentName: JSON.parse(sessionStorage.getItem('loginList')).bankName,
-					level: this.getBankLevelList(),
+					level:this.getBankLevelList(),
 					shortName: '',
 					status: 'true'
 				};
