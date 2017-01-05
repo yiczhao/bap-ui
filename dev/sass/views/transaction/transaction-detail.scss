@@ -11,6 +11,34 @@
 	line-height:$lineh;
 }
 .transaction-detail{
+	.search-div{
+		content:"";
+		display:table;
+		.KsDatePicker{
+				display: inline-block;
+				width: 200px;
+			}
+			& > div,& > span,& > input,& > select,& > a{
+				float: left;
+				margin-right: 15px;
+			}
+			& > span{
+				line-height: 40px;
+			}
+			& > select{
+				width: 150px;
+				height: 38px;
+			}
+			.btn-primary{
+				float: right;
+			}
+			.KSNRCheckbox{
+				margin-top: 4px;
+			}
+		.searchBtn{
+			float:left;
+		}
+	}
 	.table{
 		margin-top: 20px;
 	}
@@ -26,5 +54,8 @@
 			float: right;
 			cursor: pointer;
 		}
+	}
+	.pagegroup{
+		margin-top:20px;
 	}
 }

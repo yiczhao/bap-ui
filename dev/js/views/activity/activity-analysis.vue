@@ -6,7 +6,7 @@
 				<input class="input" type="text" name="" placeholder="请输入活动名称" v-model="">
 			</div>
 			<div class="search-right">
-				<span class="search-time">活动进行中，数据截止到{{dateData.endDate}}</span>
+				<span class="search-time">活动进行中，数据截止到{{times.endDate}}</span>
 				<a class="view-report">查看分析报告</a>
 			</div>
 		</div>
@@ -411,7 +411,7 @@
 					cardBINData:'卡BIN数据分析',
 					oneCard:'单卡交易分析'
 				},
-				dateData:{
+				times:{
 					startDate:'',
 					endDate:'',
 					oneMonthAgo:''
@@ -600,9 +600,9 @@
 				}
 				myChart.setOption(option);
 			},
-			getdate(){
-				let times={},
-					date = new Date(),
+			// getdate(){
+			dateGetShow(){
+				var date = new Date(),
 					lyear = date.getFullYear(),
 					lmonth = date.getMonth() + 1,
 					agoMonth = lmonth-1,
@@ -614,18 +614,17 @@
 					locakDate=lyear + '-' + lmonth + '-' + lday,
 					pastDate=pyear + '-' + pmonth + '-' + pday,
 					agoMonthDate=lyear+'-'+agoMonth+'-'+lday;
-				times.startDate=pastDate;
-				times.endDate=locakDate;
-				times.oneMonthAgo=agoMonthDate;
-				return times;
+				this.times.startDate=pastDate;
+				this.times.endDate=locakDate;
+				this.times.oneMonthAgo=agoMonthDate;
 			},
 			// =================================================================================================
 			//交易数据分析
 			TradeDataTotalReadyToday(){//获取今日关键数据
 				let data={
 					activityID:'112111',
-	        		startDate:this.dateData.endDate,
-	        		endDate:this.dateData.endDate,
+	        		startDate:this.times.endDate,
+	        		endDate:this.times.endDate,
 	        		compareFlag:true
         		}
         		this.model.getTradeDataTotal(data).then((res)=>{
@@ -659,8 +658,8 @@
 	     		this.transactionDataJudgeName='TradeAmountList';
 	     		let data={
 					activityID:'01',
-	        		startDate:this.dateData.startDate,
-	        		endDate:this.dateData.endDate,
+	        		startDate:this.times.startDate,
+	        		endDate:this.times.endDate,
 	        		compareFlag:true
         		}
         		this.model.getTradeAmount(data).then((res)=>{
@@ -676,8 +675,8 @@
         		this.transactionDataJudgeName='SubsidyAmountList';
         		let data={
         			activityID:'',
-        			startDate:this.dateData.startDate,
-        			endDate:this.dateData.endDate,
+        			startDate:this.times.startDate,
+        			endDate:this.times.endDate,
         			compareFlag:true
         		}
         		this.model.getSubsidyAmount(data).then((res)=>{
@@ -693,8 +692,8 @@
         		this.transactionDataJudgeName='TradeNumList';
         		let data={
         			activityID:'',
-        			startDate:this.dateData.startDate,
-        			endDate:this.dateData.endDate,
+        			startDate:this.times.startDate,
+        			endDate:this.times.endDate,
         			compareFlag:true
         		}
         		this.model.getTradeNum(data).then((res)=>{
@@ -708,8 +707,8 @@
         	},
 			weekData(){//7天切换数据
 				this.transactionDataJudgeTime="7";
-				this.dateData.startDate=this.getdate().startDate;
-				this.dateData.endDate=this.getdate().endDate;
+				this.times.startDate=this.times.startDate;
+				this.times.endDate=this.times.endDate;	
 				this.tableTitleChoose.title='7日交易总金额数据展示图';
 				this.TradeAmountList();
 				if(this.transactionDataJudgeName=="TradeAmountList"){
@@ -725,8 +724,8 @@
         	},
         	monthData(){//30天切换数据
 				this.transactionDataJudgeTime="30";
-        		this.dateData.startDate=this.getdate().oneMonthAgo;
-				this.dateData.endDate=this.getdate().endDate;
+        		this.times.startDate=this.times.oneMonthAgo;
+				this.times.endDate=this.times.endDate;
         		if(this.transactionDataJudgeName=="TradeAmountList"){
 					this.tableTitleChoose.title='30日交易总金额数据展示图';
 					this.TradeAmountList();
@@ -819,8 +818,6 @@
 					if (res.data.code==0){
 						this.merchantDataArea.storeName=res.data.data.series[0].storeAndMerchantName;//商户数据名称
 						this.merchantDataArea.tradeAmount=res.data.data.series[0].dataDecimal;//商户数据刷卡金额
-						console.log(res.data.data.series[0].storeAndMerchantName);
-						console.log(res.data.data.series[0].dataDecimal);
 						this.dataBarEchart('merchant-echart',this.merchantDataArea.storeName,'刷卡金额',this.merchantDataArea.tradeAmount);
 					}
 				})
@@ -960,19 +957,9 @@
 						break;
 				}
 			}
-				//交易区域分析
-
-				//交易时段分析
-
-				//商户数据分析
-
-				//卡BIN数据分析
-
-				//单卡交易分析
-
 		},
 		ready(){
-			this.getdate();
+			this.dateGetShow();
         	this.TradeDataTotalReadyToday();
 			this.TradeDataTotalReadyAll();
 		}
