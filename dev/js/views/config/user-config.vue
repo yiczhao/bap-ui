@@ -58,7 +58,7 @@
                 <div class="form-group" v-if="addList.id!=loginUserID">
                     <label class="name-left"><i>*</i>银行名称</label>
                     <select v-model="addList.bankID" class="select">
-                        <option value="" selected>选择银行</option>
+                        <option :value="" disabled="disabled">选择银行</option>
                         <option v-for="(index,n) in bankLists" :value="n.id">{{n.shortName}}</option>
                     </select>
                 </div>
@@ -91,14 +91,6 @@
                     <div class="function-area">
                         <ks-checkbox-group :v-model="gnprivilegeIDs">
                             <ks-checkbox v-for="n in privileges['1']" @change="checked(n.selected,n.id)" :checked.sync="n.selected" :name="n.name">{{n.name}}</ks-checkbox>
-                        </ks-checkbox-group>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="name-left"></label>
-                    <div class="function-area">
-                        <ks-checkbox-group :v-model="sjprivilegeIDs">
-                            <ks-checkbox v-for="n in privileges['2']" @change="checked(n.selected,n.id)" :name="n.name" :checked.sync="n.selected">{{n.name}}</ks-checkbox>
                         </ks-checkbox-group>
                     </div>
                 </div>
@@ -141,12 +133,6 @@
                     <label class="name-left"><i>*</i>功能级</label>
                     <div class="function-area">
                         <ks-checkbox v-for="n in privileges['1']" :name="n.name" :disable="true" :checked.sync="n.selected">{{n.name}}</ks-checkbox>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="name-left"></label>
-                    <div class="function-area">
-                        <ks-checkbox v-for="n in privileges['2']" :name="n.name" :disable="true" :checked.sync="n.selected">{{n.name}}</ks-checkbox>
                     </div>
                 </div>
                 <div class="form-group close-center">
