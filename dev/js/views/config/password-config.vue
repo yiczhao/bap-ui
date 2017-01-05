@@ -48,7 +48,7 @@
                 <input type="password" v-model="passwordData.confirmPassword" class="input" placeholder="请再次输入密码"/>
             </div>
             <div class="form-row">
-                <a class="btn btn-primary" @click="settingPassword">下一步</a>
+                <a class="btn btn-primary" @click="settingPassword">提交</a>
             </div>
         </div>
     </div>
