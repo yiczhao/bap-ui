@@ -1,7 +1,7 @@
 <template>
     <div class="branch-bank">
         <div class="form-row">
-            <a class="btn btn-info" @click="addBank">新增分支行</a>
+            <a class="btn btn-info" @click="addBank" v-if="currentLevel != 3 && currentLevel != 4">新增分支行</a>
         </div>
         <div class="table">
             <table>
@@ -34,7 +34,6 @@
                         <template v-if="n.editable">
                             <a @click="editBank(n)">编辑</a>
                         </template>
-
                     </td>
                 </tr>
             </table>
@@ -62,7 +61,6 @@
                 <div class="form-group">
                     <label class="name-left"><i>*</i>行政级别</label>
                     <select v-model="addList.level" class="select">
-                        <!--<option value="" selected>选择银行</option>-->
                         <option v-for="(index,n) in bankLevelList" :value="n">
                             <template v-if="n==1">一级分行</template>
                             <template v-if="n==2">二级分行</template>
@@ -70,12 +68,6 @@
                             <template v-if="n==4">营业部</template>
                         </option>
                     </select>
-                    <!--<span class="span">-->
-                            <!--<template v-if="addList.level==1">一级分行</template>-->
-                            <!--<template v-if="addList.level==2">二级分行</template>-->
-                            <!--<template v-if="addList.level==3">信用卡部</template>-->
-                            <!--<template v-if="addList.level==4">营业部</template>-->
-                    <!--</span>-->
                 </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>状态</label>
@@ -106,6 +98,7 @@
 				bankLevelList: [],
 				objectTotalNumber: 1,
 				show: false,
+				currentLevel: '',
 				addList: {
 					shortName: '',
 					status: 'true',
@@ -129,10 +122,10 @@
 				this.model.getBankLevelList().then((res) => {
 					if (res.data.code === 0) {
 						this.$set('bankLevelList', res.data.dataList);
-						if(!this.bankLevelList[0]){
-                          return null;
-                        }
-                      return '' + this.bankLevelList[0];
+						if (!this.bankLevelList[0]) {
+							return null;
+						}
+						return '' + this.bankLevelList[0];
 					}
 				});
 			},
@@ -140,7 +133,7 @@
 				this.addList = {
 					parentID: JSON.parse(sessionStorage.getItem('loginList')).bamsBankId,
 					currentName: JSON.parse(sessionStorage.getItem('loginList')).bankName,
-					level:this.getBankLevelList(),
+					level: this.getBankLevelList(),
 					shortName: '',
 					status: 'true'
 				};
@@ -187,6 +180,7 @@
 		},
 		ready(){
 			this.getList();
+			this.currentLevel = JSON.parse(sessionStorage.getItem('loginList')).bankLevel;
 		}
 	}
 </script>
