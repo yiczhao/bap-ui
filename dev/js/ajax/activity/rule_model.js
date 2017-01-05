@@ -21,6 +21,14 @@ function model(_this) {
         geteditList (_id) {
             return formDataRequest('./transfer/activity_configure/api/v1/activity/view/'+_id).get()
         },
+        /**
+         * @description 查询基本数据
+         * @param data
+         * @returns {*}
+         */
+        getcardBin () {
+            return formDataRequest('./transfer/activity_configure/api/v1/card-bins').get()
+        },
     }
 }
 module.exports = model

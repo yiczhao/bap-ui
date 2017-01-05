@@ -18,6 +18,7 @@
                 <span>卡BIN</span>
                 <select class="select" v-model="n.data">
                     <option value="">请选择卡片种类</option>
+                    <option v-for="n in cardBinLists" :value="n.id">{{n.name}}</option>
                 </select>
                 <input class="input" type="text" v-model="n.extData" v-limitids="n.extData"/>
                 <i v-if="index===0" class="icon-add" @click="ruleDatas.CardBin.push({data :'',extData :''})"></i>
@@ -98,6 +99,7 @@
             return {
                 showstep: 1,
                 nextBool:true,
+                cardBinLists:[],
                 ruleLists: [
 //                    {name: '卡BIN限制', checked: false, types: 'CardBin',keys:'cardBins'},
 //                    {name: '活动总数限制', checked: false, types: 'act_total',keys:'quantities'},
@@ -133,6 +135,13 @@
             }
         },
         methods:{
+            getCardBin(){
+                this.model.getcardBin().then((res)=>{
+                    if(res.data.code===0){
+                        this.$set('cardBinLists',res.data.data);
+                    }
+                })
+            },
             backBasic(){
                 this.$router.go({'name':'basic-rule',params:{'activityId':sessionStorage.getItem('activityId'),'rulename':sessionStorage.getItem('rulename')}});
             },
@@ -223,6 +232,9 @@
                   }
               })
           }
+        },
+        created(){
+            this.getCardBin();
         },
         components: { activityMain }
     }
