@@ -174,7 +174,7 @@
                     name:'',
                     phone:'',
                     curPassword :'',
-                    status:'false',
+                    status:'true',
                     loginAccountType:'3',
                     privilegeIDs:[]
                 }
@@ -223,7 +223,7 @@
                     name:'',
                     phone:'',
                     curPassword :'',
-                    status:'false',
+                    status:'true',
                     loginAccountType:'3',
                     privilegeIDs:[]
                 }
