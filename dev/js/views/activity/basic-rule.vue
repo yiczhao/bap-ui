@@ -1,5 +1,5 @@
 <template>
-<activity-main :propclass="'basic-rule'" :datas="datas" :showstep.sync="showstep">
+<activity-main :propclass="'basic-rule'" :showstep.sync="showstep">
     <div class="rule-row">
         <div class="rule-label"><i>*</i>活动名称</div>
         <div class="rule-input">
@@ -27,13 +27,6 @@
         </div>
     </div>
     <div class="dashed"></div>
-    <div class="rule-row">
-        <div class="rule-label"><i>*</i>活动性质</div>
-        <div class="rule-input">
-            <a class="btn" :class="[addData.propes == 'online'?'btn-primary':'btn-gray']" @click="addData.propes='online'">线上活动</a>
-            <a class="btn" :class="[addData.propes == 'offline'?'btn-primary':'btn-gray']" @click="addData.propes='offline'">线下活动</a>
-        </div>
-    </div>
     <div class="rule-row">
         <div class="rule-label"><i>*</i>活动持续时间</div>
         <div class="rule-input">
@@ -118,11 +111,6 @@
                 showstep:0,
                 provinceList:[],
                 cityList:[],
-                datas:[
-                    '活动基本设置',
-                    '活动规则设置',
-                    '活动商户设置'
-                ],
                 addData:{
                     province:'',
                     id:'',
@@ -132,7 +120,7 @@
                     startTime:'',
                     endTime:'',
                     actType:'common_act',
-                    propes :'online',
+                    propes :sessionStorage.getItem('props'),
                 },
                 timesList:[
                     {start:'0:00',end:'23:59'}
@@ -282,7 +270,7 @@
                         if (bool) {
                             sessionStorage.setItem('activityId',res.data.data);
                             sessionStorage.setItem('rulename',this.$route.params.rulename);
-                            this.$router.go({'name':this.$route.params.rulename,params:{'propes':data.propes}});
+                            this.$router.go({'name':this.$route.params.rulename});
                         }else{
                             dialog('successTime','草稿保存成功！')
                         }

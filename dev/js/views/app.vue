@@ -26,6 +26,17 @@
         store,
         components:{
             HeaderComponent,MenuComponent
+        },
+        created(){
+            formDataRequest('./bank/bank_list').get({'noPage':1}).then((res)=>{
+                if(res.data.code===0){
+                    let data=[]
+                    _.map(res.data.dataList,(val)=>{
+                        data.push(val.uuid)
+                    })
+                    sessionStorage.setItem('uuids',JSON.stringify(data));
+                }
+            })
         }
     }
 </script>

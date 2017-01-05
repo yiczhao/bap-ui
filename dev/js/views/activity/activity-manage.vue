@@ -6,12 +6,12 @@
             <input class="input" type="text" v-model="searchDate.name" placeholder="输入活动名称"/>
             <span>活动时间</span>
             <ks-date-picker time="00:00:00" @change=""
-                            placeholder="创建时间" :value.sync="searchDate.startTime"></ks-date-picker>
+                            placeholder="开始时间" :value.sync="searchDate.startTime"></ks-date-picker>
             <span>到</span>
             <ks-date-picker time="23:59:59" @change=""
                             placeholder="结束时间" :value.sync="searchDate.endTime"></ks-date-picker>
             <span>活动性质</span>
-            <select class="select" v-model="searchDate.actPropes">
+            <select class="select" v-model="actPropes" @change="getactPropes">
                 <option value="">全部性质</option>
                 <option value="online">线上活动</option>
                 <option value="offline">线下活动</option>
@@ -20,8 +20,8 @@
         </div>
         <div class="search-div">
             <span>活动状态</span>
-            <ks-checkbox @change="checked(['draft'],checkedBox[0])" :checked.sync="checkedBox[0]">草稿</ks-checkbox>
-            <ks-checkbox @change="checked(['wait_check'],checkedBox[1])" :checked.sync="checkedBox[1]">待审核</ks-checkbox>
+            <ks-checkbox @change="checked(['draft_other'],checkedBox[0])" :checked.sync="checkedBox[0]">草稿</ks-checkbox>
+            <ks-checkbox @change="checked(['draft','check_fail','wait_check'],checkedBox[1])" :checked.sync="checkedBox[1]">待审核</ks-checkbox>
             <ks-checkbox @change="checked(['online'],checkedBox[2])" :checked.sync="checkedBox[2]">运行中</ks-checkbox>
             <ks-checkbox @change="checked(['early_offline','finish'],checkedBox[3])" :checked.sync="checkedBox[3]">已结束</ks-checkbox>
         </div>
@@ -53,6 +53,7 @@
                 <td>{{n.uuid | datetimes}}</td>
                 <td>
                     <template v-if="n.status=='wait_early_offline'">待审核</template>
+                    <template v-if="n.status=='draft_other'">草稿</template>
                     <template v-if="n.status=='draft'">草稿</template>
                     <template v-if="n.status=='wait_check'">待审核</template>
                     <template v-if="n.status=='check_fail'">审核失败</template>
@@ -64,7 +65,9 @@
                 <td><a>查看</a></td>
                 <!--<td></td>-->
                 <td>
-                    <a>编辑</a>
+                    <a v-if="n.step==1" @click="setProp(n.propes)" v-link="{name:'basic-rule',params:{'activityId':n.id,'rulename':n.ruleType}}">编辑</a>
+                    <a v-if="n.step==2" @click="setProp(n.propes)" v-link="{name:n.ruleType,params:{'activityId':n.id}}">编辑</a>
+                    <a v-if="n.step==3" @click="setProp(n.propes)" v-link="{name:'bussiness-set',params:{'bactivityId':n.id}}">编辑</a>
                     <a>删除</a>
                 </td>
             </tr>
@@ -91,20 +94,29 @@
             this.model=model(this)
             return{
                 searchList:[],
+                actPropes:'',
                 searchDate:{
                     name:'',
-                    actPropes:'online',
+                    actPropes:null,
                     startTime:'',
                     endTime:'',
-                    statuses:['draft', 'wait_check', 'online', 'early_offline', 'finish'],
+                    statuses:['draft_other','draft', 'wait_check','check_fail', 'online', 'early_offline', 'finish'],
                     page:1,
                     maxResult:10,
+                    uuids:JSON.parse(sessionStorage.getItem('uuids')),
+                    sysid:13,
                     total:0
                 },
                 checkedBox:[true,true,true,true]
             }
         },
         methods:{
+            setProp(val){
+                sessionStorage.setItem('props',val)
+            },
+            getactPropes(){
+                (!this.actPropes)?this.actPropes=null:this.searchDate.actPropes= this.actPropes;
+            },
             checked(type,bool){
                 if(bool){
                     this.searchDate.statuses=_.concat(this.searchDate.statuses,type);

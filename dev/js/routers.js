@@ -49,7 +49,7 @@ export default function (Vue,router){
                         require(['./views/activity/basic-rule.vue'],resolve)
                     }
                 },
-                'activity-rule/:propes':{
+                'activity-rule/':{
                     name:'activity-rule',
                     router_type:'activity',
                     component:(resolve)=>{
@@ -72,7 +72,7 @@ export default function (Vue,router){
                         }
                     }
                 },
-                'bussiness-set/:bpropes/:bactivityId':{
+                'bussiness-set/:bactivityId':{
                     name:'bussiness-set',
                     router_type:'activity',
                     component:(resolve)=>{

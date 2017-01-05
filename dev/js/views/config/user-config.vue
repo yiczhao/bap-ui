@@ -36,7 +36,9 @@
                     </td>
                     <td>
                         <a @click="showInfo(n.id)">详情</a>
-                        <a @click="showEdit(n.id)">编辑</a>
+                        <template v-if="n.editable">
+                            <a @click="showEdit(n.id)">编辑</a>
+                        </template>
                     </td>
                 </tr>
             </table>
@@ -53,25 +55,16 @@
                 :title.sync="addTitle" @kok="addBtn" @kcancel="addshow = false"
         >
             <div>
-                <div class="form-group" v-if="addTitle=='新增用户'">
+                <div class="form-group" v-if="addList.id!=loginUserID">
                     <label class="name-left"><i>*</i>银行名称</label>
                     <select v-model="addList.bankID" class="select">
-                    <option value="" selected>选择银行</option>
-                    <option v-for="(index,n) in bankLists" :value="n.id">{{n.shortName}}</option>
-                </select>
+                        <option value="" selected>选择银行</option>
+                        <option v-for="(index,n) in bankLists" :value="n.id">{{n.shortName}}</option>
+                    </select>
                 </div>
-                <div class="form-group" v-if="addTitle=='编辑用户'">
+                <div class="form-group" v-if="addList.id==loginUserID">
                     <label class="name-left"><i>*</i>银行名称</label>
                     <span class="catch-infor">{{addList.bankName}}</span>
-                </div>
-                <div class="form-group" v-if="addTitle=='编辑用户'">
-                    <label class="name-left"><i>*</i>行政级别</label>
-                    <span class="catch-infor">
-                         <template v-if="addList.bankLevel==1">一级分行</template>
-                         <template v-if="addList.bankLevel==2">二级分行</template>
-                         <template v-if="addList.bankLevel==3">信用卡部</template>
-                         <template v-if="addList.bankLevel==4">营业部</template>
-                    </span>
                 </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>用户名</label>
@@ -121,7 +114,7 @@
                     <span class="catch-infor">{{addList.bankName}}</span>
                 </div>
                 <div class="form-group">
-                    <label class="name-left"><i>*</i>级别划分</label>
+                    <label class="name-left"><i>*</i>行政级别</label>
                     <span class="catch-infor">
                          <template v-if="addList.bankLevel==1">一级分行</template>
                          <template v-if="addList.bankLevel==2">二级分行</template>
@@ -169,6 +162,7 @@
         data(){
             this.model=model(this)
             return{
+                loginUserID:JSON.parse(sessionStorage.getItem("loginList")).id,
                 checkboxList:[],
                 objectotalNumber:1,
                 defaultData:{
@@ -227,7 +221,8 @@
                 })
                 let requestParam = {
                     "noPage":1,
-                    "status":1
+                    "status":1,
+                    "isEdit":1
                 };
                 this.model.getBankList(requestParam).then((res)=>{
                     if (res.data.code ===0){
