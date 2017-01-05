@@ -32,6 +32,9 @@
         methods:{
         },
         events:{
+            setData(data){
+                this.$set('submitdata', data);
+            },
             getData(){
                 this.$dispatch('getDatas',  this.submitdata);
             }

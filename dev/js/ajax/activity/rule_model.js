@@ -13,6 +13,14 @@ function model(_this) {
         addRule(data) {
             return _this.$http.post('./transfer/activity_configure/api/v1/activity/rule',data)
         },
+        /**
+         * @description 查询基本数据
+         * @param data
+         * @returns {*}
+         */
+        geteditList (_id) {
+            return formDataRequest('./transfer/activity_configure/api/v1/activity/view/'+_id).get()
+        },
     }
 }
 module.exports = model

@@ -66,7 +66,7 @@
                 <!--<td></td>-->
                 <td>
                     <a v-if="n.step==1" @click="setProp(n.propes)" v-link="{name:'basic-rule',params:{'activityId':n.id,'rulename':n.ruleType}}">编辑</a>
-                    <a v-if="n.step==2" @click="setProp(n.propes)" v-link="{name:n.ruleType,params:{'activityId':n.id}}">编辑</a>
+                    <a v-if="n.step==2" @click="setProp(n.propes)" v-link="{name:n.ruleType,params:{'ruleId':n.id}}">编辑</a>
                     <a v-if="n.step==3" @click="setProp(n.propes)" v-link="{name:'bussiness-set',params:{'bactivityId':n.id}}">编辑</a>
                     <a>删除</a>
                 </td>

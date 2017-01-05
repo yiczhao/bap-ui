@@ -49,21 +49,21 @@ export default function (Vue,router){
                         require(['./views/activity/basic-rule.vue'],resolve)
                     }
                 },
-                'activity-rule/':{
+                'activity-rule':{
                     name:'activity-rule',
                     router_type:'activity',
                     component:(resolve)=>{
                         require(['./views/activity/activity-rule.vue'],resolve)
                     },
                     subRoutes:{
-                        'MeetMinus':{
+                        'MeetMinus/:ruleId':{
                             name:'MeetMinus',
                             router_type:'activity',
                             component:(resolve)=>{
                                 require(['./views/rule-template/MeetMinus.vue'],resolve)
                             }
                         },
-                        'RandomMinus':{
+                        'RandomMinus/:ruleId':{
                             name:'RandomMinus',
                             router_type:'activity',
                             component:(resolve)=>{

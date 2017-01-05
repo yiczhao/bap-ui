@@ -305,6 +305,7 @@
                             this.model.toCheck(data.activityId).then((res)=>{
                                 if(res.data.code===0){
                                     dialog('successTime','保存成功！');
+                                    this.$router.go({'name':'activity-manage'});
                                 }
                             })
                         }else{

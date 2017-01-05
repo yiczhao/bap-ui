@@ -21,7 +21,7 @@
                 </select>
                 <input class="input" type="text" v-model="n.extData" v-limitids="n.extData"/>
                 <i v-if="index===0" class="icon-add" @click="ruleDatas.CardBin.push({data :'',extData :''})"></i>
-                <i v-if="index!==0" class="icon-remove" @click="ruleDatas.CardBin.splice(n, 1)"></i>
+                <i v-if="index!==0" class="icon-remove" @click="ruleDatas.CardBin.splice(index, 1)"></i>
             </div>
         </div>
         <div class="rule-input" v-if="ruleLists[n].types=='act_total'">
@@ -66,16 +66,16 @@
         </div>
         <div class="rule-input" v-if="ruleLists[n].types=='minimum_consume'">
             <span>最低消费</span>
-            <input class="input" type="text" v-model="ruleDatas.minimum_consume.minimum_consume"  v-limitaddprice="ruleDatas.minimum_consume.minimum_consume"/>
+            <input class="input" type="text" v-model="ruleDatas.minimum_consume.amount"  v-limitaddprice="ruleDatas.minimum_consume.amount"/>
             <span>元</span>
         </div>
         <div class="rule-input" v-if="ruleLists[n].types=='max_preferential'">
             <span>最高优惠额</span>
-            <input class="input" type="text" v-model="ruleDatas.max_preferential.max_preferential"  v-limitaddprice="ruleDatas.max_preferential.max_preferential"/>
+            <input class="input" type="text" v-model="ruleDatas.max_preferential.amount"  v-limitaddprice="ruleDatas.max_preferential.amount"/>
             <span>元</span>
         </div>
         <div class="rule-input" v-if="ruleLists[n].types=='less_than'">
-            <input class="input" type="text" v-model="ruleDatas.less_than.less_than"  v-limitaddprice="ruleDatas.less_than.less_than"/>
+            <input class="input" type="text" v-model="ruleDatas.less_than.amount"  v-limitaddprice="ruleDatas.less_than.amount"/>
             <span>元内，参与打折</span>
         </div>
     </div>
@@ -114,8 +114,8 @@
                     store_card:{total : '' , totalDay : '' , totalMonth : '' , totalWeek : '',type:'store_card'},
                     store:{total : '' , totalDay : '' , totalMonth : '' , totalWeek : '',type:'store'},
                     card:{total : '' , totalDay : '' , totalMonth : '' , totalWeek : '',type:'card'},
-                    minimum_consume:{minimum_consume : '' ,type:'minimum_consume'},
-                    max_preferential:{max_preferential : '',type:'max_preferential'},
+                    minimum_consume:{amount : '' ,type:'minimum_consume'},
+                    max_preferential:{amount : '',type:'max_preferential'},
                     less_than:{less_than : '',type:'less_than'},
                 },
                 ruleNames: {
@@ -154,6 +154,53 @@
             submitAdd(bool){
                 this.nextBool=bool;
                 this.$broadcast('getData');
+            },
+            getRuleDatas(quantities,moneys){
+                _.map(quantities,(val)=>{
+                    _.map(this.ruleDatas,(value)=>{
+                        if(val.type==value.type){
+                            this.ruleDatas[val.type]=val;
+                            this.ruleDatas[val.type].type=val.type;
+                            _.map(this.ruleLists,(vals)=>{
+                                if(vals.types==value.type){
+                                    vals.checked=true;
+                                }
+                            })
+                        }
+                    })
+                });
+                _.map(moneys,(val)=>{
+                    _.map(this.ruleDatas,(value)=>{
+                        if(val.type==value.type){
+                            this.ruleDatas[val.type]=val;
+                            this.ruleDatas[val.type].type=val.type;
+                            _.map(this.ruleLists,(vals)=>{
+                                if(vals.types==value.type){
+                                    vals.checked=true;
+                                }
+                            })
+                        }
+                    })
+                });
+            }
+        },
+        ready(){
+            this.$set('ruleLists',this.$children[0].$children[1].ruleLists);
+            let activityId = this.$route.params.ruleId << 0;
+            if (activityId) {
+                this.model.geteditList(activityId).then((res)=>{
+                    if(res.data.code===0){
+                        let rulename=sessionStorage.getItem('rulename');
+                        this.$broadcast('setData',res.data.data.ruleAndLimit[this.ruleNames[rulename]]);
+                        if(!!res.data.data.ruleAndLimit.cardBins.length){
+                            this.ruleDatas.CardBin=res.data.data.ruleAndLimit.cardBins;
+                            this.ruleLists[0].checked=true;
+                        }
+                        let quantities=res.data.data.ruleAndLimit.quantities;
+                        let moneys=res.data.data.ruleAndLimit.moneys;
+                        this.getRuleDatas(quantities,moneys);
+                    }
+                })
             }
         },
         events:{
@@ -161,28 +208,21 @@
               let sumitdata1=this.getNextData();
               let sumitdata2={};
               let rulename=sessionStorage.getItem('rulename');
-              console.log(this.ruleNames[rulename]);
               sumitdata2[this.ruleNames[rulename]]=datas;
               let submitData=_.assign(sumitdata1, sumitdata2);
               submitData.step=this.showstep+1;
               submitData.ruleType=rulename;
               !!sessionStorage.getItem('activityId')?submitData.id=sessionStorage.getItem('activityId')>>0:null;
-              console.log(submitData);
               this.model.addRule(submitData).then((res)=>{
                   if(res.data.code===0){
                       if (this.nextBool) {
-                          this.$router.go({'name':'bussiness-set',params:{'bpropes':this.$route.params.propes}});
+                          this.$router.go({'name':'bussiness-set'});
                       }else{
                           dialog('successTime','草稿保存成功！')
                       }
                   }
               })
           }
-        },
-        ready(){
-            this.$set('ruleLists',this.$children[0].$children[1].ruleLists);
-        },
-        created(){
         },
         components: { activityMain }
     }

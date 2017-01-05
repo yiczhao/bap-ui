@@ -31,7 +31,10 @@
         events:{
             getData(){
                 this.$dispatch('getDatas',  this.submitdata);
-            }
+            },
+            setData(data){
+                this.$set('submitdata', data);
+            },
         },
         ready (){
             this.$parent.showstep=1;

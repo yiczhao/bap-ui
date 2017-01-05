@@ -7,7 +7,7 @@
 	*zoom:1;/*IE/7/6*/
 }
 .home{
-	margin-left: 20px;
+	margin-left: 40px;
 	.search-div{
 		margin-bottom:20px;
 		@extend .clearfix;
@@ -73,7 +73,7 @@
 			margin-right: 20px;
 		}
 		.total-left{
-			width: 320px;
+			width: 34%;
 			height: 195px;
 			background: #26a69a;
 			span{
@@ -89,7 +89,7 @@
 			}
 		}
 		.total-right{
-			width: 660px;
+			width: 60%;
 			height: 195px;
 			padding: 35px 0;
 			box-sizing: border-box;
@@ -124,7 +124,7 @@
 			border: 1px solid #ddd;
 			box-sizing: border-box;
 			float: left;
-			width: 490px;
+			width: 47%;
 			height: 460px;
 			padding:35px 80px;
 			h3{
@@ -133,7 +133,7 @@
 			}
 			ul{
 				li{
-					width: 325px;
+					width: 100%;
 					@extend .clearfix;
 					margin-bottom: 10px;
 					font-size: 14px;
@@ -151,22 +151,6 @@
 		}
 		div:first-child{
 			margin-right: 20px;
-		}
-	}
-	@media screen and (max-width:1450px){
-		.total-div{
-			.total-left{
-				width: 280px;
-			}
-			.total-right{
-				width: 550px;
-			}
-		}
-		.top-ten{
-			div{
-				width: 415px;
-				padding: 35px 40px;
-			}
 		}
 	}
 }
