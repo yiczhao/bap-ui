@@ -23,7 +23,11 @@
             }else{
                 if(!!JSON.parse(sessionStorage.getItem('loginList')).bankLogo){
                     this.bankLogo="data:image/png;base64,"+JSON.parse(sessionStorage.getItem('loginList')).bankLogo;
+                }
+                if(!!JSON.parse(sessionStorage.getItem('loginList')).bankName){
                     this.bankName=JSON.parse(sessionStorage.getItem('loginList')).bankName;
+                }
+                if(!!JSON.parse(sessionStorage.getItem('loginList')).name){
                     this.name=JSON.parse(sessionStorage.getItem('loginList')).name;
                 }
             }
