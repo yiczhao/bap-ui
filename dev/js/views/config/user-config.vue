@@ -246,6 +246,7 @@
             showEdit(_id){
                 this.addTitle='编辑用户';
                 this.passWordCheck=false;
+                this.getBankList();
                 this.model.getUserInfo(_id).then((res)=>{
                     if(res.data.code===0){
                         this.$set('addList',res.data.data);
