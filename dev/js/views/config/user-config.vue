@@ -114,7 +114,7 @@
                     <span class="catch-infor">{{addList.bankName}}</span>
                 </div>
                 <div class="form-group">
-                    <label class="name-left"><i>*</i>级别划分</label>
+                    <label class="name-left"><i>*</i>行政级别</label>
                     <span class="catch-infor">
                          <template v-if="addList.bankLevel==1">一级分行</template>
                          <template v-if="addList.bankLevel==2">二级分行</template>
