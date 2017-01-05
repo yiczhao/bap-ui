@@ -96,6 +96,14 @@ export default function (Vue,router){
                     }
                 },
                 /* 交易明细查询*/
+                'transaction-search':{
+                    name:'transaction-search',
+                    router_type:'transaction',
+                    component:(resolve)=>{
+                        require(['./views/transaction/transaction-search.vue'], resolve)
+                    }
+                },
+                /* 交易明细查询*/
                 'transaction-detail':{
                     name:'transaction-detail',
                     router_type:'transaction',

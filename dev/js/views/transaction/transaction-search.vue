@@ -1,10 +1,16 @@
-<template>
-    <div class="transaction-detail">
+<template> 
+    <div class="transaction-search">
         <div class="search-div">
             <span>活动名称</span>
             <input class="input" type="text" v-model="searchDate.activityName" placeholder="输入活动名称"/>
-            <span>银行卡号</span>
-            <input class="input" type="text" v-model="searchDate.cardNumber" v-limitaddprice="searchDate.cardNumber" placeholder="银行卡号"/>
+            <span>发起方（银行）</span>
+            <select class="select" v-model="searchDate.bankName">
+                <option>11</option>
+            </select>
+            <span>活动状态</span>
+            <select class="select" v-model="searchDate.activityStatue">
+                <option>全部状态</option>
+            </select>
             <span>交易时间</span>
             <ks-date-picker value="2016-10-12" v-on:change="" v-model="searchDate.startTime"></ks-date-picker>
             <span>到</span>
@@ -30,43 +36,34 @@
             </table>
         </div>
         <div class="showInfo">
-            <span class="activity-name">建设银行北京分行（满100立减20）</span>
             <span class="infor-num">共{{pagegroupInfor.total}}条数据</span>
             <span class="out-excel">导出excel表格</span>
         </div>
         <div class="table">
             <table>
                 <tr>
-                    <th>商户名称</th>
-                    <th>银行卡号</th>
-                    <th>卡种</th>
-                    <th>手机号码</th>
-                    <th>交易流水号</th>
-                    <th>交易时间</th>
-                    <th>结算时间</th>
-                    <th>消费金额(元)</th>
-                    <th>可打折金额（元）</th>
-                    <th>实付金额</th>
-                    <th>结算折扣</th>
-                    <th>补贴金额</th>
+                    <th>活动名称</th>
+                    <th>发起方</th>
+                    <th>子类型</th>
+                    <th>活动状态</th>
+                    <th>总笔数</th>
+                    <th>总金额</th>
+                    <th>单笔金额</th>
+                    <th>开始日期</th>
+                    <th>结束日期</th>
+                    <th>操作</th>
                 </tr>
                 <tr v-for="n in dataList">
-                    <td>{{n.merchantName}}</td><!-- 商户名称 -->
-                    <td>{{n.cardNumber | filter_banknum}}</td><!-- 银行卡号 -->
-                    <td>{{n.cardType}}</td><!-- 卡种 -->
-                    <td>{{n.accountNumber | filter_phone}}</td><!-- 手机号码 -->
-                    <td>{{n.transNo | substring 10}}</td><!-- 交易流水号 -->
-                    <td>
-                        <span>{{n.transDate}}</span><!-- 交易时间 -->
-                    </td>
-                    <td>
-                        <span>{{n.settlementDate}}</span><!-- 结算时间 -->
-                    </td>
-                    <td>{{n.totalAmount }} </td><!-- 消费金额 -->
-                    <td>{{n.canDisAmount}}</td><!-- 可打折金额（元） -->
-                    <td>{{n.payAmount}}</td><!-- 实付金额 -->
-                    <td>{{n.disAmount}}</td><!-- 结算折扣 -->
-                    <td>{{n.subsidyAmount}}</td><!-- 补贴金额 -->
+                    <td>{{n.activityName }}</td><!-- 活动名称 -->
+                    <td>{{n.bankName }}</td><!-- 发起方 -->
+                    <td>{{n.subType }}</td><!-- 子类型 -->
+                    <td>{{n.activitStatus}}</td><!-- 活动状态 -->
+                    <td>{{n.totalNumber }}</td><!-- 总笔数 -->
+                    <td>{{n.totalAmount}}</td><!-- 总金额 -->
+                    <td>{{n.avgAmount }}</td><!-- 单笔金额 -->
+                    <td>{{n.startDate  }} </td><!-- 开始日期 -->
+                    <td>{{n.endDate }}</td><!-- 结束日期 -->
+                    <td><a v-link="{name:''}">交易明细</a></td><!-- 操作 -->
                 </tr>
             </table>
         </div>
@@ -82,7 +79,7 @@
     </template>
 </template>
 <script type="text/javascript">
-    import model from '../../ajax/transaction/transaction_detail_model'
+    import model from '../../ajax/transaction/transaction_search_model'
 	export default{
         data(){
             this.model=model(this)
@@ -104,9 +101,10 @@
                 dataList:[],
                 searchDate:{
                     activityName:'',//活动名称
-                    cardNumber:'',//银行卡号
                     startTime:'',//开始时间
                     endTime:'',//结束时间
+                    bankName:'',//发起方名称
+                    activityStatue:'',//活动状态
                 },
             }
         },
@@ -117,6 +115,7 @@
                 }
                 this.model.getList(data).then((res)=>{
                     if(res.data.code===0){
+                        console.log("分页数据获取成功")
                         this.dataList=res.data.dataList;
                         this.pagegroupInfor.page=res.data.pageIndex;
                         this.pagegroupInfor.total=res.data.objectotalNumber;
