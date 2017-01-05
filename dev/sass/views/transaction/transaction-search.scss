@@ -1,23 +1,12 @@
-@mixin input-radio() {
-	vertical-align: middle;
-	margin-right:5px;
-}
-@mixin width-margin($width,$left) {
-	width:$width;
-	margin-left:$left;
-}
-@mixin width-lineheight($width,$lineh) {
-	width:$width;
-	line-height:$lineh;
-}
-.transaction-detail{
+.transaction-search{
 	.search-div{
 		content:"";
 		display:table;
+		border: 1px solid red;
 		.KsDatePicker{
-				display: inline-block;
-				width: 200px;
-			}
+			display: inline-block;
+			width: 200px;
+		}
 		& > div,& > span,& > input,& > select,& > a{
 			float: left;
 			margin-right: 15px;
