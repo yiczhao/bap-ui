@@ -199,7 +199,7 @@
             if (activityId) {
                 this.model.geteditList(activityId).then((res)=>{
                     if(res.data.code===0){
-                        let rulename=sessionStorage.getItem('rulename');
+                        let rulename=res.data.data.ruleAndLimit.ruleType;
                         this.$broadcast('setData',res.data.data.ruleAndLimit[this.ruleNames[rulename]]);
                         if(!!res.data.data.ruleAndLimit.cardBins.length){
                             this.ruleDatas.CardBin=res.data.data.ruleAndLimit.cardBins;
