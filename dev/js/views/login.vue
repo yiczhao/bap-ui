@@ -18,8 +18,8 @@
                         <div class="group-password">
                             <input id="login-passwordtype" class="login-passwordtype" type="password" name="password" placeholder="密码" @keyup.enter="login" v-model="password">
                         </div>
-                        <div class="savePassword">
-                             <ks-switch :disable="false" :def-checked="true" color="#2196F3" size="mini" :checked.sync="checked" @change="savePassword"></ks-switch>
+                        <div class="login">
+                             <ks-switch :disable="false" :def-checked="true" color="#2196F3" size="mini" :checked.sync="checked"></ks-switch>
                              记住密码
                         </div>
                         <div class="form-login">
@@ -46,41 +46,39 @@ export default {
         methods:{
             login(){
                 let data={
-                    name:this.username,
-                    password:this.password,
-                }
+                        name:this.username,
+                        password:this.password,
+                    },
+                    storage=window.localStorage,
+                    userInfo={
+                            username:this.username,
+                            password:this.password
+                    };
                 this.$http.post('./user/login',data).then((data)=>{
                     if(data.data.code===0){
                         sessionStorage.setItem('loginList',JSON.stringify(data.data.data));
                         this.$router.go({'name':'home'});
                     }
-                })
-            },
-            savePassword(){
-                var storage=window.localStorage,
-                    userInfo={
-                        username:this.username,
-                        password:this.password
-                    };
-                storage.setItem('userInfor',JSON.stringify(userInfo));
-                console.log(JSON.parse(storage.getItem('userInfor')).username);
-                console.log(JSON.parse(storage.getItem('userInfor')).password);
+                });
+                if (this.checked==true) {
+                    storage.setItem('userInfor',JSON.stringify(userInfo));
+                    console.log(JSON.parse(storage.getItem('userInfor')).username);
+                    console.log(JSON.parse(storage.getItem('userInfor')).password);
+                }else{
+                    storage.removeItem('userInfor');
+                }
             },
             autoType(){
-                // window.onbeforeunload=function() {
-                    var storage=window.localStorage;
-                    if (this.username=='') {
-                        console.log("success")
-                        this.username=JSON.parse(storage.getItem('userInfor')).username;
-                        this.password=JSON.parse(storage.getItem('userInfor')).password;   
-                    }
+                var storage=window.localStorage;
+                if (JSON.parse(storage.getItem('userInfor'))) {
+                    this.username=JSON.parse(storage.getItem('userInfor')).username;
+                    this.password=JSON.parse(storage.getItem('userInfor')).password;
+                    this.checked=true;
+                    console.log("success")
                 }
-            // }
+            },
         },
         ready (){
-            var storage=window.localStorage;
-            sessionStorage.clear();
-            // this.savePassword();
             this.autoType();
         }
     }
