@@ -13,13 +13,13 @@
                                 <span>请登录</span>
                         </div>
                         <div class="group-username">
-                            <input id="login-usertype" class="login-usertype" type="text" name="name" placeholder="用户名/手机号码" v-model="username">
+                            <input id="login-usertype" class="login-usertype" type="text" name="name" placeholder="用户名/手机号码" v-model="loginData.name">
                         </div>
                         <div class="group-password">
-                            <input id="login-passwordtype" class="login-passwordtype" type="password" name="password" placeholder="密码" @keyup.enter="login" v-model="password">
+                            <input id="login-passwordtype" class="login-passwordtype" type="password" name="password" placeholder="密码" @keyup.enter="login" v-model="loginData.password">
                         </div>
                         <div class="login">
-                             <ks-switch :disable="false" :def-checked="true" color="#2196F3" size="mini" :checked.sync="checked"></ks-switch>
+                             <ks-switch :disable="false" @change="autoType" :def-checked="true" color="#2196F3" size="mini" :checked.sync="checked"></ks-switch>
                              记住密码
                         </div>
                         <div class="form-login">
@@ -38,48 +38,36 @@
 export default {
         data (){
             return {
-                username:"",
-                password:"",
+                loginData:{
+                    name:"",
+                    password:"",
+                },
                 checked:false,
             }
         },
         methods:{
             login(){
-                let data={
-                        name:this.username,
-                        password:this.password,
-                    },
-                    storage=window.localStorage,
-                    userInfo={
-                            username:this.username,
-                            password:this.password
-                    };
-                this.$http.post('./user/login',data).then((data)=>{
+                this.$http.post('./user/login',this.loginData).then((data)=>{
                     if(data.data.code===0){
                         sessionStorage.setItem('loginList',JSON.stringify(data.data.data));
+                        if (this.checked) {
+                            localStorage.setItem('userInfor',JSON.stringify(this.loginData));
+                        }
                         this.$router.go({'name':'home'});
                     }
                 });
-                if (this.checked==true) {
-                    storage.setItem('userInfor',JSON.stringify(userInfo));
-                    console.log(JSON.parse(storage.getItem('userInfor')).username);
-                    console.log(JSON.parse(storage.getItem('userInfor')).password);
-                }else{
-                    storage.removeItem('userInfor');
-                }
             },
             autoType(){
-                var storage=window.localStorage;
-                if (JSON.parse(storage.getItem('userInfor'))) {
-                    this.username=JSON.parse(storage.getItem('userInfor')).username;
-                    this.password=JSON.parse(storage.getItem('userInfor')).password;
-                    this.checked=true;
-                    console.log("success")
+                if (!this.checked) {
+                    localStorage.clear();
                 }
             },
         },
         ready (){
-            this.autoType();
+            if (!!localStorage.getItem('userInfor')) {
+                this.$set('loginData',JSON.parse(localStorage.getItem('userInfor')));
+                this.checked=true;
+            }
         }
     }
 </script>
