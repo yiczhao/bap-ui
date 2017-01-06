@@ -3,10 +3,10 @@
     <div class="rule-row">
         <div class="rule-label"><i>*</i>活动名称</div>
         <div class="rule-input">
-            <input class="input" type="text" v-model="addData.name"/>
+            <input class="input" type="text" v-model="addData.name" placeholder="请输入活动名称" />
         </div>
     </div>
-    <div class="rule-row">
+    <!-- <div class="rule-row">
         <div class="rule-label"><i>*</i>所在地区</div>
         <div class="rule-input">
             <select class="select" v-model="addData.province" @change="getCity">
@@ -18,11 +18,11 @@
                 <option v-for="n in cityList" :value="n.id">{{n.name}}</option>
             </select>
         </div>
-    </div>
+    </div> -->
     <div class="rule-row">
         <div class="rule-label"><i>*</i>活动预算</div>
         <div class="rule-input">
-            <input class="input" type="text" v-model="addData.budget" v-limitaddprice="addData.budget"/>
+            <input class="input" type="text" v-model="addData.budget" v-limitaddprice="addData.budget" placeholder="请输入预算" />
             <span>元</span>
         </div>
     </div>
@@ -109,13 +109,13 @@
             this.model=model(this)
             return{
                 showstep:0,
-                provinceList:[],
-                cityList:[],
+                // provinceList:[],
+                // cityList:[],
                 addData:{
-                    province:'',
+                    // province:'',
                     id:'',
                     name:'',
-                    city:'',
+                    // city:'',
                     budget:'',
                     startTime:'',
                     endTime:'',
@@ -164,36 +164,36 @@
                 })
                 return arr;
             },
-            getProvince(){
-                this.$common_model.getProvince().then((res)=>{
-                    if(res.data.code===0){
-                        this.$set('provinceList',res.data.data);
-                    }
-                })
-            },
-            initCity(){
-                if(!this.addData.province)return;
-                let data={
-                    province:this.addData.province
-                }
-                this.$common_model.getCity(data).then((res)=>{
-                    if(res.data.code===0){
-                        this.$set('cityList',res.data.data);
-                    }
-                })
-            },
-            getCity(){
-                this.addData.city='';
-                if(!this.addData.province)return;
-                let data={
-                    province:this.addData.province
-                }
-                this.$common_model.getCity(data).then((res)=>{
-                    if(res.data.code===0){
-                        this.$set('cityList',res.data.data);
-                    }
-                })
-            },
+            // getProvince(){
+            //     this.$common_model.getProvince().then((res)=>{
+            //         if(res.data.code===0){
+            //             this.$set('provinceList',res.data.data);
+            //         }
+            //     })
+            // },
+            // initCity(){
+            //     if(!this.addData.province)return;
+            //     let data={
+            //         province:this.addData.province
+            //     }
+            //     this.$common_model.getCity(data).then((res)=>{
+            //         if(res.data.code===0){
+            //             this.$set('cityList',res.data.data);
+            //         }
+            //     })
+            // },
+            // getCity(){
+            //     this.addData.city='';
+            //     if(!this.addData.province)return;
+            //     let data={
+            //         province:this.addData.province
+            //     }
+            //     this.$common_model.getCity(data).then((res)=>{
+            //         if(res.data.code===0){
+            //             this.$set('cityList',res.data.data);
+            //         }
+            //     })
+            // },
             settimesList(data){
                 // 解析 req 数据
                 let times=[];
@@ -289,7 +289,7 @@
             sessionStorage.removeItem('activityId');
         },
         created(){
-            this.getProvince();
+            // this.getProvince();
             let activityId = this.$route.params.activityId << 0;
             if (activityId) {
                 // 获取活动信息
