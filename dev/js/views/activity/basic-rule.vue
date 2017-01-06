@@ -30,10 +30,10 @@
     <div class="rule-row">
         <div class="rule-label"><i>*</i>活动持续时间</div>
         <div class="rule-input">
-            <ks-date-picker time="00:00:00" @change=""
+            <ks-date-picker time="00:00:00" @change="setincludeTimes"
                             placeholder="活动时间" :value.sync="addData.startTime"></ks-date-picker>
             <div class="m20">---</div>
-            <ks-date-picker time="23:59:59" @change=""
+            <ks-date-picker time="23:59:59" @change="setincludeTimes"
                             placeholder="活动时间" :value.sync="addData.endTime"></ks-date-picker>
         </div>
     </div>
@@ -43,6 +43,15 @@
             <ks-checkbox v-for="n in weeksList" :checked.sync="n.checked">{{n.name}}</ks-checkbox>
         </div>
     </div>
+    <!--<div class="rule-row">-->
+        <!--<div class="rule-label"><i>*</i>删选时间</div>-->
+        <!--<div class="rule-input">-->
+                <!--<a @click="dater.show = true" class="btn btn-primary">删选时间</a>-->
+                <!--<ks-dater style="position: relative; z-index: 9" v-show="dater.show" :exclude="true"-->
+                          <!--:value.sync="dater.includeTimes" @change="removeDate"-->
+                          <!--placeholder="删选时间"></ks-dater>-->
+        <!--</div>-->
+    <!--</div>-->
     <div class="rule-row">
         <div class="rule-label">全天</div>
         <div class="rule-input">
@@ -120,11 +129,17 @@
                     startTime:'',
                     endTime:'',
                     actType:'common_act',
+                    subject:'',
+                    detail:'',
                     propes :sessionStorage.getItem('props'),
                 },
                 timesList:[
                     {start:'0:00',end:'23:59'}
                 ],
+                dater:{
+                    show:false,
+                    includeTimes:''
+                },
                 weeksList:[
                     {name:'周日',checked:true,id:0},
                     {name:'周一',checked:true,id:1},
@@ -138,6 +153,12 @@
             }
         },
         methods:{
+            setincludeTimes(){
+
+            },
+            removeDate(){
+
+            },
             addtimesList(){
                 this.switch? this.timesList=[{start:'0:00',end:'23:59'}]:null;
             },
@@ -213,6 +234,7 @@
                     name: '活动名称',
 //                    city: '所在地区',
                     actType: '活动类型',
+                    budget: '活动预算',
                     propes: '活动性质',
                     weeksList: '可选时间段',
                     subject: '活动主题',

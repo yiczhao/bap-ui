@@ -42,7 +42,7 @@
         ready(){
             this.getMenuHeight();
             window.onresize=(()=>{
-                this.getMenuHeight()
+                (!!document.querySelector('.content'))?this.getMenuHeight():null;
             })
         }
     }
