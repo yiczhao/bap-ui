@@ -61,7 +61,7 @@
                     <template v-if="n.status=='early_offline'">已结束</template>
                     <template v-if="n.status=='finish'">已结束</template>
                 </td>
-                <td><a>查看</a></td>
+                <td><a v-link="{name:'activity-info',params:{'infoId':n.id}}">查看</a></td>
                 <td><a v-link="{name:'transaction-detail',params:{'transactionName':n.name}}">查看</a></td>
                 <!--<td></td>-->
                 <td>

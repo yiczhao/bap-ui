@@ -123,8 +123,9 @@
                 ruleNames: {
                     'MeetMinus':'meetMinuses',// 满多少减多少
                     'EveryMeetMinus':'everyMeetMinus',// 每满多少减多少
-                    'ImmediatelyMinus':'immediatelyMinus',//  立减规则
+                    'ImmediatelyMinus':'immediatelyMinus',//  立减
                     'RandomMinus':'randomMinuses',// 随机立减
+                    'ImmediatelyDiscount':'immediatelyDiscount',//折扣
                     'Ticket':'tickets',// 票务规则
                     'SerialDiscount':'serialDiscounts',//连环折扣
                     'WeekdayDiscount':'weekdayDiscounts',//周几几折

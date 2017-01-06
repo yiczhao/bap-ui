@@ -10,21 +10,21 @@
         </div>
         <div class="info-main">
             <div class="main-title">
-                <span>活动形式： 随机立减活动</span>
-                <span>活动形式： 活动上线</span>
+                <span>活动名称： {{basicData.name}}</span>
+                <span v-if="!!ruleList.ruleName">活动形式： {{ruleList.ruleName}}</span>
                 <span>创建时间： {{basicData.createdAt}}</span>
-                <span>所属银行： 江西建行</span>
+                <span>所属银行：</span>
             </div>
             <div v-show="step===1" class="info-basic">
                <div class="main-row">
                    <span>活动名称：</span>
                    <span>{{basicData.name}}</span>
-                   <span>所在地区：</span>
-                   <span>{{basicData.provinceName}} - {{basicData.cityName}}</span>
                </div>
                 <div class="main-row">
                     <span>活动主办方： </span>
                     <span> {{basicData.organizerName}}</span>
+                    <span>活动预算： </span>
+                    <span> {{basicData.budget | currency ''}}元</span>
                 </div>
                 <div class="main-row">
                     <span>参与时间段：</span>
@@ -46,8 +46,74 @@
             </div>
             <div v-show="step===2" class="info-rule">
                 <div class="main-row table-row">
-                    <span class="w140">{{ruleList.typename}}：</span>
-                    <span>{{ruleList.posPrint}}</span>
+                    <span class="w140">{{ruleList.ruleName}}：</span>
+                     <span v-for="n in ruleList[ruleList.ruleTypes]">
+                        <template v-if="ruleList.ruleType=='MeetMinus'">
+                            满{{n.meetMoney}}元，减{{n.minusMoney}}元.
+                        </template>
+                        <template v-if="ruleList.ruleType=='EveryMeetMinus'">
+                            每满{{n.meetMoney}}元，减{{n.minusMoney}}元.
+                        </template>
+                         <template v-if="ruleList.ruleType=='ImmediatelyMinus'">
+                            立减{{n.money}}元.
+                        </template>
+                         <template v-if="ruleList.ruleType=='RandomMinus'">
+                            随机立减{{n.amount}}元，{{n.number}}名.
+                        </template>
+                         <template v-if="ruleList.ruleType=='MeetDiscount'">
+                            满{{n.meetMoney}}元，打{{n.discount}}折.
+                        </template>
+                         <template v-if="ruleList.ruleType=='Ticket'">
+                            票务名称{{n.name}}，原价{{n.originalPrice}}元，实付{{n.actualPayment}}元.
+                            单次每卡可购{{n.numberLimit}}张
+                        </template>
+                         <template v-if="ruleList.ruleType=='SerialDiscount'">
+                            用户刷卡{{n.belowMoney}}以内，第{{n.time}}次，可享受{{n.discount}}折.
+                        </template>
+                         <template v-if="ruleList.ruleType=='WeekdayDiscount'">
+                            每周{{n.weekday}}，打{{n.discount }}折.
+                        </template>
+                         <template v-if="ruleList.ruleType=='DateDiscount'">
+                            {{n.date}}号，立减{{n.discount}}折.
+                        </template>
+                         <template v-if="ruleList.ruleType=='RandomDiscount'">
+                            随机{{n.discount}}折，{{n.number}}名.
+                        </template>
+                    </span>
+                </div>
+                <div v-show="!!ruleList.moneys.length" class="main-row table-row">
+                    <span>金额限制：</span>
+                    <span v-for="n in ruleList.moneys">
+                        <template v-if="n.type =='minimum_consume'">
+                            最低消费金额:{{n.amount}}元.
+                        </template>
+                         <template v-if="n.type =='max_preferential'">
+                            最高优惠金额:{{n.amount}}元.
+                        </template>
+                         <template v-if="n.type =='less_than'">
+                            多少元内参与打折:{{n.amount}}元.
+                        </template>
+                    </span>
+                </div>
+                <div v-show="!!ruleList.quantities.length" class="main-row table-row">
+                    <span>参与次数限制：</span>
+                    <span v-for="n in ruleList.quantities">
+                        <template v-if="n.type =='act_total'">
+                            活动总数限制:共{{n.total}}次，每天{{n.totalDay }}次，每周{{n.totalWeek }}次，每月{{n.totalMonth }}次.
+                        </template>
+                        <template v-if="n.type =='store_card'">
+                            商户每卡参与次数:共{{n.total}}次，每天{{n.totalDay}}次，每周{{n.totalWeek}}次，每月{{n.totalMonth}}次.
+                        </template>
+                        <template v-if="n.type =='store'">
+                            每商户参与次数:共{{n.total}}次，每天{{n.totalDay}}次，每周{{n.totalWeek}}次，每月{{n.totalMonth}}次.
+                        </template>
+                        <template v-if="n.type =='card'">
+                            每卡参与次数:共{{n.total}}次，每天{{n.totalDay}}次，每周{{n.totalWeek}}次，每月{{n.totalMonth}}次.
+                        </template>
+                        <template v-if="n.type =='user'">
+                            用户参与次数:共{{n.total}}次，每天{{n.totalDay}}次，每周{{n.totalWeek}}次，每月{{n.totalMonth}}次.
+                        </template>
+                    </span>
                 </div>
             </div>
             <div v-show="step===3" class="info-store">
@@ -93,7 +159,7 @@
                     margin-right: 40px;
                 }
             }
-            .info-basic,.info-store{
+            .info-basic,.info-store,.info-rule{
                 margin-left: 30px;
                 padding-right: 20px;
                 .table-row{
@@ -130,13 +196,31 @@
             return{
                 step:1,
                 basicData:{},
-                ruleList:{},
-                storeList:[]
+                ruleList:{
+                    moneys:[],
+                    quantities:[]
+                },
+                storeList:[],
+                ruleTypes: {
+                    'MeetMinus':['meetMinuses','满多少减多少'],// 满多少减多少
+                    'EveryMeetMinus':['everyMeetMinus','每满多少减多少'],// 满多少减多少
+                    'ImmediatelyMinus':['immediatelyMinus','立减'],// 立减
+                    'RandomMinus':['randomMinuses','随机立减'],// 随机立减
+                    'MeetDiscount':['meetDiscounts','折扣'],// 折扣
+                    'Ticket':['tickets','票务规则'],// 票务规则
+                    'SerialDiscount':['serialDiscounts','连环折扣'],// 连环折扣
+                    'WeekdayDiscount':['weekdayDiscounts','周几几折'],// 周几几折
+                    'DateDiscount':['dateDiscounts','几号几折'],// 几号几折
+                    'RandomDiscount':['randomDiscounts','随机折扣'],// 随机折扣
+                }
             }
         },
         methods:{
             getRules(data){
                 let datas=_.cloneDeep(data);
+                datas.ruleTypes=this.ruleTypes[data.ruleType][0];
+                datas.ruleName=this.ruleTypes[data.ruleType][1];
+                this.$set('ruleList',datas);
             }
         },
         created(){
@@ -146,7 +230,6 @@
                     console.log(res.data.data);
                     this.$set('basicData',res.data.data.base);
                     this.$set('storeList',res.data.data.store.bankMarketingStores);
-                    this.$set('ruleList',res.data.data.ruleAndLimit);
                     this.getRules(res.data.data.ruleAndLimit);
                 }
             })

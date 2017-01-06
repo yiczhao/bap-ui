@@ -87,6 +87,14 @@ export default function (Vue,router){
                         require(['./views/activity/activity-manage.vue'], resolve)
                     }
                 },
+                /* 活动管理页面 */
+                'activity-info/:infoId': {
+                    name: 'activity-info',
+                    router_type:'acitvity',
+                    component: (resolve) => {
+                        require(['./views/activity/activity-info.vue'], resolve)
+                    }
+                },
                 /* 活动分析页面 */
                 'activity-analysis': {
                     name: 'activity-analysis',
