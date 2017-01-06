@@ -69,5 +69,5 @@ window.stringify = (dater , format)=>{
 }
 
 window.onbeforeunload=()=>{
-    localStorage.clear();
+    sessionStorage.clear();
 }

@@ -81,6 +81,13 @@ $color:#ddd;
 				.login-passwordtype{
 					@include input-style;
 					background-image:url("../img/password.png");
+					margin-bottom:10px;
+				}
+				.savePassword{
+					margin-bottom:10px;
+					.KSIosSwitch{
+						padding: 0px 3px 6px 0;
+					}
 				}
 				.form-aboutPassword{
 					margin-bottom: 20px;
@@ -114,7 +121,7 @@ $color:#ddd;
 				width:100%;
 				height:50px;
 				line-height:50px;
-				margin-top:29px;
+				margin-top:15px;
 				text-align:center;
 				color:rgba(137,137,137,1);
 				background-color:rgba(244,244,244,1);
