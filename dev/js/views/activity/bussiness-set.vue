@@ -41,7 +41,7 @@
     </div>
     <content-dialog
             :show.sync="addshow" :is-button="false" :type.sync="'infos'"
-            :title.sync="'查看详情'"
+            :title.sync="'添加商户'"
     >
         <div class="add-table">
             <div class="add-search">
