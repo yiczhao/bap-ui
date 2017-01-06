@@ -62,7 +62,7 @@
                     <template v-if="n.status=='finish'">已结束</template>
                 </td>
                 <td><a>查看</a></td>
-                <td><a>查看</a></td>
+                <td><a v-link="{name:'transaction-detail',params:{'transactionName':n.name}}">查看</a></td>
                 <!--<td></td>-->
                 <td>
                     <a v-if="n.step==1" @click="setProp(n.propes)" v-link="{name:'basic-rule',params:{'activityId':n.id,'rulename':n.ruleType}}">编辑</a>

@@ -13,9 +13,7 @@
             <li>
                 <span><i class="icon icon-search"></i>查询</span>
                 <ul>
-                    <li><a v-link="{name:'transaction-detail'}">交易明细查询</a></li>
                     <li><a v-link="{name:'transaction-search'}">交易查询</a></li>
-                    <li><a v-link="{name:''}">预留空位</a></li>
                 </ul>
             </li>
             <li>
