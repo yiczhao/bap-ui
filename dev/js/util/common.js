@@ -68,6 +68,3 @@ window.stringify = (dater , format)=>{
     })
 }
 
-window.onbeforeunload=()=>{
-    sessionStorage.clear();
-}
