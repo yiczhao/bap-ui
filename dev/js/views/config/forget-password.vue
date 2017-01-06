@@ -64,7 +64,7 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <a class="btn btn-primary" @click="savePassword(3)">立即验证</a>
+                    <a class="btn btn-primary" @click="savePassword(3)">下一步</a>
                 </div>
             </div>
             <div class="forget-4" v-show="forgetShow==4">
@@ -185,7 +185,7 @@
                 }
             }
             .btn{
-                width: 200px;
+                width: 100px;
             }
         }
         .forget-3{

@@ -13,7 +13,7 @@
                                 <span>请登录</span>
                         </div>
                         <div class="group-username">
-                            <input id="login-usertype" class="login-usertype" type="text" name="name" placeholder="用户名/手机号码/邮箱地址" v-model="username">
+                            <input id="login-usertype" class="login-usertype" type="text" name="name" placeholder="用户名/手机号码" v-model="username">
                         </div>
                         <div class="group-password">
                             <input id="login-passwordtype" class="login-passwordtype" type="password" name="password" placeholder="密码" @keyup.enter="login" v-model="password">
