@@ -55,6 +55,9 @@
 		.out-excel{
 			float: right;
 			cursor: pointer;
+			i{
+				vertical-align: baseline;
+			}
 			&:hover{
 				color: #2196f3;
 			}

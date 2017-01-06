@@ -37,7 +37,7 @@
         </div>
         <div class="showInfo">
             <span class="infor-num">共{{pagegroupInfor.total}}条数据</span>
-            <span class="out-excel">导出excel表格</span>
+            <span class="out-excel"><i class="icon-file-excel"></i>导出excel表格</span>
         </div>
         <div class="table">
             <table>

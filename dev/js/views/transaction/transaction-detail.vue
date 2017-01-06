@@ -32,7 +32,7 @@
         <div class="showInfo">
             <span class="activity-name">活动名称：{{searchDate.activityName}}</span>
             <span class="infor-num">共{{searchDate.total}}条数据</span>
-            <span class="out-excel">导出excel表格</span>
+            <span class="out-excel"><i class="icon-file-excel"></i>导出excel表格</span>
         </div>
         <div class="table">
             <table>
