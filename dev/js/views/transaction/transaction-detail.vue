@@ -1,15 +1,15 @@
 <template>
     <div class="transaction-detail">
         <div class="search-div">
-            <span>活动名称</span>
-            <input class="input" type="text" v-model="searchDate.activityName" placeholder="输入活动名称"/>
+            <span>手机号码</span>
+            <input class="input" type="text" v-model="searchDate.phone" v-limitaddprice="searchDate.phone"  placeholder="输入手机号码"/>
             <span>银行卡号</span>
             <input class="input" type="text" v-model="searchDate.cardNumber" v-limitaddprice="searchDate.cardNumber" placeholder="银行卡号"/>
             <span>交易时间</span>
-            <ks-date-picker value="2016-10-12" v-on:change="" v-model="searchDate.startTime"></ks-date-picker>
+            <ks-date-picker time="00:00:00" :value.sync="searchDate.startDate"></ks-date-picker>
             <span>到</span>
-            <ks-date-picker value="2016-10-12" v-on:change="" v-model="searchDate.endTime"></ks-date-picker>
-            <a class="btn btn-primary searchBtn" @click="searchActivity">搜索</a>
+            <ks-date-picker time="23:59:59" :value.sync="searchDate.endDate"></ks-date-picker>
+            <a class="btn btn-primary searchBtn" @click="getList">搜索</a>
         </div>
         <div class="table">
             <table>
@@ -21,17 +21,17 @@
                     <th>补贴总金额</th>
                 </tr>
                 <tr>
-                    <td>{{cumulative.tradeNum}}</td>
-                    <td>{{cumulative.tradeAmount}}</td>
-                    <td>{{cumulative.discountAmount}}</td>
-                    <td>{{cumulative.realPay}}</td>
-                    <td>{{cumulative.subsidiesAmount}}</td>
+                    <td>{{cumulative.totalNumber}}</td>
+                    <td>{{cumulative.totalAmount}}</td>
+                    <td>{{cumulative.canDisAmount}}</td>
+                    <td>{{cumulative.payAmount}}</td>
+                    <td>{{cumulative.subsidyAmount}}</td>
                 </tr>
             </table>
         </div>
         <div class="showInfo">
-            <span class="activity-name">建设银行北京分行（满100立减20）</span>
-            <span class="infor-num">共{{pagegroupInfor.total}}条数据</span>
+            <span class="activity-name">活动名称：{{searchDate.activityName}}</span>
+            <span class="infor-num">共{{searchDate.total}}条数据</span>
             <span class="out-excel">导出excel表格</span>
         </div>
         <div class="table">
@@ -71,10 +71,9 @@
             </table>
         </div>
         <pagegroup class="pagegroup"
-            :page_current.sync="pagegroupInfor.page" 
-            :total="pagegroupInfor.total" 
-            :page_size.sync="pagegroupInfor.maxResult"
-            :pages="pagegroupInfor.allPages"
+            :page_current.sync="searchDate.page" 
+            :total="searchDate.total" 
+            :page_size.sync="searchDate.maxResult"
             v-on:current_change="getList"
             v-on:size_change="getList"
             ></pagegroup>
@@ -88,76 +87,45 @@
             this.model=model(this)
             return{
                 cumulative:{
-                    tradeNum:'',      //交易总笔数
-                    tradeAmount:'',   //交易总金额
-                    discountAmount:'',//可打折金额
-                    realPay:'',       //实付总金额
-                    subsidiesAmount:'',//补贴总金额
+                    totalNumber:'',      //交易总笔数
+                    totalAmount:'',   //交易总金额
+                    canDisAmount:'',//可打折金额
+                    payAmount:'',       //实付总金额
+                    subsidyAmount:'',//补贴总金额
                 },
                 tradeTotalNumber:50,
-                pagegroupInfor:{
+                dataList:[],
+                searchDate:{
                     page:1,//当前选中的分页值
                     total:5,//数据总条数
                     maxResult:1,//每页展示多少条数
-                    allPages:1,//总页数
-                },
-                dataList:[],
-                searchDate:{
+                    phone:'',
                     activityName:'',//活动名称
                     cardNumber:'',//银行卡号
-                    startTime:'',//开始时间
-                    endTime:'',//结束时间
+                    startDate:'',//开始时间
+                    endDate:'',//结束时间
+                    activityID:'',
                 },
             }
         },
         methods:{
-            getList(){//分页数据获取
-                let data={
-                    activityID:'112111'
-                }
-                this.model.getList(data).then((res)=>{
+            getList(){
+                this.model.getList(this.searchDate).then((res)=>{
                     if(res.data.code===0){
                         this.dataList=res.data.dataList;
-                        this.pagegroupInfor.page=res.data.pageIndex;
-                        this.pagegroupInfor.total=res.data.objectotalNumber;
-                        this.pagegroupInfor.maxResult=res.data.pageSize;
-                        this.pagegroupInfor.allPages=res.data.objectotalPage;
+                        this.searchDate.total=res.data.objectotalNumber;
                     }
                 })
-            },
-            cumulativeArea(){//累计信息获取
-                let data={
-                    activityID:'112111'
-                }
-                this.model.getTradeStatisticsSumList(data).then((res)=>{
+                this.model.getTradeStatisticsSumList(this.searchDate).then((res)=>{
                     if(res.data.code===0){
-                        this.cumulative.tradeNum=res.data.dataList[0].totalNumber;//交易总笔数
-                        this.cumulative.tradeAmount=res.data.dataList[0].totalAmount;//交易总金额
-                        this.cumulative.discountAmount=res.data.dataList[0].canDisAmount ;//可打折金额
-                        this.cumulative.realPay=res.data.dataList[0].payAmount;//实付总金额
-                        this.cumulative.subsidiesAmount=res.data.dataList[0].subsidyAmount ;//补贴总金额
+                        this.$set('cumulative',res.data.dataList[0]);
                     }
-                })
-            },
-            searchActivity(){//未写完===========================================
-                let data={
-                    activityName:this.activityName,//活动名称
-                    cardNumber:this.cardNumber,//银行卡号
-                    startTime:this.startTime,//开始时间
-                    endTime:this.endTime,//结束时间
-
-                }
-                this.model.getSearchActivity(data).then((res)=>{
-                    if(res.data.code===0){
-                        console.log("success")
-                    }
-
                 })
             }
         },
-        ready(){
+        created(){
+            this.searchDate.activityName=this.$route.params.transactionName;
             this.getList();
-            this.cumulativeArea();
         }
     }
 </script>

@@ -535,7 +535,15 @@
 				        {
 				            name:parentDataName,
 				            type:'line',
-				            data:parentData
+				            data:parentData,
+				            // itemStyle : {  
+                //                 normal : {  
+                //                     color:'#00FF00',  //折点颜色
+                //                     lineStyle:{  
+                //                         color:'#2196f3' //折线颜色
+                //                     }  
+                //                 }  
+                //             }, 
 				        },
 				        {
 				            name:passDataName,
@@ -576,7 +584,7 @@
 				            name: dataName,
 				            type: 'bar',
 				            data: cityData,
-				            sort: 'descending'
+				            sort: 'descending',
 				        }
 				    ]
 				}

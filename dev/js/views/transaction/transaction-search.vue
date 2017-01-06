@@ -12,10 +12,10 @@
                 <option>全部状态</option>
             </select>
             <span>交易时间</span>
-            <ks-date-picker value="2016-10-12" v-on:change="" v-model="searchDate.startTime"></ks-date-picker>
+            <ks-date-picker value="2016-10-12" v-on:change="" :value.sync="searchDate.startTime"></ks-date-picker>
             <span>到</span>
-            <ks-date-picker value="2016-10-12" v-on:change="" v-model="searchDate.endTime"></ks-date-picker>
-            <a class="btn btn-primary searchBtn" @click="searchActivity">搜索</a>
+            <ks-date-picker value="2016-10-12" v-on:change="" :value.sync="searchDate.endTime"></ks-date-picker>
+            <a class="btn btn-primary searchBtn" @click="getList">搜索</a>
         </div>
         <div class="table">
             <table>
@@ -63,7 +63,7 @@
                     <td>{{n.avgAmount }}</td><!-- 单笔金额 -->
                     <td>{{n.startDate  }} </td><!-- 开始日期 -->
                     <td>{{n.endDate }}</td><!-- 结束日期 -->
-                    <td><a v-link="{name:''}">交易明细</a></td><!-- 操作 -->
+                    <td><a v-link="{name:'transaction-detail',params:{'transactionName':n.activityName}}">交易明细</a></td><!-- 操作 -->
                 </tr>
             </table>
         </div>
@@ -100,6 +100,7 @@
                 },
                 dataList:[],
                 searchDate:{
+                    activityID:'',
                     activityName:'',//活动名称
                     startTime:'',//开始时间
                     endTime:'',//结束时间
@@ -109,11 +110,9 @@
             }
         },
         methods:{
-            getList(){//分页数据获取
-                let data={
-                    activityID:'112111'
-                }
-                this.model.getList(data).then((res)=>{
+            getList(){
+                //分页数据获取
+                this.model.getList(this.searchDate).then((res)=>{
                     if(res.data.code===0){
                         console.log("分页数据获取成功")
                         this.dataList=res.data.dataList;
@@ -123,12 +122,7 @@
                         this.pagegroupInfor.allPages=res.data.objectotalPage;
                     }
                 })
-            },
-            cumulativeArea(){//累计信息获取
-                let data={
-                    activityID:'112111'
-                }
-                this.model.getTradeStatisticsSumList(data).then((res)=>{
+                 this.model.getTradeStatisticsSumList(this.searchDate).then((res)=>{
                     if(res.data.code===0){
                         this.cumulative.tradeNum=res.data.dataList[0].totalNumber;//交易总笔数
                         this.cumulative.tradeAmount=res.data.dataList[0].totalAmount;//交易总金额
@@ -137,26 +131,10 @@
                         this.cumulative.subsidiesAmount=res.data.dataList[0].subsidyAmount ;//补贴总金额
                     }
                 })
-            },
-            searchActivity(){//未写完===========================================
-                let data={
-                    activityName:this.activityName,//活动名称
-                    cardNumber:this.cardNumber,//银行卡号
-                    startTime:this.startTime,//开始时间
-                    endTime:this.endTime,//结束时间
-
-                }
-                this.model.getSearchActivity(data).then((res)=>{
-                    if(res.data.code===0){
-                        console.log("success")
-                    }
-
-                })
             }
         },
         ready(){
             this.getList();
-            this.cumulativeArea();
         }
     }
 </script>
