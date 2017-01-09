@@ -14,6 +14,7 @@
                 <span><i class="icon icon-search"></i>查询</span>
                 <ul>
                     <li><a v-link="{name:'transaction-search'}">交易查询</a></li>
+                    <li><a v-link="{name:'latinos-search'}">权益查询</a></li>
                 </ul>
             </li>
             <li>
