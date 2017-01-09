@@ -2,10 +2,11 @@
     <div class="home">
         <div class="search-div">
             <span>活动名称</span>
-            <input class="input" type="text" v-model="searchDate.name" placeholder="输入活动名称(回车键搜索)" @blur="showList=false" @keyup.enter="getActivity"/>
+            <input class="input" type="text" readonly="{{readonlyName}}" v-model="searchDate.name" placeholder="输入活动名称(回车键搜索)" @blur="showList=false" @keyup.enter="getActivity"/>
             <div class="showList" v-show="showList">
                 <ul>
                     <li v-for="n in activityList | filterBy searchDate.name in 'name'" @click="getId(n)">{{n.name}}</li>
+                    <li v-if="!activityList.length">未查询到{{searchDate.name}}活动</li>
                 </ul>
             </div>
             <span>时间类型</span>
@@ -63,6 +64,7 @@
             return{
                 now:stringify(new Date()),
                 total:{},
+                readonlyName:false,
                 activityList:[],
                 TradeAreaNumList:[],
                 CardBINTradeNumList:[],
@@ -82,7 +84,8 @@
                     activityID:this.searchDate.activityID,
                     startDate:this.searchDate.startDate,
                     endDate:this.searchDate.endDate,
-                }
+                };
+                (!this.searchDate.activityID)? data.uuids=JSON.parse(sessionStorage.getItem('loginList')).bankUUID:data.uuids='';
                 this.model.getTotal(data).then((res)=>{
                     this.$set('total',res.data.data);
                 })
@@ -108,6 +111,7 @@
             getActivity(){
                 let data={
                     name:this.searchDate.name,
+                    uuids:[JSON.parse(sessionStorage.getItem('loginList')).bankUUID]
                 }
                 this.$common_model.getActivityList(data).then((res)=>{
                     if(res.data.code===0){
@@ -120,6 +124,7 @@
                 this.showList=false;
                 this.searchDate.name=name;
                 this.searchDate.activityID=id;
+                this.readonlyName=true;
                 this.getList();
             }
         },
