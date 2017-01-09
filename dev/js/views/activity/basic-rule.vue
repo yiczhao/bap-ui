@@ -269,7 +269,7 @@
             submitAdd(bool){
                 let data=_.cloneDeep(this.addData);
                 data.weeksList=this.getweeks(this.weeksList);
-                data.sysid=13;
+                data.systemId=13;
                 data.step =this.showstep+1;
                 data.ruleType =this.$route.params.rulename;
                 data.timesList=this.gettimesList(this.timesList);
