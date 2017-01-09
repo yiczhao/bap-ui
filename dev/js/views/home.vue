@@ -2,7 +2,7 @@
     <div class="home">
         <div class="search-div">
             <span>活动名称</span>
-            <input class="input" type="text" readonly="{{readonlyName}}" v-model="searchDate.name" placeholder="输入活动名称(回车键搜索)" @blur="showList=false" @keyup.enter="getActivity"/>
+            <input class="input" type="text" v-model="searchDate.name" placeholder="输入活动名称(回车键搜索)" @blur="showList=false" @keyup.enter="getActivity"/>
             <div class="showList" v-show="showList">
                 <ul>
                     <li v-for="n in activityList | filterBy searchDate.name in 'name'" @click="getId(n)">{{n.name}}</li>
@@ -64,7 +64,6 @@
             return{
                 now:stringify(new Date()),
                 total:{},
-                readonlyName:false,
                 activityList:[],
                 TradeAreaNumList:[],
                 CardBINTradeNumList:[],
@@ -124,7 +123,6 @@
                 this.showList=false;
                 this.searchDate.name=name;
                 this.searchDate.activityID=id;
-                this.readonlyName=true;
                 this.getList();
             }
         },
