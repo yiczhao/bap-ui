@@ -32,7 +32,7 @@
 				},{
 					'name':'立减',
 					'text':'特定持卡人享受消费立减优惠。',
-					'link':'MeetMinus',
+					'link':'ImmediatelyMinus',
 					'show':false,
 					'type':'lijian'
 				},{
@@ -44,49 +44,49 @@
 				},{
 					'name':'每满减',
 					'text':'特定持卡人享受消费每满减优惠',
-					'link':'MeetMinus',
+					'link':'EveryMeetMinus',
 					'show':false,
 					'type':'meimanjian'
 				},{
 					'name':'折扣',
 					'text':'特定持卡人享有每单消费打折优惠',
-					'link':'MeetMinus',
+					'link':'MeetDiscount',
 					'show':false,
 					'type':'zhekou'
 				},{
 					'name':'随机折扣',
 					'text':'特定持卡人享有每单消费随机折扣的优惠资格',
-					'link':'MeetMinus',
+					'link':'RandomDiscount',
 					'show':false,
 					'type':'suijizhekou'
 				},{
 					'name':'连环折扣',
 					'text':'特定持卡人享有多次消费连环折扣的优惠资格',
-					'link':'MeetMinus',
+					'link':'SerialDiscount',
 					'show':false,
 					'type':'lianhuanzhekou'
 				},{
 					'name':'几号几折',
 					'text':'特定持卡人享有根据消费日期尾数打折的优惠资格。',
-					'link':'MeetMinus',
+					'link':'DateDiscount',
 					'show':false,
 					'type':'jihaojizhe'
 				},{
 					'name':'周几几折',
 					'text':'特定持卡人享有根据消费的周尾数打的优惠资格。',
-					'link':'MeetMinus',
+					'link':'WeekdayDiscount',
 					'show':false,
 					'type':'zhoujijizhe'
 				},{
 					'name':'票务类活动',
 					'text':'特定持卡人享有以优惠价购票的资格',
-					'link':'MeetMinus',
+					'link':'Ticket',
 					'show':false,
 					'type':'piaowu'
 				},{
 					'name':'权益',
 					'text':'特定持卡人享有根据消费的周尾数打的优惠资格。',
-					'link':'MeetMinus',
+					'link':'quanyi',
 					'show':false,
 					'type':'quanyi'
 				}]

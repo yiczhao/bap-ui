@@ -22,7 +22,7 @@
     <div class="rule-row">
         <div class="rule-label"><i>*</i>活动预算</div>
         <div class="rule-input">
-            <input class="input" type="text" v-model="addData.budget" v-limitaddprice="addData.budget" placeholder="请输入预算" />
+            <input class="input" maxlength="8" type="text" v-model="addData.budget" v-limitaddprice="addData.budget" placeholder="请输入预算" />
             <span>元</span>
         </div>
     </div>

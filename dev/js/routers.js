@@ -69,6 +69,69 @@ export default function (Vue,router){
                             component:(resolve)=>{
                                 require(['./views/rule-template/RandomMinus.vue'],resolve)
                             }
+                        },
+                        'EveryMeetMinus/:ruleId':{
+                            name:'EveryMeetMinus',
+                            router_type:'activity',
+                            component:(resolve)=>{
+                                require(['./views/rule-template/EveryMeetMinus.vue'],resolve)
+                            }
+                        },
+                        'ImmediatelyMinus/:ruleId':{
+                            name:'ImmediatelyMinus',
+                            router_type:'activity',
+                            component:(resolve)=>{
+                                require(['./views/rule-template/ImmediatelyMinus.vue'],resolve)
+                            }
+                        },
+                        'MeetDiscount/:ruleId':{
+                            name:'MeetDiscount',
+                            router_type:'activity',
+                            component:(resolve)=>{
+                                require(['./views/rule-template/MeetDiscount.vue'],resolve)
+                            }
+                        },
+                        'Ticket/:ruleId':{
+                            name:'Ticket',
+                            router_type:'activity',
+                            component:(resolve)=>{
+                                require(['./views/rule-template/Ticket.vue'],resolve)
+                            }
+                        },
+                        'SerialDiscount/:ruleId':{
+                            name:'SerialDiscount',
+                            router_type:'activity',
+                            component:(resolve)=>{
+                                require(['./views/rule-template/SerialDiscount.vue'],resolve)
+                            }
+                        },
+                        'WeekdayDiscount/:ruleId':{
+                            name:'WeekdayDiscount',
+                            router_type:'activity',
+                            component:(resolve)=>{
+                                require(['./views/rule-template/WeekdayDiscount.vue'],resolve)
+                            }
+                        },
+                        'DateDiscount/:ruleId':{
+                            name:'DateDiscount',
+                            router_type:'activity',
+                            component:(resolve)=>{
+                                require(['./views/rule-template/DateDiscount.vue'],resolve)
+                            }
+                        },
+                        'RandomDiscount/:ruleId':{
+                            name:'RandomDiscount',
+                            router_type:'activity',
+                            component:(resolve)=>{
+                                require(['./views/rule-template/RandomDiscount.vue'],resolve)
+                            }
+                        },
+                        'quanyi/:ruleId':{
+                            name:'quanyi',
+                            router_type:'activity',
+                            component:(resolve)=>{
+                                require(['./views/rule-template/quanyi.vue'],resolve)
+                            }
                         }
                     }
                 },

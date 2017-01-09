@@ -1,0 +1,80 @@
+<template>
+<div class="rule-input DateDiscount" v-for="(index,n) in submitdata">
+    <span style="position:relative">
+        <input class="input" v-model="n.date" readonly/>
+        <ks-date-picker :value.sync="dateval" placeholder="日期" @click="indexs=index" :exclude="true" v-on:change="current_change" :class="opa0"></ks-date-picker>
+    </span>
+    <span>号</span>
+    <input class="input" type="text" v-model="n.minusMoney" v-limitaddprice="n.discount"/>
+    <span>折</span>
+    <i v-if="index===0" class="icon-add" @click="addLine"></i>
+    <i v-if="index!==0" class="icon-remove" @click="submitdata.splice(index, 1)"></i>
+</div>
+</template>
+<style lang="scss">
+    .DateDiscount{
+        .KsDatePicker{
+            position: absolute;
+            top: 0;
+            .KsDatePicker-input{
+                opacity: 0;
+            }
+        }
+    }
+</style>
+<script type="text/javascript">
+    export default{
+        data(){
+            return{
+                dateval: stringify(new Date()),
+                indexs:0,
+                showval:'',
+                ruleLists:[
+                    {name: '卡BIN限制', checked: false, types: 'CardBin',keys:'cardBins'},
+                    {name: '活动总数限制', checked: false, types: 'act_total',keys:'quantities'},
+                    {name: '商户每卡参与次数', checked: false, types: 'store_card',keys:'quantities'},
+                    {name: '每商户参与次数', checked: false, types: 'store',keys:'quantities'},
+                    {name: '每卡参与次数', checked: false, types: 'card',keys:'quantities'},
+                    {name: '最低消费金额', checked: false, types: 'minimum_consume',keys:'moneys'},
+                    {name: '最高优惠金额', checked: false, types: 'max_preferential',keys:'moneys'},
+                    {name: '多少元内参与打折', checked: false, types: 'less_than',keys:'moneys'}
+                ],
+                submitdata: [{
+                    'date':'',
+                    'discount ':''
+                }]
+            }
+        },
+        methods:{
+            current_change(val){
+                let data=val.split(',');
+                let time=[];
+                if(!!data.length&&!!data[0]){
+                    _.map(data,(value)=>{
+                        time.push(value.split('-')[2]>>0)
+                    })
+                }
+                if(!!time.length){
+                    this.submitdata[this.indexs].date=_.join(time, ',');
+                }else{
+                    this.submitdata[this.indexs].date=''
+                }
+                console.log(this.dateval);
+            },
+            addLine(){
+                this.submitdata.push({'date':'','discount':''})
+            }
+        },
+        events:{
+            getData(){
+                this.$dispatch('getDatas',  this.submitdata);
+            },
+            setData(data){
+                this.$set('submitdata', data);
+            },
+        },
+        ready (){
+            this.$parent.showstep=1;
+        },
+    }
+</script>

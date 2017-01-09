@@ -32,7 +32,7 @@
                 if(res.data.code===0){
                     let data=[]
                     _.map(res.data.dataList,(val)=>{
-                        data.push(val.uuid)
+                        (!!val.uuid)?data.push(val.uuid):null;
                     })
                     sessionStorage.setItem('uuids',JSON.stringify(data));
                 }

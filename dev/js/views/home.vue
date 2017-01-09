@@ -2,11 +2,11 @@
     <div class="home">
         <div class="search-div">
             <span>活动名称</span>
-            <input class="input" type="text" v-model="searchDate.name" placeholder="输入活动名称(回车键搜索)" @blur="showList=false" @keyup.enter="getActivity"/>
-            <div class="showList" v-show="showList">
-                <ul>
-                    <li v-for="n in activityList | filterBy searchDate.name in 'name'" @click="getId(n)">{{n.name}}</li>
-                    <li v-if="!activityList.length">未查询到{{searchDate.name}}活动</li>
+            <input class="input" type="text" v-model="searchDate.name" placeholder="输入活动名称(回车键搜索)" @keyup.enter="getActivity"/>
+            <div class="showList showLi" v-show="showList">
+                <ul class="showLi">
+                    <li class="showLi" v-for="n in activityList | filterBy searchDate.name in 'name'" @click="getId(n)">{{n.name}}</li>
+                    <li class="showLi" v-if="!activityList.length">未查询到{{searchDate.name}}活动</li>
                 </ul>
             </div>
             <span>时间类型</span>
@@ -89,11 +89,9 @@
                     this.$set('total',res.data.data);
                 })
                 this.model.getTradeAreaNumList(data).then((res)=>{
-                    console.log(res.data.dataList)
                     this.$set('TradeAreaNumList',res.data.dataList);
                 })
                 this.model.getCardBINTradeNumList(data).then((res)=>{
-                    console.log(res.data.dataList)
                     this.$set('CardBINTradeNumList',res.data.dataList);
                 })
             },
@@ -124,7 +122,20 @@
                 this.searchDate.name=name;
                 this.searchDate.activityID=id;
                 this.getList();
+            },
+            resetName(){
+                this.showList=false;
             }
+        },
+        ready() {
+            document.addEventListener('click', (e) => {
+                if (!e.target.classList.contains('showLi')) {
+                    this.resetName();
+                }
+            }, false);
+        },
+        beforeDestroy () {
+            document.removeEventListener('click', this.resetName, false);
         },
         created(){
             this.getList();
