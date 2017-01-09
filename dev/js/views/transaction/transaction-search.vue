@@ -2,14 +2,20 @@
     <div class="transaction-search">
         <div class="search-div">
             <span>活动名称</span>
-            <input class="input" type="text" v-model="searchDate.activityName" placeholder="输入活动名称"/>
+            <input class="input" type="text" v-model="searchDate.activityName" placeholder="输入活动名称" @keyup.enter="getActivity"/>
+            <div class="showList" v-show="showList">
+                <ul>
+                    <li v-for="n in activityList | filterBy searchDate.activityName in 'name'" @click="getId(n)">{{n.name}}</li>
+                    <li v-if="!activityList.length">未查询到{{searchDate.activityName}}活动</li>
+                </ul>
+            </div>
             <span>发起方（银行）</span>
             <select class="select" v-model="searchDate.bankName">
-                <option>11</option>
+                <option v-for="n in bankFullName">{{n.fullName}}</option>
             </select>
             <span>活动状态</span>
             <select class="select" v-model="searchDate.activityStatue">
-                <option>全部状态</option>
+                <option v-for="n in activityStatues">{{n.status}}</option>
             </select>
             <span>交易时间</span>
             <ks-date-picker value="2016-10-12" v-on:change="" :value.sync="searchDate.startTime"></ks-date-picker>
@@ -85,12 +91,15 @@
             this.model=model(this)
             return{
                 cumulative:{
-                    totalNumber:'',      //交易总笔数
-                    totalAmount:'',   //交易总金额
-                    canDisAmount:'',//可打折金额
-                    payAmount:'',       //实付总金额
-                    subsidyAmount:'',//补贴总金额
+                    // totalNumber:'',      //交易总笔数
+                    // totalAmount:'',   //交易总金额
+                    // canDisAmount:'',//可打折金额
+                    // payAmount:'',       //实付总金额
+                    // subsidyAmount:'',//补贴总金额
                 },
+                activityList:[],
+                bankFullName:[],
+                showList:false,
                 tradeTotalNumber:50,
                 pagegroupInfor:{
                     page:1,//当前选中的分页值
@@ -98,6 +107,13 @@
                     maxResult:1,//每页展示多少条数
                     allPages:1,//总页数
                 },
+                activityStatues:[
+                    {'status':'草稿'},
+                    {'status':'待审核'},
+                    {'status':'审核失败'},
+                    {'status':'运行中'},
+                    {'status':'已结束'},
+                ],
                 dataList:[],
                 searchDate:{
                     activityID:'',
@@ -112,9 +128,20 @@
         methods:{
             getList(){
                 //分页数据获取
-                this.model.getList(this.searchDate).then((res)=>{
+                let data={
+                    activityName:this.searchDate.activityName,//活动名称
+                    startTime:this.searchDate.startTime,//开始时间
+                    endTime:this.searchDate.endTime,//结束时间
+                    bankName:this.searchDate.bankName,//发起方名称
+                    activityStatue:this.searchDate.activityStatue,//活动状态
+                };
+                if (!this.searchDate.activityID) {
+                    data.uuids=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
+                }else{
+                    data.activityID=this.searchDate.activityID;
+                }
+                this.model.getList(data).then((res)=>{
                     if(res.data.code===0){
-                        console.log("分页数据获取成功")
                         this.dataList=res.data.dataList;
                         this.pagegroupInfor.page=res.data.pageIndex;
                         this.pagegroupInfor.total=res.data.objectotalNumber;
@@ -122,15 +149,44 @@
                         this.pagegroupInfor.allPages=res.data.objectotalPage;
                     }
                 })
-                 this.model.getTradeStatisticsSumList(this.searchDate).then((res)=>{
+                 this.model.getTradeStatisticsSumList(data).then((res)=>{
                     if(res.data.code===0){
                         this.$set('cumulative',res.data.dataList[0])
                     }
                 })
+            },
+            getActivity(){
+                let data={
+                    name:this.searchDate.activityName,
+                    uuids:[JSON.parse(sessionStorage.getItem('loginList')).bankUUID]
+                };
+                this.$common_model.getActivityList(data).then((res)=>{
+                    if(res.data.code===0){
+                        this.$set('activityList',res.data.data);
+                        this.showList=true;
+                    }
+                })
+            },
+            getId({id,name}){
+                this.showList=false;
+                this.searchDate.activityName=name;
+                this.searchDate.activityID=id;
+            },
+            getBankList(){
+                let data={
+
+                };
+                this.model.getBankList(data).then((res)=>{
+                    if (res.data.code==0) {
+                        this.$set('bankFullName',res.data.dataList[0].fullName);
+                    }
+                })
             }
+
         },
         ready(){
             this.getList();
+            this.getBankList();
         }
     }
 </script>

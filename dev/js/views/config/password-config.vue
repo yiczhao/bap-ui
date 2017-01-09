@@ -38,6 +38,9 @@
             <div class="form-row">
                 <a class="btn btn-primary" @click="verifyPhone">下一步</a>
             </div>
+            <div class="form-row f17">
+                    如无法接收验证码，请于客服联系。<br>客服电话：400-567-567
+                </div>
         </div>
         <div class="setting-newpassword" v-show="passwordShow==3">
             <div class="newpassword-title">密码长度6-20位，建议字母、数字与标点的组合来提高帐号安全度</div>
@@ -53,6 +56,11 @@
         </div>
     </div>
 </template>
+<style>
+    .f17{
+        color: red;
+    }
+</style>
 <script type="text/javascript">
     import model from '../../ajax/config/password_model'
     export default{

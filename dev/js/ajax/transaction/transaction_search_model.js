@@ -21,6 +21,14 @@
         getTradeStatisticsSumList(data) {
             return formDataRequest('./transfer/data_analysis/das/api/v1/trade_query/statisticsSum/list').get(data)
         },
+        /**
+         * @description 获取发起方银行信息
+         * @param data
+         * @returns {*}
+         */
+         getBankList(data){
+            return formDataRequest('./bank/bank_list').get(data)
+         }
     }
 }
 module.exports = model

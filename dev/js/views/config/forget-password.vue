@@ -66,6 +66,9 @@
                 <div class="form-row">
                     <a class="btn btn-primary" @click="savePassword(3)">下一步</a>
                 </div>
+                <div class="form-row f17">
+                    如无法接收验证码，请于客服联系。<br>客服电话：400-567-567
+                </div>
             </div>
             <div class="forget-4" v-show="forgetShow==4">
                 <div class="form-row f18">
@@ -187,6 +190,9 @@
             .btn{
                 width: 100px;
             }
+        }
+        .f17{
+            color:red;
         }
         .forget-3{
             .form-label{

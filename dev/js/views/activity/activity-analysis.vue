@@ -433,8 +433,8 @@
 					xAxisData:[],
 					weekThis:[],
 					weekLast:[],
-					chooseWeek:['本周','上周'],
 				},
+				chooseWeek:['本周','上周'],
 				transactionRegion:{						//交易区域数据
 					cityData:[],//区域交易数据
 					averageTradeNum:'',// 区域平均交易笔数 ,
@@ -585,6 +585,9 @@
 				            type: 'bar',
 				            data: cityData,
 				            sort: 'descending',
+				            itemStyle:{
+				            	normal:{color:'#5F9EA0'}
+				            }
 				        }
 				    ]
 				}
@@ -603,7 +606,7 @@
 				    series: [{
 				            name:'交易笔数',
 				            type:'line',
-				            data:timePoint
+				            data:timePoint,
 				        }]
 				}
 				myChart.setOption(option);
@@ -669,8 +672,7 @@
         			if (res.data.code==0){
 						this.transactionDataShow.xAxisData=res.data.data.category;
          				this.transactionDataShow.weekThis=res.data.data.series[0].dataDecimal;
-         				this.transactionDataShow.weekLast=res.data.data.series[1].dataDecimal;
-         				this.dataLineEchart("data-echart-weekmonth",this.tableTitleChoose.title,this.transactionDataShow.chooseWeek,this.transactionDataShow.xAxisData,this.transactionDataShow.chooseWeek[0],this.transactionDataShow.weekThis,this.transactionDataShow.chooseWeek[1],this.transactionDataShow.weekLast);
+         				this.transactionDataShow.weekLast=res.data.data.series[1].dataDecimal;this.dataLineEchart("data-echart-weekmonth",this.tableTitleChoose.title,this.chooseWeek,this.transactionDataShow.xAxisData,this.chooseWeek[0],this.transactionDataShow.weekThis,this.chooseWeek[1],this.transactionDataShow.weekLast);
         			}
         		})
         	},
@@ -687,7 +689,7 @@
         				this.transactionDataShow.xAxisData=res.data.data.category;
          				this.transactionDataShow.weekThis=res.data.data.series[0].dataDecimal;
          				this.transactionDataShow.weekLast=res.data.data.series[1].dataDecimal;
-         				this.dataLineEchart("data-echart-weekmonth",this.tableTitleChoose.title,this.transactionDataShow.chooseWeek,this.transactionDataShow.xAxisData,this.transactionDataShow.chooseWeek[0],this.transactionDataShow.weekThis,this.transactionDataShow.chooseWeek[1],this.transactionDataShow.weekLast);
+         				this.dataLineEchart("data-echart-weekmonth",this.tableTitleChoose.title,this.chooseWeek,this.transactionDataShow.xAxisData,this.chooseWeek[0],this.transactionDataShow.weekThis,this.chooseWeek[1],this.transactionDataShow.weekLast);
         			}
         		})
         	},
@@ -704,7 +706,7 @@
         				this.transactionDataShow.xAxisData=res.data.data.category;
          				this.transactionDataShow.weekThis=res.data.data.series[0].dataLong;
          				this.transactionDataShow.weekLast=res.data.data.series[1].dataLong;
-         				this.dataLineEchart("data-echart-weekmonth",this.tableTitleChoose.title,this.transactionDataShow.chooseWeek,this.transactionDataShow.xAxisData,this.transactionDataShow.chooseWeek[0],this.transactionDataShow.weekThis,this.transactionDataShow.chooseWeek[1],this.transactionDataShow.weekLast);
+         				this.dataLineEchart("data-echart-weekmonth",this.tableTitleChoose.title,this.chooseWeek,this.transactionDataShow.xAxisData,this.chooseWeek[0],this.transactionDataShow.weekThis,this.chooseWeek[1],this.transactionDataShow.weekLast);
         			}
         		})
         	},

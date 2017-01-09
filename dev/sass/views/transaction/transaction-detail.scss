@@ -1,15 +1,3 @@
-@mixin input-radio() {
-	vertical-align: middle;
-	margin-right:5px;
-}
-@mixin width-margin($width,$left) {
-	width:$width;
-	margin-left:$left;
-}
-@mixin width-lineheight($width,$lineh) {
-	width:$width;
-	line-height:$lineh;
-}
 .transaction-detail{
 	.search-div{
 		content:"";

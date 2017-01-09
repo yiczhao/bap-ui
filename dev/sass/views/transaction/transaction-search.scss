@@ -2,6 +2,7 @@
 	.search-div{
 		content:"";
 		display:table;
+		position: relative;
 		.KsDatePicker{
 			display: inline-block;
 			width: 200px;
@@ -28,6 +29,28 @@
 		}
 		.input{
 			height:36px;
+		}
+		.showList{
+			position: absolute;
+			border: 1px solid #ddd;
+			background: #fff;
+			top: 38px;
+			left: 67px;
+			padding: 15px 15px 0 15px;
+			min-width: 158px;
+			border-radius: 5px;
+			max-height: 175px;
+			overflow: auto;
+			z-index: 1;
+			ul{
+				li{
+					margin-bottom: 10px;
+					cursor: pointer;
+					&:hover{
+						color:#2196f3;
+					}
+				}
+			}
 		}
 	}
 	.table{
