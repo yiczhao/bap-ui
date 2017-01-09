@@ -28,15 +28,7 @@ function model(_this) {
          */
          getCardBINTradeNumList(data){
          	return formDataRequest('./transfer/data_analysis/das/api/v1/home/cardbin/topten').get(data)
-         },
-        /**
-         * @description 活动列表查询
-         * @param data
-         * @returns {*}
-         */
-        getActivityList(data) {
-            return _this.$http.post('./transfer/activity_configure/api/v1/activity/list',data)
-        },
+         }
 	}
 }
  module.exports = model

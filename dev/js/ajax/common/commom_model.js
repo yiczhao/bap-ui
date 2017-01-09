@@ -28,6 +28,15 @@ export default function install(Vue) {
          */
         getCity(data) {
             return formDataRequest('./transfer/activity_configure/api/v1/area/city/list').get(data)
+        },
+
+        /**
+         * @description 活动列表查询
+         * @param data
+         * @returns {*}
+         */
+        getActivityList(data) {
+            return Vue.http.post('./transfer/activity_configure/api/v1/activity/list',data)
         }
     };
     Object.defineProperties(Vue.prototype, {

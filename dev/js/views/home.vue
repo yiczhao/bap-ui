@@ -109,7 +109,7 @@
                 let data={
                     name:this.searchDate.name,
                 }
-                this.model.getActivityList(data).then((res)=>{
+                this.$common_model.getActivityList(data).then((res)=>{
                     if(res.data.code===0){
                         this.$set('activityList',res.data.data);
                         this.showList=true;
