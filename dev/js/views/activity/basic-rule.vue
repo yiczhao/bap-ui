@@ -320,7 +320,6 @@
                     this.$set('weeksList',this.setweeks(res.data.data.weeksList,this.weeksList));
                     this.$set('timesList',this.settimesList(res.data.data.timesList));
                     res.data.data.timesList.length==1&&res.data.data.timesList[0]==='0:00~23:59'?this.$set('switch',true):this.$set('switch',false);
-                    this.initCity();
                 })
             }
         },
