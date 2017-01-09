@@ -112,7 +112,7 @@
             getList(){
                 this.model.getList(this.searchDate).then((res)=>{
                     if(res.data.code===0){
-                        this.dataList=res.data.dataList;
+                        this.$set('dataList',res.data.dataList)
                         this.searchDate.total=res.data.objectotalNumber;
                     }
                 })

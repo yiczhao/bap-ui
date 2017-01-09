@@ -637,12 +637,7 @@
         		}
         		this.model.getTradeDataTotal(data).then((res)=>{
         			if (res.data.code==0){
-        				this.transactionDataShow.tradeAmount=res.data.data.tradeAmount;//交易总金额
-        				this.transactionDataShow.subsidyAmount=res.data.data.subsidyAmount;//补贴总金额
-        				this.transactionDataShow.tradeNum=res.data.data.tradeNum;//交易总笔数
-        				this.transactionDataShow.averageSubsidyAmount=res.data.data.averageSubsidyAmount;//单笔平均补贴金额
-        				this.transactionDataShow.averageTradeAmount=res.data.data.averageTradeAmount;//单笔平均交易金额
-        				this.transactionDataShow.tradeCardNum=res.data.data.tradeCardNum;//参与活动卡数量
+        				this.transactionDataShow=res.data.data;//交易总金额
         			}
         		})
 			},
@@ -753,11 +748,7 @@
         		}
         		this.model.getTradeAreaTotal(data).then((res)=>{
         			if (res.data.code==0){
-        				this.transactionRegion.tradeAreaNum =res.data.data.tradeAreaNum;
-        				this.transactionRegion.averageTradeNum=res.data.data.averageTradeNum;
-        				this.transactionRegion.maxTradeArea=res.data.data.maxTradeArea;
-        				this.transactionRegion.maxTradeAreaTradeNum=res.data.data.maxTradeAreaTradeNum;
-        				this.transactionRegion.maxTradeAreaTradeAmount =res.data.data.maxTradeAreaTradeAmount;
+        				this.$set('transactionRegion',res.data.data);
         			}
         		})
         	},
@@ -809,11 +800,7 @@
 				}
 				this.model.getMerchantTradeTotal(data).then((res)=>{
 					if (res.data.code==0){
-						this.merchantDataArea.storeNumbers=res.data.data.storeNumbers;
-						this.merchantDataArea.generateTradeStoreNumbers=res.data.data.generateTradeStoreNumbers;
-						this.merchantDataArea.averageTradeNumbers=res.data.data.averageTradeNumbers;
-						this.merchantDataArea.averageSubsidyAmount=res.data.data.averageSubsidyAmount;
-						this.merchantDataArea.averageTradeAmount=res.data.data.averageTradeAmount;
+						this.$set('merchantDataArea',res.data.data);
 					}
 				})
 			},
@@ -851,10 +838,7 @@
 				};
 				this.model.getCardBINTotal(data).then((res)=>{
 					if (res.data.code==0){
-						this.cardBINDataArea.cardBinNum=res.data.data.cardBinNum;
-						this.cardBINDataArea.averageTradeNum=res.data.data.averageTradeNum;
-						this.cardBINDataArea.averageTradeAmount=res.data.data.averageTradeAmount;
-						this.cardBINDataArea.averageSubsidyAmount=res.data.data.averageSubsidyAmount;
+						this.$set('cardBINDataArea',res.data.data);
         			}
 				})
 			},
@@ -891,10 +875,7 @@
 				};
 				this.model.getOneCardTotal(data).then((res)=>{
 					if (res.data.code==0) {
-						this.oneCardArea.averageCardNumbers=res.data.data.averageCardNumbers;
-						this.oneCardArea.cardNumbers=res.data.data.cardNumbers;
-						this.oneCardArea.maxSwipedCardNumbers=res.data.data.maxSwipedCardNumbers;
-						
+						this.$set('oneCardArea',res.data.data);
 					}
 				})
 			},

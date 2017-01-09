@@ -85,11 +85,11 @@
             this.model=model(this)
             return{
                 cumulative:{
-                    tradeNum:'',      //交易总笔数
-                    tradeAmount:'',   //交易总金额
-                    discountAmount:'',//可打折金额
-                    realPay:'',       //实付总金额
-                    subsidiesAmount:'',//补贴总金额
+                    totalNumber:'',      //交易总笔数
+                    totalAmount:'',   //交易总金额
+                    canDisAmount:'',//可打折金额
+                    payAmount:'',       //实付总金额
+                    subsidyAmount:'',//补贴总金额
                 },
                 tradeTotalNumber:50,
                 pagegroupInfor:{
@@ -124,11 +124,7 @@
                 })
                  this.model.getTradeStatisticsSumList(this.searchDate).then((res)=>{
                     if(res.data.code===0){
-                        this.cumulative.tradeNum=res.data.dataList[0].totalNumber;//交易总笔数
-                        this.cumulative.tradeAmount=res.data.dataList[0].totalAmount;//交易总金额
-                        this.cumulative.discountAmount=res.data.dataList[0].canDisAmount ;//可打折金额
-                        this.cumulative.realPay=res.data.dataList[0].payAmount;//实付总金额
-                        this.cumulative.subsidiesAmount=res.data.dataList[0].subsidyAmount ;//补贴总金额
+                        this.$set('cumulative',res.data.dataList[0])
                     }
                 })
             }
