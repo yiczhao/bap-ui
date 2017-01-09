@@ -52,9 +52,9 @@
                 <td>{{n.createdAt | datetimes}}</td>
                 <td>{{n.uuid | datetimes}}</td>
                 <td>
-                    <template v-if="n.status=='wait_early_offline'">待审核</template>
                     <template v-if="n.status=='draft_other'">草稿</template>
-                    <template v-if="n.status=='draft'">草稿</template>
+                    <template v-if="n.status=='wait_early_offline'">待审核</template>
+                    <template v-if="n.status=='draft'">待审核</template>
                     <template v-if="n.status=='wait_check'">待审核</template>
                     <template v-if="n.status=='check_fail'">审核失败</template>
                     <template v-if="n.status=='online'">运行中</template>
