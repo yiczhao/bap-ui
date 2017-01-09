@@ -104,7 +104,7 @@
                     page:1,
                     maxResult:10,
                     uuids:JSON.parse(sessionStorage.getItem('uuids')),
-                    sysid:13,
+                    systemId:'yhhd',
                     total:0
                 },
                 checkedBox:[true,true,true,true]
