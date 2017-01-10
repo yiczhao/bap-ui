@@ -280,6 +280,10 @@
                 })
             },
             addTrue(){
+                if(!this.addIDs.length){
+                    dialog(info,'请勾选商户！');
+                    return;
+                }
                 let data=_.cloneDeep(this.addIDs);
                 let oldData=_.cloneDeep(this.dataList)
                 _.map(data,(val)=>{
