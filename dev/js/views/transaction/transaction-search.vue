@@ -33,16 +33,16 @@
                     <th>补贴总金额</th>
                 </tr>
                 <tr>
-                    <td>{{cumulative.tradeNum}}</td>
-                    <td>{{cumulative.tradeAmount}}</td>
-                    <td>{{cumulative.discountAmount}}</td>
-                    <td>{{cumulative.realPay}}</td>
-                    <td>{{cumulative.subsidiesAmount}}</td>
+                    <td>{{cumulative.totalNumber}}</td>
+                    <td>{{cumulative.totalAmount}}</td>
+                    <td>{{cumulative.canDisAmount}}</td>
+                    <td>{{cumulative.payAmount}}</td>
+                    <td>{{cumulative.subsidyAmount}}</td>
                 </tr>
             </table>
         </div>
         <div class="showInfo">
-            <span class="infor-num">共{{pagegroupInfor.total}}条数据</span>
+            <span class="infor-num">共{{searchDate.total}}条数据</span>
             <span class="out-excel"><i class="icon-file-excel"></i>导出excel表格</span>
         </div>
         <div class="table">
@@ -74,10 +74,9 @@
             </table>
         </div>
         <pagegroup class="pagegroup"
-            :page_current.sync="pagegroupInfor.page" 
-            :total="pagegroupInfor.total" 
-            :page_size.sync="pagegroupInfor.maxResult"
-            :pages="pagegroupInfor.allPages"
+            :page_current.sync="searchDate.pageIndex" 
+            :total="searchDate.total" 
+            :page_size.sync="searchDate.pageSize"
             v-on:current_change="getList"
             v-on:size_change="getList"
             ></pagegroup>
@@ -101,12 +100,6 @@
                 bankFullName:[],
                 showList:false,
                 tradeTotalNumber:50,
-                pagegroupInfor:{
-                    page:1,//当前选中的分页值
-                    total:5,//数据总条数
-                    maxResult:1,//每页展示多少条数
-                    allPages:1,//总页数
-                },
                 activityStatues:[
                     {'status':'草稿'},
                     {'status':'待审核'},
@@ -116,6 +109,9 @@
                 ],
                 dataList:[],
                 searchDate:{
+                    pageIndex:1,//当前选中的分页值
+                    total:1,//数据总条数
+                    pageSize:1,//每页展示多少条数
                     activityID:'',
                     activityName:'',//活动名称
                     startTime:'',//开始时间
@@ -127,29 +123,18 @@
         },
         methods:{
             getList(){
-                //分页数据获取
-                let data={
-                    activityName:this.searchDate.activityName,//活动名称
-                    startTime:this.searchDate.startTime,//开始时间
-                    endTime:this.searchDate.endTime,//结束时间
-                    bankName:this.searchDate.bankName,//发起方名称
-                    activityStatue:this.searchDate.activityStatue,//活动状态
-                };
                 if (!this.searchDate.activityID) {
-                    data.uuids=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
+                    this.searchDate.uuids=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
                 }else{
-                    data.activityID=this.searchDate.activityID;
+                    this.searchDate.activityID=this.searchDate.activityID;
                 }
-                this.model.getList(data).then((res)=>{
+                this.model.getList(this.searchDate).then((res)=>{
                     if(res.data.code===0){
                         this.dataList=res.data.dataList;
-                        this.pagegroupInfor.page=res.data.pageIndex;
-                        this.pagegroupInfor.total=res.data.objectotalNumber;
-                        this.pagegroupInfor.maxResult=res.data.pageSize;
-                        this.pagegroupInfor.allPages=res.data.objectotalPage;
+                        this.searchDate.total=res.data.objectotalNumber;
                     }
                 })
-                 this.model.getTradeStatisticsSumList(data).then((res)=>{
+                 this.model.getTradeStatisticsSumList(this.searchDate).then((res)=>{
                     if(res.data.code===0){
                         this.$set('cumulative',res.data.dataList[0])
                     }
