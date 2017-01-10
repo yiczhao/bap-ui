@@ -68,6 +68,7 @@ export default {
                 this.$set('loginData',JSON.parse(localStorage.getItem('userInfor')));
                 this.checked=true;
             }
+            sessionStorage.clear()
         }
     }
 </script>

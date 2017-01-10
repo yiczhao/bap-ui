@@ -72,15 +72,15 @@
             </div>
             <div class="forget-4" v-show="forgetShow==4">
                 <div class="form-row f18">
-                    密码长度6-20位，建议字母、数字与标点的组合来提高帐号安全度
+                    密码长度6-20位，建议字母、数字与标点的组合来提高账号安全度
                 </div>
                 <div class="form-row">
                     <div class="form-label"><i>*</i>请输入密码</div>
-                    <div class="form-input"><input type="password" v-model="passwordData.newPassword" class="input" placeholder="请输入新密码"/></div>
+                    <div class="form-input"><input type="password" maxlength="20" v-model="passwordData.newPassword" class="input" placeholder="请输入新密码"/></div>
                 </div>
                 <div class="form-row">
                     <div class="form-label"><i>*</i>请再次确认密码</div>
-                    <div class="form-input"><input type="password"  @keyup.enter="savePassword(4)" v-model="passwordData.confirmPassword" class="input" placeholder="请再次输入新密码"/></div>
+                    <div class="form-input"><input type="password" maxlength="20" @keyup.enter="savePassword(4)" v-model="passwordData.confirmPassword" class="input" placeholder="请再次输入新密码"/></div>
                 </div>
                 <div class="form-row">
                     <a class="btn btn-primary" @click="savePassword(4)">提交</a>
@@ -278,6 +278,9 @@
                         this.$http.post('./verify/verify_img_code',data0).then((res)=>{
                             if(res.data.code==0){
                                 this.forgetShow=2;
+                                sessionStorage.setItem('forgetShow',2);
+                                sessionStorage.setItem('forgetid',this.id);
+                                sessionStorage.setItem('forgetphone',this.passwordData.phone);
                             }
                         })
                         break;
@@ -285,6 +288,7 @@
                         this.$http.post('./verify/send_message_code?id='+this.id).then((res)=>{
                             if(res.data.code==0){
                                 this.forgetShow=3;
+                                sessionStorage.setItem('forgetShow',3);
                                 this.times();
                             }
                         })
@@ -296,12 +300,13 @@
                         }
                         let data1={
                             id:this.id,
-                            phone:this.phone,
+                            phone:this.passwordData.phone,
                             userMessageCode:this.passwordData.userMessageCode
                         }
                         this.$http.post('./verify/verify_message_code',data1).then((res)=>{
                             if(res.data.code==0){
                                 this.forgetShow=4;
+                                sessionStorage.setItem('forgetShow',4);
                             }
                         })
                         break;
@@ -316,7 +321,7 @@
                         }
                         let data2={
                             id:this.id,
-                            phone:this.phone,
+                            phone:this.passwordData.phone,
                             newPassword:this.passwordData.newPassword,
                             confirmPassword:this.passwordData.confirmPassword
                         }
@@ -326,9 +331,10 @@
                                 setTimeout(()=>{
                                     this.$router.go({'name':'login'});
                                 },2000)
-                            }else{
+                            }else if(res.data.code===-1){
                                 setTimeout(()=>{
                                     this.forgetShow=1;
+                                    sessionStorage.setItem('forgetShow',1);
                                 },2000)
                                 this.getusrImgCode();
                             }
@@ -338,7 +344,17 @@
             }
         },
         ready(){
-            this.getusrImgCode();
+            window.onbeforeunload=()=>{
+                sessionStorage.setItem('forgettime',this.time);
+            }
+            !!sessionStorage.getItem('forgetShow')?this.forgetShow=sessionStorage.getItem('forgetShow')>>0:null;
+            !!sessionStorage.getItem('forgetid')?this.id=sessionStorage.getItem('forgetid'):null;
+            !!sessionStorage.getItem('forgetphone')?this.passwordData.phone=sessionStorage.getItem('forgetphone'):null;
+            this.forgetShow==1?this.getusrImgCode():null;
+            if(this.forgetShow==3){
+                this.time=sessionStorage.getItem('forgettime')
+                this.times()
+            }
         }
     }
 </script>
