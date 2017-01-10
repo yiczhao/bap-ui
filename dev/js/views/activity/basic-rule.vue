@@ -165,7 +165,7 @@
             gettimesList(data){
                 let arr=[];
                 _.map(data,(val)=>{
-                    arr.push(val.start+'~'+val.end);
+                    arr.push(val.start+' ~ '+val.end);
                 })
                 return arr;
             },
@@ -219,7 +219,7 @@
                 // 解析 req 数据
                 let times=[];
                 data.forEach(m => {
-                    let splitedTime = m.split('~')
+                    let splitedTime = m.split(' ~ ')
                     let time = {
                         start: splitedTime[0] === 'null' ? null : splitedTime[0],
                         end: splitedTime[1] === 'null' ? null : splitedTime[1]
@@ -319,7 +319,7 @@
                     this.$set('addData',res.data.data);
                     this.$set('weeksList',this.setweeks(res.data.data.weeksList,this.weeksList));
                     this.$set('timesList',this.settimesList(res.data.data.timesList));
-                    res.data.data.timesList.length==1&&res.data.data.timesList[0]==='0:00~23:59'?this.$set('switch',true):this.$set('switch',false);
+                    res.data.data.timesList.length==1&&res.data.data.timesList[0]==='0:00 ~ 23:59'?this.$set('switch',true):this.$set('switch',false);
                 })
             }
         },

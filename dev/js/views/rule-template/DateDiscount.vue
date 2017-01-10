@@ -40,8 +40,8 @@
                     {name: '多少元内参与打折', checked: false, types: 'less_than',keys:'moneys'}
                 ],
                 submitdata: [{
-                    'date':'',
-                    'discount ':''
+                    date:'',
+                    discount :''
                 }]
             }
         },
@@ -59,7 +59,6 @@
                 }else{
                     this.submitdata[this.indexs].date=''
                 }
-                console.log(this.dateval);
             },
             addLine(){
                 this.submitdata.push({'date':'','discount':''})

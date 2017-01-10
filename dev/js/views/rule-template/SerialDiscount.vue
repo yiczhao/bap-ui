@@ -25,9 +25,9 @@
                     {name: '最高优惠金额', checked: false, types: 'max_preferential',keys:'moneys'}
                 ],
                 submitdata: [{
-                    'belowMoney':'',
-                    'time ':'',
-                    'discount ':''
+                    belowMoney:'',
+                    time:'',
+                    discount:''
                 }]
             }
         },

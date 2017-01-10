@@ -105,20 +105,20 @@
 //                    {name: '活动总数限制', checked: false, types: 'act_total',keys:'quantities'},
 //                    {name: '商户每卡参与次数', checked: false, types: 'store_card',keys:'quantities'},
 //                    {name: '每商户参与次数', checked: false, types: 'store',keys:'quantities'},
-//                    {name: '每卡参与次数', checked: false, types: 'card',keys:'quantities'},
+//                    {name: '每卡参与次数', checked: false, types: 'card',keys:'moneys'},
 //                    {name: '最低消费金额', checked: false, types: 'minimum_consume',keys:'moneys'},
 //                    {name: '最高优惠金额', checked: false, types: 'max_preferential',keys:'moneys'},
 //                    {name: '多少元内参与打折', checked: false, types: 'less_than',keys:'moneys'}
                 ],
                 ruleDatas:{
                     CardBin: [{data:'',extData :''}],
-                    act_total:{total : '' , totalDay : '' , totalMonth : '' , totalWeek : '',type:'act_total'},
-                    store_card:{total : '' , totalDay : '' , totalMonth : '' , totalWeek : '',type:'store_card'},
-                    store:{total : '' , totalDay : '' , totalMonth : '' , totalWeek : '',type:'store'},
-                    card:{total : '' , totalDay : '' , totalMonth : '' , totalWeek : '',type:'card'},
-                    minimum_consume:{amount : '' ,type:'minimum_consume'},
-                    max_preferential:{amount : '',type:'max_preferential'},
-                    less_than:{less_than : '',type:'less_than'},
+                    act_total:{total : '' , totalDay : '' , totalMonth : '' , totalWeek : '',type:'act_total',keys:'quantities'},
+                    store_card:{total : '' , totalDay : '' , totalMonth : '' , totalWeek : '',type:'store_card',keys:'quantities'},
+                    store:{total : '' , totalDay : '' , totalMonth : '' , totalWeek : '',type:'store',keys:'quantities'},
+                    card:{total : '' , totalDay : '' , totalMonth : '' , totalWeek : '',type:'card',keys:'quantities'},
+                    minimum_consume:{amount : '' ,type:'minimum_consume',keys:'moneys'},
+                    max_preferential:{amount : '',type:'max_preferential',keys:'moneys'},
+                    less_than:{less_than : '',type:'less_than',keys:'moneys'},
                 },
                 ruleNames: {
                     'MeetMinus':'meetMinuses',// 满多少减多少
@@ -142,6 +142,13 @@
                         this.$set('cardBinLists',res.data.data);
                     }
                 })
+            },
+            /**
+             * @description 错误处理
+             * @summary 只是简单的提示用处错误信息
+             */
+            errHandle (err) {
+                dialog('info', err)
             },
             backBasic(){
                 this.$router.go({'name':'basic-rule',params:{'activityId':sessionStorage.getItem('activityId'),'rulename':sessionStorage.getItem('rulename')}});
@@ -192,7 +199,43 @@
                         }
                     })
                 });
-            }
+            },
+            checkRule(data){
+                _.map(data,(val)=>{
+                    if(!val){
+                        throw new Error()
+                    }
+                })
+            },
+            verifyField (data) {
+                let errMapper = {}
+                _.map(data,(val)=>{
+                    if(val.checked){
+                        errMapper[val.types]=val.name;
+                    }
+                })
+                for (let k in this.ruleDatas) {
+                    let m = this.ruleDatas[k];
+                    let keys=this.ruleDatas[k].keys;
+                    let err = errMapper[k] && new Error(`请检查 ${errMapper[k]} 字段!`)
+                    if(keys==='quantities'){
+                        /*global _*/
+                        if ((!m.total &&!m.totalDay &&!m.totalMonth &&!m.totalWeek && err) || (_.isArray(m) && !m.length && err)) {
+                            throw err
+                        }
+                    }
+                    else if(keys==='moneys'){
+                        if (((!m.amount||!m.less_than) && err) || (_.isArray(m) && !m.length && err)) {
+                            throw err
+                        }
+                    }
+                    else{
+                        if ((!m[0].data&&!m[0].extData && err) || (_.isArray(m) && !m.length && err)) {
+                            throw err
+                        }
+                    }
+                }
+            },
         },
         ready(){
             this.$set('ruleLists',this.$children[0].$children[1].ruleLists);
@@ -215,6 +258,27 @@
         },
         events:{
           getDatas(datas){
+              if (true) {
+                  let mesa='';
+                  try {
+                      if(_.isArray(datas)){
+                          mesa='请至少填写一条规则信息';
+                          this.checkRule(datas[0]);
+                      }else{
+                          mesa='请填写规则信息';
+                          this.checkRule(datas);
+                      }
+                  } catch (e) {
+                      this.errHandle(mesa)
+                      return
+                  }
+                  try {
+                      this.verifyField(this.ruleLists)
+                  } catch (e) {
+                      this.errHandle(e.message)
+                      return
+                  }
+              }
               let sumitdata1=this.getNextData();
               let sumitdata2={};
               let rulename=sessionStorage.getItem('rulename');

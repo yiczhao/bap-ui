@@ -17,7 +17,7 @@
                     {name: '每卡参与次数', checked: false, types: 'card',keys:'quantities'},
                 ],
                 submitdata: {
-                    'money':''
+                    money:''
                 }
             }
         },

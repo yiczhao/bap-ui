@@ -24,8 +24,8 @@
                     {name: '多少元内参与打折', checked: false, types: 'less_than',keys:'moneys'}
                 ],
                 submitdata: [{
-                    'discount':'',
-                    'number ':'',
+                    discount:'',
+                    number :'',
                 }]
             }
         },

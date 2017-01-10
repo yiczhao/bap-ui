@@ -32,8 +32,8 @@
                     {name: '多少元内参与打折', checked: false, types: 'less_than',keys:'moneys'}
                 ],
                 submitdata: [{
-                    'weekday':'7',
-                    'discount ':'',
+                    weekday:'7',
+                    discount :'',
                 }]
             }
         },

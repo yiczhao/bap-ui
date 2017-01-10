@@ -28,7 +28,7 @@
                     {name: '最低消费金额', checked: false, types: 'minimum_consume',keys:'moneys'},
                     {name: '最高优惠金额', checked: false, types: 'max_preferential',keys:'moneys'}
                 ],
-                submitdata: [{'name':'','originalPrice':'','actualPayment':'','numberLimit':''}]
+                submitdata: [{name:'',originalPrice:'',actualPayment:'',numberLimit:''}]
             }
         },
         methods:{
