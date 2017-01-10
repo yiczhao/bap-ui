@@ -61,8 +61,8 @@
                     <template v-if="n.status=='early_offline'">已结束</template>
                     <template v-if="n.status=='finish'">已结束</template>
                 </td>
-                <td><a v-link="{name:'activity-info',params:{'infoId':n.id}}">查看</a></td>
-                <td><a v-link="{name:'transaction-detail',params:{'transactionName':n.name}}">查看</a></td>
+                <td><a v-if="n.status!='draft_other'&&n.status!='wait_early_offline'&&n.status!='draft'&&n.status!='wait_check'" v-link="{name:'activity-info',params:{'infoId':n.id}}">查看</a></td>
+                <td><a v-if="n.status!='draft_other'&&n.status!='wait_early_offline'&&n.status!='draft'&&n.status!='wait_check'" v-link="{name:'transaction-detail',params:{'transactionName':n.name}}">查看</a></td>
                 <!--<td></td>-->
                 <td>
                     <a v-if="n.step==1" @click="setProp(n.propes)" v-link="{name:'basic-rule',params:{'activityId':n.id,'rulename':n.ruleType}}">编辑</a>
@@ -100,14 +100,14 @@
                     actPropes:null,
                     startTime:'',
                     endTime:'',
-                    statuses:['draft_other','draft', 'wait_check','check_fail', 'online', 'early_offline', 'finish'],
+                    statuses:['online'],
                     page:1,
                     maxResult:10,
                     uuids:JSON.parse(sessionStorage.getItem('uuids')),
                     systemId:'yhhd',
                     total:0
                 },
-                checkedBox:[true,true,true,true]
+                checkedBox:[false,false,true,false]
             }
         },
         methods:{
