@@ -31,7 +31,7 @@
                 <option value="">22</option>
                 <option value="">33</option>
             </select>
-            <a class="btn btn-primary searchBtn">搜索</a>
+            <a class="btn btn-primary searchBtn" @click="latinosSearch">搜索</a>
         </div>
          <div class="table">
             <table>
@@ -114,6 +114,14 @@
                     latinosOverdue:'',    //权益逾期量
                 },
                 latinosTotalList:[],
+                searchDate:{
+                    latinosName:'',
+                    latinosSettlement:'',
+                    startDate:'',
+                    endDate:'',
+                    latinosKinds:'',
+                    latinosTypes:''
+                }
             }
         },
         methods:{
@@ -137,6 +145,21 @@
                         console.log("getLatinosTotalList"+"success")
                     }
                 })
+            },
+            latinosSearch(){
+                let data={
+                    latinosName:this.searchDate.latinosName,
+                    latinosSettlement:this.searchDate.latinosSettlement,
+                    startDate:this.searchDate.startDate,
+                    endDate:this.searchDate.endDate,
+                    latinosKinds:this.searchDate.latinosKinds,
+                    latinosTypes:this.searchDate.latinosTypes,
+                };
+                // this.model.getSearchLatinos(data).then((res)=>{
+                    // if (res.data.code==0){
+                        console.log("success");
+                    // }
+                // })
             }
         },
         ready(){
