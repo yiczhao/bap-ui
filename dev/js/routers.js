@@ -182,6 +182,22 @@ export default function (Vue,router){
                         require(['./views/transaction/transaction-detail.vue'], resolve)
                     }
                 },
+                /* 权益查询*/
+                'latinos-search':{
+                    name:'latinos-search',
+                    router_type:'latinos',
+                    component:(resolve)=>{
+                        require(['./views/latinos/latinos-search.vue'], resolve)
+                    }
+                },
+                /* 权益明细查询*/
+                'latinos-detail':{
+                    name:'latinos-detail',
+                    router_type:'latinos',
+                    component:(resolve)=>{
+                        require(['./views/latinos/latinos-detail.vue'], resolve)
+                    }
+                },
                 /* 银行基本设置页面 */
                 'bank-config': {
                     name: 'bank-config',
