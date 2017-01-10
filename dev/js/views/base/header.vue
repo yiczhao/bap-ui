@@ -44,7 +44,7 @@
                 this.$http.post('./user/logout').then((data)=>{
                     if(data.data.code===0){
                         sessionStorage.clear();
-                        this.$router.go('login');
+                        this.$router.go({'name':'login'});
                     }
                     else{
                         dialog('error',data.data.message)

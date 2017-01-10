@@ -23,7 +23,7 @@ export default function install(Vue,router_proto) {
             }
             else if(response.data.code === 50000){
                 setTimeout(()=>{
-                    Vue.$router.go({'name':'login'});
+                    router_proto.go({'name':'login'});
                 })
             }
             else if(response.status===403){
