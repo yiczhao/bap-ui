@@ -73,13 +73,13 @@
                 </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>手机号码</label>
-                    <input type="text" class="input" v-model="addList.phone" v-limitnumber="addList.phone" placeholder="请输入真实手机号码">
+                    <input type="text" class="input" v-model="addList.phone" @change="changePassword(false)" v-limitnumber="addList.phone" placeholder="请输入真实手机号码">
                     <ks-checkbox :checked.sync="loginAccountType2"  @change="getloginAccountType(loginAccountType1,loginAccountType2)">可作为登录账号</ks-checkbox>
                 </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>密码</label>
-                    <input type="password" class="input" v-model="addList.curPassword " @focus="addList.curPassword=='::::::'?addList.curPassword='':null"  placeholder="填写密码或勾选">
-                    <ks-checkbox :checked.sync="passWordCheck" @change="changePassword(passWordCheck)">默认 手机号作为密码</ks-checkbox>
+                    <input type="password" class="input" v-model="addList.curPassword" @focus="changecurPassword"  placeholder="填写密码或勾选">
+                    <ks-checkbox :checked.sync="passWordCheck" v-show="!!addList.phone" @change="changePassword(passWordCheck)">默认 手机号作为密码</ks-checkbox>
                 </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>状态</label>
@@ -330,8 +330,13 @@
                     this.addList.curPassword =this.addList.phone;
                 }else{
                     this.addList.curPassword ='';
+                    this.passWordCheck=false;
                 }
-            }
+            },
+            changecurPassword(){
+                this.addList.curPassword=='::::::'?this.addList.curPassword='':null
+                this.passWordCheck=false;
+            },
         },
         ready(){
             this.getList();
