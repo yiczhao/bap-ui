@@ -81,7 +81,7 @@
                         <td>{{n.address}}</td>
                     </tr>
                     <tr v-show="!addList">
-                        <td colspan="4">请搜索商户</td>
+                        <td colspan="4">{{waring}}</td>
                     </tr>
                 </table>
             </div>
@@ -128,6 +128,7 @@
         data(){
             this.model=model(this)
             return{
+                waring:'请搜索商户',
                 addshow:false,
                 showstep:2,
                 storeName: "",
@@ -249,6 +250,7 @@
                 })
             },
             getaddList(){
+                this.waring='未查询到商户数据';
                 this.model.getAddBussinessList(this.addsearchData).then((res)=>{
                     if(res.data.code===0){
                         this.$set('addList',res.data.data);
@@ -268,6 +270,7 @@
                 }
                 this.addIDs=[];
                 this.addData=[];
+                this.waring='请搜索商户';
                 this.model.getAddBussinessList(this.addsearchData).then((res)=>{
                     if(res.data.code===0){
                         this.$set('addList',res.data.data);
