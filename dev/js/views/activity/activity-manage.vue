@@ -50,7 +50,7 @@
                     <template v-else>线下</template>
                 </td>
                 <td>{{n.createdAt | datetimes}}</td>
-                <td>{{n.uuid | datetimes}}</td>
+                <td>{{n.uuid | get_bank uuidsList}}</td>
                 <td>
                     <template v-if="n.status=='draft_other'">草稿</template>
                     <template v-if="n.status=='wait_early_offline'">待审核</template>
@@ -61,7 +61,7 @@
                     <template v-if="n.status=='early_offline'">已结束</template>
                     <template v-if="n.status=='finish'">已结束</template>
                 </td>
-                <td><a v-if="n.status!='draft_other'&&n.status!='wait_early_offline'&&n.status!='draft'&&n.status!='wait_check'" v-link="{name:'activity-info',params:{'infoId':n.id}}">查看</a></td>
+                <td><a v-link="{name:'activity-info',params:{'infoId':n.id}}">查看</a></td>
                 <td><a v-if="n.status!='draft_other'&&n.status!='wait_early_offline'&&n.status!='draft'&&n.status!='wait_check'" v-link="{name:'transaction-detail',params:{'transactionName':n.name}}">查看</a></td>
                 <!--<td></td>-->
                 <td>
@@ -95,6 +95,7 @@
             return{
                 searchList:[],
                 actPropes:'',
+                uuidsList:JSON.parse(sessionStorage.getItem('uuids')),
                 searchDate:{
                     name:'',
                     actPropes:null,

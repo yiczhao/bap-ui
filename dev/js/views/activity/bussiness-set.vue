@@ -11,17 +11,15 @@
             <tr>
                 <th>商户ID</th>
                 <th>商户名称</th>
-                <th>所属行业</th>
                 <th>操作</th>
             </tr>
             <tr v-show="!!searchList" v-for="n in searchList | filterBy storeName in 'id' 'name'">
                 <td>{{n.id}}</td>
                 <td>{{n.name}}</td>
-                <td>{{n.industry}}</td>
                 <td><a @click="removeStore(n.id)">移除</a></td>
             </tr>
             <tr v-show="!searchList.length">
-                <td colspan="4">请添加商户</td>
+                <td colspan="3">请添加商户</td>
             </tr>
         </table>
         <!--<div v-show="!!dataList">-->
@@ -47,15 +45,6 @@
             <div class="add-search">
                 <span>商户名称</span>
                 <input class="input" type="text" v-model="addsearchData.name"/>
-                <span>商户区域</span>
-                <select class="select" v-model="addsearchData.province" @change="getCity">
-                    <option value="">全部省份</option>
-                    <option v-for="n in provinceList" :value="n.id">{{n.name}}</option>
-                </select>
-                <select class="select" v-model="addsearchData.city">
-                    <option value="">全部城市</option>
-                    <option v-for="n in cityList" :value="n.id">{{n.name}}</option>
-                </select>
                 <a class="btn btn-primary" @click="getaddList">搜索</a>
             </div>
             <div class="addtable-row">
@@ -72,16 +61,14 @@
                         </th>
                         <th>商户ID</th>
                         <th>商户名称</th>
-                        <th>地区</th>
                     </tr>
                     <tr v-show="!!addList" v-for="n in addList">
                         <td><ks-checkbox :checked.sync="n.ischeck" @change="checkeds(n)"></ks-checkbox></td>
                         <td>{{n.id}}</td>
                         <td>{{n.name}}</td>
-                        <td>{{n.address}}</td>
                     </tr>
                     <tr v-show="!addList">
-                        <td colspan="4">{{waring}}</td>
+                        <td colspan="3">{{waring}}</td>
                     </tr>
                 </table>
             </div>
@@ -144,15 +131,11 @@
                     maxResult: 10,
                     total: 0,
                     name: "",
-                    province: "",
-                    city: "",
                     shopid: 0
                 },
                 dataList:[],
                 searchList:[],
                 addList:[],
-                provinceList:[],
-                cityList:[],
                 addIDs:[],
             }
         },
@@ -190,36 +173,36 @@
                     })
                 }
             },
-            getProvince(){
-                this.$common_model.getProvince().then((res)=>{
-                    if(res.data.code===0){
-                        this.$set('provinceList',res.data.data)
-                    }
-                });
-            },
-            initCity(){
-                if(!this.addsearchData.province)return;
-                let data={
-                    province:this.addsearchData.province
-                }
-                this.$common_model.getCity(data).then((res)=>{
-                    if(res.data.code===0){
-                        this.$set('cityList',res.data.data);
-                    }
-                })
-            },
-            getCity(){
-                this.addsearchData.city='';
-                if(!this.addsearchData.province)return;
-                let data={
-                    province:this.addsearchData.province
-                }
-                this.$common_model.getCity(data).then((res)=>{
-                    if(res.data.code===0){
-                        this.$set('cityList',res.data.data);
-                    }
-                })
-            },
+//            <!--getProvince(){-->
+//                <!--this.$common_model.getProvince().then((res)=>{-->
+//                    <!--if(res.data.code===0){-->
+//                        <!--this.$set('provinceList',res.data.data)-->
+//                    <!--}-->
+//                <!--});-->
+//            <!--},-->
+//            <!--initCity(){-->
+//                <!--if(!this.addsearchData.province)return;-->
+//                <!--let data={-->
+//                    <!--province:this.addsearchData.province-->
+//                <!--}-->
+//                <!--this.$common_model.getCity(data).then((res)=>{-->
+//                    <!--if(res.data.code===0){-->
+//                        <!--this.$set('cityList',res.data.data);-->
+//                    <!--}-->
+//                <!--})-->
+//            <!--},-->
+//            getCity(){
+//                this.addsearchData.city='';
+//                if(!this.addsearchData.province)return;
+//                let data={
+//                    province:this.addsearchData.province
+//                }
+//                this.$common_model.getCity(data).then((res)=>{
+//                    if(res.data.code===0){
+//                        this.$set('cityList',res.data.data);
+//                    }
+//                })
+//            },
             backBasic(){
                 let ruleId='';
                 !!sessionStorage.getItem('activityId')?ruleId=sessionStorage.getItem('activityId') << 0:ruleId=this.$route.params.bactivityId;
@@ -263,8 +246,6 @@
                     page: 1,
                     maxResult: 10,
                     total: 0,
-                    province: "",
-                    city: "",
                     name: "",
                     shopid: 0
                 }
@@ -348,14 +329,12 @@
             },
         },
         created(){
-            this.getProvince();
             let activityId = '';
             this.$route.params.bactivityId==':bactivityId'?activityId=sessionStorage.getItem('activityId') << 0:activityId = this.$route.params.bactivityId << 0;
             if (activityId) {
                 // 获取活动信息
                 this.searchData.activityId=activityId;
                 this.getList();
-                this.initCity();
             }
         },
         components: { activityMain }

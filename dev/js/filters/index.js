@@ -5,8 +5,9 @@ import filter_grade from './filter_grade'
 import filterlength from './filter_length'
 import filter_phone from './filter_phone'
 import filter_banknum from './filter_banknum'
+import get_bank from './get_bank'
 export default {
-    substring,datetime,datetimes,filter_grade,filterlength,filter_phone,filter_banknum
+    substring,datetime,datetimes,filter_grade,filterlength,filter_phone,filter_banknum,get_bank
 }
 
 
