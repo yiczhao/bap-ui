@@ -13,10 +13,10 @@
 		<div class="transaction-data border">
 			<div class="data-title">
 				<span class="title-left">交易数据分析</span>
-				<span class="title-right" v-show="this.upDownToggle.transactionDataShowArea==true" @click="transactionDataToggle('transaDataToggleUp')">收起</span>
-				<span class="title-right" v-show="this.upDownToggle.transactionDataShowArea==false" @click="transactionDataToggle('transaDataToggleDown')">展开</span>
+				<span class="title-right" v-show="upDownToggle.transactionDataShowArea" @click="transactionDataToggle('transaDataToggleUp')">收起</span>
+				<span class="title-right" v-show="upDownToggle.transactionDataShowArea" @click="transactionDataToggle('transaDataToggleDown')">展开</span>
 			</div>
-			<span v-show="this.upDownToggle.transactionDataShowArea==true">
+			<span v-show="upDownToggle.transactionDataShowArea">
 				<div class="data-today-table">
 					<span class="title"><i></i>今日关键数据</span>
 					<table>
@@ -97,10 +97,10 @@
 		<div class="transaction-region border">
 			<div class="region-title">
 				<span class="title-left">交易区域分析</span>
-				<span class="title-right" v-show="this.upDownToggle.transactionRegionShowArea==true" @click="transactionDataToggle('transaRegionToggleUp')">收起</span>
-				<span class="title-right" v-show="this.upDownToggle.transactionRegionShowArea==false" @click="transactionDataToggle('transaRegionToggleDown')">展开</span>
+				<span class="title-right" v-show="upDownToggle.transactionRegionShowArea" @click="transactionDataToggle('transaRegionToggleUp')">收起</span>
+				<span class="title-right" v-show="upDownToggle.transactionRegionShowArea" @click="transactionDataToggle('transaRegionToggleDown')">展开</span>
 			</div>
-			<span v-show="this.upDownToggle.transactionRegionShowArea==true">
+			<span v-show="upDownToggle.transactionRegionShowArea">
 				<div class="region-table">
 					<span class="title"><i></i>关键数据</span>
 					<table>
@@ -142,10 +142,10 @@
 		<div class="transaction-time border">
 			<div class="time-title">
 				<span class="title-left">交易时段分析</span>
-				<span class="title-right" v-show="this.upDownToggle.transactionTimeShowArea==true" @click="transactionDataToggle('transaTimeToggleUp')">收起</span>
-				<span class="title-right" v-show="this.upDownToggle.transactionTimeShowArea==false" @click="transactionDataToggle('transaTimeToggleDown')">展开</span>
+				<span class="title-right" v-show="upDownToggle.transactionTimeShowArea" @click="transactionDataToggle('transaTimeToggleUp')">收起</span>
+				<span class="title-right" v-show="upDownToggle.transactionTimeShowArea" @click="transactionDataToggle('transaTimeToggleDown')">展开</span>
 			</div>
-			<span v-show="this.upDownToggle.transactionTimeShowArea==true">
+			<span v-show="upDownToggle.transactionTimeShowArea">
 				<div class="time-show">
 					<div class="time-echart" id="time-echart"></div>
 				</div>
@@ -154,10 +154,10 @@
 		<div class="merchant-data border">
 			<div class="merchant-title">
 				<span class="title-left">商户数据分析</span>
-				<span class="title-right" v-show="this.upDownToggle.merchantDataShowArea==true" @click="transactionDataToggle('merchantToggleUp')">收起</span>
-				<span class="title-right" v-show="this.upDownToggle.merchantDataShowArea==false" @click="transactionDataToggle('merchantToggleDown')">展开</span>
+				<span class="title-right" v-show="upDownToggle.merchantDataShowArea" @click="transactionDataToggle('merchantToggleUp')">收起</span>
+				<span class="title-right" v-show="upDownToggle.merchantDataShowArea" @click="transactionDataToggle('merchantToggleDown')">展开</span>
 			</div>
-			<span v-show="this.upDownToggle.merchantDataShowArea==true">
+			<span v-show="upDownToggle.merchantDataShowArea">
 				<div class="merchant-table">
 					<span class="title"><i></i>关键数据</span>
 					<table>
@@ -199,10 +199,10 @@
 		<div class="cardBIN-data border">
 			<div class="cardBIN-title">
 				<span class="title-left">卡BIN数据分析</span>
-				<span class="title-right" v-show="this.upDownToggle.cardBINDataShowArea==true" @click="transactionDataToggle('cardBINToggleUp')">收起</span>
-				<span class="title-right" v-show="this.upDownToggle.cardBINDataShowArea==false" @click="transactionDataToggle('cardBINToggleDown')">展开</span>
+				<span class="title-right" v-show="upDownToggle.cardBINDataShowArea" @click="transactionDataToggle('cardBINToggleUp')">收起</span>
+				<span class="title-right" v-show="upDownToggle.cardBINDataShowArea" @click="transactionDataToggle('cardBINToggleDown')">展开</span>
 			</div>
-			<span v-show="this.upDownToggle.cardBINDataShowArea==true">
+			<span v-show="upDownToggle.cardBINDataShowArea">
 				<div class="cardBIN-ranking-table">
 					<span class="title"><i></i>关键数据</span>
 					<table>
@@ -240,10 +240,10 @@
 		<div class="one-card border">
 			<div class="one-title">
 				<span class="title-left">单卡交易分析</span>
-				<span class="title-right" v-show="this.upDownToggle.oneCardShowArea==true" @click="transactionDataToggle('oneCardoggleUp')">收起</span>
-				<span class="title-right" v-show="this.upDownToggle.oneCardShowArea==false" @click="transactionDataToggle('oneCardoggleDown')">展开</span>
+				<span class="title-right" v-show="upDownToggle.oneCardShowArea" @click="transactionDataToggle('oneCardoggleUp')">收起</span>
+				<span class="title-right" v-show="upDownToggle.oneCardShowArea" @click="transactionDataToggle('oneCardoggleDown')">展开</span>
 			</div>
-			<span v-show="this.upDownToggle.oneCardShowArea==true">
+			<span v-show="upDownToggle.oneCardShowArea==true">
 				<div class="one-ranking-table">
 					<span class="title"><i></i>关键数据</span>
 					<table>
@@ -500,7 +500,9 @@
 					maxSwipedCardNumbers:'',//单卡最高参与次数（次）
 					oneCardChance:'',
 					oneCardNum:'',
-				}
+				},
+				activityID:'',
+				uuids:JSON.parse(sessionStorage.getItem('uuids'))
 			}
 		},
 		methods:{
@@ -872,9 +874,8 @@
 			},
 			// =================================================================================================
 			oneCardDataReady(){//单卡获取total
-				let data={
-					activityID:'112111'
-				};
+				let data={};
+				!this.activityID?data={uuids:this.uuids}:data={activityID:this.activityID};
 				this.model.getOneCardTotal(data).then((res)=>{
 					if (res.data.code==0) {
 						this.$set('oneCardArea',res.data.data);
