@@ -95,7 +95,7 @@
             return{
                 searchList:[],
                 actPropes:'',
-                uuidsList:_.split(sessionStorage.getItem('uuids'), ','),
+                uuidsList:JSON.parse(sessionStorage.getItem('bankNames')),
                 searchDate:{
                     name:'',
                     actPropes:null,
