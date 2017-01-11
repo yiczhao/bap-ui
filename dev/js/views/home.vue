@@ -83,10 +83,8 @@
                     activityID:this.searchDate.activityID,
                     startDate:this.searchDate.startDate,
                     endDate:this.searchDate.endDate,
-                    bankUuid:[]
                 };
-                let a=sessionStorage.getItem('uuids');
-                (!this.searchDate.activityID)? data.bankUuid=encodeURIComponent(a):data.bankUuid=[];
+                (!this.searchDate.activityID)? data.bankUuid=encodeURIComponent(sessionStorage.getItem('uuids')):data.bankUuid=[];
                 this.model.getTotal(data).then((res)=>{
                     this.$set('total',res.data.data);
                 })
