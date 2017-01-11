@@ -65,10 +65,10 @@
                 <td><a v-if="n.status!='draft_other'&&n.status!='wait_early_offline'&&n.status!='draft'&&n.status!='wait_check'" v-link="{name:'transaction-detail',params:{'transactionName':n.name}}">查看</a></td>
                 <!--<td></td>-->
                 <td>
-                    <a v-if="n.step==1" @click="setProp(n.propes)" v-link="{name:'basic-rule',params:{'activityId':n.id,'rulename':n.ruleType}}">编辑</a>
-                    <a v-if="n.step==2" @click="setProp(n.propes)" v-link="{name:n.ruleType,params:{'ruleId':n.id}}">编辑</a>
-                    <a v-if="n.step==3" @click="setProp(n.propes)" v-link="{name:'bussiness-set',params:{'bactivityId':n.id}}">编辑</a>
-                    <a @click="deleteActivity(n.id)">删除</a>
+                    <a v-if="n.step==1&&n.status!='wait_early_offline'&&n.status!='draft'&&n.status!='wait_check'" @click="setProp(n.propes)" v-link="{name:'basic-rule',params:{'activityId':n.id,'rulename':n.ruleType}}">编辑</a>
+                    <a v-if="n.step==2&&n.status!='wait_early_offline'&&n.status!='draft'&&n.status!='wait_check'" @click="setProp(n.propes)" v-link="{name:n.ruleType,params:{'ruleId':n.id}}">编辑</a>
+                    <a v-if="n.step==3&&n.status!='wait_early_offline'&&n.status!='draft'&&n.status!='wait_check'" @click="setProp(n.propes)" v-link="{name:'bussiness-set',params:{'bactivityId':n.id}}">编辑</a>
+                    <a v-if="n.status!='wait_early_offline'&&n.status!='draft'&&n.status!='wait_check'" @click="deleteActivity(n.id)">删除</a>
                 </td>
             </tr>
             <tr v-show="!searchList.length">
