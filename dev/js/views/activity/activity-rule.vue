@@ -178,6 +178,7 @@
                         if(val.type==value.type){
                             this.ruleDatas[val.type]=val;
                             this.ruleDatas[val.type].type=val.type;
+                            this.ruleDatas[val.type].keys='quantities';
                             _.map(this.ruleLists,(vals)=>{
                                 if(vals.types==value.type){
                                     vals.checked=true;
@@ -191,6 +192,7 @@
                         if(val.type==value.type){
                             this.ruleDatas[val.type]=val;
                             this.ruleDatas[val.type].type=val.type;
+                            this.ruleDatas[val.type].keys='moneys';
                             _.map(this.ruleLists,(vals)=>{
                                 if(vals.types==value.type){
                                     vals.checked=true;

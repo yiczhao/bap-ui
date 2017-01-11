@@ -5,7 +5,7 @@
         <ks-date-picker :value.sync="dateval" placeholder="日期" @click="indexs=index" :exclude="true" v-on:change="current_change" :class="opa0"></ks-date-picker>
     </span>
     <span>号</span>
-    <input class="input" type="text" v-model="n.minusMoney" v-limitaddprice="n.discount"/>
+    <input class="input" type="text" v-model="n.discount" v-limitaddprice="n.discount"/>
     <span>折</span>
     <i v-if="index===0" class="icon-add" @click="addLine"></i>
     <i v-if="index!==0" class="icon-remove" @click="submitdata.splice(index, 1)"></i>
@@ -69,7 +69,14 @@
                 this.$dispatch('getDatas',  this.submitdata);
             },
             setData(data){
-                this.$set('submitdata', data);
+                let sdata=[];
+                _.map(data,(val)=>{
+                    sdata.push({
+                        date:val.date,
+                        discount:val.discount
+                    })
+                })
+                this.$set('submitdata', sdata);
             },
         },
         ready (){

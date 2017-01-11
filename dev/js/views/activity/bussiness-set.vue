@@ -16,7 +16,7 @@
             <tr v-show="!!searchList" v-for="n in searchList | filterBy storeName in 'id' 'name'">
                 <td>{{n.id}}</td>
                 <td>{{n.name}}</td>
-                <td><a @click="removeStore(n.id)">移除</a></td>
+                <td><a @click="searchList.splice($index,1)">移除</a></td>
             </tr>
             <tr v-show="!searchList.length">
                 <td colspan="3">请添加商户</td>
@@ -262,7 +262,7 @@
             },
             addTrue(){
                 if(!this.addIDs.length){
-                    dialog(info,'请勾选商户！');
+                    dialog('info','请勾选商户！');
                     return;
                 }
                 let data=_.cloneDeep(this.addIDs);
@@ -303,30 +303,7 @@
                         }
                     }
                 })
-            },
-            removeStore(id){
-                let cloneData=_.cloneDeep(this.dataList);
-                _.remove(cloneData,(value)=>{
-                    return value.id==id;
-                })
-                let data={
-                    step:this.showstep+1,
-                    bankMarketingStores:[]
-                };
-                _.map(cloneData,(val)=>{
-                    data.bankMarketingStores.push({
-                        storeId:val.id,
-                        storeName:val.name
-                    })
-                })
-                !!sessionStorage.getItem('activityId')?data.activityId=sessionStorage.getItem('activityId') << 0:data.activityId='';
-                this.model.saveStore(data).then((res)=>{
-                    if(res.data.code===0){
-                        this.getList();
-                        dialog('success','已移除！');
-                    }
-                })
-            },
+            }
         },
         created(){
             let activityId = '';
