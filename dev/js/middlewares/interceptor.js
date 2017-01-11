@@ -13,7 +13,6 @@ export default function install(Vue,router_proto) {
         response (response) {
             store.dispatch(types.AJAX_RESPONSE)
             if(!response.data.code){
-                dialog('error','网络拥堵，请求超时，请稍后再试！');
                 return response;
             }
             if(response.data.code===1){
