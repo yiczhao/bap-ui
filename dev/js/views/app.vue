@@ -34,7 +34,7 @@
                     _.map(res.data.dataList,(val)=>{
                         (!!val.uuid)?data.push(val.uuid):null;
                     })
-                    sessionStorage.setItem('uuids',JSON.stringify(data));
+                    sessionStorage.setItem('uuids',_.join(data, ','));
                 }
             })
         }

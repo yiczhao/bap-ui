@@ -29,7 +29,7 @@
         <div class="verify-phone" v-show="passwordShow==2">
             <div class="verify-title">短信验证码已发送至{{phone | filter_phone}}</div>
             <div class="form-input verify-area">
-                <input type="text" v-model="passwordData.userMessageCode" class="input verify-input" placeholder="请输入短信验证码"/>
+                <input type="text" @keyup.enter="verifyPhone" v-model="passwordData.userMessageCode" class="input verify-input" placeholder="请输入短信验证码"/>
                 <div class="time-end" v-show="time>0"><a class="btn btn-gray">倒计时{{time}}</a></div>
                 <div class="resend-comfirm" v-show="time==0">
                     <a class="btn btn-primary" @click="resendMessage">重新发送</a>
@@ -48,7 +48,7 @@
                 <input type="password" v-model="passwordData.newPassword" class="input" placeholder="请输入密码"/>
             </div>
             <div class="form-row">
-                <input type="password" v-model="passwordData.confirmPassword" class="input" placeholder="请再次输入密码"/>
+                <input type="password" @keyup.enter="settingPassword" v-model="passwordData.confirmPassword" class="input" placeholder="请再次输入密码"/>
             </div>
             <div class="form-row">
                 <a class="btn btn-primary" @click="settingPassword">提交</a>
@@ -93,6 +93,8 @@
                         this.times();
                         this.passwordShow=2;
                         this.passwordData.id=res.data.data;
+                        sessionStorage.setItem('forgetShow',2);
+                        sessionStorage.setItem('forgetid',this.passwordData.id);
                     }
                 })
             },
@@ -115,6 +117,8 @@
                     if (res.data.code==0) {
                         this.passwordShow=3;
                         this.passwordData.id=res.data.data;
+                        sessionStorage.setItem('forgetShow',3);
+                        sessionStorage.setItem('forgetid',this.passwordData.id);
                     }
                 })
             },
@@ -134,16 +138,26 @@
                         setTimeout(()=>{
                             this.$router.go({'name':'login'});
                         },2000);
-                        this.passwordData.id=res.data.data;
                     }else if(res.data.code==-1){
                         this.passwordShow=1;
                         this.passwordData.id="";
                     }
+                    sessionStorage.removeItem('forgetShow');
+                    sessionStorage.removeItem('forgetid');
                 })
 
             }
         },
         ready(){
+            window.onbeforeunload=()=>{
+                sessionStorage.setItem('forgettime',this.time);
+            }
+            !!sessionStorage.getItem('forgetShow')?this.passwordShow=sessionStorage.getItem('forgetShow')>>0:null;
+            !!sessionStorage.getItem('forgetid')?this.passwordData.id=sessionStorage.getItem('forgetid'):null;
+            if(this.passwordShow==2){
+                this.time=sessionStorage.getItem('forgettime')<=0?0:sessionStorage.getItem('forgettime');
+                this.time>0?this.times():null;
+            }
             (!!JSON.parse(sessionStorage.getItem('loginList')).phone)?this.phone=JSON.parse(sessionStorage.getItem('loginList')).phone:null;
         }
     }

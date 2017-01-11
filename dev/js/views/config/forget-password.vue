@@ -352,8 +352,8 @@
             !!sessionStorage.getItem('forgetphone')?this.passwordData.phone=sessionStorage.getItem('forgetphone'):null;
             this.forgetShow==1?this.getusrImgCode():null;
             if(this.forgetShow==3){
-                this.time=sessionStorage.getItem('forgettime')
-                this.times()
+                this.time=sessionStorage.getItem('forgettime')<=0?0:sessionStorage.getItem('forgettime');
+                this.time>0?this.times():null;
             }
         }
     }
