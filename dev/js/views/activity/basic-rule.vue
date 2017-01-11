@@ -283,15 +283,13 @@
                         return
                     }
                 }
-                if(!bool){
-                    !!sessionStorage.getItem('activityId')?data.id=sessionStorage.getItem('activityId'):data.id=this.$route.params.activityId << 0;
-                }
+                !!sessionStorage.getItem('activityId')?data.id=sessionStorage.getItem('activityId'):(data.id=this.$route.params.activityId << 0 ===0?'':this.$route.params.activityId << 0 );
                 this.model.addBasic(data).then((res)=>{
                     if(res.data.code===0){
                         let activityId = this.$route.params.activityId << 0;
+                        sessionStorage.setItem('activityId',res.data.data);
+                        sessionStorage.setItem('rulename',this.$route.params.rulename);
                         if (bool) {
-                            sessionStorage.setItem('activityId',res.data.data);
-                            sessionStorage.setItem('rulename',this.$route.params.rulename);
                             this.$router.go({'name':this.$route.params.rulename});
                         }else{
                             dialog('successTime','草稿保存成功！')
