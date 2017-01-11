@@ -13,6 +13,15 @@ function model(_this) {
         getList(data) {
             return _this.$http.post('./transfer/activity_configure/api/v1/activity/list',data)
         },
+        /**
+         * @description 活动列表查询
+         * @param data
+         * @returns {*}
+         */
+        deleteActivity(_id) {
+            return formDataRequest('./transfer/activity_configure/api/v1/activity/delete/'+_id).get()
+        },
+
     }
 }
 module.exports = model
