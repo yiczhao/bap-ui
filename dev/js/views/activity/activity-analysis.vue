@@ -3,9 +3,9 @@
 		<div class="activity-search">
 			<div class="search-left">
 				<label>活动名称</label>
-				<input class="input" type="text" name="" placeholder="请输入活动名称" v-model="" @keyup.enter="getActivity">
+				<input class="input" type="text" name="" placeholder="请输入活动名称" v-model="searchDate.activityName" @keyup.enter="getActivity">
 			</div>
-			<div class="showList" v-show="showList">
+			<div class="showList" v-show="searchDate.showList">
                 <ul>
                     <li v-for="n in activityList | filterBy searchDate.activityName in 'name'" @click="getId(n)">{{n.name}}</li>
                     <li v-if="!activityList.length">未查询到{{searchDate.activityName}}活动</li>
@@ -88,13 +88,13 @@
 				<div class="data-detail">
 					<span class="title"><i></i>7日/30日关键数据详解</span>
 					<div class="choose-btn">
-						<a class="btn" :class="transactionDataJudgeName=='TradeAmountList'?'btn-primary':'btn-gray'" @click="tradeAmountList">交易总金额</a>
-						<a class="btn" :class="transactionDataJudgeName=='SubsidyAmountList'?'btn-primary':'btn-gray'" @click="SubsidyAmountList">补贴总金额</a>
-						<a class="btn" :class="transactionDataJudgeName=='TradeNumList'?'btn-primary':'btn-gray'" @click="TradeNumList">交易总笔数</a>
+						<a class="btn" :class="transactionDataJudgeName=='TradeAmountList'?'btn-primary':'btn-gray'" @click="changeDataShow('TradeAmountList')">交易总金额</a>
+						<a class="btn" :class="transactionDataJudgeName=='SubsidyAmountList'?'btn-primary':'btn-gray'" @click="changeDataShow('SubsidyAmountList')">补贴总金额</a>
+						<a class="btn" :class="transactionDataJudgeName=='TradeNumList'?'btn-primary':'btn-gray'" @click="changeDataShow('TradeNumList')">交易总笔数</a>
 					</div>
 					<div class="choose-btn">
-						<a class="btn btn-primary" :class="transactionDataJudgeTime=='7'?'btn-primary':'btn-gray'" @click="weekData">7日关键数据</a>
-						<a class="btn btn-gray" :class="transactionDataJudgeTime=='30'?'btn-primary':'btn-gray'" @click="monthData">30日关键数据</a>
+						<a class="btn btn-primary" :class="transactionDataJudgeTime=='7'?'btn-primary':'btn-gray'" @click="dateChange('week')">7日关键数据</a>
+						<a class="btn btn-gray" :class="transactionDataJudgeTime=='30'?'btn-primary':'btn-gray'" @click="dateChange('month')">30日关键数据</a>
 					</div>
 					<div class="data-echart" id="data-echart-weekmonth"></div>
 				</div>
@@ -306,15 +306,7 @@
 					monthSubsidy:'30日补贴总金额数据展示图',
 					monthCount:'30日交易总笔数数据展示图',
 				},
-				// activityID:{
-				// 	transactionData:'交易数据分析',
-				// 	transactionRegion:'交易区域分析',
-				// 	transactionTime:'交易时段分析',
-				// 	merchantData:'商户数据分析',
-				// 	cardBINData:'卡BIN数据分析',
-				// 	oneCard:'单卡交易分析'
-				// },
-				times:{
+				times:{//时间吃初始化数据
 					todayDate:'',
 					lastWeek:'',
 					monthAgo:''
@@ -324,6 +316,11 @@
 					weekThis:[],
 					weekLast:[],
 				},
+				tradeGET:{
+					startDate:'',
+					endDate:'',
+					compareFlag:true,
+				},
 				transactionDataShow:{//交易数据分析
 					tradeDataModelToday:[],//交易数据今日累计关键数据
 					tradeDataModelTotail:[],//交易数据累计关键数据
@@ -331,27 +328,21 @@
 					PData:[],
 					Ldata:[],
 					tableTitle:'',
-					weekTitle:[],
-					// tableTitle:[{
-					// 	sevenAmount:'7日交易总金额数据展示图',
-					// 	sevenSubsidy:'7日补贴总金额数据展示图',
-					// 	sevenCount:'7日交易总笔数数据展示图',
-					// 	monthAmount:'30日交易总金额数据展示图',
-					// 	monthSubsidy:'30日补贴总金额数据展示图',
-					// 	monthCount:'30日交易总笔数数据展示图'},
-					// ]
+					weekTitle:'',
 				},
 				transactionRegion:{//交易区域数据
 					tradeAreaModel:[],//交易区域累计的关键数据
-					// tradeAreaAmount:[],//交易区域交易金额排行数据
-					// tradeAreaNum:[],//交易区域交易笔数排行数据
+					tradeAreaAmount:[],//交易区域交易金额排行数据
+					tradeAreaNum:[],//交易区域交易笔数排行数据
 				},
 				transactionTime:{//交易时段分析数据
 					timeData:[],
 					timePoint:[],
 				},
 				merchantDataArea:{//商户数据分析
-					merchantDataTotal:[]//商户数据关键数据
+					merchantDataTotal:[],//商户数据关键数据
+					storeName:[],
+					tradeAmount:[],
 				},
 				cardBINDataArea:{//卡BIN数据分析
 					CardBinModel:[],
@@ -375,6 +366,7 @@
 				activityList:[],
 				searchDate:{
 					activityName:'',
+					showList:false
 				},
 			}
 		},
@@ -409,51 +401,75 @@
 				    		name:parentDataName,
 				            type:'line',
 				            data:parentData,
-				            // itemStyle : {  
-                //                 normal : {  
-                //                     color:'#00FF00',  //折点颜色
-                //                     lineStyle:{color:'#2196f3' //折线颜色}  
-                //                 }  
-                //             }, 
+				            // itemStyle : {  normal : {  color:'#00FF00',  //折点颜色lineStyle:{color:'#2196f3' //折线颜色}  }  }, 
 				        },{
 				            name:passDataName,
 				            type:'line',
 				            data:passData,
-				            // itemStyle : {  
-                //                 normal : {  
-                //                     color:'#00FF00',  //折点颜色
-                //                     lineStyle:{color:'#2196f3' //折线颜色}  
-                //                 }  
-                //             },
 				        }
 				    ]
         		}
         		myChart.setOption(option)
 			},
+			justChart(timeData,timePoint){
+				var myChart = echarts.init(document.getElementById('time-echart'));
+				var option = {
+				    tooltip: {trigger: 'axis'},
+				    toolbox: {show: true,
+				        feature: {magicType: {type: ['line', 'bar']},}},
+				    xAxis:  {type: 'category',boundaryGap: false,
+				        data:['00:00','01:00','02:00','03:00','04:00','05:00','06:00','07:00','08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00','24:00'],
+				    },
+				    yAxis: {type: 'value'},
+				    series: [{
+				            name:'交易笔数',
+				            type:'line',
+				            data:timePoint,
+				        }]
+				}
+				myChart.setOption(option);
+			},
+			dataBarEchart(chartID,cityName,dataName,cityData){
+				var myChart = echarts.init(document.getElementById(chartID));
+				var option ={
+				    tooltip: {
+				        trigger: 'axis',
+				        axisPointer: {
+				            type: 'shadow'
+				        }
+				    },
+				    grid: {
+				        left: '3%',
+				        right: '4%',
+				        bottom: '3%',
+				        top:'3%',
+				        containLabel: true
+				    },
+				    xAxis: {
+				        type: 'value',
+				        boundaryGap: [0, 0.01]
+				    },
+				    yAxis: {
+				        type: 'category',
+				        data: cityName
+				    },
+				    series: [
+				        {
+				        	type:'funnel',
+				            name: dataName,
+				            type: 'bar',
+				            data: cityData,
+				            sort: 'descending',
+				            itemStyle:{
+				            	normal:{color:'#5F9EA0'}
+				            }
+				        }
+				    ]
+				}
+				myChart.setOption(option)
+			},
 			// =================================================================================================
 			//交易数据分析
-			tradeDataModelToday(){//获取今日关键数据
-				let data={
-	        		startDate:this.times.todayDate,
-	        		endDate:this.times.todayDate,
-	        		compareFlag:true
-        		}
-        		this.model.getTradeDataTotal(data).then((res)=>{
-        			if (res.data.code==0){
-        				this.$set('transactionDataShow.tradeDataModelToday',res.data.data);
-        			}
-        		})
-			},
-			tradeDataModelTotail(){//获取累计交易数据
-				let data={
-	        		compareFlag:true
-        		}
-        		this.model.getTradeDataTotal(data).then((res)=>{
-        			if (res.data.code==0){
-        				this.$set('transactionDataShow.tradeDataModelTotail',res.data.data);
-        			}
-        		})
-			},
 			tradeSetData(data){
 				this.$set('transactionDataShow.XData',data.category);
 				this.$set('transactionDataShow.PData',data.series[0].dataDecimal);
@@ -466,127 +482,108 @@
 					'上周',this.transactionDataShow.Ldata
 				)
 			},
-	     	tradeAmountList(){//某个时间段的交易总金额
-	     		let data={
-					startDate:this.times.lastWeek,
-	        		endDate:this.times.todayDate,
-	        		compareFlag:true
-				}
-				this.transactionDataJudgeName="TradeAmountList";
-        		this.model.getTradeAmount(data).then((res)=>{
+			tradeDataModelToday(){//获取今日关键数据
+				let data={startDate:this.tradeGET.todayDate,endDate:this.tradeGET.todayDate}
+        		this.model.getTradeDataTotal(data).then((res)=>{
         			if (res.data.code==0){
-						this.tradeSetData(res.data.data)
+        				this.$set('transactionDataShow.tradeDataModelToday',res.data.data);
         			}
         		})
-        	},
-        	SubsidyAmountList(){//某个时间段的补贴总金额
-        		let data={
-					startDate:this.times.lastWeek,
-	        		endDate:this.times.todayDate,
-	        		compareFlag:true
-				}
-				this.transactionDataJudgeName="SubsidyAmountList";
-        		this.model.getSubsidyAmount(data).then((res)=>{
+			},
+			tradeDataModelTotail(){//获取累计交易数据
+				let datas={compareFlag:true};
+        		this.model.getTradeDataTotal(datas).then((res)=>{
         			if (res.data.code==0){
-        				this.tradeSetData(res.data.data)
+        				this.$set('transactionDataShow.tradeDataModelTotail',res.data.data);
         			}
         		})
+			},
+        	changeDataShow(toggle){//数据切换
+        		switch(toggle){
+        			case 'TradeAmountList':
+						this.transactionDataJudgeName="TradeAmountList";
+						this.transactionDataShow.tableTitle="7日交易总金额数据展示图";
+	        			this.model.getTradeAmount(this.tradeGET).then((res)=>{
+	        				if (res.data.code==0){
+								this.tradeSetData(res.data.data)
+	        				};
+	        			});
+	        			break;
+	        		case 'SubsidyAmountList':
+						this.transactionDataJudgeName="SubsidyAmountList";
+						this.transactionDataShow.tableTitle="7日补贴总金额数据展示图";
+						this.model.getSubsidyAmount(this.tradeGET).then((res)=>{
+		        			if (res.data.code==0){
+		        				this.tradeSetData(res.data.data)
+		        			}
+		        		});
+		        		break;
+	        		case 'TradeNumList':
+						this.transactionDataJudgeName="TradeNumList";
+						this.transactionDataShow.tableTitle="7日交易总笔数数据展示图";
+						this.model.getTradeNum(this.tradeGET).then((res)=>{
+		        			if (res.data.code==0){
+		        				this.$set('transactionDataShow.XData',res.data.data.category);
+								this.$set('transactionDataShow.PData',res.data.data.series[0].dataLong);
+								this.$set('transactionDataShow.Ldata',res.data.data.series[1].dataLong);
+		         				this.dataLineEchart(
+		         					this.transactionDataShow.tableTitle,
+		         					this.transactionDataShow.weekTitle,
+									this.transactionDataShow.XData,
+									'本周',this.transactionDataShow.PData,
+									'上周',this.transactionDataShow.Ldata
+								);
+		        			}
+		        		});
+		        		break;
+		        	};
         	},
-        	TradeNumList(){//某个时间段的交易总笔数
-        		let data={
-					startDate:this.times.lastWeek,
-	        		endDate:this.times.todayDate,
-	        		compareFlag:true
-				}
-				this.transactionDataJudgeName="TradeNumList";
-        		this.model.getTradeNum(data).then((res)=>{
-        			if (res.data.code==0){
-        				this.$set('transactionDataShow.XData',res.data.data.category);
-						this.$set('transactionDataShow.PData',res.data.data.series[0].dataLong);
-						this.$set('transactionDataShow.Ldata',res.data.data.series[1].dataLong);
-         				this.dataLineEchart(
-         					this.transactionDataShow.tableTitle,
-         					this.transactionDataShow.weekTitle,
-							this.transactionDataShow.XData,
-							'本周',this.transactionDataShow.PData,
-							'上周',this.transactionDataShow.Ldata
-						)
-        			}
-        		})
-        	},
-			weekData(){//7天切换数据
-				let datas={
-					startDate:this.times.lastWeek,
-	        		endDate:this.times.todayDate,
-	        		compareFlag:true
-				}
-				// this.transactionDataJudgeTime="7";
-				// this.transactionDataShow.weekTitle=['本周','上周'];
-				if(this.transactionDataJudgeName=="TradeAmountList"){
-					this.transactionDataShow.tableTitle='7日交易总金额数据展示图';
-					this.tradeAmountList();
-				}else if (this.transactionDataJudgeName=="SubsidyAmountList") {
-
-					this.transactionDataShow.tableTitle='7日补贴总金额数据展示图';
-					this.SubsidyAmountList();
-				}else if (this.transactionDataJudgeName=="TradeNumList") {
-
-					this.transactionDataShow.tableTitle='7日交易总笔数数据展示图';
-					this.TradeNumList();
-				}
-        	},
-     //    	weekData(toggle){
-     //    		let data={
-					// startDate:this.times.lastWeek,
-	    //     		endDate:this.times.todayDate,
-	    //     		compareFlag:true
-     //    		}
-     //    		switch(toggle){
-     //    			case 'TradeAmountList':
-					// 	this.transactionDataJudgeName="TradeAmountList";
-	    //     			this.model.getTradeAmount(data).then((res)=>{
-	    //     				if (res.data.code==0){
-					// 			this.tradeSetData(res.data.data)
-	    //     				};
-	    //     			});
-	    //     			break;
-	    //     		case 'SubsidyAmountList':
-					// 	this.transactionDataJudgeName="SubsidyAmountList";
-					// 	this.model.getSubsidyAmount(data).then((res)=>{
-		   //      			if (res.data.code==0){
-		   //      				this.tradeSetData(res.data.data)
-		   //      			}
-		   //      		});
-	    //     		case 'TradeNumList':
-					// 	this.transactionDataJudgeName="TradeNumList";
-						
-
-     //    	},
-        	monthData(){//30天切换数据
-				this.transactionDataJudgeTime="30";
-        		this.times.startDate=this.times.oneMonthAgo;
-				this.times.endDate=this.times.endDate;
-				let datas={
-					startDate:this.times.lastWeek,
-	        		endDate:this.times.todayDate,
-	        		compareFlag:true
-				}
-        		if(this.transactionDataJudgeName=="TradeAmountList"){
-					this.tableTitleChoose.title='30日交易总金额数据展示图';
-					this.tradeAmountList();
-				}else if (this.transactionDataJudgeName=="SubsidyAmountList") {
-					this.tableTitleChoose.title='30日补贴总金额数据展示图';
-					this.SubsidyAmountList();
-				}else if (this.transactionDataJudgeName=="TradeNumList") {
-					this.tableTitleChoose.title='30日交易总笔数数据展示图';
-					this.TradeNumList();
-				}
+        	dateChange(toggle){
+        		switch(toggle){
+        			case 'week':
+        				this.transactionDataJudgeTime="7";
+						this.tradeGET.startDate=this.times.lastWeek;
+						this.tradeGET.endDate=this.times.todayDate;
+						if(this.transactionDataJudgeName=="TradeAmountList"){
+							this.transactionDataShow.tableTitle='7日交易总金额数据展示图';
+							this.changeDataShow('TradeAmountList');
+		        			break;
+						}else if (this.transactionDataJudgeName=="SubsidyAmountList") {
+							this.transactionDataShow.tableTitle='7日补贴总金额数据展示图';
+							this.changeDataShow('SubsidyAmountList');
+			        		break;
+						}else if (this.transactionDataJudgeName=="TradeNumList") {
+							this.transactionDataShow.tableTitle='7日交易总笔数数据展示图';
+							this.changeDataShow('TradeNumList');
+			        		break;
+						}
+						break;
+        			case 'month':
+        				this.transactionDataJudgeTime="30";
+						this.tradeGET.startDate=this.times.monthAgo;
+						this.tradeGET.endDate=this.times.todayDate;
+						console.log(this.tradeGET.startDate)
+						console.log(this.tradeGET.endDate)
+						if(this.transactionDataJudgeName=="TradeAmountList"){
+							this.transactionDataShow.tableTitle='30日交易总金额数据展示图';
+							this.changeDataShow('TradeAmountList');
+		        			break;
+						}else if (this.transactionDataJudgeName=="SubsidyAmountList") {
+							this.transactionDataShow.tableTitle='30日补贴总金额数据展示图';
+							this.changeDataShow('SubsidyAmountList');
+			        		break;
+						}else if (this.transactionDataJudgeName=="TradeNumList") {
+							this.transactionDataShow.tableTitle='30日交易总笔数数据展示图';
+							this.changeDataShow('TradeNumList');
+			        		break;
+						}
+						break;
+        		}
         	},
 			// =================================================================================================
         	//交易区域 sucess
         	regionDetailReady(){//交易区域数据获取
-        		let data={
-        		}
+        		let data={}
         		this.model.getTradeAreaTotal(data).then((res)=>{
         			if (res.data.code==0){
         				this.$set('transactionRegion.tradeAreaModel',res.data.data);
@@ -601,20 +598,19 @@
         			if (res.data.code==0){
 						this.transactionRegion.tradeArea=res.data.data.category;
 						this.transactionRegion.cityData=res.data.data.series[0].dataDecimal;
-						// this.dataBarEchart('region-echart',this.transactionRegion.tradeArea,'交易金额',this.transactionRegion.cityData);
+						this.dataBarEchart('region-echart',this.transactionRegion.tradeArea,'交易金额',this.transactionRegion.cityData);
         			}
         		})
 
         	},
 			regionDetailNumber(){//交易区域交易笔数切换
 				this.regionDetailJudgeChoose='num';
-				let data={
-				}
+				let data={}
 				this.model.getTradeAreaNumList(data).then((res)=>{
         			if (res.data.code==0){
 						this.transactionRegion.tradeArea=res.data.data.category;
 						this.transactionRegion.cityData=res.data.data.series[0].dataLong;
-						// this.dataBarEchart('region-echart',this.transactionRegion.tradeArea,'交易笔数',this.transactionRegion.cityData);
+						this.dataBarEchart('region-echart',this.transactionRegion.tradeArea,'交易笔数',this.transactionRegion.cityData);
         			}
         		})
 			},
@@ -622,12 +618,13 @@
 			//交易时段分析 sucess
 			transactionTimeReady(){//交易时段加载数据
 				let data={
+					activityID:"11"
 				}
 				this.model.getTradePeriodTotal(data).then((res)=>{
 					if (res.data.code==0){
 						this.transactionTime.timePoint = res.data.data.series;
         			}
-					// this.justChart(this.transactionTime.timeData,this.transactionTime.timePoint);	
+					this.justChart(this.transactionTime.timeData,this.transactionTime.timePoint);	
 				})
 			},
 			// =================================================================================================
@@ -649,7 +646,7 @@
 					if (res.data.code==0){
 						this.merchantDataArea.storeName=res.data.data.series[0].storeAndMerchantName;//商户数据名称
 						this.merchantDataArea.tradeAmount=res.data.data.series[0].dataDecimal;//商户数据刷卡金额
-						// this.dataBarEchart('merchant-echart',this.merchantDataArea.storeName,'刷卡金额',this.merchantDataArea.tradeAmount);
+						this.dataBarEchart('merchant-echart',this.merchantDataArea.storeName,'刷卡金额',this.merchantDataArea.tradeAmount);
 					}
 				})
 			},
@@ -661,7 +658,7 @@
 					if (res.data.code==0){
 						this.merchantDataArea.storeName=res.data.data.series[0].storeAndMerchantName;//商户数据名称
 						this.merchantDataArea.tradeCount=res.data.data.series[0].dataLong;//商户数据刷卡笔数
-						// this.dataBarEchart('merchant-echart',this.merchantDataArea.storeName,'刷卡笔数',this.merchantDataArea.tradeCount);
+						this.dataBarEchart('merchant-echart',this.merchantDataArea.storeName,'刷卡笔数',this.merchantDataArea.tradeCount);
 					}
 				})
 			},
@@ -684,7 +681,7 @@
 					if (res.data.code==0) {
 						this.cardBINDataArea.binStartNumber=res.data.data.category;
 						this.cardBINDataArea.tradeAmountCardBINChange=res.data.data.series[0].dataDecimal;
-						// this.dataBarEchart('cardBIN-echart',this.cardBINDataArea.binStartNumber,'卡BIN刷卡金额',this.cardBINDataArea.tradeAmountCardBINChange);
+						this.dataBarEchart('cardBIN-echart',this.cardBINDataArea.binStartNumber,'卡BIN刷卡金额',this.cardBINDataArea.tradeAmountCardBINChange);
 					}
 				});
 			},
@@ -696,7 +693,7 @@
 					if (res.data.code==0) {
 						this.cardBINDataArea.binStartNumber=res.data.data.category;
 						this.cardBINDataArea.tradeNumCardBINChange=res.data.data.series[0].dataLong;
-						// this.dataBarEchart('cardBIN-echart',this.cardBINDataArea.binStartNumber,'卡BIN刷卡笔数',this.transactionRegion.tradeNumCardBINChange);
+						this.dataBarEchart('cardBIN-echart',this.cardBINDataArea.binStartNumber,'卡BIN刷卡笔数',this.transactionRegion.tradeNumCardBINChange);
 					}
 				});
 			},
@@ -717,7 +714,7 @@
 					if (res.data.code==0) {
 						this.oneCardArea.oneCardChance=res.data.data.series[0].data;
 						this.oneCardArea.oneCardNum=res.data.data.series[0].dataLong;
-						// this.dataBarEchart('one-echart',this.oneCardArea.oneCardChance,'卡数量',this.oneCardArea.oneCardNum);
+						this.dataBarEchart('one-echart',this.oneCardArea.oneCardChance,'卡数量',this.oneCardArea.oneCardNum);
 					}
 				})
 			},
@@ -732,7 +729,7 @@
 						this.upDownToggle.transactionDataShowArea=true;	
         				this.tradeDataModelToday();
         				this.tradeDataModelTotail();
-        				// this.tradeAmountList();
+        				this.changeDataShow('TradeAmountList');
 						break;
 					case 'transaRegionToggleUp'://交易区域分析
 						this.upDownToggle.transactionRegionShowArea=false;
@@ -780,7 +777,7 @@
 			//搜索活动
 			getActivity(){
 				 let data={
-                    name:this.activityName,
+                    name:this.searchDate.activityName,
                     uuids:[JSON.parse(sessionStorage.getItem('loginList')).bankUUID]
                 };
                 this.$common_model.getActivityList(data).then((res)=>{
@@ -798,9 +795,8 @@
 		},
 		ready(){
 			this.dateGetShow();
-			// this.TradeAmountList();
-        	// this.tradeDataModelToday();
-			// this.TradeDataTotalReadyAll();
+			this.tradeGET.startDate=this.times.lastWeek;
+			this.tradeGET.endDate=this.times.todayDate;
 		}
 	}
 </script>
