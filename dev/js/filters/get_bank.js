@@ -4,8 +4,8 @@ export default  (value,data) => {
 		return str
 	}
 	_.map(data,(val)=>{
-		if(val.uuid==value){
-			str=val.shortName;
+		if(val.id==value){
+			str=val.name;
 		}
 	})
 	return str;
