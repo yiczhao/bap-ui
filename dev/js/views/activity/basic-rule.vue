@@ -236,6 +236,8 @@
                     actType: '活动类型',
                     budget: '活动预算',
                     propes: '活动性质',
+                    startTime:'活动开始时间',
+                    endTime:'活动结束时间',
                     weeksList: '可选时间段',
                     subject: '活动主题',
                     detail: '活动细则'
