@@ -116,7 +116,7 @@
                 sessionStorage.setItem('props',val)
             },
             getactPropes(){
-                (!this.actPropes)?this.actPropes=null:this.searchDate.actPropes= this.actPropes;
+                (!this.actPropes)?this.searchDate.actPropes=null:this.searchDate.actPropes= this.actPropes;
             },
             checked(type,bool){
                 if(bool){
