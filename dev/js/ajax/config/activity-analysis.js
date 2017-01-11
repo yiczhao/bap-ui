@@ -26,8 +26,8 @@ function model(_this) {
          * @param id
          * @returns {*}
          */
-         getTradeDataTotal(){
-         	return formDataRequest('./transfer/data_analysis/das/api/v1/trade_data/total').get()
+         getTradeDataTotal(data){
+         	return formDataRequest('./transfer/data_analysis/das/api/v1/trade_data/total').get(data)
          },
          /**
          * @description 交易数据分析获取某个时间段的交易总笔数集合
