@@ -99,7 +99,7 @@
                 searchDate:{
                     name:'',
                     actPropes:null,
-                    startTime:'',
+                    startTime:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,
                     endTime:'',
                     statuses:['online'],
                     page:1,
