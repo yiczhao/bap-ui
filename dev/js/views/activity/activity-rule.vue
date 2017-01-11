@@ -222,17 +222,17 @@
                     let err = errMapper[k] && new Error(`请检查 ${errMapper[k]} 字段!`)
                     if(keys==='quantities'){
                         /*global _*/
-                        if ((!m.total &&!m.totalDay &&!m.totalMonth &&!m.totalWeek && err) || (_.isArray(m) && !m.length && err)) {
+                        if (((!m.total ||!m.totalDay ||!m.totalMonth ||!m.totalWeek) && err) || (_.isArray(m) && !m.length && err)) {
                             throw err
                         }
                     }
                     else if(keys==='moneys'){
-                        if (((!m.amount||!m.less_than) && err) || (_.isArray(m) && !m.length && err)) {
+                        if (((!m.amount&&!m.less_than) && err) || (_.isArray(m) && !m.length && err)) {
                             throw err
                         }
                     }
                     else{
-                        if ((!m[0].data&&!m[0].extData && err) || (_.isArray(m) && !m.length && err)) {
+                        if (((!m[0].data||!m[0].extData) && err) || (_.isArray(m) && !m.length && err)) {
                             throw err
                         }
                     }

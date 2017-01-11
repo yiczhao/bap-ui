@@ -38,7 +38,16 @@
                 this.$dispatch('getDatas',  this.submitdata);
             },
             setData(data){
-                this.$set('submitdata', data);
+                let sdata=[];
+                _.map(data,(val)=>{
+                    sdata.push({
+                        name:val.name,
+                        originalPrice:val.originalPrice,
+                        actualPayment:val.actualPayment,
+                        numberLimit:val.numberLimit
+                    })
+                })
+                this.$set('submitdata', sdata);
             },
         },
         ready (){

@@ -31,7 +31,11 @@
                 this.$dispatch('getDatas',  this.submitdata);
             },
             setData(data){
-                this.$set('submitdata', data);
+                let sdata={
+                    meetMoney:data.meetMoney,
+                    minusMoney:data.minusMoney,
+                };
+                this.$set('submitdata', sdata);
             },
         },
         ready (){

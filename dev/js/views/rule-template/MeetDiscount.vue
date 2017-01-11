@@ -36,7 +36,14 @@
                 this.$dispatch('getDatas',  this.submitdata);
             },
             setData(data){
-                this.$set('submitdata', data);
+                let sdata=[];
+                _.map(data,(val)=>{
+                    sdata.push({
+                        meetMoney:val.meetMoney,
+                        discount:val.discount
+                    })
+                })
+                this.$set('submitdata', sdata);
             },
         },
         ready (){

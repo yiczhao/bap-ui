@@ -33,7 +33,14 @@
         },
         events:{
             setData(data){
-                this.$set('submitdata', data);
+                let sdata=[];
+                _.map(data,(val)=>{
+                    sdata.push({
+                        number:val.number,
+                        amount:val.amount
+                    })
+                })
+                this.$set('submitdata', sdata);
             },
             getData(){
                 this.$dispatch('getDatas',  this.submitdata);
