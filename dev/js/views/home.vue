@@ -108,7 +108,7 @@
             getActivity(){
                 let data={
                     name:this.searchDate.name,
-                    uuids:JSON.parse(sessionStorage.getItem('uuids'))
+                    uuids:_.split(sessionStorage.getItem('uuids'), ',')
                 }
                 this.$common_model.getActivityList(data).then((res)=>{
                     if(res.data.code===0){

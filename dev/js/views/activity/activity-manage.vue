@@ -95,7 +95,7 @@
             return{
                 searchList:[],
                 actPropes:'',
-                uuidsList:JSON.parse(sessionStorage.getItem('uuids')),
+                uuidsList:_.split(sessionStorage.getItem('uuids'), ','),
                 searchDate:{
                     name:'',
                     actPropes:null,
@@ -104,7 +104,7 @@
                     statuses:['online'],
                     page:1,
                     maxResult:10,
-                    uuids:JSON.parse(sessionStorage.getItem('uuids')),
+                    uuids:_.split(sessionStorage.getItem('uuids'), ','),
                     systemId:'yhhd',
                     total:0
                 },
