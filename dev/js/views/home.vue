@@ -84,7 +84,7 @@
                     startDate:this.searchDate.startDate,
                     endDate:this.searchDate.endDate,
                 };
-                (!this.searchDate.activityID)? data.uuids=JSON.parse(sessionStorage.getItem('loginList')).bankUUID:data.uuids='';
+                (!this.searchDate.activityID)? data.bankUuid=JSON.parse(sessionStorage.getItem('uuids')):data.bankUuid='';
                 this.model.getTotal(data).then((res)=>{
                     this.$set('total',res.data.data);
                 })
@@ -108,7 +108,7 @@
             getActivity(){
                 let data={
                     name:this.searchDate.name,
-                    uuids:[JSON.parse(sessionStorage.getItem('loginList')).bankUUID]
+                    uuids:JSON.parse(sessionStorage.getItem('uuids'))
                 }
                 this.$common_model.getActivityList(data).then((res)=>{
                     if(res.data.code===0){
