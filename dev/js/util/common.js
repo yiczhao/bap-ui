@@ -68,3 +68,67 @@ window.stringify = (dater , format)=>{
     })
 }
 
+window.buildParams=function( prefix, obj, traditional, add ) {
+    let name;
+    let rbracket = /\[\]$/;
+    if ( _.isArray( obj ) ) {
+
+        // Serialize array item.
+        _.map( obj, function( i, v ) {
+            if ( traditional || rbracket.test( prefix ) ) {
+
+                // Treat each array item as a scalar.
+                add( prefix, v );
+
+            } else {
+
+                // Item is non-scalar (array or object), encode its numeric index.
+                buildParams(
+                    prefix + "[" + ( typeof v === "object" && v != null ? i : "" ) + "]",
+                    v,
+                    traditional,
+                    add
+                );
+            }
+        } );
+
+    } else if ( !traditional && typeof( obj ) === "object" ) {
+
+        // Serialize object item.
+        for ( name in obj ) {
+            buildParams( prefix + "[" + name + "]", obj[ name ], traditional, add );
+        }
+
+    } else {
+
+        // Serialize scalar item.
+        add( prefix, obj );
+    }
+}
+window.paramData = function( a, traditional ) {
+    let prefix,
+        s = [],
+        r20 = /%20/g,
+        add = function( key, value ) {
+
+            // If value is a function, invoke it and return its value
+            value =( value == null ? "" : value );
+            s[ s.length ] = encodeURIComponent( key ) + "=" + encodeURIComponent( value );
+        };
+    if ( _.isArray( a ) ) {
+        _.map( a, function() {
+            add( this.name, this.value );
+        } );
+
+    } else {
+
+        // If traditional, encode the "old" way (the way 1.3.2 or older
+        // did it), otherwise encode params recursively.
+        for ( prefix in a ) {
+            buildParams( prefix, a[ prefix ], traditional, add );
+        }
+    }
+
+    // Return the resulting serialization
+    return s.join( "&" ).replace( r20, "+" );
+};
