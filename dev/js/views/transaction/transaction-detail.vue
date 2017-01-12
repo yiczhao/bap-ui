@@ -9,7 +9,7 @@
             <ks-date-picker time="00:00:00" :value.sync="searchDate.startDate"></ks-date-picker>
             <span>到</span>
             <ks-date-picker time="23:59:59" :value.sync="searchDate.endDate"></ks-date-picker>
-            <a class="btn btn-primary searchBtn" @click="getAll">搜索</a>
+            <a class="btn btn-primary searchBtn" @click="getList">搜索</a>
         </div>
         <div class="table">
             <table>
@@ -30,7 +30,7 @@
             </table>
         </div>
         <div class="showInfo">
-            <span class="activity-name">活动名称：{{searchDate.activityName}}</span>
+            <span class="activity-name">活动名称：{{activityName}}</span>
             <span class="infor-num">共{{searchDate.total}}条数据</span>
             <span class="out-excel"><i class="icon-file-excel"></i>导出excel表格</span>
         </div>
@@ -74,8 +74,8 @@
             :page_current.sync="searchDate.pageIndex" 
             :total="searchDate.total" 
             :page_size.sync="searchDate.pageSize"
-            v-on:current_change="total"
-            v-on:size_change="total"
+            v-on:current_change="getList"
+            v-on:size_change="getList"
             ></pagegroup>
     </div>
     </template>
@@ -95,46 +95,45 @@
                 },
                 tradeTotalNumber:50,
                 dataList:[],
+                activityName:'',
+                haha:'',
                 searchDate:{
                     pageIndex:1,//当前选中的分页值
                     total:1,//数据总条数
-                    pageSize:10,//每页展示多少条数
+                    pageSize:1,//每页展示多少条数
                     phone:'',
                     activityName:'',//活动名称
                     cardNumber:'',//银行卡号
                     startDate:'',//开始时间
                     endDate:'',//结束时间
-                    activityID:'',
                 },
             }
         },
         methods:{
             getList(){
-                this.model.getTradeStatisticsSumList(this.searchDate).then((res)=>{
-                    if(res.data.code===0){
-                        this.$set('cumulative',res.data.dataList[0]);
-                    }
-                })
-            },
-            total(){
-                // this.searchDate.startDate='';
-                // this.searchDate.endDate='';
+                if (!this.searchDate.activityID) {
+                    this.searchDate.uuids=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
+                }else{
+                    this.searchDate.activityID=this.searchDate.activityID;
+                }
                 this.model.getList(this.searchDate).then((res)=>{
                     if(res.data.code===0){
                         this.$set('dataList',res.data.dataList)
                         this.searchDate.total=res.data.objectotalNumber;
                     }
                 })
+                this.model.getTradeStatisticsSumList(this.searchDate).then((res)=>{
+                    if(res.data.code===0){
+                        this.$set('cumulative',res.data.dataList[0]);
+                    }
+                })
             },
-            getAll(){
-                this.getList();
-                this.total();
-            }
         },
-        created(){
-            this.searchDate.activityName=this.$route.params.transactionName;
+        ready(){
+            this.activityName=this.$route.params.transactionName;
             this.getList();
-            this.total();
+            this.searchDate.startDate='';
+            this.searchDate.endDate='';
         }
     }
 </script>

@@ -489,7 +489,7 @@
 					endDate:this.times.todayDate,
 					activityID:this.tradeGET.activityID
 				};
-                // (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
         		this.model.getTradeDataTotal(data).then((res)=>{
         			if (res.data.code==0){
         				this.$set('transactionDataShow.tradeDataModelToday',res.data.data);
@@ -498,7 +498,7 @@
 			},
 			tradeDataModelTotail(){//获取累计交易数据
 				let data={compareFlag:true,activityID:this.tradeGET.activityID};
-                // (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
         		this.model.getTradeDataTotal(data).then((res)=>{
         			if (res.data.code==0){
         				this.$set('transactionDataShow.tradeDataModelTotail',res.data.data);
@@ -595,7 +595,8 @@
 			// =================================================================================================
         	//交易区域 sucess
         	regionDetailReady(){//交易区域数据获取
-        		let data={activityID:this.searchDate.activityID}
+        		let data={};
+                (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
         		this.model.getTradeAreaTotal(data).then((res)=>{
         			if (res.data.code==0){
         				this.$set('transactionRegion.tradeAreaModel',res.data.data);
@@ -604,7 +605,8 @@
         	},
         	regionDetailAmount(){//交易区域交易金额切换
         		this.regionDetailJudgeChoose='amount';
-        		let data={activityID:this.searchDate.activityID}
+        		let data={};
+                (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
         		this.model.getTradeAreaTotalAmountList(data).then((res)=>{
         			if (res.data.code==0){
 						this.transactionRegion.tradeArea=res.data.data.category;
@@ -616,7 +618,8 @@
         	},
 			regionDetailNumber(){//交易区域交易笔数切换
 				this.regionDetailJudgeChoose='num';
-				let data={activityID:this.searchDate.activityID}
+				let data={};
+                (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getTradeAreaNumList(data).then((res)=>{
         			if (res.data.code==0){
 						this.transactionRegion.tradeArea=res.data.data.category;
@@ -628,9 +631,8 @@
 			// =================================================================================================
 			//交易时段分析 sucess
 			transactionTimeReady(){//交易时段加载数据
-				let data={
-					activityID:"11"
-				}
+				let data={};
+                (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getTradePeriodTotal(data).then((res)=>{
 					if (res.data.code==0){
 						this.transactionTime.timePoint = res.data.data.series;
@@ -641,8 +643,8 @@
 			// =================================================================================================
 			//商户数据分析
 			merchantDataAreaReady(){//商户关键数据
-				let data={activityID:this.searchDate.activityID
-				}
+				let data={};
+                (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getMerchantTradeTotal(data).then((res)=>{
 					if (res.data.code==0){
 						this.$set('merchantDataArea.merchantDataTotal',res.data.data);
@@ -651,8 +653,8 @@
 			},
 			merchantDataTradeAmountChange(){//商户数据交易金额
 				this.merchantDataDetailJudgeName='amount';
-				let data={activityID:this.searchDate.activityID
-				}
+				let data={};
+                (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getMerchantTradeAmount(data).then((res)=>{
 					if (res.data.code==0){
 						this.merchantDataArea.storeName=res.data.data.series[0].storeAndMerchantName;//商户数据名称
@@ -663,8 +665,9 @@
 			},
 			merchantDataTradeCountChange(){//商户数据交易笔数
 				this.merchantDataDetailJudgeName='num';
-				let data={activityID:this.searchDate.activityID
-				}
+				let data={};
+                (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+
 				this.model.getMerchantTradeCount(data).then((res)=>{
 					if (res.data.code==0){
 						this.merchantDataArea.storeName=res.data.data.series[0].storeAndMerchantName;//商户数据名称
@@ -676,8 +679,8 @@
 			// =================================================================================================
 			//卡BIN数据分析 success
 			cardBINDataAreaReady(){//卡BIN数据分析获取数据
-				let data={activityID:this.searchDate.activityID
-				};
+				let data={};
+                (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getCardBINTotal(data).then((res)=>{
 					if (res.data.code==0){
 						this.$set('cardBINDataArea.CardBinModel',res.data.data);
@@ -686,8 +689,8 @@
 			},
 			cardBINDetailAmount(){//卡BIN交易金额chenge
 				this.cardBINDetailJudgeChoose='amount';
-				let data={activityID:this.searchDate.activityID
-				};
+				let data={};
+                (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getCardBINTradeAmountList(data).then((res)=>{
 					if (res.data.code==0) {
 						this.cardBINDataArea.binStartNumber=res.data.data.category;
@@ -698,8 +701,8 @@
 			},
 			cardBINDetailNumber(){//卡BIN交易笔数change
 				this.cardBINDetailJudgeChoose='num';
-				let data={activityID:this.searchDate.activityID
-				};
+				let data={};
+                (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getCardBINTradeNumList(data).then((res)=>{
 					if (res.data.code==0) {
 						this.cardBINDataArea.binStartNumber=res.data.data.category;
@@ -711,7 +714,7 @@
 			// =================================================================================================
 			oneCardDataReady(){//单卡获取total
 				let data={};
-				!this.activityID?data={uuids:this.uuids}:data={activityID:this.activityID};
+				(!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getOneCardTotal(data).then((res)=>{
 					if (res.data.code==0) {
 						this.$set('oneCardArea.oneCardModel',res.data.data);
@@ -719,8 +722,8 @@
 				})
 			},
 			oneCardDataOnceData(){//获取单卡参与次数数据
-				let data={activityID:this.searchDate.activityID
-				};
+				let data={};
+                (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getOneCardSwipedCount(data).then((res)=>{
 					if (res.data.code==0) {
 						this.oneCardArea.oneCardChance=res.data.data.series[0].data;

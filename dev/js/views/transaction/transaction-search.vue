@@ -101,9 +101,6 @@
                 showList:false,
                 tradeTotalNumber:50,
                 activityStatues:[
-                    {'status':'草稿'},
-                    {'status':'待审核'},
-                    {'status':'审核失败'},
                     {'status':'运行中'},
                     {'status':'已结束'},
                 ],
@@ -120,7 +117,7 @@
                     activityStatue:'',//活动状态
                 },
             }
-        },
+        }, 
         methods:{
             getList(){
                 if (!this.searchDate.activityID) {
@@ -130,7 +127,7 @@
                 }
                 this.model.getList(this.searchDate).then((res)=>{
                     if(res.data.code===0){
-                        this.dataList=res.data.dataList;
+                        this.$set('dataList',res.data.dataList);
                         this.searchDate.total=res.data.objectotalNumber;
                     }
                 })

@@ -19,7 +19,7 @@
         <div class="total-div">
             <div class="total-left">
                 <span>交易总金额</span>
-                <span>{{total.tradeAmount/100 | currency '' }}元</span>
+                <span>{{total.tradeAmount}}元</span>
             </div>
             <div class="total-right">
                 <div>
@@ -28,7 +28,7 @@
                 </div>
                 <div class="">
                     <span>补贴总金额(元)</span>
-                    <span>{{total.subsidyAmount/100 | currency '' }}元</span>
+                    <span>{{total.subsidyAmount}}元</span>
                 </div>
             </div>
         </div>
@@ -63,7 +63,7 @@
             this.model=model(this);
             return{
                 now:stringify(new Date()),
-                total:{},
+                total:[],
                 activityList:[],
                 TradeAreaNumList:[],
                 CardBINTradeNumList:[],
@@ -72,8 +72,8 @@
                     type:'now',
                     name:'',
                     activityID:'',
-                    startDate:stringify(new Date()),
-                    endDate:stringify(new Date()),
+                    // startDate:stringify(new Date()),
+                    // endDate:stringify(new Date()),
                 }
             }
         },
@@ -83,6 +83,7 @@
                     activityID:this.searchDate.activityID,
                     startDate:this.searchDate.startDate,
                     endDate:this.searchDate.endDate,
+                    compareFlag:true,
                 };
                 (!this.searchDate.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
                 this.model.getTotal(data).then((res)=>{
