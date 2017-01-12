@@ -270,7 +270,7 @@
 					</table>
 				</div>
 				<div class="one-detail">
-					<span class="title"><i></i>单卡最高参与次数（次）</span>
+					<span class="title"><i></i>单卡参与次数（次）</span>
 					<div class="one-echart" id="one-echart"></div>
 				</div>
 			</span>
@@ -387,7 +387,7 @@
 				    legend: {data:twoInfor},
 				    toolbox: {
 				        show : true,
-				        feature : {mark : {show: true},dataView : {show: true, readOnly: false},magicType : {show: true, type: ['line', 'bar']},restore : {show: false},saveAsImage : {show: true}},
+				        feature : {mark : {show: false},dataView : {show: false, readOnly: false},magicType : {show: false, type: ['line', 'bar']},restore : {show: false},saveAsImage : {show: false}},
 				    },
 				    calculable : true,
 				    xAxis : [
@@ -484,7 +484,11 @@
 				)
 			},
 			tradeDataModelToday(){//获取今日关键数据
-				let data={startDate:this.tradeGET.todayDate,endDate:this.tradeGET.todayDate,activityID:this.tradeGET.activityID};
+				let data={
+					startDate:this.times.todayDate,
+					endDate:this.times.todayDate,
+					activityID:this.tradeGET.activityID
+				};
                 // (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
         		this.model.getTradeDataTotal(data).then((res)=>{
         			if (res.data.code==0){
