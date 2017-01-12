@@ -83,12 +83,6 @@
 					'link':'Ticket',
 					'show':false,
 					'type':'piaowu'
-				},{
-					'name':'权益',
-					'text':'特定持卡人享有根据消费的周尾数打的优惠资格。',
-					'link':'quanyi',
-					'show':false,
-					'type':'quanyi'
 				}]
 			}
 		},

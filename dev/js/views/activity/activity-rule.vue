@@ -244,9 +244,11 @@
             let activityId = this.$route.params.ruleId << 0||sessionStorage.getItem('activityId');
             if (activityId) {
                 this.model.geteditList(activityId).then((res)=>{
-                    if(res.data.code===0){
-                        let rulename=res.data.data.ruleAndLimit.ruleType;
-                        this.$broadcast('setData',res.data.data.ruleAndLimit[this.ruleNames[rulename]]);
+                    let rulename=res.data.data.ruleAndLimit.ruleType;
+                    let ruleData=res.data.data.ruleAndLimit[this.ruleNames[rulename]];
+                    let checked=_.isArray(ruleData)?(!!ruleData&&!!ruleData.length):!!ruleData;
+                    if(res.data.code===0&&checked){
+                        this.$broadcast('setData',ruleData);
                         if(!!res.data.data.ruleAndLimit.cardBins.length){
                             this.ruleDatas.CardBin=res.data.data.ruleAndLimit.cardBins;
                             this.ruleLists[0].checked=true;
@@ -288,7 +290,7 @@
               let submitData=_.assign(sumitdata1, sumitdata2);
               submitData.step=this.showstep+1;
               submitData.ruleType=rulename;
-              !!sessionStorage.getItem('activityId')?submitData.id=sessionStorage.getItem('activityId')>>0:null;
+              submitData.id = this.$route.params.ruleId << 0||sessionStorage.getItem('activityId');
               this.model.addRule(submitData).then((res)=>{
                   if(res.data.code===0){
                       if (this.nextBool) {

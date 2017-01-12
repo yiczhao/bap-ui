@@ -13,7 +13,7 @@
                 <span>活动名称： {{basicData.name}}</span>
                 <span v-if="!!ruleList.ruleName">活动形式： {{ruleList.ruleName}}</span>
                 <span>创建时间： {{basicData.createdAt}}</span>
-                <span>所属银行：</span>
+                <span>所属银行：{{basicData.uuid | get_bank uuidsList}}</span>
             </div>
             <div v-show="step===1" class="info-basic">
                <div class="main-row">
@@ -22,7 +22,9 @@
                </div>
                 <div class="main-row">
                     <span>活动主办方： </span>
-                    <span> {{basicData.organizerName}}</span>
+                    <span>{{basicData.uuid | get_bank uuidsList}}</span>
+                </div>
+                <div class="main-row">
                     <span>活动预算： </span>
                     <span> {{basicData.budget | currency ''}}元</span>
                 </div>
@@ -47,39 +49,53 @@
             <div v-show="step===2" class="info-rule">
                 <div class="main-row table-row">
                     <span class="w140">{{ruleList.ruleName}}：</span>
-                     <span v-for="n in ruleList[ruleList.ruleTypes]">
-                        <template v-if="ruleList.ruleType=='MeetMinus'">
+                    <template v-if="ruleList.ruleType=='MeetMinus'">
+                         <span v-for="n in ruleList[ruleList.ruleTypes]">
                             满{{n.meetMoney}}元，减{{n.minusMoney}}元.
-                        </template>
-                        <template v-if="ruleList.ruleType=='EveryMeetMinus'">
-                            每满{{n.meetMoney}}元，减{{n.minusMoney}}元.
-                        </template>
-                         <template v-if="ruleList.ruleType=='ImmediatelyMinus'">
-                            立减{{n.money}}元.
-                        </template>
-                         <template v-if="ruleList.ruleType=='RandomMinus'">
+                         </span>
+                    </template>
+                    <template v-if="ruleList.ruleType=='EveryMeetMinus'">
+                        <span>每满{{ruleList[ruleList.ruleTypes].meetMoney}}元，减{{ruleList[ruleList.ruleTypes].minusMoney}}元.</span>
+                    </template>
+                    <template v-if="ruleList.ruleType=='ImmediatelyMinus'">
+                        <span>立减{{ruleList[ruleList.ruleTypes].money}}元.</span>
+                    </template>
+                    <template v-if="ruleList.ruleType=='RandomMinus'">
+                        <span v-for="n in ruleList[ruleList.ruleTypes]">
                             随机立减{{n.amount}}元，{{n.number}}名.
-                        </template>
-                         <template v-if="ruleList.ruleType=='MeetDiscount'">
+                         </span>
+                    </template>
+                    <template v-if="ruleList.ruleType=='MeetDiscount'">
+                        <span v-for="n in ruleList[ruleList.ruleTypes]">
                             满{{n.meetMoney}}元，打{{n.discount}}折.
-                        </template>
-                         <template v-if="ruleList.ruleType=='Ticket'">
-                            票务名称{{n.name}}，原价{{n.originalPrice}}元，实付{{n.actualPayment}}元.
-                            单次每卡可购{{n.numberLimit}}张
-                        </template>
-                         <template v-if="ruleList.ruleType=='SerialDiscount'">
+                         </span>
+                    </template>
+                    <template v-if="ruleList.ruleType=='Ticket'">
+                         <span v-for="n in ruleList[ruleList.ruleTypes]">
+                             票务名称{{n.name}}，原价{{n.originalPrice}}元，实付{{n.actualPayment}}元.
+                             单次每卡可购{{n.numberLimit}}张
+                         </span>
+                    </template>
+                    <template v-if="ruleList.ruleType=='SerialDiscount'">
+                         <span v-for="n in ruleList[ruleList.ruleTypes]">
                             用户刷卡{{n.belowMoney}}以内，第{{n.time}}次，可享受{{n.discount}}折.
-                        </template>
-                         <template v-if="ruleList.ruleType=='WeekdayDiscount'">
-                            每周{{n.weekday}}，打{{n.discount }}折.
-                        </template>
-                         <template v-if="ruleList.ruleType=='DateDiscount'">
-                            {{n.date}}号，立减{{n.discount}}折.
-                        </template>
-                         <template v-if="ruleList.ruleType=='RandomDiscount'">
+                         </span>
+                    </template>
+                    <template v-if="ruleList.ruleType=='WeekdayDiscount'">
+                         <span v-for="n in ruleList[ruleList.ruleTypes]">
+                             每周{{n.weekday}}，打{{n.discount }}折.
+                         </span>
+                    </template>
+                    <template v-if="ruleList.ruleType=='DateDiscount'">
+                         <span v-for="n in ruleList[ruleList.ruleTypes]">
+                              {{n.date}}号，立减{{n.discount}}折.
+                         </span>
+                    </template>
+                    <template v-if="ruleList.ruleType=='RandomDiscount'">
+                         <span v-for="n in ruleList[ruleList.ruleTypes]">
                             随机{{n.discount}}折，{{n.number}}名.
-                        </template>
-                    </span>
+                         </span>
+                    </template>
                 </div>
                 <div v-show="!!ruleList.moneys.length" class="main-row table-row">
                     <span>金额限制：</span>
@@ -195,6 +211,7 @@
             this.model=model(this)
             return{
                 step:1,
+                uuidsList:JSON.parse(sessionStorage.getItem('bankNames')),
                 basicData:{},
                 ruleList:{
                     moneys:[],
@@ -218,8 +235,8 @@
         methods:{
             getRules(data){
                 let datas=_.cloneDeep(data);
-                datas.ruleTypes=_.isArray(this.ruleTypes[data.ruleType])?this.ruleTypes[data.ruleType][0]:this.ruleTypes[data.ruleType];
-                datas.ruleName=_.isArray(this.ruleTypes[data.ruleType])?this.ruleTypes[data.ruleType][1]:this.ruleTypes[data.ruleType];
+                datas.ruleTypes=this.ruleTypes[data.ruleType][0];
+                datas.ruleName=this.ruleTypes[data.ruleType][1];
                 this.$set('ruleList',datas);
             }
         },

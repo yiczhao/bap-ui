@@ -300,6 +300,7 @@
                             })
                         }else{
                             dialog('success','保存草稿成功！');
+                            this. getList()
                         }
                     }
                 })
