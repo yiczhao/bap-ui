@@ -151,7 +151,10 @@
                 dialog('info', err)
             },
             backBasic(){
-                this.$router.go({'name':'basic-rule',params:{'activityId':sessionStorage.getItem('activityId'),'rulename':sessionStorage.getItem('rulename')}});
+                let activityId='';
+                let rulename=!!sessionStorage.getItem('rulename')?sessionStorage.getItem('rulename'):this.$route.name;
+                !!sessionStorage.getItem('activityId')?activityId=sessionStorage.getItem('activityId'):(activityId=this.$route.params.ruleId << 0 ===0?'':this.$route.params.ruleId << 0 );
+                this.$router.go({'name':'basic-rule',params:{'activityId':activityId,'rulename':rulename}});
             },
             getNextData(){
                 let moneydata={

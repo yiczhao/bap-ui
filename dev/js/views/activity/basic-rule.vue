@@ -309,7 +309,8 @@
         },
         created(){
             // this.getProvince();
-            let activityId = this.$route.params.activityId << 0;
+            let activityId='';
+            !!sessionStorage.getItem('activityId')?activityId=sessionStorage.getItem('activityId'):(activityId=this.$route.params.activityId << 0 ===0?'':this.$route.params.activityId << 0 );
             if (activityId) {
                 // 获取活动信息
                 this.model.getAddList(activityId).then((res)=>{
