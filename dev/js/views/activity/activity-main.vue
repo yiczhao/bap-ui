@@ -21,7 +21,7 @@
         methods:{
         },
         ready(){
-            (sessionStorage.getItem('props')=='online')?this.datas=[ '活动基本设置', '活动规则设置', '活动商户设置','活动权益配置']: this.datas=[ '活动基本设置', '活动规则设置', '活动商户设置']
+//            (sessionStorage.getItem('props')=='online')?this.datas=[ '活动基本设置', '活动规则设置', '活动商户设置','活动权益配置']: this.datas=[ '活动基本设置', '活动规则设置', '活动商户设置']
         },
         components: { activityStep }
     }
