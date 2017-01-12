@@ -72,18 +72,18 @@
                       <th>操作</th>
                   </tr>
                   <tr v-for="n in latinosTotalList">
-                      <td>{{n.latinosName }}</td> &lt;!&ndash; 权益名称 &ndash;&gt;
-                      <td>{{n.settlementParty }}</td> &lt;!&ndash; 结算方 &ndash;&gt;
-                      <td>{{n.latinosKinds }}</td> &lt;!&ndash; 权益种类 &ndash;&gt;
-                      <td>{{n.latinosTypes }}</td> &lt;!&ndash; 权益类型 &ndash;&gt;
-                      <td>{{n.denomination }}</td> &lt;!&ndash; 权益面值 &ndash;&gt;
-                      <td></td>>{{n.latinosStatues }}</td> &lt;!&ndash; 状态 &ndash;&gt;
-                      <td>{{n.latinosCirculation }}</td> &lt;!&ndash; 发行量 &ndash;&gt;
-                      <td>{{n.latinosUsage  }} </td> &lt;!&ndash; 使用量 &ndash;&gt;
-                      <td>{{n.overdueNum }}</td> &lt;!&ndash; 过期 &ndash;&gt;
-                      <td>{{n.startDate }}</td> &lt;!&ndash; 开始时间 &ndash;&gt;
-                      <td>{{n.endDate }}</td> &lt;!&ndash; 结束时间 &ndash;&gt;
-                      <td><a v-link="{name:'latinos-detail'}">查看明细</a></td>&lt;!&ndash; 操作 &ndash;&gt;
+                      <td>{{n.latinosName }}</td><!-- 权益名称-->
+                      <td>{{n.settlementParty }}</td><!-- 结算方-->
+                      <td>{{n.latinosKinds }}</td><!-- 权益种类-->
+                      <td>{{n.latinosTypes }}</td><!-- 权益类型-->
+                      <td>{{n.denomination }}</td><!-- 权益面值-->
+                      <td>{{n.latinosStatues }}</td><!-- 状态-->
+                      <td>{{n.latinosCirculation }}</td><!-- 发行量-->
+                      <td>{{n.latinosUsage  }} </td><!-- 使用量-->
+                      <td>{{n.overdueNum }}</td><!-- 过期-->
+                      <td>{{n.startDate }}</td><!-- 开始时间-->
+                      <td>{{n.endDate }}</td><!-- 结束时间-->
+                      <td><a v-link="{name:'latinos-detail'}">查看明细</a></td><!--操作-->
                   </tr>
               </table>
           </div>

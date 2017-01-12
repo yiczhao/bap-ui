@@ -320,6 +320,7 @@
 					startDate:'',
 					endDate:'',
 					compareFlag:true,
+					activityID:''
 				},
 				transactionDataShow:{//交易数据分析
 					tradeDataModelToday:[],//交易数据今日累计关键数据
@@ -483,7 +484,8 @@
 				)
 			},
 			tradeDataModelToday(){//获取今日关键数据
-				let data={startDate:this.tradeGET.todayDate,endDate:this.tradeGET.todayDate}
+				let data={startDate:this.tradeGET.todayDate,endDate:this.tradeGET.todayDate,activityID:this.tradeGET.activityID};
+                // (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
         		this.model.getTradeDataTotal(data).then((res)=>{
         			if (res.data.code==0){
         				this.$set('transactionDataShow.tradeDataModelToday',res.data.data);
@@ -491,8 +493,9 @@
         		})
 			},
 			tradeDataModelTotail(){//获取累计交易数据
-				let datas={compareFlag:true};
-        		this.model.getTradeDataTotal(datas).then((res)=>{
+				let data={compareFlag:true,activityID:this.tradeGET.activityID};
+                // (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+        		this.model.getTradeDataTotal(data).then((res)=>{
         			if (res.data.code==0){
         				this.$set('transactionDataShow.tradeDataModelTotail',res.data.data);
         			}
@@ -567,21 +570,16 @@
         				this.transactionDataJudgeTime="30";
 						this.tradeGET.startDate=this.times.monthAgo;
 						this.tradeGET.endDate=this.times.todayDate;
-						console.log(this.tradeGET.startDate)
-						console.log(this.tradeGET.endDate)
 						if(this.transactionDataJudgeName=="TradeAmountList"){
 							// this.transactionDataShow.tableTitle='30日交易总金额数据展示图';
-							console.log(this.transactionDataShow.tableTitle)
 							this.changeDataShow('TradeAmountList');
 		        			break;
 						}else if (this.transactionDataJudgeName=="SubsidyAmountList") {
 							// this.transactionDataShow.tableTitle='30日补贴总金额数据展示图';
-							console.log(this.transactionDataShow.tableTitle)
 							this.changeDataShow('SubsidyAmountList');
 			        		break;
 						}else if (this.transactionDataJudgeName=="TradeNumList") {
 							// this.transactionDataShow.tableTitle='30日交易总笔数数据展示图';
-							console.log(this.transactionDataShow.tableTitle)
 							this.changeDataShow('TradeNumList');
 			        		break;
 						}
@@ -593,7 +591,7 @@
 			// =================================================================================================
         	//交易区域 sucess
         	regionDetailReady(){//交易区域数据获取
-        		let data={}
+        		let data={activityID:this.searchDate.activityID}
         		this.model.getTradeAreaTotal(data).then((res)=>{
         			if (res.data.code==0){
         				this.$set('transactionRegion.tradeAreaModel',res.data.data);
@@ -602,8 +600,7 @@
         	},
         	regionDetailAmount(){//交易区域交易金额切换
         		this.regionDetailJudgeChoose='amount';
-        		let data={
-        		}
+        		let data={activityID:this.searchDate.activityID}
         		this.model.getTradeAreaTotalAmountList(data).then((res)=>{
         			if (res.data.code==0){
 						this.transactionRegion.tradeArea=res.data.data.category;
@@ -615,7 +612,7 @@
         	},
 			regionDetailNumber(){//交易区域交易笔数切换
 				this.regionDetailJudgeChoose='num';
-				let data={}
+				let data={activityID:this.searchDate.activityID}
 				this.model.getTradeAreaNumList(data).then((res)=>{
         			if (res.data.code==0){
 						this.transactionRegion.tradeArea=res.data.data.category;
@@ -640,7 +637,7 @@
 			// =================================================================================================
 			//商户数据分析
 			merchantDataAreaReady(){//商户关键数据
-				let data={
+				let data={activityID:this.searchDate.activityID
 				}
 				this.model.getMerchantTradeTotal(data).then((res)=>{
 					if (res.data.code==0){
@@ -650,7 +647,7 @@
 			},
 			merchantDataTradeAmountChange(){//商户数据交易金额
 				this.merchantDataDetailJudgeName='amount';
-				let data={
+				let data={activityID:this.searchDate.activityID
 				}
 				this.model.getMerchantTradeAmount(data).then((res)=>{
 					if (res.data.code==0){
@@ -662,7 +659,7 @@
 			},
 			merchantDataTradeCountChange(){//商户数据交易笔数
 				this.merchantDataDetailJudgeName='num';
-				let data={
+				let data={activityID:this.searchDate.activityID
 				}
 				this.model.getMerchantTradeCount(data).then((res)=>{
 					if (res.data.code==0){
@@ -675,7 +672,7 @@
 			// =================================================================================================
 			//卡BIN数据分析 success
 			cardBINDataAreaReady(){//卡BIN数据分析获取数据
-				let data={
+				let data={activityID:this.searchDate.activityID
 				};
 				this.model.getCardBINTotal(data).then((res)=>{
 					if (res.data.code==0){
@@ -685,7 +682,7 @@
 			},
 			cardBINDetailAmount(){//卡BIN交易金额chenge
 				this.cardBINDetailJudgeChoose='amount';
-				let data={
+				let data={activityID:this.searchDate.activityID
 				};
 				this.model.getCardBINTradeAmountList(data).then((res)=>{
 					if (res.data.code==0) {
@@ -697,7 +694,7 @@
 			},
 			cardBINDetailNumber(){//卡BIN交易笔数change
 				this.cardBINDetailJudgeChoose='num';
-				let data={
+				let data={activityID:this.searchDate.activityID
 				};
 				this.model.getCardBINTradeNumList(data).then((res)=>{
 					if (res.data.code==0) {
@@ -718,7 +715,7 @@
 				})
 			},
 			oneCardDataOnceData(){//获取单卡参与次数数据
-				let data={
+				let data={activityID:this.searchDate.activityID
 				};
 				this.model.getOneCardSwipedCount(data).then((res)=>{
 					if (res.data.code==0) {
@@ -802,11 +799,23 @@
                 this.searchDate.activityName=name;
                 this.searchDate.activityID=id;
             },
+            resetName(){
+                this.searchDate.showList=false;
+            },
 		},
 		ready(){
 			this.dateGetShow();
 			this.tradeGET.startDate=this.times.lastWeek;
 			this.tradeGET.endDate=this.times.todayDate;
-		}
+			document.addEventListener('click', (e) => {
+                if (!e.target.classList.contains('showLi')) {
+                    this.resetName();
+                }
+            }, false);
+		},
+		beforeDestroy () {
+            document.removeEventListener('click', this.resetName, false);
+        },
+        created(){}
 	}
 </script>
