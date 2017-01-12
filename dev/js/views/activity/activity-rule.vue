@@ -241,7 +241,7 @@
         },
         ready(){
             this.$set('ruleLists',this.$children[0].$children[1].ruleLists);
-            let activityId = this.$route.params.ruleId << 0;
+            let activityId = this.$route.params.ruleId << 0||sessionStorage.getItem('activityId');
             if (activityId) {
                 this.model.geteditList(activityId).then((res)=>{
                     if(res.data.code===0){

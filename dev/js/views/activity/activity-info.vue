@@ -218,8 +218,8 @@
         methods:{
             getRules(data){
                 let datas=_.cloneDeep(data);
-                datas.ruleTypes=this.ruleTypes[data.ruleType][0];
-                datas.ruleName=this.ruleTypes[data.ruleType][1];
+                datas.ruleTypes=_.isArray(this.ruleTypes[data.ruleType])?this.ruleTypes[data.ruleType][0]:this.ruleTypes[data.ruleType];
+                datas.ruleName=_.isArray(this.ruleTypes[data.ruleType])?this.ruleTypes[data.ruleType][1]:this.ruleTypes[data.ruleType];
                 this.$set('ruleList',datas);
             }
         },
