@@ -307,9 +307,6 @@
                 dialog('info', err)
             },
         },
-        ready(){
-            sessionStorage.removeItem('activityId');
-        },
         created(){
             // this.getProvince();
             let activityId = this.$route.params.activityId << 0;

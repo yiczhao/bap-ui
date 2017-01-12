@@ -103,6 +103,8 @@
 				sessionStorage.setItem('props',val);
 			}
 		},
-		ready(){}
+		ready(){
+			sessionStorage.removeItem('activityId');
+		}
 	}
 </script>

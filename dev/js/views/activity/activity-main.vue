@@ -15,7 +15,7 @@
         },
         data(){
             return{
-                datas:[]
+                datas:[ '活动基本设置', '活动规则设置', '活动商户设置']
             }
         },
         methods:{
