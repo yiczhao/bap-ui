@@ -241,7 +241,7 @@
 					<div class="cardBIN-echart" id="cardBIN-echart">
 					</div>
 				</div>
-			<span >
+			</span>
 		</div>
 		<div class="one-card border">
 			<div class="one-title">
@@ -361,10 +361,10 @@
 				oneCardArea:{//单卡数据
 					oneCardModel:[],
 				},
-				activityID:'',
 				uuids:[JSON.parse(sessionStorage.getItem('loginList')).bankUUID],
 				activityList:[],
 				searchDate:{
+					activityID:'',
 					activityName:'',
 					showList:false
 				},
@@ -502,7 +502,8 @@
         		switch(toggle){
         			case 'TradeAmountList':
 						this.transactionDataJudgeName="TradeAmountList";
-						this.transactionDataShow.tableTitle="7日交易总金额数据展示图";
+						// this.transactionDataShow.tableTitle="7日交易总金额数据展示图";
+						this.transactionDataShow.tableTitle="交易总金额数据展示图";
 	        			this.model.getTradeAmount(this.tradeGET).then((res)=>{
 	        				if (res.data.code==0){
 								this.tradeSetData(res.data.data)
@@ -511,7 +512,8 @@
 	        			break;
 	        		case 'SubsidyAmountList':
 						this.transactionDataJudgeName="SubsidyAmountList";
-						this.transactionDataShow.tableTitle="7日补贴总金额数据展示图";
+						// this.transactionDataShow.tableTitle="7日补贴总金额数据展示图";
+						this.transactionDataShow.tableTitle="补贴总金额数据展示图";
 						this.model.getSubsidyAmount(this.tradeGET).then((res)=>{
 		        			if (res.data.code==0){
 		        				this.tradeSetData(res.data.data)
@@ -520,7 +522,8 @@
 		        		break;
 	        		case 'TradeNumList':
 						this.transactionDataJudgeName="TradeNumList";
-						this.transactionDataShow.tableTitle="7日交易总笔数数据展示图";
+						// this.transactionDataShow.tableTitle="7日交易总笔数数据展示图";
+						this.transactionDataShow.tableTitle="交易总笔数数据展示图";
 						this.model.getTradeNum(this.tradeGET).then((res)=>{
 		        			if (res.data.code==0){
 		        				this.$set('transactionDataShow.XData',res.data.data.category);
@@ -536,6 +539,8 @@
 		        			}
 		        		});
 		        		break;
+		        	default:
+						break;
 		        	};
         	},
         	dateChange(toggle){
@@ -545,15 +550,15 @@
 						this.tradeGET.startDate=this.times.lastWeek;
 						this.tradeGET.endDate=this.times.todayDate;
 						if(this.transactionDataJudgeName=="TradeAmountList"){
-							this.transactionDataShow.tableTitle='7日交易总金额数据展示图';
+							// this.transactionDataShow.tableTitle='7日交易总金额数据展示图';
 							this.changeDataShow('TradeAmountList');
 		        			break;
 						}else if (this.transactionDataJudgeName=="SubsidyAmountList") {
-							this.transactionDataShow.tableTitle='7日补贴总金额数据展示图';
+							// this.transactionDataShow.tableTitle='7日补贴总金额数据展示图';
 							this.changeDataShow('SubsidyAmountList');
 			        		break;
 						}else if (this.transactionDataJudgeName=="TradeNumList") {
-							this.transactionDataShow.tableTitle='7日交易总笔数数据展示图';
+							// this.transactionDataShow.tableTitle='7日交易总笔数数据展示图';
 							this.changeDataShow('TradeNumList');
 			        		break;
 						}
@@ -565,18 +570,23 @@
 						console.log(this.tradeGET.startDate)
 						console.log(this.tradeGET.endDate)
 						if(this.transactionDataJudgeName=="TradeAmountList"){
-							this.transactionDataShow.tableTitle='30日交易总金额数据展示图';
+							// this.transactionDataShow.tableTitle='30日交易总金额数据展示图';
+							console.log(this.transactionDataShow.tableTitle)
 							this.changeDataShow('TradeAmountList');
 		        			break;
 						}else if (this.transactionDataJudgeName=="SubsidyAmountList") {
-							this.transactionDataShow.tableTitle='30日补贴总金额数据展示图';
+							// this.transactionDataShow.tableTitle='30日补贴总金额数据展示图';
+							console.log(this.transactionDataShow.tableTitle)
 							this.changeDataShow('SubsidyAmountList');
 			        		break;
 						}else if (this.transactionDataJudgeName=="TradeNumList") {
-							this.transactionDataShow.tableTitle='30日交易总笔数数据展示图';
+							// this.transactionDataShow.tableTitle='30日交易总笔数数据展示图';
+							console.log(this.transactionDataShow.tableTitle)
 							this.changeDataShow('TradeNumList');
 			        		break;
 						}
+						break;
+					default:
 						break;
         		}
         	},
@@ -778,17 +788,17 @@
 			getActivity(){
 				 let data={
                     name:this.searchDate.activityName,
-                    uuids:[JSON.parse(sessionStorage.getItem('loginList')).bankUUID]
+                    uuids:_.split(sessionStorage.getItem('uuids'), ',')
                 };
                 this.$common_model.getActivityList(data).then((res)=>{
                     if(res.data.code===0){
                         this.$set('activityList',res.data.data);
-                        this.showList=true;
+                        this.searchDate.showList=true;
                     }
                 })
 			},
 			getId({id,name}){
-                this.showList=false;
+                this.searchDate.showList=false;
                 this.searchDate.activityName=name;
                 this.searchDate.activityID=id;
             },
