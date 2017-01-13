@@ -126,11 +126,18 @@ export default function (Vue,router){
                                 require(['./views/rule-template/RandomDiscount.vue'],resolve)
                             }
                         },
-                        'quanyi/:ruleId':{
-                            name:'quanyi',
+                        'CouponDiscount/:ruleId':{
+                            name:'CouponDiscount',
                             router_type:'activity',
                             component:(resolve)=>{
-                                require(['./views/rule-template/quanyi.vue'],resolve)
+                                require(['./views/rule-template/CouponDiscount.vue'],resolve)
+                            }
+                        },
+                        'CouponMinus/:ruleId':{
+                            name:'CouponMinus',
+                            router_type:'activity',
+                            component:(resolve)=>{
+                                require(['./views/rule-template/CouponMinus.vue'],resolve)
                             }
                         }
                     }

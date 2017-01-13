@@ -149,6 +149,7 @@
             }
         },
         ready(){
+            sessionStorage.removeItem('activityId');
         },
         created(){
             this.getList()
