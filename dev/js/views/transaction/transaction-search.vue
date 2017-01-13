@@ -121,32 +121,29 @@
             }
         }, 
         methods:{
-            getInfor(data){
-                this.model.getList(data).then((res)=>{
+            getList(){
+                if (!this.searchDate.activityID) {
+                    this.searchDate.bankUuidString=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
+                }else{
+                    this.searchDate.activityID=this.searchDate.activityID;
+                }
+                let data={
+                    // pageIndex:1,//当前选中的分页值
+                    // total:1,//数据总条数
+                    // pageSize:1,//每页展示多少条数
+                    activityID:this.searchDate.activityID,
+                }
+                this.model.getList(this.searchDate).then((res)=>{
                     if(res.data.code===0){
                         this.$set('dataList',res.data.dataList);
                         this.searchDate.total=res.data.objectotalNumber;
                     }
                 })
-                 this.model.getTradeStatisticsSumList(data).then((res)=>{
+                this.model.getTradeStatisticsSumList(this.searchDate).then((res)=>{
                     if(res.data.code===0){
                         this.$set('cumulative',res.data.dataList[0])
                     }
                 })
-            },
-            getList(){
-                if (!this.searchDate.activityID) {
-                    this.searchDate.uuids=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
-                }else{
-                    this.searchDate.activityID=this.searchDate.activityID;
-                }
-                let data={
-                    pageIndex:1,//当前选中的分页值
-                    total:1,//数据总条数
-                    pageSize:1,//每页展示多少条数
-                    activityID:'',
-                }
-                this.getInfor(data);
             },
             getActivity(){
                 let data={
@@ -164,7 +161,6 @@
                 this.showList=false;
                 this.searchDate.activityName=name;
                 this.searchDate.activityID=id;
-                console.log(this.searchDate.activityID)
             },
             getBankList(){
                 let data={
@@ -179,7 +175,7 @@
 
         },
         ready(){
-            this.getList();
+            // this.getList();
             this.getBankList();
         }
     }
