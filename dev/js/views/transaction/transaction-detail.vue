@@ -56,12 +56,8 @@
                     <td>{{n.cardType}}</td><!-- 卡种 -->
                     <td>{{n.accountNumber | filter_phone}}</td><!-- 手机号码 -->
                     <td>{{n.transNo | substring 10}}</td><!-- 交易流水号 -->
-                    <td>
-                        <span>{{n.transDate}}</span><!-- 交易时间 -->
-                    </td>
-                    <td>
-                        <span>{{n.settlementDate}}</span><!-- 结算时间 -->
-                    </td>
+                    <td>{{n.transDate}}</td><!-- 交易时间 -->
+                    <td>{{n.settlementDate}}</td><!-- 结算时间 -->
                     <td>{{n.totalAmount }} </td><!-- 消费金额 -->
                     <td>{{n.canDisAmount}}</td><!-- 可打折金额（元） -->
                     <td>{{n.payAmount}}</td><!-- 实付金额 -->

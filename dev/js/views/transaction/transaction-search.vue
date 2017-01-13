@@ -11,16 +11,18 @@
             </div>
             <span>发起方（银行）</span>
             <select class="select" v-model="searchDate.bankName">
+                <option value="">请选择发起方</option>
                 <option v-for="n in bankFullName">{{n.shortName}}</option>
             </select>
             <span>活动状态</span>
             <select class="select" v-model="searchDate.activityStatue">
+                <option value="">请选择活动状态</option>
                 <option v-for="n in activityStatues">{{n.status}}</option>
             </select>
             <span>交易时间</span>
-            <ks-date-picker value="2016-10-12" v-on:change="" :value.sync="searchDate.startTime"></ks-date-picker>
+            <ks-date-picker v-on:change="" :value.sync="searchDate.startTime"></ks-date-picker>
             <span>到</span>
-            <ks-date-picker value="2016-10-12" v-on:change="" :value.sync="searchDate.endTime"></ks-date-picker>
+            <ks-date-picker v-on:change="" :value.sync="searchDate.endTime"></ks-date-picker>
             <a class="btn btn-primary searchBtn" @click="getList">搜索</a>
         </div>
         <div class="table">
@@ -111,7 +113,7 @@
                     pageSize:1,//每页展示多少条数
                     activityID:'',
                     activityName:'',//活动名称
-                    startTime:'',//开始时间
+                    startTime:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
                     endTime:'',//结束时间
                     bankName:'',//发起方名称
                     activityStatue:'',//活动状态
@@ -119,23 +121,32 @@
             }
         }, 
         methods:{
+            getInfor(data){
+                this.model.getList(data).then((res)=>{
+                    if(res.data.code===0){
+                        this.$set('dataList',res.data.dataList);
+                        this.searchDate.total=res.data.objectotalNumber;
+                    }
+                })
+                 this.model.getTradeStatisticsSumList(data).then((res)=>{
+                    if(res.data.code===0){
+                        this.$set('cumulative',res.data.dataList[0])
+                    }
+                })
+            },
             getList(){
                 if (!this.searchDate.activityID) {
                     this.searchDate.uuids=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
                 }else{
                     this.searchDate.activityID=this.searchDate.activityID;
                 }
-                this.model.getList(this.searchDate).then((res)=>{
-                    if(res.data.code===0){
-                        this.$set('dataList',res.data.dataList);
-                        this.searchDate.total=res.data.objectotalNumber;
-                    }
-                })
-                 this.model.getTradeStatisticsSumList(this.searchDate).then((res)=>{
-                    if(res.data.code===0){
-                        this.$set('cumulative',res.data.dataList[0])
-                    }
-                })
+                let data={
+                    pageIndex:1,//当前选中的分页值
+                    total:1,//数据总条数
+                    pageSize:1,//每页展示多少条数
+                    activityID:'',
+                }
+                this.getInfor(data);
             },
             getActivity(){
                 let data={
@@ -153,6 +164,7 @@
                 this.showList=false;
                 this.searchDate.activityName=name;
                 this.searchDate.activityID=id;
+                console.log(this.searchDate.activityID)
             },
             getBankList(){
                 let data={
