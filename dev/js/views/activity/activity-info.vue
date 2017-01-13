@@ -229,6 +229,8 @@
                     'WeekdayDiscount':['weekdayDiscounts','周几几折'],// 周几几折
                     'DateDiscount':['dateDiscounts','几号几折'],// 几号几折
                     'RandomDiscount':['randomDiscounts','随机折扣'],// 随机折扣
+                    'CouponDiscount':['couponDiscounts','权益打折'],//权益打折
+                    'CouponMinus':['couponMinus','权益金额']//权益金额
                 }
             }
         },
