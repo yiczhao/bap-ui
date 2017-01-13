@@ -80,8 +80,8 @@
                     :total="searchDate.total"
                     :page_size.sync="searchDate.maxResult"
                     :page_current.sync="searchDate.page"
-                    v-on:current_change="getList"
-                    v-on:size_change="getList"
+                    v-on:current_change="getfirstResult"
+                    v-on:size_change="getfirstResult"
             ></pagegroup>
         </div>
     </div>
@@ -103,6 +103,7 @@
                     endTime:'',
                     statuses:['online'],
                     page:1,
+                    firstResult:0,
                     maxResult:10,
                     uuids:_.split(sessionStorage.getItem('uuids'), ','),
                     systemId:'yhhd',
@@ -112,6 +113,10 @@
             }
         },
         methods:{
+            getfirstResult(){
+                this.searchDate.firstResult=(this.searchDate.page-1)*this.searchDate.maxResult;
+                this.getList();
+            },
             setProp(val){
                 sessionStorage.setItem('props',val)
             },

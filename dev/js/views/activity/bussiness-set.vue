@@ -77,8 +77,8 @@
                         :total="addsearchData.total"
                         :page_size.sync="addsearchData.maxResult"
                         :page_current.sync="addsearchData.page"
-                        v-on:current_change="getaddList"
-                        v-on:size_change="getaddList"
+                        v-on:current_change="getfirstResult"
+                        v-on:size_change="getfirstResult"
                 ></pagegroup>
             </div>
             <div class="tc">
@@ -127,6 +127,7 @@
                     storeName: ""
                 },
                 addsearchData:{
+                    firstResult:0,
                     page: 1,
                     maxResult: 10,
                     total: 0,
@@ -149,6 +150,10 @@
             }
         },
         methods:{
+            getfirstResult(){
+                this.addsearchData.firstResult=(this.addsearchData.page-1)*this.addsearchData.maxResult;
+                this.getaddList();
+            },
             chooseAll(){
                 this.addIDs=[];
                 let cloneData=_.cloneDeep(this.addList);
@@ -243,6 +248,7 @@
             },
             addBtn(){
                 this.addsearchData={
+                    firstResult:0,
                     page: 1,
                     maxResult: 10,
                     total: 0,

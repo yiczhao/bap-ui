@@ -288,7 +288,7 @@
               }
               let sumitdata1=this.getNextData();
               let sumitdata2={};
-              let rulename=sessionStorage.getItem('rulename');
+              let rulename=!!sessionStorage.getItem('rulename')?sessionStorage.getItem('rulename'):this.$route.name;
               sumitdata2[this.ruleNames[rulename]]=datas;
               let submitData=_.assign(sumitdata1, sumitdata2);
               submitData.step=this.showstep+1;

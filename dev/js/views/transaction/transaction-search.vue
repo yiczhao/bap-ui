@@ -11,7 +11,7 @@
             </div>
             <span>发起方（银行）</span>
             <select class="select" v-model="searchDate.bankName">
-                <option v-for="n in bankFullName">{{n.fullName}}</option>
+                <option v-for="n in bankFullName">{{n.shortName}}</option>
             </select>
             <span>活动状态</span>
             <select class="select" v-model="searchDate.activityStatue">
@@ -160,7 +160,7 @@
                 };
                 this.model.getBankList(data).then((res)=>{
                     if (res.data.code==0) {
-                        this.$set('bankFullName',res.data.dataList[0].fullName);
+                        this.$set('bankFullName',res.data.dataList);
                     }
                 })
             }
