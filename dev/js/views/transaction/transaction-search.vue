@@ -111,7 +111,7 @@
                     pageIndex:1,//当前选中的分页值
                     total:1,//数据总条数
                     pageSize:1,//每页展示多少条数
-                    activityID:'',
+                    activityId:'',
                     activityName:'',//活动名称
                     startTime:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
                     endTime:'',//结束时间
@@ -122,16 +122,16 @@
         }, 
         methods:{
             getList(){
-                if (!this.searchDate.activityID) {
+                if (!this.searchDate.activityId) {
                     this.searchDate.bankUuidString=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
                 }else{
-                    this.searchDate.activityID=this.searchDate.activityID;
+                    this.searchDate.activityId=this.searchDate.activityId;
                 }
                 let data={
                     // pageIndex:1,//当前选中的分页值
                     // total:1,//数据总条数
                     // pageSize:1,//每页展示多少条数
-                    activityID:this.searchDate.activityID,
+                    activityId:this.searchDate.activityId,
                 }
                 this.model.getList(this.searchDate).then((res)=>{
                     if(res.data.code===0){
@@ -160,7 +160,7 @@
             getId({id,name}){
                 this.showList=false;
                 this.searchDate.activityName=name;
-                this.searchDate.activityID=id;
+                this.searchDate.activityId=id;
             },
             getBankList(){
                 let data={
@@ -171,12 +171,23 @@
                         this.$set('bankFullName',res.data.dataList);
                     }
                 })
-            }
-
+            },
+            resetName(){
+                this.showList=false;
+            },
         },
         ready(){
             // this.getList();
             this.getBankList();
-        }
+            document.addEventListener('click', (e) => {
+                if (!e.target.classList.contains('showLi')) {
+                    this.resetName();
+                }
+            }, false);
+        },
+        beforeDestroy () {
+            document.removeEventListener('click', this.resetName, false);
+        },
+        created(){}
     }
 </script>
