@@ -96,6 +96,16 @@
                             随机{{n.discount}}折，{{n.number}}名.
                          </span>
                     </template>
+                    <template v-if="ruleList.ruleType=='CouponDiscount'">
+                         <span v-for="n in ruleList[ruleList.ruleTypes]">
+                            {{n.belowMoney}}元以内, 打{{n.discount}}折优惠.
+                         </span>
+                    </template>
+                    <template v-if="ruleList.ruleType=='CouponMinus'">
+                         <span v-for="n in ruleList[ruleList.ruleTypes]">
+                            优惠劵名称:{{n.name}}，抵扣{{n.deductibleMoney}}元， 每次可使用{{n.number}}张.
+                         </span>
+                    </template>
                 </div>
                 <div v-show="!!ruleList.moneys.length" class="main-row table-row">
                     <span>金额限制：</span>
