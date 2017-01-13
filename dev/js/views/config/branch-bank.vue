@@ -58,7 +58,7 @@
                     <label class="name-left"><i>*</i>分支行名称</label>
                     <input type="text" class="input" v-model="addList.shortName" placeholder=" 请输入银行名称">
                 </div>
-                <div class="form-group">
+                <div class="form-group" v-if="title == '新增分支行'">
                     <label class="name-left"><i>*</i>行政级别</label>
                     <select v-model="addList.level" class="select">
                         <option v-for="(index,n) in bankLevelList" :value="n">
@@ -68,6 +68,15 @@
                             <template v-if="n==4">营业部</template>
                         </option>
                     </select>
+                </div>
+                <div class="form-group" v-else>
+                    <label class="name-left"><i>*</i>行政级别</label>
+                    <span class="span">
+                        <template v-if="addList.level==1">一级分行</template>
+                        <template v-if="addList.level==2">二级分行</template>
+                        <template v-if="addList.level==3">信用卡部</template>
+                        <template v-if="addList.level==4">营业部</template>
+                    </span>
                 </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>状态</label>
@@ -123,9 +132,9 @@
 					if (res.data.code === 0) {
 						this.$set('bankLevelList', res.data.dataList);
 						if (!this.bankLevelList[0]) {
-                          this.addList.level= null;
+							this.addList.level = null;
 						}
-                      this.addList.level= '' + this.bankLevelList[0];
+						this.addList.level = '' + this.bankLevelList[0];
 					}
 				});
 			},
@@ -136,7 +145,7 @@
 					shortName: '',
 					status: 'true'
 				};
-               this.getBankLevelList();
+				this.getBankLevelList();
 //                this.parentID: JSON.parse(sessionStorage.getItem('loginList')).bamsBankId;
 //                this.currentName: JSON.parse(sessionStorage.getItem('loginList')).bankName;
 				this.title = '新增分支行';
@@ -148,9 +157,9 @@
 					currentName: JSON.parse(sessionStorage.getItem('loginList')).bankName,
 					shortName: n.shortName,
 					status: '' + n.status,
+                    level:n.level,
 					id: n.id
 				};
-				this.getBankLevelList();
 				this.title = '编辑分支行';
 				this.show = true;
 			},

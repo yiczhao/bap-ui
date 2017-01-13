@@ -132,6 +132,8 @@
                     'MeetDiscount':'meetDiscounts',// 满多少打几折
                     'DateDiscount':'dateDiscounts',//几号几折
                     'RandomDiscount':'randomDiscounts',//随机折扣
+                    'CouponDiscount':'couponDiscounts',//权益打折
+                    'CouponMinus':'couponMinus',//权益金额
                 }
             }
         },
