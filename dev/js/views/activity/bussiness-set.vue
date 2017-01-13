@@ -293,7 +293,7 @@
                         storeName:val.name
                     })
                 })
-                !!sessionStorage.getItem('activityId')?data.activityId=sessionStorage.getItem('activityId') << 0:data.activityId='';
+                data.activityId=sessionStorage.getItem('activityId') << 0||this.$route.params.bactivityId << 0;
                 this.model.saveStore(data).then((res)=>{
                     if(res.data.code===0){
                         this.getList();
