@@ -112,6 +112,7 @@
                     total:1,//数据总条数
                     pageSize:1,//每页展示多少条数
                     activityId:'',
+                    activityID:'',
                     activityName:'',//活动名称
                     startDate:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
                     endDate:'',//结束时间
@@ -127,6 +128,7 @@
                     this.searchDate.bankUuidString=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
                 }else{
                     this.searchDate.activityId=this.searchDate.activityId;
+                    this.searchDate.activityID=this.searchDate.activityId;
                 }
                 this.model.getList(this.searchDate).then((res)=>{
                     if(res.data.code===0){
