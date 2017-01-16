@@ -72,8 +72,8 @@
                     type:'all',
                     name:'',
                     activityID:'',
-                     startDate:stringify(new Date()),
-                     endDate:stringify(new Date()),
+                     startDate:'',
+                     endDate:'',
                 }
             }
         },
@@ -139,6 +139,7 @@
             document.removeEventListener('click', this.resetName, false);
         },
         created(){
+            this.getTime();
             this.getList();
         }
     }
