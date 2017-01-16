@@ -633,7 +633,7 @@
                 (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getTradePeriodTotal(data).then((res)=>{
 					if (res.data.code==0){
-						this.transactionTime.timePoint = res.data.data.series;
+						this.$set('transactionTime.timePoint',res.data.data.series);
         			}
 					this.justChart(this.transactionTime.timeData,this.transactionTime.timePoint);	
 				})
@@ -716,9 +716,9 @@
                 (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getCardBINTradeNumList(data).then((res)=>{
 					if (res.data.code==0) {
-						this.cardBINDataArea.binStartNumber=res.data.data.category;
-						this.cardBINDataArea.tradeNumCardBINChange=res.data.data.series[0].dataLong;
-						this.dataBarEchart('cardBIN-echart',this.cardBINDataArea.binStartNumber,'卡BIN刷卡笔数',this.transactionRegion.tradeNumCardBINChange);
+						this.$set('cardBINDataArea.binStartNumber',res.data.data.category)
+						this.$set('cardBINDataArea.tradeNumCardBINChange',res.data.series[0].dataLong)
+						this.dataBarEchart('cardBIN-echart',this.cardBINDataArea.binStartNumber,'卡BIN刷卡笔数',this.cardBINDataArea.tradeNumCardBINChange);
 					}
 				});
 			},
@@ -741,8 +741,8 @@
                 (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getOneCardSwipedCount(data).then((res)=>{
 					if (res.data.code==0) {
-						this.oneCardArea.oneCardChance=res.data.data.series[0].data;
-						this.oneCardArea.oneCardNum=res.data.data.series[0].dataLong;
+						this.$set('oneCardArea.oneCardChance',res.data.data.series[0].data);
+						this.$set('oneCardArea.oneCardNum',res.data.data.series[0].dataLong);
 						this.dataBarEchart('one-echart',this.oneCardArea.oneCardChance,'卡数量',this.oneCardArea.oneCardNum);
 					}
 				})

@@ -109,7 +109,7 @@
         methods:{
             getList(){
                 if (!this.searchDate.activityID) {
-                    this.searchDate.uuids=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
+                    this.searchDate.bankUuidString=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
                 }else{
                     this.searchDate.activityID=this.searchDate.activityID;
                 }

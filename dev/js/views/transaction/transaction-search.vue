@@ -2,7 +2,7 @@
     <div class="transaction-search">
         <div class="search-div">
             <span>活动名称</span>
-            <input class="input" type="text" v-model="searchDate.activityName" placeholder="输入活动名称" @keyup.enter="getActivity"/>
+            <input class="input" type="text" placeholder="输入活动名称" @keyup.enter="getActivity"/>
             <div class="showList" v-show="showList">
                 <ul>
                     <li v-for="n in activityList | filterBy searchDate.activityName in 'name'" @click="getId(n)">{{n.name}}</li>
@@ -10,7 +10,7 @@
                 </ul>
             </div>
             <span>发起方（银行）</span>
-            <select class="select" v-model="searchDate.bankName">
+            <select class="select">
                 <option value="">请选择发起方</option>
                 <option v-for="n in bankFullName">{{n.shortName}}</option>
             </select>
@@ -108,16 +108,12 @@
                 ],
                 dataList:[],
                 searchDate:{
-                    pageIndex:1,//当前选中的分页值
-                    total:1,//数据总条数
-                    pageSize:1,//每页展示多少条数
-                    activityId:'',
-                    activityID:'',
-                    activityName:'',//活动名称
-                    startDate:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
+                    activityStatus:0,//活动状态
+                    startDate:'',//开始时间
                     endDate:'',//结束时间
-                    bankName:'',//发起方名称
-                    activityStatus:'',//活动状态
+                    activityID:'',
+                    pageIndex:1,//当前选中的分页值
+                    pageSize:1,//每页展示多少条数
                 },
                 privilegeList:[],
             }
@@ -127,7 +123,6 @@
                 if (!this.searchDate.activityId) {
                     this.searchDate.bankUuidString=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
                 }else{
-                    this.searchDate.activityId=this.searchDate.activityId;
                     this.searchDate.activityID=this.searchDate.activityId;
                 }
                 this.model.getList(this.searchDate).then((res)=>{
@@ -189,6 +184,7 @@
                 }
             }, false);
             this.getMenuList();
+            console.log(JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime)
         },
         beforeDestroy () {
             document.removeEventListener('click', this.resetName, false);
