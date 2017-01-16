@@ -100,7 +100,7 @@
                     name:'',
                     actPropes:null,
                     startTime:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,
-                    endTime:'',
+                    endTime:stringify(new Date())+' 23:59:59',
                     statuses:['online','draft_other','draft','wait_check','check_fail','early_offline','finish'],
                     page:1,
                     firstResult:0,
