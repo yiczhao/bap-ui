@@ -11,8 +11,8 @@
             </div>
             <span>时间类型</span>
             <select class="select" v-model="searchDate.type" @change="getTime">
-                <option value="now">今日</option>
                 <option value="all">累计</option>
+                <option value="now">今日</option>
             </select>
             <div class="right">当前数据截止到{{now}} (每整点更新数据)</div>
         </div>
@@ -69,7 +69,7 @@
                 CardBINTradeNumList:[],
                 showList:false,
                 searchDate:{
-                    type:'now',
+                    type:'all',
                     name:'',
                     activityID:'',
                      startDate:stringify(new Date()),
