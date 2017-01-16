@@ -102,6 +102,7 @@
                     cardNumber:'',//银行卡号
                     startDate:'',//开始时间
                     endDate:'',//结束时间
+                    activityId:''
                 },
             }
         },
@@ -127,6 +128,7 @@
         },
         ready(){
             this.activityName=this.$route.params.transactionName;
+            this.searchDate.activityId=this.$route.params.transactionId;
             this.getList();
             this.searchDate.startDate='';
             this.searchDate.endDate='';

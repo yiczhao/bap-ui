@@ -15,14 +15,14 @@
                 <option v-for="n in bankFullName">{{n.shortName}}</option>
             </select>
             <span>活动状态</span>
-            <select class="select" v-model="searchDate.activityStatue">
+            <select class="select" v-model="searchDate.activityStatus">
                 <option value="">请选择活动状态</option>
                 <option v-for="n in activityStatues">{{n.status}}</option>
             </select>
             <span>交易时间</span>
-            <ks-date-picker v-on:change="" :value.sync="searchDate.startTime"></ks-date-picker>
+            <ks-date-picker :value.sync="searchDate.startDate"></ks-date-picker>
             <span>到</span>
-            <ks-date-picker v-on:change="" :value.sync="searchDate.endTime"></ks-date-picker>
+            <ks-date-picker :value.sync="searchDate.endDate"></ks-date-picker>
             <a class="btn btn-primary searchBtn" @click="getList">搜索</a>
         </div>
         <div class="table">
@@ -71,7 +71,7 @@
                     <td>{{n.avgAmount }}</td><!-- 单笔金额 -->
                     <td>{{n.startDate  }} </td><!-- 开始日期 -->
                     <td>{{n.endDate }}</td><!-- 结束日期 -->
-                    <td><a v-link="{name:'transaction-detail',params:{'transactionName':n.activityName}}">交易明细</a></td><!-- 操作 -->
+                    <td><a v-link="{name:'transaction-detail',params:{'transactionName':n.activityName,'transactionId':n.id}}">交易明细</a></td><!-- 操作 -->
                 </tr>
             </table>
         </div>
@@ -113,11 +113,12 @@
                     pageSize:1,//每页展示多少条数
                     activityId:'',
                     activityName:'',//活动名称
-                    startTime:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
-                    endTime:'',//结束时间
+                    startDate:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
+                    endDate:'',//结束时间
                     bankName:'',//发起方名称
-                    activityStatue:'',//活动状态
+                    activityStatus:'',//活动状态
                 },
+                privilegeList:[],
             }
         }, 
         methods:{
@@ -126,12 +127,6 @@
                     this.searchDate.bankUuidString=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
                 }else{
                     this.searchDate.activityId=this.searchDate.activityId;
-                }
-                let data={
-                    // pageIndex:1,//当前选中的分页值
-                    // total:1,//数据总条数
-                    // pageSize:1,//每页展示多少条数
-                    activityId:this.searchDate.activityId,
                 }
                 this.model.getList(this.searchDate).then((res)=>{
                     if(res.data.code===0){
@@ -175,6 +170,13 @@
             resetName(){
                 this.showList=false;
             },
+            getMenuList(){
+                var privilegeList=JSON.parse(sessionStorage.getItem('loginList')).privilegeList;
+                _.map(privilegeList,(val)=>{
+                    this.privilegeList.push(val.name)
+                })
+                console.log(this.privilegeList)
+            }
         },
         ready(){
             // this.getList();
@@ -184,6 +186,7 @@
                     this.resetName();
                 }
             }, false);
+            this.getMenuList();
         },
         beforeDestroy () {
             document.removeEventListener('click', this.resetName, false);
