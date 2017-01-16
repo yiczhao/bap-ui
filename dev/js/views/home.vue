@@ -18,8 +18,8 @@
         </div>
         <div class="total-div">
             <div class="total-left">
-                <span>交易总金额</span>
-                <span>{{total.tradeAmount}}元</span>
+                <span>交易总金额(元)</span>
+                <span>{{total.tradeAmount}}</span>
             </div>
             <div class="total-right">
                 <div>
@@ -28,7 +28,7 @@
                 </div>
                 <div class="">
                     <span>补贴总金额(元)</span>
-                    <span>{{total.subsidyAmount}}元</span>
+                    <span>{{total.subsidyAmount}}</span>
                 </div>
             </div>
         </div>
