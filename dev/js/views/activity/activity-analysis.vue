@@ -388,12 +388,12 @@
 				        trigger: 'axis'
 				    },
 				    legend: {
-				        data:['当前数据','对比数据']
+				        data:['当前数据(元)','对比数据(元)']
 				    },
 				    xAxis: {
 				        type: 'category',
 				        boundaryGap: false,
-				        data: xData
+				        data: xData,
 				    },
 				    yAxis: {
 				        type: 'value'
@@ -479,8 +479,8 @@
          		this.dataLineEchart(
          			this.transactionDataShow.tableTitle,
 					this.transactionDataShow.XData,
-					'当前数据',this.transactionDataShow.PData,
-					'对比数据',this.transactionDataShow.Ldata
+					'当前数据(元)',this.transactionDataShow.PData,
+					'对比数据(元)',this.transactionDataShow.Ldata
 				)
 			},
 			tradeDataModelToday(){//获取今日关键数据
@@ -536,8 +536,8 @@
 		         				this.dataLineEchart(
 		         					this.transactionDataShow.tableTitle,
 									this.transactionDataShow.XData,
-									'当前数据',this.transactionDataShow.PData,
-									'对比数据',this.transactionDataShow.Ldata
+									'当前数据(元)',this.transactionDataShow.PData,
+									'对比数据(元)',this.transactionDataShow.Ldata
 								);
 		        			}
 		        		});

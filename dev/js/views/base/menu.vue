@@ -44,7 +44,7 @@
             this.getMenuHeight();
             window.onresize=(()=>{
                 (!!document.querySelector('.content'))?this.getMenuHeight():null;
-            })
+            });
         }
     }
 </script>

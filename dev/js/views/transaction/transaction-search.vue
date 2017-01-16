@@ -2,7 +2,7 @@
     <div class="transaction-search">
         <div class="search-div">
             <span>活动名称</span>
-            <input class="input" type="text" placeholder="输入活动名称" @keyup.enter="getActivity"/>
+            <input class="input" type="text" placeholder="输入活动名称" v-model="activityName" @keyup.enter="getActivity"/>
             <div class="showList" v-show="showList">
                 <ul>
                     <li v-for="n in activityList | filterBy searchDate.activityName in 'name'" @click="getId(n)">{{n.name}}</li>
@@ -20,9 +20,9 @@
                 <option v-for="n in activityStatues">{{n.status}}</option>
             </select>
             <span>交易时间</span>
-            <ks-date-picker :value.sync="searchDate.startDate"></ks-date-picker>
+            <ks-date-picker time="00:00:00" :value.sync="searchDate.startDate"></ks-date-picker>
             <span>到</span>
-            <ks-date-picker :value.sync="searchDate.endDate"></ks-date-picker>
+            <ks-date-picker time="23:59:59" :value.sync="searchDate.endDate"></ks-date-picker>
             <a class="btn btn-primary searchBtn" @click="getList">搜索</a>
         </div>
         <div class="table">
@@ -41,6 +41,7 @@
                     <td>{{cumulative.payAmount}}</td>
                     <td>{{cumulative.subsidyAmount}}</td>
                 </tr>
+               
             </table>
         </div>
         <div class="showInfo">
@@ -72,6 +73,9 @@
                     <td>{{n.startDate  }} </td><!-- 开始日期 -->
                     <td>{{n.endDate }}</td><!-- 结束日期 -->
                     <td><a v-link="{name:'transaction-detail',params:{'transactionName':n.activityName,'transactionId':n.id}}">交易明细</a></td><!-- 操作 -->
+                </tr>
+                 <tr>
+                    <td v-if="!dataList.length">未查询到{{activityName}}活动</td>
                 </tr>
             </table>
         </div>
@@ -109,12 +113,13 @@
                 dataList:[],
                 searchDate:{
                     activityStatus:0,//活动状态
-                    startDate:'',//开始时间
+                    startDate:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
                     endDate:'',//结束时间
                     activityID:'',
                     pageIndex:1,//当前选中的分页值
                     pageSize:1,//每页展示多少条数
                 },
+                activityName:'',
                 privilegeList:[],
             }
         }, 
@@ -156,7 +161,6 @@
             },
             getBankList(){
                 let data={
-
                 };
                 this.model.getBankList(data).then((res)=>{
                     if (res.data.code==0) {
@@ -184,7 +188,7 @@
                 }
             }, false);
             this.getMenuList();
-            console.log(JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime)
+            // console.log(JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime)
         },
         beforeDestroy () {
             document.removeEventListener('click', this.resetName, false);
