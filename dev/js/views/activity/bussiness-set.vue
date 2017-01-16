@@ -2,6 +2,8 @@
 <activity-main :propclass="'bussiness-set'" :showstep.sync="showstep">
     <div class="rule-row rule-title">
         <a class="btn btn-primary" @click="addBtn">添加商户</a>
+        <a class="mr15" @click="">上传文件</a>
+        <a @click="">下载商户模板（excel）</a>
         <div class="search-div">
             <input class="input" type="text" v-model="storeName" placeholder="输入商户名称/商户ID筛选"/>
         </div>
@@ -20,7 +22,7 @@
             </tr>
             <tr v-show="!searchList.length">
                 <td colspan="3">
-                    <textarea style="display: inline-block;width: 75%;height: 250px;margin: 20px 0;" class="textarea" placeholder="请添加商户或输入备注信息" v-model="submitRemarks"></textarea>
+                    请添加商户
                 </td>
             </tr>
         </table>
@@ -92,6 +94,9 @@
 </activity-main>
 </template>
 <style type="text/css" scoped>
+    .mr15{
+        margin: 0 15px;
+    }
     #all{
         display: none;
     }
@@ -296,10 +301,10 @@
                         storeName:val.name
                     })
                 })
-                if(!this.submitRemarks&&!this.dataList.length){
-                    dialog('info','请添加商户或输入备注信息！');
-                    return;
-                }
+//                if(!this.submitRemarks&&!this.dataList.length){
+//                    dialog('info','请添加商户或输入备注信息！');
+//                    return;
+//                }
                 data.activityId=sessionStorage.getItem('activityId') << 0||this.$route.params.bactivityId << 0;
                 this.model.saveStore(data).then((res)=>{
                     if(res.data.code===0){

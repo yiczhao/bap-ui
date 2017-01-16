@@ -219,28 +219,57 @@
                 let checkData=[]
                 _.map(data,(val)=>{
                     if(val.checked){
-                        if(data.types!='CardBin'){checkData.push(this.ruleDatas[data.types]);}
+                        checkData.push(this.ruleDatas[val.types])
                         errMapper[val.types]=val.name;
                     }
                 })
                 for (let k in checkData) {
-                    debugger
                     let m = checkData[k];
                     let keys=checkData[k].keys;
-                    let err = errMapper[k] && new Error(`请检查 ${errMapper[k]} 字段!`)
+                    let err = new Error(`请检查 ${errMapper[checkData[k].type]} 字段!`)
                     if(keys==='quantities'){
                         /*global _*/
-                        if (((!m.total ||!m.totalDay ||!m.totalMonth ||!m.totalWeek) && err) || (_.isArray(m) && !m.length && err)) {
+                        if (!m.total ||!m.totalDay ||!m.totalMonth ||!m.totalWeek) {
+                            err = new Error(`请检查 ${errMapper[checkData[k].type]} 字段!`)
+                            throw err
+                        }
+                        if (m.total<<0 < m.totalMonth<<0||m.total<<0 < m.totalWeek<<0||m.total<<0 < m.totalDay<<0) {
+                            err = new Error(`总次数不得小于每月、每周、每天次数!`)
+                            throw err
+                        }
+                        if (m.totalMonth<<0 < m.totalWeek<<0||m.totalMonth<<0 < m.totalDay<<0) {
+                            err = new Error(`每月次数不得小于每周、每天次数!`)
+                            throw err
+                        }
+                        if (m.totalWeek<<0 < m.totalDay<<0) {
+                            err = new Error(`每周次数不得小于每天次数!`)
                             throw err
                         }
                     }
                     else if(keys==='moneys'){
-                        if (((!m.amount&&!m.less_than) && err) || (_.isArray(m) && !m.length && err)) {
-                            throw err
+                        if(checkData[k].type=='less_than'){
+                            if (!m.less_than) {
+                                err = new Error(`请检查 ${errMapper[checkData[k].type]} 字段!`)
+                                throw err
+                            }
+                            if (m.less_than <<0 ===0) {
+                                err = new Error(`${errMapper[checkData[k].type]} 不能为0!`)
+                                throw err
+                            }
+                        }else{
+                            if (!m.amount) {
+                                err = new Error(`请检查 ${errMapper[checkData[k].type]} 字段!`)
+                                throw err
+                            }
+                            if (m.amount <<0 ===0) {
+                                err = new Error(`${errMapper[checkData[k].type]} 不能为0!`)
+                                throw err
+                            }
                         }
                     }
                     else{
-                        if (((!m[0].data||!m[0].extData) && err) || (_.isArray(m) && !m.length && err)) {
+                        if (!m[0].data||!m[0].extData) {
+                            err = new Error(`请检查卡BIN限制字段!`)
                             throw err
                         }
                     }
