@@ -50,6 +50,7 @@ export default {
                 this.$http.post('./user/login',this.loginData).then((data)=>{
                     if(data.data.code===0){
                         sessionStorage.setItem('loginList',JSON.stringify(data.data.data));
+                        sessionStorage.setItem('menuList',JSON.stringify(data.data.data.privilegeList));
                         if (this.checked) {
                             localStorage.setItem('userInfor',JSON.stringify(this.loginData));
                         }

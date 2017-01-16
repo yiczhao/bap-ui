@@ -72,8 +72,8 @@
                     type:'now',
                     name:'',
                     activityID:'',
-                    // startDate:stringify(new Date()),
-                    // endDate:stringify(new Date()),
+                     startDate:stringify(new Date()),
+                     endDate:stringify(new Date()),
                 }
             }
         },

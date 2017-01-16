@@ -2,29 +2,27 @@
     <div class="menu">
         <ul class="menu-first">
             <li><a v-link="{name:'home'}"><i class="icon icon-home"></i>首页</a></li>
-            <li>
-                <span><i class="icon icon-coin-yen"></i>营销</span>
-                <ul>
-                    <li><a v-link="{name:'create-acitvity'}">创建活动</a></li>
-                    <li><a v-link="{name:'activity-manage'}">活动管理</a></li>
-                    <li><a v-link="{name:'activity-analysis'}">活动分析</a></li>
-                </ul>
-            </li>
-            <li>
-                <span><i class="icon icon-search"></i>查询</span>
-                <ul>
-                    <li><a v-link="{name:'transaction-search'}">交易查询</a></li>
-                    <li><a v-link="{name:'latinos-search'}">权益查询</a></li>
-                </ul>
-            </li>
-            <li>
-                <span><i class="icon icon-wrench"></i>设置</span>
-                <ul>
-                    <li><a v-link="{name:'user-config'}">用户设置</a></li>
-                    <li><a v-link="{name:'branch-bank'}">分支行设置</a></li>
-                    <li><a v-link="{name:'password-config'}">密码设置</a></li>
-                </ul>
-            </li>
+                <li>
+                    <span><i class="icon icon-coin-yen"></i>营销</span>
+                    <ul>
+                        <template v-for="n in menuLists">
+                            <li  v-if="n.type==1"><a v-link="{name:n.code}">{{n.name}}</a></li>
+                        </template>
+                    </ul>
+                </li>
+                <li>
+                    <span><i class="icon icon-search"></i>查询</span>
+                    <ul v-for="n in menuLists">
+                        <li  v-if="n.type==2"><a v-link="{name:n.code}">{{n.name}}</a></li>
+                    </ul>
+
+                </li>
+                <li>
+                    <span><i class="icon icon-wrench"></i>设置</span>
+                    <ul v-for="n in menuLists">
+                        <li  v-if="n.type==3"><a v-link="{name:n.code}">{{n.name}}</a></li>
+                    </ul>
+                </li>
         </ul>
     </div>
 </template>
@@ -32,6 +30,7 @@
     export default{
         data(){
             return{
+                menuLists: []
             }
         },
         methods:{
@@ -45,6 +44,9 @@
             window.onresize=(()=>{
                 (!!document.querySelector('.content'))?this.getMenuHeight():null;
             });
+        },
+        created(){
+            this.$set('menuLists',JSON.parse(sessionStorage.getItem('menuList')))
         }
     }
 </script>
