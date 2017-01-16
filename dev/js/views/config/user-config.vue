@@ -254,14 +254,13 @@
                         this.addList.status=''+this.addList.status;
                         this.addList.curPassword='::::::';
                         this.addList.privilegeIDs=[];
+                        console.log(res.data.data.privilegeList)
                         _.map(res.data.data.privilegeList,(val)=>{
-                            _.map(val,(value)=>{
-                                if(value.selected){
-                                    this.addList.privilegeIDs.push(value.id);
-                                    this.gnprivilegeIDs.push(value.name);
-                                    this.sjprivilegeIDs.push(value.name);
+                                if(val.selected){
+                                    this.addList.privilegeIDs.push(val.id);
+                                    this.gnprivilegeIDs.push(val.name);
+                                    this.sjprivilegeIDs.push(val.name);
                                 }
-                            })
                         })
                         if(!this.addList.loginAccountType){
                             this.loginAccountType1=false;

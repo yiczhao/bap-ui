@@ -91,8 +91,8 @@
               :page_current.sync="pagegroupInfor.page" 
               :total="pagegroupInfor.total" 
               :page_size.sync="pagegroupInfor.maxResult"
-              :pages="pagegroupInfor.allPages"
-              &gt;</pagegroup>
+              :pages="pagegroupInfor.allPages">
+          </pagegroup>
 	  </div>
   </template>
   <script>
