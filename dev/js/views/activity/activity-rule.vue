@@ -299,7 +299,7 @@
               this.model.addRule(submitData).then((res)=>{
                   if(res.data.code===0){
                       if (this.nextBool) {
-                          this.$router.go({'name':'bussiness-set'});
+                          this.$router.go({'name':'bussiness-set','params':{"bactivityId":submitData.id }});
                       }else{
                           dialog('successTime','草稿保存成功！')
                       }
