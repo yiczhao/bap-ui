@@ -62,7 +62,7 @@
                     <template v-if="n.status=='finish'">已结束</template>
                 </td>
                 <td><a v-link="{name:'activity-info',params:{'infoId':n.id}}">查看</a></td>
-                <td><a v-if="n.status!='draft_other'&&n.status!='draft'&&n.status!='wait_check'" v-link="{name:'transaction-detail',params:{'transactionName':n.name,'transactionId':n.id}}">查看</a></td>
+                <td><a v-if="n.status!='draft_other'&&n.status!='draft'&&n.status!='wait_check'" v-link="{name:'transaction-detail',params:{'transactionName':n.name,'transactionId':n.uniqueId}}">查看</a></td>
                 <!--<td></td>-->
                 <td>
                     <a v-if="n.step==1&&n.status=='draft_other'" @click="setProp(n.propes,n.ruleType)" v-link="{name:'basic-rule',params:{'activityId':n.id,'rulename':n.ruleType}}">编辑</a>
