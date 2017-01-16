@@ -5,7 +5,7 @@
               <input class="input" type="text" v-model="" placeholder="输入权益名称"/>
               <div class="showList" v-show="showList">
                   <ul>
-                      <li v-for="n in activityList | filterBy .activityName in 'name'" @click="getId(n)">{{n.name}}</li>
+                      <li v-for="n in activityList | filterBy activityName in 'name'" @click="getId(n)">{{n.name}}</li>
                       <li v-if="!activityList.length">未查询到{{searchDate.activityName}}活动</li>
                   </ul>
               </div>
@@ -114,17 +114,31 @@
                        latinosOverdue:'5',    //权益逾期量
                    },
                    latinosTotalList:[
-                       {'latinosName':'权益名称'},// 权益名称
-                       {'settlementParty':'结算方'},// 结算方
-                       {'latinosKinds':'权益种类'},// 权益种类
-                       {'latinosTypes':'权益类型'},// 权益类型
-                       {'denomination':'权益面值'},// 权益面值
-                       {'latinosStatues':'状态'},// 状态
-                       {'latinosCirculation':'发行量'},// 发行量
-                       {'latinosUsage ':'使用量'},// 使用量
-                       {'overdueNum':'过期'},// 过期
-                       {'startDate':'开始时间'},// 开始时间
-                       {'endDate':'结束时间'},// 结束时间
+                       {
+                           'latinosName':'权益名称',
+                           'settlementParty':'结算方',
+                           'latinosKinds':'权益种类',
+                           'latinosTypes':'权益类型',
+                           'denomination':'权益面值',
+                           'latinosStatues':'状态',
+                            'latinosCirculation':'发行量',
+                            'latinosUsage ':'使用量',
+                            'overdueNum':'过期',
+                            'startDate':'开始时间',
+                            'endDate':'结束时间'
+                       }, {
+                           'latinosName':'权益名称',
+                           'settlementParty':'结算方',
+                           'latinosKinds':'权益种类',
+                           'latinosTypes':'权益类型',
+                           'denomination':'权益面值',
+                           'latinosStatues':'状态',
+                           'latinosCirculation':'发行量',
+                           'latinosUsage ':'使用量',
+                           'overdueNum':'过期',
+                           'startDate':'开始时间',
+                           'endDate':'结束时间'
+                       }
                    ],
                    searchDate:{
                        latinosName:'',
@@ -132,6 +146,7 @@
                        startDate:'',
                        endDate:'',
                        latinosKinds:'',
+                       activityName:'',
                        latinosTypes:''
                    },
                     activityList:[],

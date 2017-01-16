@@ -18,25 +18,18 @@
                      <th>权益未使用量</th>  
                      <th>权益逾期量</th>  
                  </tr>  
-                 &lt;!&ndash; <tr>  
-                     <td>{{cumulative.totalNumber}}</td>  
-                     <td>{{cumulative.totalAmount}}</td>  
-                     <td>{{cumulative.canDisAmount}}</td>  
-                     <td>{{cumulative.payAmount}}</td>  
-                     <td>{{cumulative.subsidyAmount}}</td>  
-                 </tr> &ndash;&gt;  
-                 <tr>  
-                     <td>123</td>  
-                     <td>123</td>  
-                     <td>123</td>  
-                     <td>123</td>  
-                     <td>123</td>  
+                 <tr>
+                     <td>权益总数量</td>
+                     <td>权益领取量</td>
+                     <td>权益使用量</td>
+                     <td>权益未使用量</td>
+                     <td>权益逾期量</td>
                  </tr>  
              </table>  
          </div>  
          <div class="showInfo">  
              <span class="activity-name">权益名称</span>  
-             <span class="infor-num">共条数据</span>  
+             <span class="infor-num">共1条数据</span>
              <span class="out-excel"><i class="icon-file-excel"></i>导出excel表格</span>  
          </div>  
          <div class="table">  
@@ -52,34 +45,29 @@
                      <th>状态(元)</th>  
                  </tr>  
                  <tr>  
-                     <td>1232</td>  
-                     <td>1232</td>  
-                     <td>1232</td>  
-                     <td>1232</td>  
-                     <td>1232</td>  
-                     <td>1232</td>  
-                     <td>1232</td>  
-                     <td>1232</td>  
+                     <td>手机号码</td>
+                     <td>权益名称</td>
+                     <td>面额/折扣</td>
+                     <td>权益来源</td>
+                     <td>赠送时间</td>
+                     <td>权益有效期</td>
+                     <td>商户名称</td>
+                     <td>状态(元)</td>
                  </tr>  
              </table>  
          </div>  
-         &lt;!&ndash; <pagegroup class="pagegroup"  
+         <pagegroup class="pagegroup"
              :page_current.sync="searchData.pageIndex"   
-             :total="searchDate.total"   
-             :page_size.sync="searchDate.pageSize"  
-             &gt;</pagegroup> &ndash;&gt;  
-         <pagegroup class="pagegroup"  
-             :page_current.sync="1"   
-             :total="1"   
-             :page_size.sync="1"  
-             &gt;</pagegroup>  
-     </div>  
+             :total="searchData.total"
+             :page_size.sync="searchData.pageSize"
+             ></pagegroup>
+     </div>
  </template>  
  <script>  
      export default{  
          data(){  
-             return{  
-                 searchData:{  
+             return{
+                 searchData:{
                      pageIndex:1,//当前选中的分页值  
                      total:1,//数据总条数  
                      pageSize:10,//每页展示多少条数  
