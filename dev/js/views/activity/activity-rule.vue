@@ -233,6 +233,10 @@
                             err = new Error(`请检查 ${errMapper[checkData[k].type]} 字段!`)
                             throw err
                         }
+                        if (m.total<<0 <= 0||m.totalWeek<<0 <= 0||m.totalMonth<<0 <= 0||m.totalWeek<<0 <= 0) {
+                            err = new Error(`次数不得为0!`)
+                            throw err
+                        }
                         if (m.total<<0 < m.totalMonth<<0||m.total<<0 < m.totalWeek<<0||m.total<<0 < m.totalDay<<0) {
                             err = new Error(`总次数不得小于每月、每周、每天次数!`)
                             throw err
