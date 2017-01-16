@@ -165,6 +165,7 @@
                 this.showList=false;
                 this.searchDate.activityName=name;
                 this.searchDate.activityId=id;
+                this.searchDate.activityID=this.searchDate.activityId;
             },
             getBankList(){
                 let data={
