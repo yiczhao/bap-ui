@@ -6,13 +6,13 @@
     </div>
     <div class="dashed"></div>
     <div class="rule-row">
-        <h3><i>*</i>活动条件设置</h3>
+        <h3>活动条件设置</h3>
         <div class="rule-input">
             <ks-checkbox v-for="n in ruleLists" :checked.sync="n.checked">{{n.name}}</ks-checkbox>
         </div>
     </div>
     <div class="rule-row" v-for="n in ruleLists.length" v-show="ruleLists[n].checked">
-        <h3>{{ruleLists[n].name}}</h3>
+        <h3><i>*</i>{{ruleLists[n].name}}</h3>
         <div class="rule-input" v-if="ruleLists[n].types=='CardBin'">
             <div class="db" v-for="(index,n) in ruleDatas.CardBin">
                 <span>卡BIN</span>
@@ -216,14 +216,17 @@
             },
             verifyField (data) {
                 let errMapper = {}
+                let checkData=[]
                 _.map(data,(val)=>{
                     if(val.checked){
+                        if(data.types!='CardBin'){checkData.push(this.ruleDatas[data.types]);}
                         errMapper[val.types]=val.name;
                     }
                 })
-                for (let k in this.ruleDatas) {
-                    let m = this.ruleDatas[k];
-                    let keys=this.ruleDatas[k].keys;
+                for (let k in checkData) {
+                    debugger
+                    let m = checkData[k];
+                    let keys=checkData[k].keys;
                     let err = errMapper[k] && new Error(`请检查 ${errMapper[k]} 字段!`)
                     if(keys==='quantities'){
                         /*global _*/

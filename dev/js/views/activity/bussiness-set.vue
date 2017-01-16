@@ -19,7 +19,9 @@
                 <td><a @click="searchList.splice($index,1)">移除</a></td>
             </tr>
             <tr v-show="!searchList.length">
-                <td colspan="3">请添加商户</td>
+                <td colspan="3">
+                    <textarea style="display: inline-block;width: 75%;height: 250px;margin: 20px 0;" class="textarea" placeholder="请添加商户或输入备注信息" v-model="submitRemarks"></textarea>
+                </td>
             </tr>
         </table>
         <!--<div v-show="!!dataList">-->
@@ -115,6 +117,7 @@
         data(){
             this.model=model(this)
             return{
+                submitRemarks:'',
                 waring:'请搜索商户',
                 addshow:false,
                 showstep:2,
@@ -293,6 +296,10 @@
                         storeName:val.name
                     })
                 })
+                if(!this.submitRemarks&&!this.dataList.length){
+                    dialog('info','请添加商户或输入备注信息！');
+                    return;
+                }
                 data.activityId=sessionStorage.getItem('activityId') << 0||this.$route.params.bactivityId << 0;
                 this.model.saveStore(data).then((res)=>{
                     if(res.data.code===0){
