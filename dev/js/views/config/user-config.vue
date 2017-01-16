@@ -90,7 +90,7 @@
                     <label class="name-left"><i>*</i>功能级</label>
                     <div class="function-area">
                         <ks-checkbox-group :v-model="gnprivilegeIDs">
-                            <ks-checkbox v-for="n in privileges['1']" v-if="n.name!='密码设置'" @change="checked(n.selected,n.id)" :checked.sync="n.selected" :name="n.name">{{n.name}}</ks-checkbox>
+                            <ks-checkbox v-for="n in privileges" v-if="n.name!='密码设置'" @change="checked(n.selected,n.id)" :checked.sync="n.selected" :name="n.name">{{n.name}}</ks-checkbox>
                         </ks-checkbox-group>
                     </div>
                 </div>
@@ -132,7 +132,7 @@
                 <div class="form-group">
                     <label class="name-left"><i>*</i>功能级</label>
                     <div class="function-area">
-                        <ks-checkbox v-for="n in privileges['1']" :name="n.name" :disable="true" :checked.sync="n.selected">{{n.name}}</ks-checkbox>
+                        <ks-checkbox v-for="n in privileges" :name="n.name" :disable="true" :checked.sync="n.selected">{{n.name}}</ks-checkbox>
                     </div>
                 </div>
                 <div class="form-group close-center">
@@ -202,7 +202,7 @@
                 })
                 this.model.getPrivilegesList().then((res)=>{
                     if(res.data.code===0){
-                        this.$set('privileges',res.data.data);
+                        this.$set('privileges',res.data.dataList);
                     }
                 })
                 let requestParam = {
@@ -250,11 +250,11 @@
                 this.model.getUserInfo(_id).then((res)=>{
                     if(res.data.code===0){
                         this.$set('addList',res.data.data);
-                        this.$set('privileges',res.data.data.privileges);
+                        this.$set('privileges',res.data.data.privilegeList);
                         this.addList.status=''+this.addList.status;
                         this.addList.curPassword='::::::';
                         this.addList.privilegeIDs=[];
-                        _.map(res.data.data.privileges,(val)=>{
+                        _.map(res.data.data.privilegeList,(val)=>{
                             _.map(val,(value)=>{
                                 if(value.selected){
                                     this.addList.privilegeIDs.push(value.id);
