@@ -89,9 +89,7 @@
                 <div class="form-group">
                     <label class="name-left"><i>*</i>功能级</label>
                     <div class="function-area">
-                        <ks-checkbox-group :v-model="gnprivilegeIDs">
-                            <ks-checkbox v-for="n in privileges" v-if="n.name!='密码设置'" @change="checked(n.selected,n.id)" :checked.sync="n.selected" :name="n.name">{{n.name}}</ks-checkbox>
-                        </ks-checkbox-group>
+                        <ks-checkbox v-for="n in privileges" v-if="n.name!='密码设置'" @change="checked(n.selected,n.id)" :checked.sync="n.selected" :name="n.name">{{n.name}}</ks-checkbox>
                     </div>
                 </div>
             </div>
@@ -166,7 +164,6 @@
                 bankLists:[],
                 privileges:[],
                 gnprivilegeIDs:[],
-                sjprivilegeIDs:[],
                 addList:{
                     bankID:'',
                     bankLevel:'',
@@ -227,7 +224,7 @@
                     loginAccountType:'3',
                     privilegeIDs:[]
                 }
-                this.sjprivilegeIDs=this.gnprivilegeIDs=[];
+                this.gnprivilegeIDs=[];
                 this.loginAccountType1=true;
                 this.loginAccountType2=true;
                 this.getBankList();
@@ -254,12 +251,10 @@
                         this.addList.status=''+this.addList.status;
                         this.addList.curPassword='::::::';
                         this.addList.privilegeIDs=[];
-                        console.log(res.data.data.privilegeList)
-                        _.map(res.data.data.privilegeList,(val)=>{
+                        _.map(this.privileges,(val)=>{
                                 if(val.selected){
                                     this.addList.privilegeIDs.push(val.id);
                                     this.gnprivilegeIDs.push(val.name);
-                                    this.sjprivilegeIDs.push(val.name);
                                 }
                         })
                         if(!this.addList.loginAccountType){
@@ -302,12 +297,12 @@
                 })
             },
             checked(_checked,_id){
-                if(_checked){
-                    this.addList.privilegeIDs.push(_id);
-                }else{
+                if(!_checked){
                     _.remove(this.addList.privilegeIDs,(val)=>{
                         return val==_id;
                     })
+                }else{
+                    this.addList.privilegeIDs.push(_id);
                 }
             },
             getloginAccountType(bool1,bool2){
