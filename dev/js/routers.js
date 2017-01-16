@@ -182,7 +182,7 @@ export default function (Vue,router){
                     }
                 },
                 /* 交易明细查询*/
-                'transaction-detail/:transactionName':{
+                'transaction-detail/:transactionName/:transactionId':{
                     name:'transaction-detail',
                     router_type:'transaction',
                     component:(resolve)=>{
