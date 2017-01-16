@@ -2,7 +2,7 @@
 <div class="rule-input" v-for="(index,n) in submitdata">
     <input class="input" type="text" v-model="n.belowMoney" v-limitaddprice="n.belowMoney"/>
     <span>元以内, 打</span>
-    <input class="input" maxlength="1" type="text" v-model="n.discount" v-limitaddprice="n.discount"/>
+    <input class="input" type="text" v-model="n.discount" v-limitaddprice="n.discount"/>
     <span>折优惠</span>
     <i v-if="index===0" class="icon-add" @click="submitdata.push({'belowMoney':'','discount':''})"></i>
     <i v-if="index!==0" class="icon-remove" @click="submitdata.splice(index, 1)"></i>

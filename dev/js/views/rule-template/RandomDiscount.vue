@@ -1,7 +1,7 @@
 <template>
 <div class="rule-input" v-for="(index,n) in submitdata">
     <span>随机</span>
-    <input class="input" maxlength="1" type="text" v-model="n.discount" v-limitaddprice="n.discount"/>
+    <input class="input" type="text" v-model="n.discount" v-limitaddprice="n.discount"/>
     <span>折，</span>
     <input class="input" type="text" v-model="n.number" v-limitaddprice="n.number"/>
     <span>名</span>

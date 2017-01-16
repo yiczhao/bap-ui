@@ -35,6 +35,16 @@
         },
         events:{
             getData(){
+                let isTrue=false;
+                _.map(this.submitdata,(val)=>{
+                    if((val.originalPrice<<0) <(val.actualPayment<<0)){
+                        isTrue=true;
+                    }
+                })
+                if(isTrue){
+                    dialog('info','实付金额不得大于原价！');
+                    return;
+                }
                 this.$dispatch('getDatas',  this.submitdata);
             },
             setData(data){

@@ -90,7 +90,7 @@
                     <label class="name-left"><i>*</i>功能级</label>
                     <div class="function-area">
                         <ks-checkbox-group :v-model="gnprivilegeIDs">
-                            <ks-checkbox v-for="n in privileges['1']" @change="checked(n.selected,n.id)" :checked.sync="n.selected" :name="n.name">{{n.name}}</ks-checkbox>
+                            <ks-checkbox v-for="n in privileges['1']" v-if="n.name!='密码设置'" @change="checked(n.selected,n.id)" :checked.sync="n.selected" :name="n.name">{{n.name}}</ks-checkbox>
                         </ks-checkbox-group>
                     </div>
                 </div>
