@@ -3,7 +3,7 @@
     <span>随机</span>
     <input class="input" type="text" v-model="n.discount" v-limitaddprice="n.discount"/>
     <span>折，</span>
-    <input class="input" type="text" v-model="n.number" v-limitaddprice="n.number"/>
+    <input class="input" type="text" v-model="n.number" v-limitnumber="n.number"/>
     <span>名</span>
     <i v-if="index===0" class="icon-add" @click="submitdata.push({'discount':'','number':''})"></i>
     <i v-if="index!==0" class="icon-remove" @click="submitdata.splice(index, 1)"></i>
