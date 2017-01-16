@@ -45,7 +45,7 @@
             </table>
         </div>
         <div class="showInfo">
-            <span class="infor-num">共{{searchDate.total}}条数据</span>
+            <span class="infor-num">共{{objectotalNumber}}条数据</span>
             <span class="out-excel"><i class="icon-file-excel"></i>导出excel表格</span>
         </div>
         <div class="table">
@@ -81,7 +81,7 @@
         </div>
         <pagegroup class="pagegroup"
             :page_current.sync="searchDate.pageIndex" 
-            :total="searchDate.total" 
+            :total="objectotalNumber" 
             :page_size.sync="searchDate.pageSize"
             v-on:current_change="getList"
             v-on:size_change="getList"
@@ -119,6 +119,7 @@
                     pageSize:1,//每页展示多少条数
                     bankUuidString:''
                 },
+                objectotalNumber:0,
                 bankUuidString:'',
                 activityName:'',
                 privilegeList:[],
@@ -139,7 +140,7 @@
                 this.model.getList(this.searchDate).then((res)=>{
                     if(res.data.code===0){
                         this.$set('dataList',res.data.dataList);
-                        this.searchDate.total=res.data.objectotalNumber;
+                        this.objectotalNumber=res.data.objectotalNumber;
                     }
                 })
                 this.model.getTradeStatisticsSumList(this.searchDate).then((res)=>{
