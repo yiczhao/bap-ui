@@ -30,6 +30,16 @@
         },
         events:{
             getData(){
+                let isTrue=false;
+                _.map(this.submitdata,(val)=>{
+                    if((val.meetMoney<<0) <(val.minusMoney<<0)){
+                        isTrue=true;
+                    }
+                })
+                if(isTrue){
+                    dialog('info','立减金额不得大于消费金额！');
+                    return;
+                }
                 this.$dispatch('getDatas',  this.submitdata);
             },
             setData(data){

@@ -53,7 +53,7 @@
                 <td>{{n.uuid | get_bank uuidsList}}</td>
                 <td>
                     <template v-if="n.status=='draft_other'">草稿</template>
-                    <template v-if="n.status=='wait_early_offline'">待审核</template>
+                    <template v-if="n.status=='wait_early_offline'">运行中</template>
                     <template v-if="n.status=='draft'">待审核</template>
                     <template v-if="n.status=='wait_check'">待审核</template>
                     <template v-if="n.status=='check_fail'">审核失败</template>
@@ -62,7 +62,7 @@
                     <template v-if="n.status=='finish'">已结束</template>
                 </td>
                 <td><a v-link="{name:'activity-info',params:{'infoId':n.id}}">查看</a></td>
-                <td><a v-if="n.status!='draft_other'&&n.status!='wait_early_offline'&&n.status!='draft'&&n.status!='wait_check'" v-link="{name:'transaction-detail',params:{'transactionName':n.name}}">查看</a></td>
+                <td><a v-if="n.status!='draft_other'&&n.status!='draft'&&n.status!='wait_check'" v-link="{name:'transaction-detail',params:{'transactionName':n.name}}">查看</a></td>
                 <!--<td></td>-->
                 <td>
                     <a v-if="n.step==1&&n.status=='draft_other'" @click="setProp(n.propes,n.ruleType)" v-link="{name:'basic-rule',params:{'activityId':n.id,'rulename':n.ruleType}}">编辑</a>
@@ -101,7 +101,7 @@
                     actPropes:null,
                     startTime:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,
                     endTime:'',
-                    statuses:['online'],
+                    statuses:['online','draft_other','draft','wait_check','check_fail','early_offline','finish'],
                     page:1,
                     firstResult:0,
                     maxResult:10,
@@ -109,7 +109,7 @@
                     systemId:'yhhd',
                     total:0
                 },
-                checkedBox:[false,false,true,false]
+                checkedBox:[true,true,true,true]
             }
         },
         methods:{
