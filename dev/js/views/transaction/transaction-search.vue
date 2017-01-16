@@ -10,14 +10,15 @@
                 </ul>
             </div>
             <span>发起方（银行）</span>
-            <select class="select">
+            <select class="select" v-model="bankUuidString" @change="getBankString">
                 <option value="">请选择发起方</option>
-                <option v-for="n in bankFullName">{{n.shortName}}</option>
+                <option v-for="n in bankFullName" :value="n.uuid">{{n.shortName}}</option>
             </select>
             <span>活动状态</span>
             <select class="select" v-model="searchDate.activityStatus">
                 <option value="">请选择活动状态</option>
-                <option v-for="n in activityStatues">{{n.status}}</option>
+                <option value="1">运行中</option>
+                <option value="0">已结束</option>
             </select>
             <span>交易时间</span>
             <ks-date-picker time="00:00:00" :value.sync="searchDate.startDate"></ks-date-picker>
@@ -41,7 +42,6 @@
                     <td>{{cumulative.payAmount}}</td>
                     <td>{{cumulative.subsidyAmount}}</td>
                 </tr>
-               
             </table>
         </div>
         <div class="showInfo">
@@ -74,8 +74,8 @@
                     <td>{{n.endDate }}</td><!-- 结束日期 -->
                     <td><a v-link="{name:'transaction-detail',params:{'transactionName':n.activityName,'transactionId':n.id}}">交易明细</a></td><!-- 操作 -->
                 </tr>
-                 <tr>
-                    <td v-if="!dataList.length">未查询到{{activityName}}活动</td>
+                 <tr v-if="!dataList.length">
+                    <td colspan="10">未查询到{{activityName}}活动</td>
                 </tr>
             </table>
         </div>
@@ -87,7 +87,6 @@
             v-on:size_change="getList"
             ></pagegroup>
     </div>
-    </template>
 </template>
 <script type="text/javascript">
     import model from '../../ajax/transaction/transaction_search_model'
@@ -118,17 +117,24 @@
                     activityID:'',
                     pageIndex:1,//当前选中的分页值
                     pageSize:1,//每页展示多少条数
+                    bankUuidString:''
                 },
+                bankUuidString:'',
                 activityName:'',
                 privilegeList:[],
             }
         }, 
         methods:{
-            getList(){
-                if (!this.searchDate.activityId) {
+            getBankString(){
+                if (!this.bankUuidString) {
                     this.searchDate.bankUuidString=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
                 }else{
-                    this.searchDate.activityID=this.searchDate.activityId;
+                    this.searchDate.bankUuidString=this.bankUuidString;
+                }
+            },
+            getList(){
+                if (!this.bankUuidString) {
+                    this.searchDate.bankUuidString=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
                 }
                 this.model.getList(this.searchDate).then((res)=>{
                     if(res.data.code===0){
@@ -144,7 +150,7 @@
             },
             getActivity(){
                 let data={
-                    name:this.searchDate.activityName,
+                    name:this.activityName,
                     uuids:[JSON.parse(sessionStorage.getItem('loginList')).bankUUID]
                 };
                 this.$common_model.getActivityList(data).then((res)=>{
