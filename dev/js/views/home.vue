@@ -2,7 +2,7 @@
     <div class="home">
         <div class="search-div">
             <span>活动名称</span>
-            <input class="input" type="text" v-model="searchDate.name" placeholder="输入活动名称(回车键搜索)" @keyup.enter="getActivity"/>
+            <input class="input" type="text" v-model="searchDate.name" placeholder="输入活动名称(回车键搜索)" @keypress.enter="getActivity"/>
             <div class="showList showLi" v-show="showList">
                 <ul class="showLi">
                     <li class="showLi" v-for="n in activityList | filterBy searchDate.name in 'name'" @click="getId(n)">{{n.name}}</li>

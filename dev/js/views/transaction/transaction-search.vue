@@ -2,10 +2,10 @@
     <div class="transaction-search">
         <div class="search-div">
             <span>活动名称</span>
-            <input class="input" type="text" placeholder="输入活动名称" v-model="activityName" @keyup.enter="getActivity"/>
+            <input class="input" type="text" placeholder="输入活动名称" v-model="activityName" @keypress.enter="getActivity"/>
             <div class="showList" v-show="showList">
                 <ul>
-                    <li v-for="n in activityList | filterBy searchDate.activityName in 'name'" @click="getId(n)">{{n.name}}</li>
+                    <li v-for="n in activityList | filterBy activityName in 'name'" @click="getId(n)">{{n.name}}</li>
                     <li v-if="!activityList.length">未查询到{{searchDate.activityName}}活动</li>
                 </ul>
             </div>
