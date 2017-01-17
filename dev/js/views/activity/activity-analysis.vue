@@ -743,7 +743,8 @@
 					if (res.data.code==0) {
 						this.$set('oneCardArea.oneCardChance',res.data.data.series[0].data);
 						this.$set('oneCardArea.oneCardNum',res.data.data.series[0].dataLong);
-						this.dataBarEchart('one-echart',this.oneCardArea.oneCardNum,'卡数量',this.oneCardArea.oneCardChance);
+						// this.dataBarEchart('one-echart',this.oneCardArea.oneCardNum,'卡数量',this.oneCardArea.oneCardChance);
+						this.dataBarEchart('one-echart',['','','','','','','','','',''],'卡数量',this.oneCardArea.oneCardChance);
 					}
 				})
 			},

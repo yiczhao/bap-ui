@@ -100,7 +100,7 @@
                     phone:'',
                     activityName:'',//活动名称
                     cardNumber:'',//银行卡号
-                    startDate:'',//开始时间
+                    startDate:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
                     endDate:'',//结束时间
                     activityID:''
                 },

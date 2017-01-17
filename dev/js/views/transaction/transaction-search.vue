@@ -94,13 +94,7 @@
         data(){
             this.model=model(this)
             return{
-                cumulative:{
-                    // totalNumber:'',      //交易总笔数
-                    // totalAmount:'',   //交易总金额
-                    // canDisAmount:'',//可打折金额
-                    // payAmount:'',       //实付总金额
-                    // subsidyAmount:'',//补贴总金额
-                },
+                cumulative:[],
                 activityList:[],
                 bankFullName:[],
                 showList:false,
@@ -187,7 +181,6 @@
             }
         },
         ready(){
-            // this.getList();
             this.getBankList();
             document.addEventListener('click', (e) => {
                 if (!e.target.classList.contains('showLi')) {
@@ -195,7 +188,6 @@
                 }
             }, false);
             this.getMenuList();
-            // console.log(JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime)
         },
         beforeDestroy () {
             document.removeEventListener('click', this.resetName, false);
