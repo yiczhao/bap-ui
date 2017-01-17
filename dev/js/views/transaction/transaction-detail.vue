@@ -55,7 +55,7 @@
                     <td>{{n.cardNumber | filter_banknum}}</td><!-- 银行卡号 -->
                     <td>{{n.cardType}}</td><!-- 卡种 -->
                     <td>{{n.accountNumber | filter_phone}}</td><!-- 手机号码 -->
-                    <td>{{n.transNo | substring 10}}</td><!-- 交易流水号 -->
+                    <td><span  aria-label="{{n.transNo}}" v-bind:class="{'hint--top':(!!n.transNo)}">{{n.transNo | substring 10}}</span></td><!-- 交易流水号 -->
                     <td>{{n.transDate}}</td><!-- 交易时间 -->
                     <td>{{n.settlementDate}}</td><!-- 结算时间 -->
                     <td>{{n.totalAmount }} </td><!-- 消费金额 -->
