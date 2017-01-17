@@ -161,11 +161,10 @@
                     }
                 })
             },
-            getId({id,name}){
+            getId({uniqueId,name}){
                 this.showList=false;
-                this.searchDate.activityName=name;
-                this.searchDate.activityId=id;
-                this.searchDate.activityID=this.searchDate.activityId;
+                this.activityName=name;
+                this.searchDate.activityID=uniqueId;
             },
             getBankList(){
                 let data={

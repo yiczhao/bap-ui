@@ -3,7 +3,7 @@
  * @param  {[type]} input     [输入值]
  */
 export default function (str){
-	if (str.length<8) {
+	if (!str||str.length<8) {
 		return str
 	}
 	// return  val.replace(/(\d{3})\d{4}(\d{4})/,"$1*****$3")
