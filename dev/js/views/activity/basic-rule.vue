@@ -30,11 +30,9 @@
     <div class="rule-row">
         <div class="rule-label"><i>*</i>活动持续时间</div>
         <div class="rule-input">
-            <ks-date-picker @change="setincludeTimes" :time="false"
-                            placeholder="活动时间" :value.sync="addData.startTime"></ks-date-picker>
+            <ks-date-picker @change="setincludeTimes" time="00:00:00" placeholder="活动时间" :value.sync="addData.startTime"></ks-date-picker>
             <div class="m20">---</div>
-            <ks-date-picker @change="setincludeTimes" :time="false"
-                            placeholder="活动时间" :value.sync="addData.endTime"></ks-date-picker>
+            <ks-date-picker @change="setincludeTimes" time="23:59:59" placeholder="活动时间" :value.sync="addData.endTime"></ks-date-picker>
         </div>
     </div>
     <div class="rule-row">
@@ -154,7 +152,7 @@
         },
         methods:{
             setincludeTimes(){
-
+                console.log(this.addData.startTime);
             },
             removeDate(){
 
