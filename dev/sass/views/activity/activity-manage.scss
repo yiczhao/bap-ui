@@ -1,0 +1,44 @@
+.clearfix:before,.clearfix:after{
+	content:"";
+	display:table;
+}
+.clearfix:after{clear:both;}
+.clearfix{
+	*zoom:1;/*IE/7/6*/
+}
+.activity-manage{
+	.activity-title{
+		.search-div{
+			margin-bottom:20px;
+			@extend .clearfix;
+			.KsDatePicker{
+				display: inline-block;
+				width: 200px;
+			}
+			& > div,& > span,& > input,& > select,& > a{
+				float: left;
+				margin-right: 15px;
+				margin-bottom:10px;
+
+			}
+			& > span{
+				line-height: 40px;
+			}
+			& > select{
+				width: 150px;
+				height: 38px;
+			}
+			.btn-primary{
+				float: right;
+			}
+			.KSNRCheckbox{
+				margin-top: 4px;
+			}
+		}
+	}
+	.table{
+		margin-bottom: 20px;
+	}
+}
+
+

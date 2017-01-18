@@ -1,0 +1,132 @@
+$font-size:18px;
+$color:#ddd;
+@mixin border($color,$border-color,$radius) {
+	border: 1px solid $color;
+	border-color:$border-color;
+	border-radius:$radius;
+};
+@mixin input-style() {
+	width: 100%;
+	height: 42px;
+	text-indent: 36px;
+	margin-bottom:29px;
+	@include border($color,#c8c8c8,3px);
+	background-color: rgba(0,0,0,0);
+	background-repeat:no-repeat;
+	background-position: 10px 12px;
+}
+.login-container{
+	padding-top: 215px;
+	.page-container{
+		width:870px;
+		height:361px;
+		margin:auto;
+		@include border($color,#c8c8c8,3px);
+		.container-left{
+			width:380px;
+			height:100%;
+			float: left;
+			position:relative;
+			background-color:rgba(1,98,172,1);
+			.kashuo-logo{
+				width:159px;
+				height:36px;
+				margin:auto;
+				margin-top:136px;
+				background-image: url("../img/kashuologo.png");
+			}
+			.system-title{
+				user-select:none;
+				cursor: default;
+				width:160px;
+				height:20px;
+				text-align:center;
+				color:rgba(255,255,255,1);
+				font-size:18px;
+				line-height:20px;
+				margin:27px auto 0 auto;
+				font-weight: bold;
+			}
+			.center-img{
+				position: absolute;
+				right:0;
+				top: 50%;
+				width:12px;
+				height:24px;
+				background-image:url("../img/center.png");
+			}
+		}
+		.center-container{
+			width:488px;
+			height:361px;
+			float:left;
+			background-color:#fff;
+			.form-group{
+				display: block;
+				clear:both;
+				width: 320px;
+				margin: auto;
+				.group-title{
+					font-size: $font-size;
+					line-height: 18px;
+					color: #b0b0b0;
+					margin-top: 42px;
+					margin-bottom: 34px;
+					clear:both;
+				}
+				.login-usertype{
+					@include input-style;
+					background-image:url("../img/username.png");
+				}
+				.login-passwordtype{
+					@include input-style;
+					background-image:url("../img/password.png");
+					margin-bottom:10px;
+				}
+				.savePassword{
+					margin-bottom:10px;
+					.KSIosSwitch{
+						padding: 0px 3px 6px 0;
+					}
+				}
+				.form-aboutPassword{
+					margin-bottom: 20px;
+				}
+				.form-aboutPassword span{
+					line-height:20px;
+				}
+				.error-text{
+					line-height: 29px;
+				}
+				.about-password{
+					width: 18px;
+					height: 18px;
+					vertical-align: middle;
+				}
+				.Login{
+					background-color: rgba(1,98,172,1);
+					font-size: 16px;
+					text-align: center;
+					color:white;
+					@include border($color,$color,3px);
+					width: 100%;
+					height: 42px;
+					margin-top:11px;
+				}
+				.form-login input{
+					font-size: $font-size;
+				}
+			}
+			.forget-password{
+				cursor: pointer;
+				width:100%;
+				height:50px;
+				line-height:50px;
+				margin-top:15px;
+				text-align:center;
+				color:rgba(137,137,137,1);
+				background-color:rgba(244,244,244,1);
+			}
+		}
+	}
+}

@@ -1,0 +1,86 @@
+.clearfix:before,.clearfix:after{
+	content:"";
+	display:table;
+}
+.clearfix:after{clear:both;}
+.clearfix{
+	*zoom:1;/*IE/7/6*/
+}
+.basic-rule{
+	padding-top: 20px;
+	.dashed{
+		border-bottom: 1px dotted #c8c8c8;
+		margin: 25px auto;
+		width: 850px;
+	}
+	.rule-row{
+		padding: 0 20px;
+		width: 750px;
+		margin: 0 auto 20px;
+		@extend .clearfix;
+		font-size: 15px;
+		.rule-label{
+			width: 120px;
+			float: left;
+			text-align:right;
+			margin-right: 20px;
+			i{
+				color:red;
+				margin: 2px 3px 0 0;
+			}
+		}
+		.rule-input{
+			min-width: 500px;
+			float: left;
+			& > div,& > span,& > input,& > select,& > a{
+				display: inline-block;
+			}
+			& > .select{
+				width: 250px;
+			}
+			& > .input{
+				width: 506px;
+			}
+			& > .textarea{
+				width: 506px;
+				height: 80px;
+			}
+			.db{
+				display: block;
+				margin-top: 20px;
+				.select{
+					width:150px;
+				}
+			}
+			.db:first-child{
+				margin-top: 0;
+			}
+			.KsDatePicker{
+				width:233px;
+			}
+			.icon-add,.icon-remove{
+				font-size: 24px;
+				color: #2196F3;
+				margin: 0 0 4px 5px;
+				cursor: pointer;
+			}
+			.icon-remove{
+				color:#666;
+			}
+			.m20{
+				margin: 0 10px;
+				position: relative;
+				top: -15px;
+			}
+			.KSNRCheckbox{
+				margin-right:10px;
+				top: -3px;
+			}
+		}
+		.rule-label,.rule-input{
+			line-height:36px;
+		}
+	}
+}
+
+
