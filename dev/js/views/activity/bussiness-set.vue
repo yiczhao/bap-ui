@@ -2,6 +2,8 @@
 <activity-main :propclass="'bussiness-set'" :showstep.sync="showstep">
     <div class="rule-row rule-title">
         <a class="btn btn-primary" @click="addBtn">添加商户</a>
+        <a class="mr15" @click="">上传文件</a>
+        <a @click="">下载商户模板（excel）</a>
         <div class="search-div">
             <input class="input" type="text" v-model="storeName" placeholder="输入商户名称/商户ID筛选"/>
         </div>
@@ -19,7 +21,9 @@
                 <td><a @click="searchList.splice($index,1)">移除</a></td>
             </tr>
             <tr v-show="!searchList.length">
-                <td colspan="3">请添加商户</td>
+                <td colspan="3">
+                    请添加商户
+                </td>
             </tr>
         </table>
         <!--<div v-show="!!dataList">-->
@@ -77,8 +81,8 @@
                         :total="addsearchData.total"
                         :page_size.sync="addsearchData.maxResult"
                         :page_current.sync="addsearchData.page"
-                        v-on:current_change="getaddList"
-                        v-on:size_change="getaddList"
+                        v-on:current_change="getfirstResult"
+                        v-on:size_change="getfirstResult"
                 ></pagegroup>
             </div>
             <div class="tc">
@@ -90,6 +94,9 @@
 </activity-main>
 </template>
 <style type="text/css" scoped>
+    .mr15{
+        margin: 0 15px;
+    }
     #all{
         display: none;
     }
@@ -115,6 +122,7 @@
         data(){
             this.model=model(this)
             return{
+                submitRemarks:'',
                 waring:'请搜索商户',
                 addshow:false,
                 showstep:2,
@@ -127,6 +135,7 @@
                     storeName: ""
                 },
                 addsearchData:{
+                    firstResult:0,
                     page: 1,
                     maxResult: 10,
                     total: 0,
@@ -149,6 +158,10 @@
             }
         },
         methods:{
+            getfirstResult(){
+                this.addsearchData.firstResult=(this.addsearchData.page-1)*this.addsearchData.maxResult;
+                this.getaddList();
+            },
             chooseAll(){
                 this.addIDs=[];
                 let cloneData=_.cloneDeep(this.addList);
@@ -243,6 +256,7 @@
             },
             addBtn(){
                 this.addsearchData={
+                    firstResult:0,
                     page: 1,
                     maxResult: 10,
                     total: 0,
@@ -287,7 +301,11 @@
                         storeName:val.name
                     })
                 })
-                !!sessionStorage.getItem('activityId')?data.activityId=sessionStorage.getItem('activityId') << 0:data.activityId='';
+//                if(!this.submitRemarks&&!this.dataList.length){
+//                    dialog('info','请添加商户或输入备注信息！');
+//                    return;
+//                }
+                data.activityId=sessionStorage.getItem('activityId') << 0||this.$route.params.bactivityId << 0;
                 this.model.saveStore(data).then((res)=>{
                     if(res.data.code===0){
                         this.getList();

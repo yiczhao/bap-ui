@@ -117,11 +117,11 @@
 							</td>
 							<td>
 								<span>区域平均交易笔数(笔)</span>
-								<strong>{{transactionRegion.tradeAreaModel.averageTradeNum }}</strong>
+								<strong>{{transactionRegion.tradeAreaModel.averageTradeNum}}</strong>
 							</td>
 							<td>
 								<span>最高交易区域</span>
-								<strong>{{transactionRegion.tradeAreaModel.maxTradeArea }}</strong>
+								<strong>{{transactionRegion.tradeAreaModel.maxTradeArea}}</strong>
 							</td>
 							<td>
 								<span>最高交易区域交易笔数(笔)</span>
@@ -329,7 +329,6 @@
 					PData:[],
 					Ldata:[],
 					tableTitle:'',
-					weekTitle:'',
 				},
 				transactionRegion:{//交易区域数据
 					tradeAreaModel:[],//交易区域累计的关键数据
@@ -379,37 +378,39 @@
 				this.times.monthAgo=agoMonthDate;
 			},
 			// =================================================================================================
-			dataLineEchart(title,twoInfor,xData,parentDataName,parentData,passDataName,passData){
-				var myChart = echarts.init(document.getElementById("data-echart-weekmonth"));
-        		var option = {
-        		    title : {text: title},//表格左上角标题
-				    tooltip : {trigger: 'axis'},
-				    legend: {data:twoInfor},
-				    toolbox: {
-				        show : true,
-				        feature : {mark : {show: false},dataView : {show: false, readOnly: false},magicType : {show: false, type: ['line', 'bar']},restore : {show: false},saveAsImage : {show: false}},
+			dataLineEchart(title,xData,parentDataName,parentData,passDataName,passData){
+				var myChart=echarts.init(document.getElementById("data-echart-weekmonth"));
+				var option = {
+				    title: {
+				        text: title
 				    },
-				    calculable : true,
-				    xAxis : [
+				    tooltip: {
+				        trigger: 'axis'
+				    },
+				    legend: {
+				        data:['当前数据(元)','对比数据(元)']
+				    },
+				    xAxis: {
+				        type: 'category',
+				        boundaryGap: false,
+				        data: xData,
+				    },
+				    yAxis: {
+				        type: 'value'
+				    },
+				    series: [
 				        {
-				            type : 'category',
-				            boundaryGap : false,
-				            data : xData
-				        }
-				    ],
-				    yAxis : [{type : 'value'}],
-				    series : [{
-				    		name:parentDataName,
+				            name:parentDataName,
 				            type:'line',
-				            data:parentData,
-				            // itemStyle : {  normal : {  color:'#00FF00',  //折点颜色lineStyle:{color:'#2196f3' //折线颜色}  }  }, 
-				        },{
+				            data:parentData
+				        },
+				        {
 				            name:passDataName,
 				            type:'line',
-				            data:passData,
+				            data:passData
 				        }
 				    ]
-        		}
+				};
         		myChart.setOption(option)
 			},
 			justChart(timeData,timePoint){
@@ -477,10 +478,9 @@
 				this.$set('transactionDataShow.Ldata',data.series[1].dataDecimal);
          		this.dataLineEchart(
          			this.transactionDataShow.tableTitle,
-         			this.transactionDataShow.weekTitle,
 					this.transactionDataShow.XData,
-					'本周',this.transactionDataShow.PData,
-					'上周',this.transactionDataShow.Ldata
+					'当前数据(元)',this.transactionDataShow.PData,
+					'对比数据(元)',this.transactionDataShow.Ldata
 				)
 			},
 			tradeDataModelToday(){//获取今日关键数据
@@ -509,7 +509,6 @@
         		switch(toggle){
         			case 'TradeAmountList':
 						this.transactionDataJudgeName="TradeAmountList";
-						// this.transactionDataShow.tableTitle="7日交易总金额数据展示图";
 						this.transactionDataShow.tableTitle="交易总金额数据展示图";
 	        			this.model.getTradeAmount(this.tradeGET).then((res)=>{
 	        				if (res.data.code==0){
@@ -519,7 +518,6 @@
 	        			break;
 	        		case 'SubsidyAmountList':
 						this.transactionDataJudgeName="SubsidyAmountList";
-						// this.transactionDataShow.tableTitle="7日补贴总金额数据展示图";
 						this.transactionDataShow.tableTitle="补贴总金额数据展示图";
 						this.model.getSubsidyAmount(this.tradeGET).then((res)=>{
 		        			if (res.data.code==0){
@@ -529,7 +527,6 @@
 		        		break;
 	        		case 'TradeNumList':
 						this.transactionDataJudgeName="TradeNumList";
-						// this.transactionDataShow.tableTitle="7日交易总笔数数据展示图";
 						this.transactionDataShow.tableTitle="交易总笔数数据展示图";
 						this.model.getTradeNum(this.tradeGET).then((res)=>{
 		        			if (res.data.code==0){
@@ -538,10 +535,9 @@
 								this.$set('transactionDataShow.Ldata',res.data.data.series[1].dataLong);
 		         				this.dataLineEchart(
 		         					this.transactionDataShow.tableTitle,
-		         					this.transactionDataShow.weekTitle,
 									this.transactionDataShow.XData,
-									'本周',this.transactionDataShow.PData,
-									'上周',this.transactionDataShow.Ldata
+									'当前数据(元)',this.transactionDataShow.PData,
+									'对比数据(元)',this.transactionDataShow.Ldata
 								);
 		        			}
 		        		});
@@ -557,15 +553,12 @@
 						this.tradeGET.startDate=this.times.lastWeek;
 						this.tradeGET.endDate=this.times.todayDate;
 						if(this.transactionDataJudgeName=="TradeAmountList"){
-							// this.transactionDataShow.tableTitle='7日交易总金额数据展示图';
 							this.changeDataShow('TradeAmountList');
 		        			break;
 						}else if (this.transactionDataJudgeName=="SubsidyAmountList") {
-							// this.transactionDataShow.tableTitle='7日补贴总金额数据展示图';
 							this.changeDataShow('SubsidyAmountList');
 			        		break;
 						}else if (this.transactionDataJudgeName=="TradeNumList") {
-							// this.transactionDataShow.tableTitle='7日交易总笔数数据展示图';
 							this.changeDataShow('TradeNumList');
 			        		break;
 						}
@@ -575,15 +568,12 @@
 						this.tradeGET.startDate=this.times.monthAgo;
 						this.tradeGET.endDate=this.times.todayDate;
 						if(this.transactionDataJudgeName=="TradeAmountList"){
-							// this.transactionDataShow.tableTitle='30日交易总金额数据展示图';
 							this.changeDataShow('TradeAmountList');
 		        			break;
 						}else if (this.transactionDataJudgeName=="SubsidyAmountList") {
-							// this.transactionDataShow.tableTitle='30日补贴总金额数据展示图';
 							this.changeDataShow('SubsidyAmountList');
 			        		break;
 						}else if (this.transactionDataJudgeName=="TradeNumList") {
-							// this.transactionDataShow.tableTitle='30日交易总笔数数据展示图';
 							this.changeDataShow('TradeNumList');
 			        		break;
 						}
@@ -595,7 +585,9 @@
 			// =================================================================================================
         	//交易区域 sucess
         	regionDetailReady(){//交易区域数据获取
-        		let data={};
+        		let data={
+        			activityID:this.tradeGET.activityID
+        		};
                 (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
         		this.model.getTradeAreaTotal(data).then((res)=>{
         			if (res.data.code==0){
@@ -605,7 +597,9 @@
         	},
         	regionDetailAmount(){//交易区域交易金额切换
         		this.regionDetailJudgeChoose='amount';
-        		let data={};
+        		let data={
+        			activityID:this.tradeGET.activityID
+        		};
                 (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
         		this.model.getTradeAreaTotalAmountList(data).then((res)=>{
         			if (res.data.code==0){
@@ -618,7 +612,9 @@
         	},
 			regionDetailNumber(){//交易区域交易笔数切换
 				this.regionDetailJudgeChoose='num';
-				let data={};
+				let data={
+        			activityID:this.tradeGET.activityID
+				};
                 (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getTradeAreaNumList(data).then((res)=>{
         			if (res.data.code==0){
@@ -631,11 +627,13 @@
 			// =================================================================================================
 			//交易时段分析 sucess
 			transactionTimeReady(){//交易时段加载数据
-				let data={};
+				let data={
+        			activityID:this.tradeGET.activityID
+				};
                 (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getTradePeriodTotal(data).then((res)=>{
 					if (res.data.code==0){
-						this.transactionTime.timePoint = res.data.data.series;
+						this.$set('transactionTime.timePoint',res.data.data.series);
         			}
 					this.justChart(this.transactionTime.timeData,this.transactionTime.timePoint);	
 				})
@@ -643,7 +641,9 @@
 			// =================================================================================================
 			//商户数据分析
 			merchantDataAreaReady(){//商户关键数据
-				let data={};
+				let data={
+        			activityID:this.tradeGET.activityID
+				};
                 (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getMerchantTradeTotal(data).then((res)=>{
 					if (res.data.code==0){
@@ -653,7 +653,9 @@
 			},
 			merchantDataTradeAmountChange(){//商户数据交易金额
 				this.merchantDataDetailJudgeName='amount';
-				let data={};
+				let data={
+        			activityID:this.tradeGET.activityID
+				};
                 (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getMerchantTradeAmount(data).then((res)=>{
 					if (res.data.code==0){
@@ -665,7 +667,9 @@
 			},
 			merchantDataTradeCountChange(){//商户数据交易笔数
 				this.merchantDataDetailJudgeName='num';
-				let data={};
+				let data={
+        			activityID:this.tradeGET.activityID
+				};
                 (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 
 				this.model.getMerchantTradeCount(data).then((res)=>{
@@ -679,7 +683,9 @@
 			// =================================================================================================
 			//卡BIN数据分析 success
 			cardBINDataAreaReady(){//卡BIN数据分析获取数据
-				let data={};
+				let data={
+        			activityID:this.tradeGET.activityID
+				};
                 (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getCardBINTotal(data).then((res)=>{
 					if (res.data.code==0){
@@ -689,7 +695,10 @@
 			},
 			cardBINDetailAmount(){//卡BIN交易金额chenge
 				this.cardBINDetailJudgeChoose='amount';
-				let data={};
+				let data={
+        			activityID:this.tradeGET.activityID
+
+				};
                 (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getCardBINTradeAmountList(data).then((res)=>{
 					if (res.data.code==0) {
@@ -701,19 +710,23 @@
 			},
 			cardBINDetailNumber(){//卡BIN交易笔数change
 				this.cardBINDetailJudgeChoose='num';
-				let data={};
+				let data={
+        			activityID:this.tradeGET.activityID
+				};
                 (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getCardBINTradeNumList(data).then((res)=>{
 					if (res.data.code==0) {
-						this.cardBINDataArea.binStartNumber=res.data.data.category;
-						this.cardBINDataArea.tradeNumCardBINChange=res.data.data.series[0].dataLong;
-						this.dataBarEchart('cardBIN-echart',this.cardBINDataArea.binStartNumber,'卡BIN刷卡笔数',this.transactionRegion.tradeNumCardBINChange);
+						this.$set('cardBINDataArea.binStartNumber',res.data.data.category)
+						this.$set('cardBINDataArea.tradeNumCardBINChange',res.data.series[0].dataLong)
+						this.dataBarEchart('cardBIN-echart',this.cardBINDataArea.binStartNumber,'卡BIN刷卡笔数',this.cardBINDataArea.tradeNumCardBINChange);
 					}
 				});
 			},
 			// =================================================================================================
 			oneCardDataReady(){//单卡获取total
-				let data={};
+				let data={
+        			activityID:this.tradeGET.activityID
+				};
 				(!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getOneCardTotal(data).then((res)=>{
 					if (res.data.code==0) {
@@ -722,13 +735,16 @@
 				})
 			},
 			oneCardDataOnceData(){//获取单卡参与次数数据
-				let data={};
+				let data={
+        			activityID:this.tradeGET.activityID
+				};
                 (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getOneCardSwipedCount(data).then((res)=>{
 					if (res.data.code==0) {
-						this.oneCardArea.oneCardChance=res.data.data.series[0].data;
-						this.oneCardArea.oneCardNum=res.data.data.series[0].dataLong;
-						this.dataBarEchart('one-echart',this.oneCardArea.oneCardChance,'卡数量',this.oneCardArea.oneCardNum);
+						this.$set('oneCardArea.oneCardChance',res.data.data.series[0].data);
+						this.$set('oneCardArea.oneCardNum',res.data.data.series[0].dataLong);
+						// this.dataBarEchart('one-echart',this.oneCardArea.oneCardNum,'卡数量',this.oneCardArea.oneCardChance);
+						this.dataBarEchart('one-echart',['','','','','','','','','',''],'卡数量',this.oneCardArea.oneCardChance);
 					}
 				})
 			},
@@ -792,7 +808,8 @@
 			getActivity(){
 				 let data={
                     name:this.searchDate.activityName,
-                    uuids:_.split(sessionStorage.getItem('uuids'), ',')
+                    uuids:_.split(sessionStorage.getItem('uuids'), ','),
+                    activityID:this.searchDate.activityID
                 };
                 this.$common_model.getActivityList(data).then((res)=>{
                     if(res.data.code===0){
@@ -804,7 +821,8 @@
 			getId({id,name}){
                 this.searchDate.showList=false;
                 this.searchDate.activityName=name;
-                this.searchDate.activityID=id;
+                this.tradeGET.activityID=id;
+                this.transactionDataToggle("transaDataToggleDown");
             },
             resetName(){
                 this.searchDate.showList=false;

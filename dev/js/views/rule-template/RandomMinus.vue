@@ -3,7 +3,7 @@
         <span>随机立减</span>
         <input class="input" type="text" v-model="n.amount" v-limitaddprice="n.amount"/>
         <span>元</span>
-        <input class="input" type="text" v-model="n.number" v-limitaddprice="n.number"/>
+        <input class="input" type="text" v-model="n.number" v-limitnumber="n.number"/>
         <span>名</span>
         <i v-if="index===0" class="icon-add" @click="submitdata.push({'amount':'','number':''})"></i>
         <i v-if="index!==0" class="icon-remove" @click="submitdata.splice(index,1)"></i>

@@ -89,9 +89,7 @@
                 <div class="form-group">
                     <label class="name-left"><i>*</i>功能级</label>
                     <div class="function-area">
-                        <ks-checkbox-group :v-model="gnprivilegeIDs">
-                            <ks-checkbox v-for="n in privileges['1']" @change="checked(n.selected,n.id)" :checked.sync="n.selected" :name="n.name">{{n.name}}</ks-checkbox>
-                        </ks-checkbox-group>
+                        <ks-checkbox v-for="n in privileges" v-if="n.name!='密码设置'" @change="checked(n.selected,n.id)" :checked.sync="n.selected" :name="n.name">{{n.name}}</ks-checkbox>
                     </div>
                 </div>
             </div>
@@ -132,7 +130,7 @@
                 <div class="form-group">
                     <label class="name-left"><i>*</i>功能级</label>
                     <div class="function-area">
-                        <ks-checkbox v-for="n in privileges['1']" :name="n.name" :disable="true" :checked.sync="n.selected">{{n.name}}</ks-checkbox>
+                        <ks-checkbox v-for="n in privileges" :name="n.name" :disable="true" :checked.sync="n.selected">{{n.name}}</ks-checkbox>
                     </div>
                 </div>
                 <div class="form-group close-center">
@@ -166,7 +164,6 @@
                 bankLists:[],
                 privileges:[],
                 gnprivilegeIDs:[],
-                sjprivilegeIDs:[],
                 addList:{
                     bankID:'',
                     bankLevel:'',
@@ -202,7 +199,7 @@
                 })
                 this.model.getPrivilegesList().then((res)=>{
                     if(res.data.code===0){
-                        this.$set('privileges',res.data.data);
+                        this.$set('privileges',res.data.dataList);
                     }
                 })
                 let requestParam = {
@@ -227,7 +224,7 @@
                     loginAccountType:'3',
                     privilegeIDs:[]
                 }
-                this.sjprivilegeIDs=this.gnprivilegeIDs=[];
+                this.gnprivilegeIDs=[];
                 this.loginAccountType1=true;
                 this.loginAccountType2=true;
                 this.getBankList();
@@ -250,18 +247,15 @@
                 this.model.getUserInfo(_id).then((res)=>{
                     if(res.data.code===0){
                         this.$set('addList',res.data.data);
-                        this.$set('privileges',res.data.data.privileges);
+                        this.$set('privileges',res.data.data.privilegeList);
                         this.addList.status=''+this.addList.status;
                         this.addList.curPassword='::::::';
                         this.addList.privilegeIDs=[];
-                        _.map(res.data.data.privileges,(val)=>{
-                            _.map(val,(value)=>{
-                                if(value.selected){
-                                    this.addList.privilegeIDs.push(value.id);
-                                    this.gnprivilegeIDs.push(value.name);
-                                    this.sjprivilegeIDs.push(value.name);
+                        _.map(this.privileges,(val)=>{
+                                if(val.selected){
+                                    this.addList.privilegeIDs.push(val.id);
+                                    this.gnprivilegeIDs.push(val.name);
                                 }
-                            })
                         })
                         if(!this.addList.loginAccountType){
                             this.loginAccountType1=false;
@@ -303,12 +297,12 @@
                 })
             },
             checked(_checked,_id){
-                if(_checked){
-                    this.addList.privilegeIDs.push(_id);
-                }else{
+                if(!_checked){
                     _.remove(this.addList.privilegeIDs,(val)=>{
                         return val==_id;
                     })
+                }else{
+                    this.addList.privilegeIDs.push(_id);
                 }
             },
             getloginAccountType(bool1,bool2){

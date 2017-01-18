@@ -11,7 +11,7 @@
         <option value="6">六</option>
     </select>
     <span>打</span>
-    <input class="input" maxlength="1" type="text" v-model="n.discount" v-limitaddprice="n.discount"/>
+    <input class="input" type="text" v-model="n.discount" v-limitaddprice="n.discount"/>
     <span>折</span>
     <i v-if="index===0" class="icon-add" @click="submitdata.push({'weekday':'7','discount':''})"></i>
     <i v-if="index!==0" class="icon-remove" @click="submitdata.splice(index, 1)"></i>

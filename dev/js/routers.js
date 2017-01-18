@@ -126,11 +126,18 @@ export default function (Vue,router){
                                 require(['./views/rule-template/RandomDiscount.vue'],resolve)
                             }
                         },
-                        'quanyi/:ruleId':{
-                            name:'quanyi',
+                        'CouponDiscount/:ruleId':{
+                            name:'CouponDiscount',
                             router_type:'activity',
                             component:(resolve)=>{
-                                require(['./views/rule-template/quanyi.vue'],resolve)
+                                require(['./views/rule-template/CouponDiscount.vue'],resolve)
+                            }
+                        },
+                        'CouponMinus/:ruleId':{
+                            name:'CouponMinus',
+                            router_type:'activity',
+                            component:(resolve)=>{
+                                require(['./views/rule-template/CouponMinus.vue'],resolve)
                             }
                         }
                     }
@@ -175,7 +182,7 @@ export default function (Vue,router){
                     }
                 },
                 /* 交易明细查询*/
-                'transaction-detail/:transactionName':{
+                'transaction-detail/:transactionName/:transactionId':{
                     name:'transaction-detail',
                     router_type:'transaction',
                     component:(resolve)=>{

@@ -2,7 +2,7 @@
     <div class="home">
         <div class="search-div">
             <span>活动名称</span>
-            <input class="input" type="text" v-model="searchDate.name" placeholder="输入活动名称(回车键搜索)" @keyup.enter="getActivity"/>
+            <input class="input" type="text" v-model="searchDate.name" placeholder="输入活动名称(回车键搜索)" @keypress.enter="getActivity"/>
             <div class="showList showLi" v-show="showList">
                 <ul class="showLi">
                     <li class="showLi" v-for="n in activityList | filterBy searchDate.name in 'name'" @click="getId(n)">{{n.name}}</li>
@@ -11,15 +11,15 @@
             </div>
             <span>时间类型</span>
             <select class="select" v-model="searchDate.type" @change="getTime">
-                <option value="now">今日</option>
                 <option value="all">累计</option>
+                <option value="now">今日</option>
             </select>
             <div class="right">当前数据截止到{{now}} (每整点更新数据)</div>
         </div>
         <div class="total-div">
             <div class="total-left">
-                <span>交易总金额</span>
-                <span>{{total.tradeAmount}}元</span>
+                <span>交易总金额(元)</span>
+                <span>{{total.tradeAmount}}</span>
             </div>
             <div class="total-right">
                 <div>
@@ -28,7 +28,7 @@
                 </div>
                 <div class="">
                     <span>补贴总金额(元)</span>
-                    <span>{{total.subsidyAmount}}元</span>
+                    <span>{{total.subsidyAmount}}</span>
                 </div>
             </div>
         </div>
@@ -69,11 +69,11 @@
                 CardBINTradeNumList:[],
                 showList:false,
                 searchDate:{
-                    type:'now',
+                    type:'all',
                     name:'',
                     activityID:'',
-                    // startDate:stringify(new Date()),
-                    // endDate:stringify(new Date()),
+                     startDate:'',
+                     endDate:'',
                 }
             }
         },
@@ -139,6 +139,7 @@
             document.removeEventListener('click', this.resetName, false);
         },
         created(){
+            this.getTime();
             this.getList();
         }
     }

@@ -3,7 +3,7 @@
     <span>满</span>
     <input class="input" type="text" v-model="n.meetMoney" v-limitaddprice="n.meetMoney"/>
     <span>元，打</span>
-    <input class="input" maxlength="1" type="text" v-model="n.discount" v-limitaddprice="n.discount"/>
+    <input class="input" type="text" v-model="n.discount" v-limitaddprice="n.discount"/>
     <span>折</span>
     <i v-if="index===0" class="icon-add" @click="submitdata.push({'meetMoney':'','discount':''})"></i>
     <i v-if="index!==0" class="icon-remove" @click="submitdata.splice(index, 1)"></i>

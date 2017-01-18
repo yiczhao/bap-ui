@@ -1,13 +1,15 @@
 <template>
-<div class="rule-input" v-for="(index,n) in submitdata">
-    <span>满</span>
-    <input class="input" type="text" v-model="n.meetMoney" v-limitaddprice="n.meetMoney"/>
-    <span>元，立减</span>
-    <input class="input" type="text" v-model="n.minusMoney" v-limitaddprice="n.minusMoney"/>
-    <span>元</span>
-    <i v-if="index===0" class="icon-add" @click="submitdata.push({'meetMoney':'','minusMoney':''})"></i>
-    <i v-if="index!==0" class="icon-remove" @click="submitdata.splice(index, 1)"></i>
-</div>
+    <div class="rule-input" v-for="(index,n) in submitdata">
+        <span>优惠劵名称</span>
+        <input class="input" type="text" v-model="n.name"/>
+        <span>抵扣</span>
+        <input class="input" type="text" v-model="n.deductibleMoney" v-limitaddprice="n.deductibleMoney"/>
+        <span>元， 每次可使用</span>
+        <input class="input" type="text" v-model="n.number" v-limitaddprice="n.number"/>
+        <span>张</span>
+        <i v-if="index===0" class="icon-add" @click="submitdata.push({'deductibleMoney':'','number':'','name':''})"></i>
+        <i v-if="index!==0" class="icon-remove" @click="submitdata.splice(index, 1)"></i>
+    </div>
 </template>
 <script type="text/javascript">
     export default{
@@ -19,10 +21,13 @@
                     {name: '商户每卡参与次数', checked: false, types: 'store_card',keys:'quantities'},
                     {name: '每商户参与次数', checked: false, types: 'store',keys:'quantities'},
                     {name: '每卡参与次数', checked: false, types: 'card',keys:'quantities'},
+                    {name: '最低消费金额', checked: false, types: 'minimum_consume',keys:'moneys'},
+                    {name: '最高优惠金额', checked: false, types: 'max_preferential',keys:'moneys'}
                 ],
                 submitdata: [{
-                    meetMoney:'',
-                    minusMoney:'',
+                    name:'',
+                    deductibleMoney:'',
+                    number:'',
                 }]
             }
         },
@@ -30,24 +35,15 @@
         },
         events:{
             getData(){
-                let isTrue=false;
-                _.map(this.submitdata,(val)=>{
-                    if((val.meetMoney<<0) <(val.minusMoney<<0)){
-                        isTrue=true;
-                    }
-                })
-                if(isTrue){
-                    dialog('info','立减金额不得大于消费金额！');
-                    return;
-                }
                 this.$dispatch('getDatas',  this.submitdata);
             },
             setData(data){
                 let sdata=[];
                 _.map(data,(val)=>{
                     sdata.push({
-                        meetMoney:val.meetMoney,
-                        minusMoney:val.minusMoney,
+                        name:val.name,
+                        deductibleMoney:val.deductibleMoney,
+                        number:val.number
                     })
                 })
                 this.$set('submitdata', sdata);

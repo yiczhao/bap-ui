@@ -1,11 +1,10 @@
 <template>
 <div class="rule-input" v-for="(index,n) in submitdata">
-    <span>满</span>
-    <input class="input" type="text" v-model="n.meetMoney" v-limitaddprice="n.meetMoney"/>
-    <span>元，立减</span>
-    <input class="input" type="text" v-model="n.minusMoney" v-limitaddprice="n.minusMoney"/>
-    <span>元</span>
-    <i v-if="index===0" class="icon-add" @click="submitdata.push({'meetMoney':'','minusMoney':''})"></i>
+    <input class="input" type="text" v-model="n.belowMoney" v-limitaddprice="n.belowMoney"/>
+    <span>元以内, 打</span>
+    <input class="input" type="text" v-model="n.discount" v-limitaddprice="n.discount"/>
+    <span>折优惠</span>
+    <i v-if="index===0" class="icon-add" @click="submitdata.push({'belowMoney':'','discount':''})"></i>
     <i v-if="index!==0" class="icon-remove" @click="submitdata.splice(index, 1)"></i>
 </div>
 </template>
@@ -19,10 +18,12 @@
                     {name: '商户每卡参与次数', checked: false, types: 'store_card',keys:'quantities'},
                     {name: '每商户参与次数', checked: false, types: 'store',keys:'quantities'},
                     {name: '每卡参与次数', checked: false, types: 'card',keys:'quantities'},
+                    {name: '最低消费金额', checked: false, types: 'minimum_consume',keys:'moneys'},
+                    {name: '最高优惠金额', checked: false, types: 'max_preferential',keys:'moneys'}
                 ],
                 submitdata: [{
-                    meetMoney:'',
-                    minusMoney:'',
+                    belowMoney:'',
+                    discount:''
                 }]
             }
         },
@@ -30,24 +31,14 @@
         },
         events:{
             getData(){
-                let isTrue=false;
-                _.map(this.submitdata,(val)=>{
-                    if((val.meetMoney<<0) <(val.minusMoney<<0)){
-                        isTrue=true;
-                    }
-                })
-                if(isTrue){
-                    dialog('info','立减金额不得大于消费金额！');
-                    return;
-                }
                 this.$dispatch('getDatas',  this.submitdata);
             },
             setData(data){
                 let sdata=[];
                 _.map(data,(val)=>{
                     sdata.push({
-                        meetMoney:val.meetMoney,
-                        minusMoney:val.minusMoney,
+                        belowMoney:val.belowMoney,
+                        discount:val.discount
                     })
                 })
                 this.$set('submitdata', sdata);

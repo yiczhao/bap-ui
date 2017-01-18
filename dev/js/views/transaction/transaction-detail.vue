@@ -55,13 +55,9 @@
                     <td>{{n.cardNumber | filter_banknum}}</td><!-- 银行卡号 -->
                     <td>{{n.cardType}}</td><!-- 卡种 -->
                     <td>{{n.accountNumber | filter_phone}}</td><!-- 手机号码 -->
-                    <td>{{n.transNo | substring 10}}</td><!-- 交易流水号 -->
-                    <td>
-                        <span>{{n.transDate}}</span><!-- 交易时间 -->
-                    </td>
-                    <td>
-                        <span>{{n.settlementDate}}</span><!-- 结算时间 -->
-                    </td>
+                    <td><span  aria-label="{{n.transNo}}" v-bind:class="{'hint--top':(!!n.transNo)}">{{n.transNo | substring 10}}</span></td><!-- 交易流水号 -->
+                    <td>{{n.transDate}}</td><!-- 交易时间 -->
+                    <td>{{n.settlementDate}}</td><!-- 结算时间 -->
                     <td>{{n.totalAmount }} </td><!-- 消费金额 -->
                     <td>{{n.canDisAmount}}</td><!-- 可打折金额（元） -->
                     <td>{{n.payAmount}}</td><!-- 实付金额 -->
@@ -104,15 +100,16 @@
                     phone:'',
                     activityName:'',//活动名称
                     cardNumber:'',//银行卡号
-                    startDate:'',//开始时间
+                    startDate:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
                     endDate:'',//结束时间
+                    activityID:''
                 },
             }
         },
         methods:{
             getList(){
                 if (!this.searchDate.activityID) {
-                    this.searchDate.uuids=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
+                    this.searchDate.bankUuidString=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
                 }else{
                     this.searchDate.activityID=this.searchDate.activityID;
                 }
@@ -131,6 +128,7 @@
         },
         ready(){
             this.activityName=this.$route.params.transactionName;
+            this.searchDate.activityID=this.$route.params.transactionId;
             this.getList();
             this.searchDate.startDate='';
             this.searchDate.endDate='';

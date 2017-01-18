@@ -2,7 +2,7 @@
 	<div class="create-activity">
 		<div class="activity-list">
 			<template v-for="(index,value) in activityName">
-				<div class="show-activity" @click="showbg(value)">
+				<div v-if="value.type!='quanyi'" class="show-activity" @click="showbg(value)">
 					<div class="bg-show" :class="value.type">
 						<div class="activity-name">
 							<h4><a>{{value.name}}</a></h4>
@@ -14,6 +14,17 @@
 					<a v-show="value.show" class="btn btn-danger" @click="setProp('offline')" v-link="{'name':'basic-rule',params:{'rulename':value.link}}">创建线下活动</a>
 				</div>
 				<div class="block" v-if="index==3"></div>
+				<div v-if="value.type=='quanyi'" class="show-activity" @click="showbg(value)">
+					<div class="bg-show" :class="value.type">
+						<div class="activity-name">
+							<h4><a>权益</a></h4>
+						</div>
+						<div class="activity-intru">创建优惠券或优惠金额优惠。</div>
+					</div>
+					<div class="hover-bg" v-show="value.show"></div>
+					<a v-show="value.show" class="btn btn-primary"  @click="setProp('online')" v-link="{'name':'basic-rule',params:{'rulename':'CouponMinus'}}">优惠金额券</a>
+					<a v-show="value.show" class="btn btn-danger" @click="setProp('online')" v-link="{'name':'basic-rule',params:{'rulename':'CouponDiscount'}}">优惠打折券</a>
+				</div>
 			</template>
 		</div>
 	</div>
@@ -83,6 +94,9 @@
 					'link':'Ticket',
 					'show':false,
 					'type':'piaowu'
+				},{
+					'show':false,
+					'type':'quanyi'
 				}]
 			}
 		},

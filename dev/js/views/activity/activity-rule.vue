@@ -6,13 +6,13 @@
     </div>
     <div class="dashed"></div>
     <div class="rule-row">
-        <h3><i>*</i>活动条件设置</h3>
+        <h3>活动条件设置</h3>
         <div class="rule-input">
             <ks-checkbox v-for="n in ruleLists" :checked.sync="n.checked">{{n.name}}</ks-checkbox>
         </div>
     </div>
     <div class="rule-row" v-for="n in ruleLists.length" v-show="ruleLists[n].checked">
-        <h3>{{ruleLists[n].name}}</h3>
+        <h3><i>*</i>{{ruleLists[n].name}}</h3>
         <div class="rule-input" v-if="ruleLists[n].types=='CardBin'">
             <div class="db" v-for="(index,n) in ruleDatas.CardBin">
                 <span>卡BIN</span>
@@ -132,6 +132,8 @@
                     'MeetDiscount':'meetDiscounts',// 满多少打几折
                     'DateDiscount':'dateDiscounts',//几号几折
                     'RandomDiscount':'randomDiscounts',//随机折扣
+                    'CouponDiscount':'couponDiscounts',//权益打折
+                    'CouponMinus':'couponMinus',//权益金额
                 }
             }
         },
@@ -214,28 +216,64 @@
             },
             verifyField (data) {
                 let errMapper = {}
+                let checkData=[]
                 _.map(data,(val)=>{
                     if(val.checked){
+                        checkData.push(this.ruleDatas[val.types])
                         errMapper[val.types]=val.name;
                     }
                 })
-                for (let k in this.ruleDatas) {
-                    let m = this.ruleDatas[k];
-                    let keys=this.ruleDatas[k].keys;
-                    let err = errMapper[k] && new Error(`请检查 ${errMapper[k]} 字段!`)
+                for (let k in checkData) {
+                    let m = checkData[k];
+                    let keys=checkData[k].keys;
+                    let err = new Error(`请检查 ${errMapper[checkData[k].type]} 字段!`)
                     if(keys==='quantities'){
                         /*global _*/
-                        if (((!m.total ||!m.totalDay ||!m.totalMonth ||!m.totalWeek) && err) || (_.isArray(m) && !m.length && err)) {
+                        if (!m.total ||!m.totalDay ||!m.totalMonth ||!m.totalWeek) {
+                            err = new Error(`请检查 ${errMapper[checkData[k].type]} 字段!`)
+                            throw err
+                        }
+                        if (m.total<<0 <= 0||m.totalWeek<<0 <= 0||m.totalMonth<<0 <= 0||m.totalWeek<<0 <= 0) {
+                            err = new Error(`次数不得为0!`)
+                            throw err
+                        }
+                        if (m.total<<0 < m.totalMonth<<0||m.total<<0 < m.totalWeek<<0||m.total<<0 < m.totalDay<<0) {
+                            err = new Error(`总次数不得小于每月、每周、每天次数!`)
+                            throw err
+                        }
+                        if (m.totalMonth<<0 < m.totalWeek<<0||m.totalMonth<<0 < m.totalDay<<0) {
+                            err = new Error(`每月次数不得小于每周、每天次数!`)
+                            throw err
+                        }
+                        if (m.totalWeek<<0 < m.totalDay<<0) {
+                            err = new Error(`每周次数不得小于每天次数!`)
                             throw err
                         }
                     }
                     else if(keys==='moneys'){
-                        if (((!m.amount&&!m.less_than) && err) || (_.isArray(m) && !m.length && err)) {
-                            throw err
+                        if(checkData[k].type=='less_than'){
+                            if (!m.less_than) {
+                                err = new Error(`请检查 ${errMapper[checkData[k].type]} 字段!`)
+                                throw err
+                            }
+                            if (m.less_than <<0 ===0) {
+                                err = new Error(`${errMapper[checkData[k].type]} 不能为0!`)
+                                throw err
+                            }
+                        }else{
+                            if (!m.amount) {
+                                err = new Error(`请检查 ${errMapper[checkData[k].type]} 字段!`)
+                                throw err
+                            }
+                            if (m.amount <<0 ===0) {
+                                err = new Error(`${errMapper[checkData[k].type]} 不能为0!`)
+                                throw err
+                            }
                         }
                     }
                     else{
-                        if (((!m[0].data||!m[0].extData) && err) || (_.isArray(m) && !m.length && err)) {
+                        if (!m[0].data||!m[0].extData) {
+                            err = new Error(`请检查卡BIN限制字段!`)
                             throw err
                         }
                     }
@@ -288,7 +326,7 @@
               }
               let sumitdata1=this.getNextData();
               let sumitdata2={};
-              let rulename=sessionStorage.getItem('rulename');
+              let rulename=!!sessionStorage.getItem('rulename')?sessionStorage.getItem('rulename'):this.$route.name;
               sumitdata2[this.ruleNames[rulename]]=datas;
               let submitData=_.assign(sumitdata1, sumitdata2);
               submitData.step=this.showstep+1;
@@ -297,7 +335,7 @@
               this.model.addRule(submitData).then((res)=>{
                   if(res.data.code===0){
                       if (this.nextBool) {
-                          this.$router.go({'name':'bussiness-set'});
+                          this.$router.go({'name':'bussiness-set','params':{"bactivityId":submitData.id }});
                       }else{
                           dialog('successTime','草稿保存成功！')
                       }

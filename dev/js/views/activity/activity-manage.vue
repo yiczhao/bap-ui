@@ -53,7 +53,7 @@
                 <td>{{n.uuid | get_bank uuidsList}}</td>
                 <td>
                     <template v-if="n.status=='draft_other'">草稿</template>
-                    <template v-if="n.status=='wait_early_offline'">待审核</template>
+                    <template v-if="n.status=='wait_early_offline'">运行中</template>
                     <template v-if="n.status=='draft'">待审核</template>
                     <template v-if="n.status=='wait_check'">待审核</template>
                     <template v-if="n.status=='check_fail'">审核失败</template>
@@ -62,13 +62,13 @@
                     <template v-if="n.status=='finish'">已结束</template>
                 </td>
                 <td><a v-link="{name:'activity-info',params:{'infoId':n.id}}">查看</a></td>
-                <td><a v-if="n.status!='draft_other'&&n.status!='wait_early_offline'&&n.status!='draft'&&n.status!='wait_check'" v-link="{name:'transaction-detail',params:{'transactionName':n.name}}">查看</a></td>
+                <td><a v-if="n.status!='draft_other'&&n.status!='draft'&&n.status!='wait_check'" v-link="{name:'transaction-detail',params:{'transactionName':n.name,'transactionId':n.uniqueId}}">查看</a></td>
                 <!--<td></td>-->
                 <td>
-                    <a v-if="n.step==1&&n.status!='wait_early_offline'&&n.status!='draft'&&n.status!='wait_check'" @click="setProp(n.propes)" v-link="{name:'basic-rule',params:{'activityId':n.id,'rulename':n.ruleType}}">编辑</a>
-                    <a v-if="n.step==2&&n.status!='wait_early_offline'&&n.status!='draft'&&n.status!='wait_check'" @click="setProp(n.propes)" v-link="{name:n.ruleType,params:{'ruleId':n.id}}">编辑</a>
-                    <a v-if="n.step==3&&n.status!='wait_early_offline'&&n.status!='draft'&&n.status!='wait_check'" @click="setProp(n.propes)" v-link="{name:'bussiness-set',params:{'bactivityId':n.id}}">编辑</a>
-                    <a v-if="n.status!='wait_early_offline'&&n.status!='draft'&&n.status!='wait_check'" @click="deleteActivity(n.id)">删除</a>
+                    <a v-if="n.step==1&&n.status=='draft_other'" @click="setProp(n.propes,n.ruleType)" v-link="{name:'basic-rule',params:{'activityId':n.id,'rulename':n.ruleType}}">编辑</a>
+                    <a v-if="n.step==2&&n.status=='draft_other'" @click="setProp(n.propes,n.ruleType)" v-link="{name:n.ruleType,params:{'ruleId':n.id}}">编辑</a>
+                    <a v-if="n.step==3&&n.status=='draft_other'" @click="setProp(n.propes,n.ruleType)" v-link="{name:'bussiness-set',params:{'bactivityId':n.id}}">编辑</a>
+                    <a v-if="n.status=='draft_other'" @click="deleteActivity(n.id)">删除</a>
                 </td>
             </tr>
             <tr v-show="!searchList.length">
@@ -80,8 +80,8 @@
                     :total="searchDate.total"
                     :page_size.sync="searchDate.maxResult"
                     :page_current.sync="searchDate.page"
-                    v-on:current_change="getList"
-                    v-on:size_change="getList"
+                    v-on:current_change="getfirstResult"
+                    v-on:size_change="getfirstResult"
             ></pagegroup>
         </div>
     </div>
@@ -100,20 +100,26 @@
                     name:'',
                     actPropes:null,
                     startTime:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,
-                    endTime:'',
-                    statuses:['online'],
+                    endTime:stringify(new Date())+' 23:59:59',
+                    statuses:['online','draft_other','draft','wait_check','check_fail','early_offline','finish'],
                     page:1,
+                    firstResult:0,
                     maxResult:10,
                     uuids:_.split(sessionStorage.getItem('uuids'), ','),
                     systemId:'yhhd',
                     total:0
                 },
-                checkedBox:[false,false,true,false]
+                checkedBox:[true,true,true,true]
             }
         },
         methods:{
-            setProp(val){
+            getfirstResult(){
+                this.searchDate.firstResult=(this.searchDate.page-1)*this.searchDate.maxResult;
+                this.getList();
+            },
+            setProp(val,val1){
                 sessionStorage.setItem('props',val)
+                sessionStorage.setItem('rulename',val1)
             },
             getactPropes(){
                 (!this.actPropes)?this.searchDate.actPropes=null:this.searchDate.actPropes= this.actPropes;
@@ -144,6 +150,7 @@
             }
         },
         ready(){
+            sessionStorage.removeItem('activityId');
         },
         created(){
             this.getList()
