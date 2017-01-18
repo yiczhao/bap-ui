@@ -235,7 +235,7 @@
                 this.model.getUserInfo(_id).then((res)=>{
                     if(res.data.code===0){
                         this.$set('addList',res.data.data);
-                        this.$set('privileges',res.data.data.privileges);
+                        this.$set('privileges',res.data.data.privilegeList);
                         this.infoshow=true;
                     }
                 })

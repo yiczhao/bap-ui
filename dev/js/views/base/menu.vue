@@ -19,8 +19,11 @@
                 </li>
                 <li>
                     <span><i class="icon icon-wrench"></i>设置</span>
-                    <ul v-for="n in menuLists">
-                        <li  v-if="n.type==3"><a v-link="{name:n.code}">{{n.name}}</a></li>
+                    <ul>
+                        <template  v-for="n in menuLists">
+                            <li  v-if="n.type==3"><a v-link="{name:n.code}">{{n.name}}</a></li>
+                        </template>
+                        <li><a v-link="{name:password-config}">密码设置</a></li>
                     </ul>
                 </li>
         </ul>
