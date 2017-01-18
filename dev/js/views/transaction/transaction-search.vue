@@ -1,4 +1,4 @@
-<template> 
+<template>
     <div class="transaction-search">
         <div class="search-div">
             <span>活动名称</span>
@@ -80,8 +80,8 @@
             </table>
         </div>
         <pagegroup class="pagegroup"
-            :page_current.sync="searchDate.pageIndex" 
-            :total="objectotalNumber" 
+            :page_current.sync="searchDate.pageIndex"
+            :total="objectotalNumber"
             :page_size.sync="searchDate.pageSize"
             v-on:current_change="getList"
             v-on:size_change="getList"
@@ -100,8 +100,8 @@
                 showList:false,
                 tradeTotalNumber:50,
                 activityStatues:[
-                    {'status':'运行中'},
-                    {'status':'已结束'},
+                    {'status':'运行中','num':'1'},
+                    {'status':'已结束','num':'0'},
                 ],
                 dataList:[],
                 searchDate:{
@@ -118,7 +118,7 @@
                 activityName:'',
                 privilegeList:[],
             }
-        }, 
+        },
         methods:{
             getBankString(){
                 if (!this.bankUuidString) {
@@ -155,10 +155,10 @@
                     }
                 })
             },
-            getId({uniqueId,name}){
+            getId({id,name}){
                 this.showList=false;
                 this.activityName=name;
-                this.searchDate.activityID=uniqueId;
+                this.searchDate.activityID=id;
             },
             getBankList(){
                 let data={
@@ -177,7 +177,6 @@
                 _.map(privilegeList,(val)=>{
                     this.privilegeList.push(val.name)
                 })
-                console.log(this.privilegeList)
             }
         },
         ready(){
