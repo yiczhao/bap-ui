@@ -97,6 +97,7 @@
                 actPropes:'',
                 uuidsList:JSON.parse(sessionStorage.getItem('bankNames')),
                 searchDate:{
+                    sorts:'createdAt|desc',
                     name:'',
                     actPropes:null,
                     startTime:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,
