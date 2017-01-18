@@ -43,13 +43,13 @@
             </tr>
             <tr v-show="!!searchList" v-for="n in searchList">
                 <td>{{n.name}}</td>
-                <td>{{n.startTime | datetimes}}</td>
-                <td>{{n.endTime | datetimes}}</td>
+                <td>{{n.startTime | datetime}}</td>
+                <td>{{n.endTime | datetime}}</td>
                 <td>
                     <template v-if="n.propes=='online'">线上</template>
                     <template v-else>线下</template>
                 </td>
-                <td>{{n.createdAt | datetimes}}</td>
+                <td>{{n.createdAt | datetime}}</td>
                 <td>{{n.uuid | get_bank uuidsList}}</td>
                 <td>
                     <template v-if="n.status=='draft_other'">草稿</template>
