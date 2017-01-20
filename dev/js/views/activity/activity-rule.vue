@@ -335,7 +335,16 @@
               this.model.addRule(submitData).then((res)=>{
                   if(res.data.code===0){
                       if (this.nextBool) {
-                          this.$router.go({'name':'bussiness-set','params':{"bactivityId":submitData.id }});
+                          if(rulename=='Ticket'){
+                              let ticketData=[]
+                              _.map(res.data.data.tickets,(val)=>{
+                                  ticketData.push({'ticketId':val.id,'ticketName':val.name});
+                              })
+                              sessionStorage.setItem('ticketData',JSON.stringify(ticketData))
+                              this.$router.go({'name':'ticketbussiness-set','params':{"tactivityId":submitData.id }});
+                          }else{
+                              this.$router.go({'name':'bussiness-set','params':{"bactivityId":submitData.id }});
+                          }
                       }else{
                           dialog('successTime','草稿保存成功！')
                       }
@@ -344,6 +353,7 @@
           }
         },
         created(){
+            sessionStorage.removeItem('ticketData');
             this.getCardBin();
         },
         components: { activityMain }
