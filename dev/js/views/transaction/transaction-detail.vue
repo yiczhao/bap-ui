@@ -67,8 +67,8 @@
             </table>
         </div>
         <pagegroup class="pagegroup"
-            :page_current.sync="searchDate.pageIndex" 
-            :total="searchDate.total" 
+            :page_current.sync="searchDate.pageIndex"
+            :total="searchDate.total"
             :page_size.sync="searchDate.pageSize"
             v-on:current_change="getList"
             v-on:size_change="getList"
@@ -101,7 +101,7 @@
                     activityName:'',//活动名称
                     cardNumber:'',//银行卡号
                     startDate:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
-                    endDate:'',//结束时间
+                    endDate:stringify(new Date())+' 23:59:59',//结束时间
                     activityID:''
                 },
             }

@@ -13,7 +13,7 @@
             </div>
 			<div class="search-right">
 				<span class="search-time">活动进行中，数据截止到{{times.todayDate}}</span>
-				<a class="view-report">查看分析报告</a>
+				<a class="view-report" :href="origin+'/pdf/analysis'" target="_blank" download="分析报告">查看分析报告</a>
 			</div>
 		</div>
 		<div class="transaction-data border">
@@ -283,6 +283,7 @@
 		data(){
             this.model=model(this)
 			return{
+				origin:window.origin,
 				transactionDataJudgeName:'TradeAmountList',//数据分析Judge
 				transactionDataJudgeTime:'7',//数据分析Judge
 				merDataJudgeTime:'7',//数据分析Judge
@@ -348,8 +349,8 @@
 					CardBinModel:[],
 					averageSubsidyAmount:'',//卡BIN平均补贴金额
 					averageTradeAmount:'',//卡BIN平均交易金额
-					averageTradeNum :'',//卡BIN平均交易笔数 
-					binType:'',//卡BIN种类 
+					averageTradeNum :'',//卡BIN平均交易笔数
+					binType:'',//卡BIN种类
 					cardBinNum:'',//卡BIN个数
 					subsidyAmount:'',//补贴金额（单位，元）
 					tradeAmount:'',//交易金额（单位，元）
@@ -635,7 +636,7 @@
 					if (res.data.code==0){
 						this.$set('transactionTime.timePoint',res.data.data.series);
         			}
-					this.justChart(this.transactionTime.timeData,this.transactionTime.timePoint);	
+					this.justChart(this.transactionTime.timeData,this.transactionTime.timePoint);
 				})
 			},
 			// =================================================================================================
@@ -756,7 +757,7 @@
 						this.upDownToggle.transactionDataShowArea=false;
 						break;
 					case 'transaDataToggleDown'://交易数据分析
-						this.upDownToggle.transactionDataShowArea=true;	
+						this.upDownToggle.transactionDataShowArea=true;
         				this.tradeDataModelToday();
         				this.tradeDataModelTotail();
         				this.changeDataShow('TradeAmountList');

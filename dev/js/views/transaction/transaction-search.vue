@@ -107,7 +107,7 @@
                 searchDate:{
                     activityStatus:0,//活动状态
                     startDate:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
-                    endDate:'',//结束时间
+                    endDate:stringify(new Date())+' 23:59:59',//结束时间
                     activityID:'',
                     pageIndex:1,//当前选中的分页值
                     pageSize:1,//每页展示多少条数
