@@ -89,8 +89,8 @@
                 <div class="form-group">
                     <label class="name-left"><i>*</i>功能级</label>
                     <div class="function-area">
-                        <ks-checkbox :checked.sync="checkAll" @click="checkedAll">全选</ks-checkbox>
-                        <ks-checkbox v-for="n in privileges" @change="checked(n.selected,n.id)" :checked.sync="n.selected" :name="n.name">{{n.name}}</ks-checkbox>
+                        <ks-checkbox @change="checkedAll" :checked.sync="checkAll">全选</ks-checkbox>
+                        <ks-checkbox v-for="n in privileges" @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">{{n.name}}</ks-checkbox>
                     </div>
                 </div>
             </div>
@@ -191,7 +191,9 @@
             },
             checkedAll(){
                 let data=_.cloneDeep(this.privileges);
-                if(!this.checkAll){
+                this.addList.privilegeIDs=[];
+                this.gnprivilegeIDs=[];
+                if(this.checkAll){
                     _.map(data,(val)=>{
                         val.selected=true;
                         this.addList.privilegeIDs.push(val.id);
@@ -201,8 +203,6 @@
                     _.map(data,(val)=>{
                         val.selected=false;
                     })
-                    this.addList.privilegeIDs=[];
-                    this.gnprivilegeIDs=[];
                 }
                 this.$set('privileges',data);
             },
@@ -227,6 +227,9 @@
                 this.model.getPrivilegesList().then((res)=>{
                     if(res.data.code===0){
                         this.$set('privileges',res.data.dataList);
+                        _.map(this.privileges,(val)=>{
+                            val.selected=false;
+                        })
                     }
                 })
                 let requestParam = {
@@ -325,14 +328,14 @@
                 })
             },
             checked(_checked,_id){
-                if(!_checked){
+                if(_checked){
                     _.remove(this.addList.privilegeIDs,(val)=>{
                         return val==_id;
                     })
+                    this.getCheckAll();
                 }else{
                     this.addList.privilegeIDs.push(_id);
                 }
-                this.getCheckAll();
             },
             getloginAccountType(bool1,bool2){
                 if(bool1){
