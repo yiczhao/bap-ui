@@ -332,9 +332,9 @@
                     _.remove(this.addList.privilegeIDs,(val)=>{
                         return val==_id;
                     })
-                    this.getCheckAll();
                 }else{
                     this.addList.privilegeIDs.push(_id);
+                    this.getCheckAll();
                 }
             },
             getloginAccountType(bool1,bool2){
