@@ -316,10 +316,21 @@
         created(){
             let activityId = '';
             this.$route.params.tactivityId==':tactivityId'?activityId=sessionStorage.getItem('activityId') << 0:activityId = this.$route.params.tactivityId << 0;
-            sessionStorage.getItem('ticketData')?this.$set('ticketData',JSON.parse(sessionStorage.getItem('ticketData'))):null;
             if (activityId) {
                 // 获取活动信息
                 this.searchData.activityId=activityId;
+                this.model.geteditList(activityId).then((res)=>{
+                    let ruleData=res.data.data.ruleAndLimit.tickets;
+                    let checked=_.isArray(ruleData)?(!!ruleData&&!!ruleData.length):!!ruleData;
+                    if(res.data.code===0&&checked){
+                        _.map(ruleData,(val)=>{
+                            this.ticketData.push({
+                                ticketId:val.id,
+                                ticketName:val.name
+                            })
+                        })
+                    }
+                })
                 this.getList();
             }
         },

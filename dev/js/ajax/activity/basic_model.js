@@ -46,6 +46,14 @@ function model(_this) {
             return _this.$http.post('./transfer/activity_configure/api/v1/activity/store-save',data)
         },
         /**
+         * @description 查询基本数据
+         * @param data
+         * @returns {*}
+         */
+        geteditList (_id) {
+            return formDataRequest('./transfer/activity_configure/api/v1/activity/view/'+_id).get()
+        },
+        /**
          * @description 查询活动下的商户基本数据
          * @param data
          * @returns {*}
