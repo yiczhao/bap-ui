@@ -90,7 +90,7 @@
                     <label class="name-left"><i>*</i>功能级</label>
                     <div class="function-area">
                         <ks-checkbox :checked.sync="checkAll" @click="checkedAll">全选</ks-checkbox>
-                        <ks-checkbox v-for="n in privileges" v-if="n.name!='密码设置'" @change="checked(n.selected,n.id)" :checked.sync="n.selected" :name="n.name">{{n.name}}</ks-checkbox>
+                        <ks-checkbox v-for="n in privileges" @change="checked(n.selected,n.id)" :checked.sync="n.selected" :name="n.name">{{n.name}}</ks-checkbox>
                     </div>
                 </div>
             </div>
