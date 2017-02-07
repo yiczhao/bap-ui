@@ -84,8 +84,9 @@
                     startDate:this.searchDate.startDate,
                     endDate:this.searchDate.endDate,
                     compareFlag:true,
+                    bankUuidString:sessionStorage.getItem('uuids')
                 };
-                (!this.searchDate.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!!this.searchDate.activityID)? data.bankUuidString='':null;
                 this.model.getTotal(data).then((res)=>{
                     this.$set('total',res.data.data);
                 })
