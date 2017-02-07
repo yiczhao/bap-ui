@@ -10,15 +10,15 @@
                 </ul>
             </div>
             <span>发起方（银行）</span>
-            <select class="select" v-model="bankUuidString" @change="getBankString">
-                <option value="bankNameStart">请选择发起方</option>
-                <option v-for="n in bankFullName" :value="n.uuid">{{n.shortName}}</option>
+            <select class="select" v-model="bankUuidString">
+                <option selected="selected">请选择发起方</option>
+                <option v-for="n in bankFullName" :value="n.uuid" @change="getBankString">{{n.shortName}}</option>
             </select>
             <span>活动状态</span>
             <select class="select" v-model="searchData.activityStatus">
-                <!-- <option value="">请选择活动状态</option> -->
-                <option value="1">运行中</option>
-                <option value="0">已结束</option>
+                <option value="">请选择活动状态</option>
+                <option value="运行中">运行中</option>
+                <option value="已结束">已结束</option>
             </select>
             <span>交易时间</span>
             <ks-date-picker time="00:00:00" :value.sync="searchData.startDate"></ks-date-picker>
@@ -106,13 +106,13 @@
                 ],
                 dataList:[],
                 searchData:{
-                    activityStatus:1,//活动状态
+                    activityID:'',
+                    bankUuidString:''
+                    activityStatus:'',//活动状态
                     startDate:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
                     endDate:stringify(new Date())+' 23:59:59',//结束时间
-                    activityID:'',
                     pageIndex:1,//当前选中的分页值
                     pageSize:1,//每页展示多少条数
-                    bankUuidString:''
                 },
                 objectotalNumber:0,
                 bankUuidString:'',
