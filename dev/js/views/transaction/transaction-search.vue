@@ -107,7 +107,7 @@
                 dataList:[],
                 searchData:{
                     activityID:'',
-                    bankUuidString:''
+                    bankUuidString:'',
                     activityStatus:'',//活动状态
                     startDate:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
                     endDate:stringify(new Date())+' 23:59:59',//结束时间
