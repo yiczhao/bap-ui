@@ -89,7 +89,7 @@
                 <div class="form-group">
                     <label class="name-left"><i>*</i>功能级</label>
                     <div class="function-area">
-                        <ks-checkbox @change="checkedAll" :checked.sync="checkAll">全选</ks-checkbox>
+                        <div class="checkAll" :class="{'checked':checkAll}" @click.stop="checkedAll"><b></b><span>全选</span></div>
                         <ks-checkbox v-for="n in privileges" @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">{{n.name}}</ks-checkbox>
                     </div>
                 </div>
@@ -193,16 +193,18 @@
                 let data=_.cloneDeep(this.privileges);
                 this.addList.privilegeIDs=[];
                 this.gnprivilegeIDs=[];
-                if(this.checkAll){
+                if(!this.checkAll){
                     _.map(data,(val)=>{
                         val.selected=true;
                         this.addList.privilegeIDs.push(val.id);
                         this.gnprivilegeIDs.push(val.name);
                     })
+                    this.checkAll=true;
                 }else{
                     _.map(data,(val)=>{
                         val.selected=false;
                     })
+                    this.checkAll=false;
                 }
                 this.$set('privileges',data);
             },
@@ -334,8 +336,8 @@
                     })
                 }else{
                     this.addList.privilegeIDs.push(_id);
-                    this.getCheckAll();
                 }
+                this.getCheckAll();
             },
             getloginAccountType(bool1,bool2){
                 if(bool1){

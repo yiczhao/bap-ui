@@ -20,6 +20,39 @@
 	.kdialog{
     	left:60%;
   	}
+	.checkAll{
+		display: inline-block;
+		padding: 6px 5px;
+		cursor:pointer;
+		span{
+			margin-left: 5px;
+		}
+		b{
+			display: inline-block;
+			border: 1px solid #D0D0D5;
+			border-radius: 3px;
+			width: 18px;
+			height: 18px;
+			text-align: center;
+			line-height: 18px;
+		}
+		b:before {
+			content: '';
+			display: inline-block;
+			height: 10px;
+			width: 10px;
+			border-radius: 3px;
+			opacity: 0;
+			-webkit-transition: opacity .3s;
+			transition: opacity .3s;
+		}
+	}
+	.checkAll.checked{
+		b:before {
+			opacity: 1;
+			background: #00A5E0;
+		}
+	}
 	.form-group{
 		display:flex;
 		width:650px;
