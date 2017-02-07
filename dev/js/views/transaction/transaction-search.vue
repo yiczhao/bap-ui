@@ -5,7 +5,7 @@
             <input class="input" type="text" placeholder="输入活动名称" v-model="activityName" @keypress.enter="getActivity"/>
             <div class="showList" v-show="showList">
                 <ul>
-                    <li v-for="n in activityList | filterBy activityName in 'name'" @click="getId(n)">{{n.name}}</li>
+                    <li v-for="n in activityList | filterBy searchData.activityName in 'name'" @click="getId(n)">{{n.name}}</li>
                     <li v-if="!activityList.length">未查询到{{searchData.activityName}}活动</li>
                 </ul>
             </div>
@@ -17,8 +17,8 @@
             <span>活动状态</span>
             <select class="select" v-model="searchData.activityStatus">
                 <option value="">请选择活动状态</option>
-                <option value="运行中">运行中</option>
-                <option value="已结束">已结束</option>
+                <option value="1">运行中</option>
+                <option value="0">已结束</option>
             </select>
             <span>交易时间</span>
             <ks-date-picker time="00:00:00" :value.sync="searchData.startDate"></ks-date-picker>
@@ -65,7 +65,7 @@
                 <tr v-for="n in dataList">
                     <td>{{n.activityName }}</td><!-- 活动名称 -->
                     <td>{{n.bankName }}</td><!-- 发起方 -->
-                    <td>{{n.subType }}</td><!-- 子类型 -->
+                    <td><span v-if="n.subType==online">线上</span><span v-else>线下</span></td><!-- 子类型 -->
                     <td>{{n.activitStatus}}</td><!-- 活动状态 -->
                     <td>{{n.totalNumber }}</td><!-- 总笔数 -->
                     <td>{{n.totalAmount}}</td><!-- 总金额 -->
@@ -99,16 +99,16 @@
                 bankFullName:[],
                 showList:false,
                 tradeTotalNumber:50,
-                bankNameStart:'请选择发起方',
                 activityStatues:[
                     {'status':'运行中','num':'1'},
                     {'status':'已结束','num':'0'},
                 ],
                 dataList:[],
                 searchData:{
+                    activityName:'',
                     activityID:'',
                     bankUuidString:'',
-                    activityStatus:'',//活动状态
+                    activityStatus:'0',//活动状态
                     startDate:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
                     endDate:stringify(new Date())+' 23:59:59',//结束时间
                     pageIndex:1,//当前选中的分页值
@@ -129,9 +129,8 @@
                 }
             },
             getList(){
-                if (!this.bankUuidString) {
+                if (this.bankUuidString='请选择发起方') {
                     this.searchData.bankUuidString=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
-                    
                 }
                 this.model.getList(this.searchData).then((res)=>{
                     if(res.data.code===0){
@@ -143,7 +142,7 @@
                     if(res.data.code===0){
                         this.$set('cumulative',res.data.dataList[0])
                     }
-                })
+                });
             },
             getActivity(){
                 let data={
@@ -156,6 +155,7 @@
                         this.showList=true;
                     }
                 })
+                this.searchData.activityName=this.activityName
             },
             getId({uniqueId,name}){
                 this.showList=false;
