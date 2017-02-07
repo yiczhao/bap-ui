@@ -10,7 +10,7 @@
          * @param data
          * @returns {*}
          */
-        getList(data) {
+        getDetailList(data) {
             return formDataRequest('./transfer/data_analysis/das/api/v1/trade_query/detail/list').get(data)
         },
         /**

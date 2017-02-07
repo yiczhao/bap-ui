@@ -1,14 +1,12 @@
 <template>
     <div class="transaction-detail">
         <div class="search-div">
-            <span>手机号码</span>
-            <input class="input" type="text" v-model="searchDate.phone" v-limitaddprice="searchDate.phone"  placeholder="输入手机号码"/>
             <span>银行卡号</span>
-            <input class="input" type="text" v-model="searchDate.cardNumber" v-limitaddprice="searchDate.cardNumber" placeholder="银行卡号"/>
+            <input class="input" type="text" v-model="searchData.cardNumber" v-limitaddprice="searchData.cardNumber" placeholder="银行卡号"/>
             <span>交易时间</span>
-            <ks-date-picker time="00:00:00" :value.sync="searchDate.startDate"></ks-date-picker>
+            <ks-date-picker time="00:00:00" :value.sync="searchData.startDate"></ks-date-picker>
             <span>到</span>
-            <ks-date-picker time="23:59:59" :value.sync="searchDate.endDate"></ks-date-picker>
+            <ks-date-picker time="23:59:59" :value.sync="searchData.endDate"></ks-date-picker>
             <a class="btn btn-primary searchBtn" @click="getList">搜索</a>
         </div>
         <div class="table">
@@ -31,7 +29,7 @@
         </div>
         <div class="showInfo">
             <span class="activity-name">活动名称：{{activityName}}</span>
-            <span class="infor-num">共{{searchDate.total}}条数据</span>
+            <span class="infor-num">共{{searchData.total}}条数据</span>
             <span class="out-excel"><i class="icon-file-excel"></i>导出excel表格</span>
         </div>
         <div class="table">
@@ -40,7 +38,6 @@
                     <th>商户名称</th>
                     <th>银行卡号</th>
                     <th>卡种</th>
-                    <th>手机号码</th>
                     <th>交易流水号</th>
                     <th>交易时间</th>
                     <th>结算时间</th>
@@ -54,7 +51,6 @@
                     <td>{{n.merchantName}}</td><!-- 商户名称 -->
                     <td>{{n.cardNumber | filter_banknum}}</td><!-- 银行卡号 -->
                     <td>{{n.cardType}}</td><!-- 卡种 -->
-                    <td>{{n.accountNumber | filter_phone}}</td><!-- 手机号码 -->
                     <td><span  aria-label="{{n.transNo}}" v-bind:class="{'hint--top':(!!n.transNo)}">{{n.transNo | substring 10}}</span></td><!-- 交易流水号 -->
                     <td>{{n.transDate}}</td><!-- 交易时间 -->
                     <td>{{n.settlementDate}}</td><!-- 结算时间 -->
@@ -67,9 +63,9 @@
             </table>
         </div>
         <pagegroup class="pagegroup"
-            :page_current.sync="searchDate.pageIndex"
-            :total="searchDate.total"
-            :page_size.sync="searchDate.pageSize"
+            :page_current.sync="searchData.pageIndex"
+            :total="searchData.total"
+            :page_size.sync="searchData.pageSize"
             v-on:current_change="getList"
             v-on:size_change="getList"
             ></pagegroup>
@@ -93,12 +89,12 @@
                 dataList:[],
                 activityName:'',
                 haha:'',
-                searchDate:{
+                searchData:{
                     pageIndex:1,//当前选中的分页值
                     total:1,//数据总条数
                     pageSize:1,//每页展示多少条数
                     phone:'',
-                    activityName:'',//活动名称
+                    activityName:'',//活动名称 
                     cardNumber:'',//银行卡号
                     startDate:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
                     endDate:stringify(new Date())+' 23:59:59',//结束时间
@@ -108,18 +104,18 @@
         },
         methods:{
             getList(){
-                if (!this.searchDate.activityID) {
-                    this.searchDate.bankUuidString=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
+                if (!this.searchData.activityID) {
+                    this.searchData.bankUuidString=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
                 }else{
-                    this.searchDate.activityID=this.searchDate.activityID;
+                    this.searchData.activityID=this.searchData.activityID;
                 }
-                this.model.getList(this.searchDate).then((res)=>{
+                this.model.getDetailList(this.searchData).then((res)=>{
                     if(res.data.code===0){
                         this.$set('dataList',res.data.dataList)
-                        this.searchDate.total=res.data.objectotalNumber;
+                        this.$set('searchData.total',res.data.objectotalNumber);
                     }
                 })
-                this.model.getTradeStatisticsSumList(this.searchDate).then((res)=>{
+                this.model.getTradeStatisticsSumList(this.searchData).then((res)=>{
                     if(res.data.code===0){
                         this.$set('cumulative',res.data.dataList[0]);
                     }
@@ -128,10 +124,12 @@
         },
         ready(){
             this.activityName=this.$route.params.transactionName;
-            this.searchDate.activityID=this.$route.params.transactionId;
-            this.getList();
-            this.searchDate.startDate='';
-            this.searchDate.endDate='';
+            this.searchData.activityID=this.$route.params.transactionId;
+            // this.getList();
+            this.searchData.startDate='';
+            this.searchData.endDate='';
+            console.log(this.$route.params.transactionId);
+            console.log(this.$route.params.transactionName);
         }
     }
 </script>
