@@ -6,24 +6,24 @@
             <div class="showList" v-show="showList">
                 <ul>
                     <li v-for="n in activityList | filterBy activityName in 'name'" @click="getId(n)">{{n.name}}</li>
-                    <li v-if="!activityList.length">未查询到{{searchDate.activityName}}活动</li>
+                    <li v-if="!activityList.length">未查询到{{searchData.activityName}}活动</li>
                 </ul>
             </div>
             <span>发起方（银行）</span>
             <select class="select" v-model="bankUuidString" @change="getBankString">
-                <option value="">请选择发起方</option>
+                <option value="bankNameStart">请选择发起方</option>
                 <option v-for="n in bankFullName" :value="n.uuid">{{n.shortName}}</option>
             </select>
             <span>活动状态</span>
-            <select class="select" v-model="searchDate.activityStatus">
-                <option value="">请选择活动状态</option>
+            <select class="select" v-model="searchData.activityStatus">
+                <!-- <option value="">请选择活动状态</option> -->
                 <option value="1">运行中</option>
                 <option value="0">已结束</option>
             </select>
             <span>交易时间</span>
-            <ks-date-picker time="00:00:00" :value.sync="searchDate.startDate"></ks-date-picker>
+            <ks-date-picker time="00:00:00" :value.sync="searchData.startDate"></ks-date-picker>
             <span>到</span>
-            <ks-date-picker time="23:59:59" :value.sync="searchDate.endDate"></ks-date-picker>
+            <ks-date-picker time="23:59:59" :value.sync="searchData.endDate"></ks-date-picker>
             <a class="btn btn-primary searchBtn" @click="getList">搜索</a>
         </div>
         <div class="table">
@@ -80,9 +80,9 @@
             </table>
         </div>
         <pagegroup class="pagegroup"
-            :page_current.sync="searchDate.pageIndex"
+            :page_current.sync="searchData.pageIndex"
             :total="objectotalNumber"
-            :page_size.sync="searchDate.pageSize"
+            :page_size.sync="searchData.pageSize"
             v-on:current_change="getList"
             v-on:size_change="getList"
             ></pagegroup>
@@ -99,13 +99,14 @@
                 bankFullName:[],
                 showList:false,
                 tradeTotalNumber:50,
+                bankNameStart:'请选择发起方',
                 activityStatues:[
                     {'status':'运行中','num':'1'},
                     {'status':'已结束','num':'0'},
                 ],
                 dataList:[],
-                searchDate:{
-                    activityStatus:0,//活动状态
+                searchData:{
+                    activityStatus:1,//活动状态
                     startDate:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
                     endDate:stringify(new Date())+' 23:59:59',//结束时间
                     activityID:'',
@@ -122,22 +123,23 @@
         methods:{
             getBankString(){
                 if (!this.bankUuidString) {
-                    this.searchDate.bankUuidString=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
+                    this.searchData.bankUuidString=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
                 }else{
-                    this.searchDate.bankUuidString=this.bankUuidString;
+                    this.searchData.bankUuidString=this.bankUuidString;
                 }
             },
             getList(){
                 if (!this.bankUuidString) {
-                    this.searchDate.bankUuidString=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
+                    this.searchData.bankUuidString=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
+                    
                 }
-                this.model.getList(this.searchDate).then((res)=>{
+                this.model.getList(this.searchData).then((res)=>{
                     if(res.data.code===0){
                         this.$set('dataList',res.data.dataList);
                         this.objectotalNumber=res.data.objectotalNumber;
                     }
                 })
-                this.model.getTradeStatisticsSumList(this.searchDate).then((res)=>{
+                this.model.getTradeStatisticsSumList(this.searchData).then((res)=>{
                     if(res.data.code===0){
                         this.$set('cumulative',res.data.dataList[0])
                     }
@@ -155,10 +157,10 @@
                     }
                 })
             },
-            getId({id,name}){
+            getId({uniqueId,name}){
                 this.showList=false;
                 this.activityName=name;
-                this.searchDate.activityID=id;
+                this.searchData.activityID=uniqueId;
             },
             getBankList(){
                 let data={
@@ -188,7 +190,7 @@
             }, false);
             this.getMenuList();
         },
-        beforeDestroy () {
+        beforeDestroy() {
             document.removeEventListener('click', this.resetName, false);
         },
         created(){}
