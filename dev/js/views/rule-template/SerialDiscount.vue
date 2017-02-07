@@ -2,7 +2,7 @@
 <div class="rule-input" v-for="(index,n) in submitdata">
     <span>用户刷卡</span>
     <input class="input" type="text" v-model="n.belowMoney" v-limitaddprice="n.belowMoney"/>
-    <span>以内，第</span>
+    <span>元以内，第</span>
     <input class="input" type="text" v-model="n.time" v-limitaddprice="n.time"/>
     <span>次，可享受</span>
     <input class="input" type="text" v-model="n.discount" v-limitaddprice="n.discount"/>
