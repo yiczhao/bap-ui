@@ -180,7 +180,15 @@ export default function (Vue,router){
                         require(['./views/activity/activity-analysis.vue'], resolve)
                     }
                 },
-                /* 交易明细查询*/
+                /* 活动分析页面pdf导出页面 */
+                'activity-pdfout': {
+                    name: 'activity-pdfout',
+                    router_type:'activity',
+                    component: (resolve) => {
+                        require(['./views/activity/activity-pdfout.vue'], resolve)
+                    }
+                },
+                /* 交易查询*/
                 'transaction-search':{
                     name:'transaction-search',
                     router_type:'transaction',

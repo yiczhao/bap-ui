@@ -1,0 +1,333 @@
+.activity-pdfout{
+	p{
+		text-align: center;
+	    font-size: 20px;
+		margin-bottom: 15px;
+	}
+	.pdf-title{
+		text-align: center;
+    	margin-bottom: 20px;
+    	.p-title{
+			font-size: 24px;
+    	}
+    	.out-pdf{
+    		a{
+    			float: right;
+    			padding-top: 15px;
+    		}
+    	}
+	}
+	.information-area{
+		margin-bottom: 20px;
+		border:1px solid rgba(233,233,233,1);
+		border-radius:3px;
+		.title{
+			height:36px;
+			line-height:36px;
+			background-color:rgba(242,242,242,1);
+			padding-left:20px;
+		}
+		.something-about{
+			table{
+				border-width: 0px;
+				tr{
+					td{
+						padding-bottom: 8px;
+						padding-top: 8px;
+					}
+					td:nth-child(2n+1){
+						width: 15%;
+					}
+					td:nth-child(2n){
+						width: 35%;
+						text-align: left;
+    					padding-left: 20px;
+					}
+				}
+			}
+		}
+		.data-table{
+			padding:0 20px;
+			margin-top: 20px;
+			.data-title{
+				display:inline-block;
+				height:36px;
+				line-height:36px;
+				i{
+					display:inline-block;
+					float: left;
+					margin:8px 10px 0 0;
+					width:5px;
+					height:16px;
+					margin-top:8px; 
+					background-color:#2196f3;
+				}
+			}
+			table{
+				margin-top:20px;
+				tr{
+					td{
+						span{
+							line-height:40px;
+						}
+						strong{
+							display: block;
+							font-size: 24px;
+						}
+					}
+				}
+			}
+		}
+	}
+	// .transaction-data{
+	// 	margin-bottom: 20px;
+	// 	border:1px solid rgba(233,233,233,1);
+	// 	border-radius:3px;
+	// 	.something-about{
+	// 		table{
+	// 			border-width: 0px;
+	// 			tr{
+	// 				td{
+	// 					padding-bottom: 8px;
+	// 					padding-top: 8px;
+	// 				}
+	// 				td:nth-child(2n+1){
+	// 					width: 15%;
+	// 				}
+	// 				td:nth-child(2n){
+	// 					width: 35%;
+	// 					text-align: left;
+ //    					padding-left: 20px;
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// 	.data-title{
+	// 		height:36px;
+	// 		line-height:36px;
+	// 		background-color:rgba(242,242,242,1);
+	// 		.title-left{
+	// 			padding-left:20px;
+	// 		}
+	// 		.title-right{
+	// 			cursor: pointer;
+	// 			display:inline;
+	// 			float: right;
+	// 			padding-right: 20px;
+	// 		}
+	// 	}
+	// 	.data-today-table{
+	// 		padding:0 20px;
+	// 		margin-top: 20px;
+	// 		.title{
+	// 			display:inline-block;
+	// 			height:36px;
+	// 			line-height:36px;
+	// 			i{
+	// 				display:inline-block;
+	// 				float: left;
+	// 				margin:8px 10px 0 0;
+	// 				width:5px;
+	// 				height:16px;
+	// 				margin-top:8px; 
+	// 				background-color:#2196f3;
+	// 			}
+	// 		}
+	// 		table{
+	// 			margin-top:20px;
+	// 			tr{
+	// 				td{
+	// 					span{
+	// 						line-height:40px;
+	// 					}
+	// 					strong{
+	// 						display: block;
+	// 						font-size: 24px;
+	// 					}
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// 	.data-cumulative-table{
+	// 		@extend .data-today-table;
+	// 	}
+	// 	.data-detail{
+	// 		@extend .data-today-table;
+	// 		.choose-btn{
+	// 			a{
+	// 				margin-right: 20px;
+	// 			}
+	// 		}
+	// 		.choose-btn:not(:first-child){
+	// 			margin-top:20px;
+	// 		}
+	// 		.data-echart{
+	// 			height:300px;
+	// 			margin:20px 0;
+	// 			border:1px solid rgba(233,233,233,1);
+	// 		}
+	// 	}
+	// }
+	// .transaction-region{
+	// 	@extend .transaction-data;
+	// 	.region-title{
+	// 		@extend .data-title;
+	// 	}
+	// 	.region-table{
+	// 		@extend .data-today-table;
+	// 	}
+	// 	.region-detail{
+	// 		@extend .data-detail;
+	// 	}
+	// 	.region-echart{
+	// 		height:600px;
+	// 		margin:20px 0;
+	// 		border:1px solid rgba(233,233,233,1);
+	// 	}
+	// }
+	// .transaction-time{
+	// 	@extend .transaction-data;
+	// 	.time-title{
+	// 		@extend .data-title;
+	// 	}
+	// 	.time-show{
+	// 		@extend .data-detail;
+	// 		.time-echart{
+	// 			@extend .data-echart;
+	// 		}
+	// 	}
+	// }
+	// .merchant-data{
+	// 	@extend .transaction-data;
+	// 	.merchant-title{
+	// 		@extend .data-title;
+	// 	}
+	// 	.merchant-table{
+	// 		@extend .data-today-table;
+	// 	}
+	// 	.merchant-detail{
+	// 		@extend .data-detail;
+	// 		.merchant-echart{
+	// 			@extend .data-echart;
+	// 			// height:auto;
+	// 			// border-width: 0px;
+	// 		}
+	// 	}
+	// }
+	// .cardBIN-data{
+	// 	@extend .transaction-data;
+	// 	.cardBIN-title{
+	// 		@extend .data-title;
+	// 	}
+	// 	.cardBIN-ranking-table{
+	// 		@extend .data-today-table;
+	// 	}
+	// 	.cardBIN-detail{
+	// 		@extend .data-detail;
+	// 		.cardBIN-echart{
+	// 			@extend .data-echart;
+	// 			height:600px;
+	// 		}
+	// 	}
+	// }
+	// .one-card{
+	// 	@extend .transaction-data;
+	// 	.one-title{
+	// 		@extend .data-title;
+	// 	}
+	// 	.one-ranking-table{
+	// 		@extend .data-today-table;
+	// 	}
+	// 	.one-detail{
+	// 		@extend .data-detail;
+	// 		.one-echart{
+	// 			@extend .data-echart;
+	// 			height:600px;
+	// 		}
+	// 	}
+	// }
+	// .latinos-data{
+	// 	margin-bottom: 20px;
+	// 	padding-bottom: 20px;
+	// 	border:1px solid rgba(233,233,233,1);
+	// 	border-radius:3px;
+	// 	.latinos-title{
+	// 		height:36px;
+	// 		line-height:36px;
+	// 		background-color:rgba(242,242,242,1);
+	// 		.title-left{
+	// 			padding-left:20px;
+	// 		}
+	// 		.title-right{
+	// 			display:inline;
+	// 			float: right;
+	// 			padding-right: 20px;
+	// 		}
+	// 	}
+	// 	.latinos-data-table{
+	// 		padding:0 20px;
+	// 		margin-top: 20px;
+	// 		.title{
+	// 			display:inline-block;
+	// 			height:36px;
+	// 			line-height:36px;
+	// 			i{
+	// 				display:inline-block;
+	// 				float: left;
+	// 				margin:8px 10px 0 0;
+	// 				width:5px;
+	// 				height:16px;
+	// 				margin-top:8px; 
+	// 				background-color:#2196f3;
+	// 			}
+	// 		}
+	// 		table{
+	// 			margin-top:20px;
+	// 			tr{
+	// 				td{
+	// 					span{
+	// 						line-height:40px;
+	// 					}
+	// 					strong{
+	// 						display: block;
+	// 						font-size: 24px;
+	// 					}
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// }
+	// .latinos-probability{
+	// 	@extend .latinos-data;
+	// 	.probability-table{
+	// 		@extend .latinos-data-table;
+	// 		margin-top:0px;
+	// 		.title{
+	// 			margin-top:20px;
+	// 		}
+	// 	}
+	// 	.probability-detail{
+	// 		padding:0 20px;
+	// 		margin-top: 20px;
+	// 		.title{
+	// 			display:inline-block;
+	// 			height:36px;
+	// 			line-height:36px;
+	// 			i{
+	// 				display:inline-block;
+	// 				float: left;
+	// 				margin:8px 10px 0 0;
+	// 				width:5px;
+	// 				height:16px;
+	// 				margin-top:8px; 
+	// 				background-color:#2196f3;
+	// 			}
+	// 		}
+	// 		.probability-echart{
+	// 			height:300px;
+	// 			margin:20px 0;
+	// 			border:1px solid rgba(233,233,233,1);
+	// 		}
+	// 	}
+	// }
+}
