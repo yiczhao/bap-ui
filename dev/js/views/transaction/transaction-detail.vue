@@ -28,8 +28,8 @@
             </table>
         </div>
         <div class="showInfo">
-            <span class="activity-name">活动名称：{{activityName}}</span>
-            <span class="infor-num">共{{searchData.total}}条数据</span>
+            <span class="activity-name">活动名称：<strong>{{activityName}}</strong></span>
+            <span class="infor-num">共<strong>{{searchData.total}}</strong>条数据</span>
             <span class="out-excel"><i class="icon-file-excel"></i>导出excel表格</span>
         </div>
         <div class="table">
@@ -123,13 +123,15 @@
             },
         },
         ready(){
-            this.activityName=this.$route.params.transactionName;
-            this.searchData.activityID=this.$route.params.transactionId;
             // this.getList();
-            this.searchData.startDate='';
-            this.searchData.endDate='';
+            // this.searchData.startDate='';
+            // this.searchData.endDate='';
             console.log(this.$route.params.transactionId);
             console.log(this.$route.params.transactionName);
+        },
+        created(){
+            this.activityName=this.$route.params.transactionName;
+            this.searchData.activityID=this.$route.params.transactionId;
         }
     }
 </script>

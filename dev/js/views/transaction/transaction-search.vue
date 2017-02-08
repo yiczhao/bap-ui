@@ -45,10 +45,10 @@
             </table>
         </div>
         <div class="showInfo">
-            <span class="infor-num">共{{objectotalNumber}}条数据</span>
+            <span class="infor-num">共<strong>{{objectotalNumber}}</strong>条数据</span>
             <span class="out-excel"><i class="icon-file-excel"></i>导出excel表格</span>
         </div>
-        <div class="table">
+        <div class="table"> 
             <table>
                 <tr>
                     <th>活动名称</th>
