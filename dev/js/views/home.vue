@@ -140,8 +140,23 @@
             document.removeEventListener('click', this.resetName, false);
         },
         created(){
-            this.getTime();
-            this.getList();
+            formDataRequest('./bank/bank_list').get({'noPage':1}).then((res)=>{
+                if(res.data.code===0){
+                    let data=[]
+                    let datas=[]
+                    _.map(res.data.dataList,(val)=>{
+                        (!!val.uuid)?data.push(val.uuid):null;
+                        (!!val.uuid)?datas.push({
+                            id:val.uuid,
+                            name:val.shortName
+                        }):null;
+                    })
+                    sessionStorage.setItem('uuids',_.join(data, ','));
+                    sessionStorage.setItem('bankNames',JSON.stringify(datas));
+                    this.getTime();
+                    this.getList();
+                }
+            })
         }
     }
 </script>
