@@ -117,9 +117,11 @@
         methods:{
             doSearch(){
                 this.searchData.page=1;
-                this.getfirstResult();
+                this.searchData.firstResult=(this.searchData.page-1)*this.searchData.maxResult;
+                this.getList();
             },
             getfirstResult(){
+                back_json.isback=true;
                 this.searchData.firstResult=(this.searchData.page-1)*this.searchData.maxResult;
                 this.getHistoryData();
                 this.getList();
