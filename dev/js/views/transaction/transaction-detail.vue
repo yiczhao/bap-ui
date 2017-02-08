@@ -126,8 +126,6 @@
             // this.getList();
             // this.searchData.startDate='';
             // this.searchData.endDate='';
-            console.log(this.$route.params.transactionId);
-            console.log(this.$route.params.transactionName);
         },
         created(){
             this.activityName=this.$route.params.transactionName;

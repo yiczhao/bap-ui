@@ -140,7 +140,7 @@
 						<a class="btn btn-primary" :class="regionDetailJudgeChoose=='amount'?'btn-primary':'btn-gray'" @click="regionDetailAmount">交易金额</a>
 						<a class="btn btn-primary" :class="regionDetailJudgeChoose=='num'?'btn-primary':'btn-gray'" @click="regionDetailNumber">交易笔数</a>
 					</div>
-					<div class="region-echart" id="region-echart"></div>
+					<div class="region-echart" id="region-echart" :style="'height:'+setHeightArea+'px'"></div>
 				</div>
 			</span>
 		</div>
@@ -196,7 +196,7 @@
 						<a class="btn btn-primary" :class="merchantDataDetailJudgeName=='amount'?'btn-primary':'btn-gray'" @click="merchantDataTradeAmountChange">交易金额</a>
 						<a class="btn btn-primary" :class="merchantDataDetailJudgeName=='num'?'btn-primary':'btn-gray'" @click="merchantDataTradeCountChange">交易笔数</a>
 					</div>
-					<div class="merchant-echart" id="merchant-echart">
+					<div class="merchant-echart" id="merchant-echart" :style="'height:'+setHeightMerchant+'px'">
 					</div>
 				</div>
 			</span>
@@ -237,7 +237,7 @@
 						<a class="btn btn-primary" :class="cardBINDetailJudgeChoose=='amount'?'btn-primary':'btn-gray'" @click="cardBINDetailAmount">交易金额</a>
 						<a class="btn btn-primary" :class="cardBINDetailJudgeChoose=='num'?'btn-primary':'btn-gray'" @click="cardBINDetailNumber">交易笔数</a>
 					</div>
-					<div class="cardBIN-echart" id="cardBIN-echart">
+					<div class="cardBIN-echart" id="cardBIN-echart" :style="'height:'+setHeightKaBin+'px'">
 					</div>
 				</div>
 			</span>
@@ -270,7 +270,7 @@
 				</div>
 				<div class="one-detail">
 					<span class="title"><i></i>单卡参与次数（次）</span>
-					<div class="one-echart" id="one-echart"></div>
+					<div class="one-echart" id="one-echart" :style="'height:'+setHeightOneCard+'px'"></div>
 				</div>
 			</span>
 		</div>
@@ -374,6 +374,10 @@
 					now:'当前数据(元)',
 					contrast:'对比数据(元)',
 				},
+				setHeightMerchant:'',
+				setHeightKaBin:'',
+				setHeightOneCard:'',
+				setHeightArea:'',
 			}
 		},
 		methods:{
@@ -408,12 +412,18 @@
 				        {
 				            name:parentDataName,
 				            type:'line',
-				            data:parentData
+				            data:parentData,
+				            itemStyle:{
+				            	normal:{color:'#e75035'}
+				            },
 				        },
 				        {
 				            name:passDataName,
 				            type:'line',
-				            data:passData
+				            data:passData,
+				            itemStyle:{
+				            	normal:{color:'#429eeb'}
+				            },
 				        }
 				    ]
 				};
@@ -433,6 +443,9 @@
 				            name:'交易笔数',
 				            type:'line',
 				            data:timePoint,
+				            itemStyle:{
+				            	normal:{color:'#429eeb'}
+				            }
 				        }]
 				}
 				myChart.setOption(option);
@@ -466,18 +479,21 @@
 				        	type:'funnel',
 				            name: dataName,
 				            type: 'bar',
-				            barGap:1,//柱子的大小设置
+				            // barGap:1,//柱子的大小设置
+				            barWidth:'23px',
 				            data: cityData,
 				            sort: 'descending',
 				            itemStyle:{
-				            	normal:{color:'#5F9EA0'}
+				            	// normal:{color:'#045aad'}
+				            	normal:{color:function (params) {
+				            		var colorList = ['#429eeb','#a91f8c','#5a2d8c','#045aad','#0173ba','#00a9ae','#22af47','#a1cd38','#fdd503','#f7b717'];
+                        			return colorList[params.dataIndex]
+				            	}}
 				            },
-				            barWidth:10,
 				        }
 				    ]
 				}
 				myChart.setOption(option);
-				console.log('barEchart');
 			},
 			// =================================================================================================
 			//交易数据分析
@@ -604,7 +620,8 @@
         			if (res.data.code==0){
         				this.$set('transactionRegion.tradeAreaModel',res.data.data);
         			}
-        		})
+        		});
+        		this.regionDetailAmount();
         	},
         	regionDetailAmount(){//交易区域交易金额切换
         		this.regionDetailJudgeChoose='amount';
@@ -616,8 +633,9 @@
         			if (res.data.code==0){
 						this.transactionRegion.tradeArea=res.data.data.category;
 						this.transactionRegion.cityData=res.data.data.series[0].dataDecimal;
-						this.dataBarEchart('region-echart',this.transactionRegion.tradeArea,'交易金额',this.transactionRegion.cityData);
+						this.setHeightArea=(this.transactionRegion.cityData.length)*50;
         			}
+						this.dataBarEchart('region-echart',this.transactionRegion.tradeArea,'交易金额',this.transactionRegion.cityData);
         		})
 
         	},
@@ -661,6 +679,7 @@
 						this.$set('merchantDataArea.merchantDataTotal',res.data.data);
 					}
 				})
+				this.merchantDataTradeAmountChange();
 			},
 			merchantDataTradeAmountChange(){//商户数据交易金额
 				this.merchantDataDetailJudgeName='amount';
@@ -672,8 +691,9 @@
 					if (res.data.code==0){
 						this.merchantDataArea.storeName=res.data.data.series[0].storeAndMerchantName;//商户数据名称
 						this.merchantDataArea.tradeAmount=res.data.data.series[0].dataDecimal;//商户数据刷卡金额
-						this.dataBarEchart('merchant-echart',this.merchantDataArea.storeName,'刷卡金额',this.merchantDataArea.tradeAmount);
+						this.setHeightMerchant=(this.merchantDataArea.tradeAmount.length)*50;
 					}
+						this.dataBarEchart('merchant-echart',this.merchantDataArea.storeName,'刷卡金额',this.merchantDataArea.tradeAmount);
 				})
 			},
 			merchantDataTradeCountChange(){//商户数据交易笔数
@@ -687,9 +707,11 @@
 					if (res.data.code==0){
 						this.merchantDataArea.storeName=res.data.data.series[0].storeAndMerchantName;//商户数据名称
 						this.merchantDataArea.tradeCount=res.data.data.series[0].dataLong;//商户数据刷卡笔数
-						this.dataBarEchart('merchant-echart',this.merchantDataArea.storeName,'刷卡笔数',this.merchantDataArea.tradeCount);
+						this.setHeightMerchant=(this.merchantDataArea.tradeAmount.length)*50;
 					}
+						this.dataBarEchart('merchant-echart',this.merchantDataArea.storeName,'刷卡笔数',this.merchantDataArea.tradeCount);
 				})
+					// id==merchant-echart
 			},
 			// =================================================================================================
 			//卡BIN数据分析 success
@@ -703,6 +725,7 @@
 						this.$set('cardBINDataArea.CardBinModel',res.data.data);
         			}
 				})
+				this.cardBINDetailAmount();
 			},
 			cardBINDetailAmount(){//卡BIN交易金额chenge
 				this.cardBINDetailJudgeChoose='amount';
@@ -715,8 +738,9 @@
 					if (res.data.code==0) {
 						this.cardBINDataArea.binStartNumber=res.data.data.category;
 						this.cardBINDataArea.tradeAmountCardBINChange=res.data.data.series[0].dataDecimal;
-						this.dataBarEchart('cardBIN-echart',this.cardBINDataArea.binStartNumber,'卡BIN刷卡金额',this.cardBINDataArea.tradeAmountCardBINChange);
+						this.setHeightKaBin=(this.cardBINDataArea.tradeAmountCardBINChange.length)*50;
 					}
+						this.dataBarEchart('cardBIN-echart',this.cardBINDataArea.binStartNumber,'卡BIN刷卡金额',this.cardBINDataArea.tradeAmountCardBINChange);
 				});
 			},
 			cardBINDetailNumber(){//卡BIN交易笔数change
@@ -732,6 +756,7 @@
 						this.dataBarEchart('cardBIN-echart',this.cardBINDataArea.binStartNumber,'卡BIN刷卡笔数',this.cardBINDataArea.tradeNumCardBINChange);
 					}
 				});
+				//cardBIN-echart
 			},
 			// =================================================================================================
 			oneCardDataReady(){//单卡获取total
@@ -743,7 +768,9 @@
 					if (res.data.code==0) {
 						this.$set('oneCardArea.oneCardModel',res.data.data);
 					}
-				})
+				});
+
+				this.oneCardDataOnceData();
 			},
 			oneCardDataOnceData(){//获取单卡参与次数数据
 				let data={
@@ -755,8 +782,9 @@
 						this.$set('oneCardArea.oneCardChance',res.data.data.series[0].data);
 						this.$set('oneCardArea.oneCardNum',res.data.data.series[0].dataLong);
 						// this.dataBarEchart('one-echart',this.oneCardArea.oneCardNum,'卡数量',this.oneCardArea.oneCardChance);
-						this.dataBarEchart('one-echart',['','','','','','','','','',''],'卡数量',this.oneCardArea.oneCardChance);
+						this.setHeightOneCard=(this.oneCardArea.oneCardChance.length)*50;
 					}
+						this.dataBarEchart('one-echart',['','','','','','','','','',''],'卡数量',this.oneCardArea.oneCardChance);
 				})
 			},
 			//展开收起触发======================================================================
@@ -793,7 +821,7 @@
 					case 'merchantToggleDown'://商户数据分析
 						this.upDownToggle.merchantDataShowArea=true;
 						this.merchantDataAreaReady();//商户数据读取
-        				this.merchantDataTradeAmountChange();//商户数据交易金额
+        				this.merchantDataTradeAmountChange();//商户数据交易金额		
 						break;
 					case 'cardBINToggleUp'://卡BIN数据分析
 						this.upDownToggle.cardBINDataShowArea=false;
