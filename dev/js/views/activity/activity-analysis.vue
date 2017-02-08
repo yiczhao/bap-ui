@@ -13,7 +13,7 @@
             </div>
 			<div class="search-right">
 				<span class="search-time">活动进行中，数据截止到{{times.todayDate}}</span>
-				<a class="view-report" :href="origin+'/pdf/analysis'" target="_blank" download="分析报告">查看分析报告</a>
+				<a class="view-report" v-link="{name:'activity-pdfout'}">查看分析报告</a>
 			</div>
 		</div>
 		<div class="transaction-data border">
@@ -274,279 +274,11 @@
 				</div>
 			</span>
 		</div>
-		<div class="output-area" id="pdf-area" style="display:none">
-			<p>活动分析报告</p>
-			<div class="transaction-data border basic-information">
-				<div class="data-title"><span class="title-left">活动基本信息</span></div>
-				<div class="something-about">
-					<table>
-						<tr>
-							<td>活动名称:</td>
-							<td>美食美刻随机1~5折</td>
-							<td>活动预算:</td>
-							<td>500000</td>
-						</tr>
-						<tr>
-							<td>活动时间: </td>
-							<td>2016-01-01 00:00 ~ 2016-06-30 00：00</td>
-							<td>所属银行: </td>
-							<td>江西建行</td>
-						</tr>
-						<tr>
-							<td>参与时间段:</td>
-							<td colspan="3">每天参与时间段【 10：00~ 20：00 】</td>
-						</tr>
-						<tr>
-							<td>活动主题：</td>
-							<td colspan="3">1.线上抢权益，线下刷卡消费随机产生折扣；
-								2.线下刷卡消费随机产生折扣；
-								3.线上抢权益随机产生折扣信息，线下刷卡直接消费（加限制条件，只有当前权益使用完才能进行下一次权益的抢夺，防止用户多次抢夺产生最低折扣）。
-							</td>
-						</tr>
-						<tr>
-							<td>活动细则：</td>
-							<td colspan="3">1.本活动“线上参与＋线下优惠”使用；
-								2.用户可通过浦发银行各营业厅和活动商户进行扫二维码或摇一摇关注“浦发银行信用卡上海”并参加“浦发爱优惠”；
-								3. “浦发爱优惠”每天11:00准时发放优惠权益，先抢先得，抢完为止，抢到权益后在线下刷卡可获随机1-7折的超值优惠；
-								4.活动期间每卡每天限享受一次优惠权益，优惠不找零不兑现，不与店内其他优惠同时享受；
-								5.浦发银行信用卡中心享有本次活动的最终解释权
-							</td>
-						</tr>
-						<tr>
-							<td>POS小票内容设置</td>
-							<td colspan="3">江西银行美食美刻随机1~5折优惠</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-			<div class="transaction-data border">
-				<div class="data-title"><span class="title-left">交易数据分析</span></div>
-				<div class="data-today-table">
-					<span class="title"><i></i>今日关键数据</span>
-					<table>
-						<tr>
-							<td>
-								<span>交易总金额(元)</span>
-								<strong>{{transactionDataShow.tradeDataModelToday.tradeAmount}}</strong>
-							</td>
-							<td>
-								<span>补贴总金额(元)</span>
-								<strong>{{transactionDataShow.tradeDataModelToday.subsidyAmount}}</strong>
-							</td>
-							<td>
-								<span>交易总笔数(笔)</span>
-								<strong>{{transactionDataShow.tradeDataModelToday.tradeNum}}</strong>
-							</td>
-							<td>
-								<span>参与活动卡数量(个)</span>
-								<strong>{{transactionDataShow.tradeDataModelToday.tradeCardNum}}</strong>
-							</td>
-							<td>
-								<span>单笔平均交易金额(元)</span>
-								<strong>{{transactionDataShow.tradeDataModelToday.averageTradeAmount}}</strong>
-							</td>
-							<td>
-								<span>单笔平均补贴金额(元)</span>
-								<strong>{{transactionDataShow.tradeDataModelToday.averageSubsidyAmount}}</strong>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<div class="data-cumulative-table">
-					<span class="title"><i></i>累计关键数据</span>
-					<table>
-						<tr>
-							<td>
-								<span>交易总金额(元)</span>
-								<strong>{{transactionDataShow.tradeDataModelTotail.tradeAmount}}</strong>
-							</td>
-							<td>
-								<span>补贴总金额(元)</span>
-								<strong>{{transactionDataShow.tradeDataModelTotail.subsidyAmount}}</strong>
-							</td>
-							<td>
-								<span>交易总笔数(笔)</span>
-								<strong>{{transactionDataShow.tradeDataModelTotail.tradeNum}}</strong>
-							</td>
-							<td>
-								<span>参与活动卡数量(个)</span>
-								<strong>{{transactionDataShow.tradeDataModelTotail.tradeCardNum}}</strong>
-							</td>
-							<td>
-								<span>单笔平均交易金额(元)</span>
-								<strong>{{transactionDataShow.tradeDataModelTotail.averageTradeAmount}}</strong>
-							</td>
-							<td>
-								<span>单笔平均补贴金额(元)</span>
-								<strong>{{transactionDataShow.tradeDataModelTotail.averageSubsidyAmount}}</strong>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<div class="data-detail">
-					<span class="title"><i></i>7日/30日交易总金额数据详解</span>
-					<div class="data-echart" id="trade-area-week"></div>
-					<div class="data-echart" id="trade-area-month"></div>
-				</div>
-				<div class="data-detail">
-					<span class="title"><i></i>7日/30日补贴总金额数据详解</span>
-					<div class="data-echart" id="subsidy-area-week"></div>
-					<div class="data-echart" id="subsidy-area-month"></div>
-				</div>
-				<div class="data-detail">
-					<span class="title"><i></i>7日/30日交易总笔数数据详解</span>
-					<div class="data-echart" id="number-area-week"></div>
-					<div class="data-echart" id="number-area-month"></div>
-				</div>
-			</div>
-			<div class="transaction-region border">
-				<div class="region-title">
-					<span class="title-left">交易区域分析</span>
-				</div>
-				<div class="region-table">
-					<span class="title"><i></i>关键数据</span>
-					<table>
-						<tr>
-							<td>
-								<span>产生交易区域（个）</span>
-								<strong>{{transactionRegion.tradeAreaModel.tradeAreaNum}}</strong>
-							</td>
-							<td>
-								<span>区域平均交易笔数(笔)</span>
-								<strong>{{transactionRegion.tradeAreaModel.averageTradeNum}}</strong>
-							</td>
-							<td>
-								<span>最高交易区域</span>
-								<strong>{{transactionRegion.tradeAreaModel.maxTradeArea}}</strong>
-							</td>
-							<td>
-								<span>最高交易区域交易笔数(笔)</span>
-								<strong>{{transactionRegion.tradeAreaModel.maxTradeAreaTradeNum}}</strong>
-							</td>
-						 	<td>
-								<span>最高交易区域交易额（元）</span>
-								<strong>{{transactionRegion.tradeAreaModel.maxTradeAreaTradeAmount}}</strong>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<div class="region-detail">
-					<span class="title"><i></i>交易区域关键数据排行</span>
-					<div class="region-echart" id=""></div>
-					<div class="region-echart" id=""></div>
-				</div>
-			</div>
-			<div class="transaction-time border">
-				<div class="time-title">
-					<span class="title-left">交易时段分析</span>
-				</div>
-				<span v-show="upDownToggle.transactionTimeShowArea">
-					<div class="time-show">
-						<div class="time-echart" id=""></div>
-					</div>
-				</span>
-			</div>
-			<div class="merchant-data border">
-				<div class="merchant-title">
-					<span class="title-left">商户数据分析</span>
-				</div>
-				<div class="merchant-table">
-					<span class="title"><i></i>关键数据</span>
-					<table>
-						<tr>
-							<td>
-								<span>参与门店数（个）</span>
-								<strong>{{merchantDataArea.merchantDataTotal.storeNumbers}}</strong>
-							</td>
-							<td>
-								<span>产生交易门店数(个)</span>
-								<strong>{{merchantDataArea.merchantDataTotal.generateTradeStoreNumbers}}</strong>
-							</td>
-							<td>
-								<span>店均交易笔数(个)</span>
-								<strong>{{merchantDataArea.merchantDataTotal.averageTradeNumbers}}</strong>
-							</td>
-							<td>
-								<span>店均补贴金额(元)</span>
-								<strong>{{merchantDataArea.merchantDataTotal.averageSubsidyAmount}}</strong>
-							</td>
-							<td>
-								<span>店均交易金额（元）</span>
-								<strong>{{merchantDataArea.merchantDataTotal.averageTradeAmount}}</strong>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<div class="merchant-detail">
-					<span class="title"><i></i>商户关键数据排行</span>
-					<div class="merchant-echart" id=""></div>
-				</div>
-			</div>
-			<div class="cardBIN-data border">
-				<div class="cardBIN-title">
-					<span class="title-left">卡BIN数据分析</span>
-				</div>
-				<div class="cardBIN-ranking-table">
-					<span class="title"><i></i>关键数据</span>
-					<table>
-						<tr>
-							<td>
-								<span>卡BIN个数（个）</span>
-								<strong>{{cardBINDataArea.CardBinModel.cardBinNum}}</strong>
-							</td>
-							<td>
-								<span>卡BIN平均交易笔数(个)</span>
-								<strong>{{cardBINDataArea.CardBinModel.averageTradeNum}}</strong>
-							</td>
-							<td>
-								<span>卡BIN平均交易金额（元）</span>
-								<strong>{{cardBINDataArea.CardBinModel.averageTradeAmount}}</strong>
-							</td>
-							<td>
-								<span>卡BIN平均补贴金额(元)</span>
-								<strong>{{cardBINDataArea.CardBinModel.averageSubsidyAmount}}</strong>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<div class="cardBIN-detail">
-					<span class="title"><i></i>卡BIN关键数据排行</span>
-					<div class="cardBIN-echart" id=""></div>
-				</div>
-			</div>
-			<div class="one-card border">
-				<div class="one-title">
-					<span class="title-left">单卡交易分析</span>
-				</div>
-				<div class="one-ranking-table">
-					<span class="title"><i></i>关键数据</span>
-					<table>
-						<tr>
-							<td>
-								<span>参与卡数量（个）</span>
-								<strong>{{oneCardArea.oneCardModel.cardNumbers}}</strong>
-							</td>
-							<td>
-								<span>卡均参与次数(次)</span>
-								<strong>{{oneCardArea.oneCardModel.averageCardNumbers}}</strong>
-							</td>
-							<td>
-								<span>单卡最高参与次数（次）</span>
-								<strong>{{oneCardArea.oneCardModel.maxSwipedCardNumbers}}</strong>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<div class="one-detail">
-					<span class="title"><i></i>单卡参与次数（次）</span>
-					<div class="one-echart" id=""></div>
-				</div>
-			</div>
-		</div>
+		
 	</div>
 </template>
 <script type="text/javascript">
-    import model from '../../ajax/config/activity-analysis'
+    import model from '../../ajax/activity/activity-analysis'
 	export default{
 		data(){
             this.model=model(this)
@@ -641,7 +373,7 @@
 					echartDivID:'data-echart-weekmonth',
 					now:'当前数据(元)',
 					contrast:'对比数据(元)',
-				}
+				},
 			}
 		},
 		methods:{
@@ -734,15 +466,18 @@
 				        	type:'funnel',
 				            name: dataName,
 				            type: 'bar',
+				            barGap:1,//柱子的大小设置
 				            data: cityData,
 				            sort: 'descending',
 				            itemStyle:{
 				            	normal:{color:'#5F9EA0'}
-				            }
+				            },
+				            barWidth:10,
 				        }
 				    ]
 				}
-				myChart.setOption(option)
+				myChart.setOption(option);
+				console.log('barEchart');
 			},
 			// =================================================================================================
 			//交易数据分析

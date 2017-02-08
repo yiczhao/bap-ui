@@ -6,7 +6,7 @@
               <div class="showList" v-show="showList">
                   <ul>
                       <li v-for="n in activityList | filterBy activityName in 'name'" @click="getId(n)">{{n.name}}</li>
-                      <li v-if="!activityList.length">未查询到{{searchDate.activityName}}活动</li>
+                      <li v-if="!activityList.length">未查询到{{searchData.activityName}}活动</li>
                   </ul>
               </div>
               <span>结算方（银行）</span>
@@ -83,7 +83,8 @@
                       <td>{{n.overdueNum }}</td><!-- 过期-->
                       <td>{{n.startDate }}</td><!-- 开始时间-->
                       <td>{{n.endDate }}</td><!-- 结束时间-->
-                      <td><a v-link="{name:'latinos-detail'}">查看明细</a></td><!--操作-->
+                      <td><a v-link="{name:'latinos-detail',params:{'latinosID':id}}">查看明细</a></td><!--操作-->
+                      <!-- <td><a v-link="{name:'latinos-detail',params:{'startDate':searchData,'endDate':endDate}}">查看明细</a></td> -->
                   </tr>
               </table>
           </div>
@@ -126,21 +127,11 @@
                             'overdueNum':'过期',
                             'startDate':'开始时间',
                             'endDate':'结束时间'
-                       }, {
-                           'latinosName':'权益名称',
-                           'settlementParty':'结算方',
-                           'latinosKinds':'权益种类',
-                           'latinosTypes':'权益类型',
-                           'denomination':'权益面值',
-                           'latinosStatues':'状态',
-                           'latinosCirculation':'发行量',
-                           'latinosUsage ':'使用量',
-                           'overdueNum':'过期',
-                           'startDate':'开始时间',
-                           'endDate':'结束时间'
                        }
                    ],
-                   searchDate:{
+                   // latinosCumulative:[],//权益汇总
+                   // latinosTotalList:[],//权益列表
+                   searchData:{
                        latinosName:'',
                        latinosSettlement:'',
                        startDate:'',
@@ -174,12 +165,12 @@
                },
                latinosSearch(){
                    let data={
-                       latinosName:this.searchDate.latinosName,
-                       latinosSettlement:this.searchDate.latinosSettlement,
-                       startDate:this.searchDate.startDate,
-                       endDate:this.searchDate.endDate,
-                       latinosKinds:this.searchDate.latinosKinds,
-                       latinosTypes:this.searchDate.latinosTypes,
+                       latinosName:this.searchData.latinosName,
+                       latinosSettlement:this.searchData.latinosSettlement,
+                       startDate:this.searchData.startDate,
+                       endDate:this.searchData.endDate,
+                       latinosKinds:this.searchData.latinosKinds,
+                       latinosTypes:this.searchData.latinosTypes,
                    };
                    // this.model.getSearchLatinos(data).then((res)=>{
                        // if (res.data.code==0){
