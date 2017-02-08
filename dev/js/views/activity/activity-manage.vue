@@ -3,20 +3,20 @@
     <div class="activity-row activity-title">
         <div class="search-div">
             <span>活动名称</span>
-            <input class="input" type="text" v-model="searchDate.name" placeholder="输入活动名称"/>
+            <input class="input" type="text" v-model="searchData.name" placeholder="输入活动名称"/>
             <span>活动时间</span>
             <ks-date-picker time="00:00:00" @change=""
-                            placeholder="开始时间" :value.sync="searchDate.startTime"></ks-date-picker>
+                            placeholder="开始时间" :value.sync="searchData.startTime"></ks-date-picker>
             <span>到</span>
             <ks-date-picker time="23:59:59" @change=""
-                            placeholder="结束时间" :value.sync="searchDate.endTime"></ks-date-picker>
+                            placeholder="结束时间" :value.sync="searchData.endTime"></ks-date-picker>
             <span>活动性质</span>
             <select class="select" v-model="actPropes" @change="getactPropes">
                 <option value="">全部性质</option>
                 <option value="online">线上活动</option>
                 <option value="offline">线下活动</option>
             </select>
-            <a class="btn btn-primary" @click="getList">搜索</a>
+            <a class="btn btn-primary" @click="doSearch">搜索</a>
         </div>
         <div class="search-div">
             <span>活动状态</span>
@@ -78,9 +78,9 @@
         </table>
         <div v-show="!!searchList">
             <pagegroup
-                    :total="searchDate.total"
-                    :page_size.sync="searchDate.maxResult"
-                    :page_current.sync="searchDate.page"
+                    :total="searchData.total"
+                    :page_size.sync="searchData.maxResult"
+                    :page_current.sync="searchData.page"
                     v-on:current_change="getfirstResult"
                     v-on:size_change="getfirstResult"
             ></pagegroup>
@@ -97,7 +97,7 @@
                 searchList:[],
                 actPropes:'',
                 uuidsList:JSON.parse(sessionStorage.getItem('bankNames')),
-                searchDate:{
+                searchData:{
                     sorts:'createdAt|desc',
                     name:'',
                     actPropes:null,
@@ -115,8 +115,13 @@
             }
         },
         methods:{
+            doSearch(){
+                this.searchData.page=1;
+                this.getfirstResult();
+            },
             getfirstResult(){
-                this.searchDate.firstResult=(this.searchDate.page-1)*this.searchDate.maxResult;
+                this.searchData.firstResult=(this.searchData.page-1)*this.searchData.maxResult;
+                this.getHistoryData();
                 this.getList();
             },
             setProp(val,val1){
@@ -124,21 +129,22 @@
                 sessionStorage.setItem('rulename',val1)
             },
             getactPropes(){
-                (!this.actPropes)?this.searchDate.actPropes=null:this.searchDate.actPropes= this.actPropes;
+                (!this.actPropes)?this.searchData.actPropes=null:this.searchData.actPropes= this.actPropes;
             },
             checked(type,bool){
                 if(bool){
-                    this.searchDate.statuses=_.concat(this.searchDate.statuses,type);
+                    this.searchData.statuses=_.concat(this.searchData.statuses,type);
                 }else{
-                    _.pullAll(this.searchDate.statuses,type);
+                    _.pullAll(this.searchData.statuses,type);
                 }
                 this.getList();
             },
             getList(){
-                this.model.getList(this.searchDate).then((res)=>{
+                back_json.saveArray(this.$route.path,this.searchData);
+                this.model.getList(this.searchData).then((res)=>{
                     if(res.data.code===0){
                         this.$set('searchList',res.data.data);
-                        this.searchDate.total=res.data.total;
+                        this.searchData.total=res.data.total;
                     }
                 })
             },
@@ -149,13 +155,18 @@
                         this.getList();
                     }
                 })
+            },
+            getHistoryData(){
+                (back_json.isback&&back_json.fetchArray(this.$route.path)!='')?this.$set('searchData',back_json.fetchArray(this.$route.path)):null;
+                (!this.searchData.actPropes)?this.actPropes='':this.actPropes= this.searchData.actPropes;
             }
         },
         ready(){
             sessionStorage.removeItem('activityId');
+            this.getHistoryData();
+            this.getList()
         },
         created(){
-            this.getList()
         }
     }
 </script>

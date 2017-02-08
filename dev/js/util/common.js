@@ -132,3 +132,162 @@ window.paramData = function( a, traditional ) {
     // Return the resulting serialization
     return s.join( "&" ).replace( r20, "+" );
 };
+var _i={};
+_i.fetchArray=(key)=>{
+    if(localStorage.getItem(key)){
+        return JSON.parse(localStorage.getItem(key));
+    }
+    return [];
+};
+_i.saveArray=(key, value)=>{
+    localStorage.setItem(key, JSON.stringify(value));
+}
+_i.isback=false;
+_i.num=0;
+window.back_json=_i;
+
+/**
+ * addEvent
+ * author laynezhou@tencent.com
+ */
+window.Event = {};
+var Event = {
+
+    funcList: {}, //保存delegate所绑定的方法
+    ieFuncList: {}, //由于保存在ie下绑定的方法
+
+
+    on: function(obj, selector, type, fn) {
+        if (!obj || !selector) return false;
+        var fnNew = Event.delegateHandle(obj, selector, fn);
+        Event.addEvent(obj, type, fnNew);
+        /* 将绑定的方法存入Event.funcList，以便之后解绑操作 */
+        if (!Event.funcList[selector]) {
+            Event.funcList[selector] = {};
+        }
+        if (!Event.funcList[selector][type]) {
+            Event.funcList[selector][type] = {};
+        }
+
+        Event.funcList[selector][type][fn] = fnNew;
+    },
+
+    off: function(obj, selector, type, fn) {
+        if (!obj || !selector || !Event.funcList[selector]) {
+            return false;
+        }
+        var fnNew = Event.funcList[selector][type][fn];
+        if (!fnNew) {
+            return;
+        }
+
+        Event.offEvent(obj, type, fnNew);
+        Event.funcList[selector][type][fn] = null;
+    },
+
+    delegateHandle: function(obj, selector, fn) {
+        /* 实现delegate 的转换方法，事件冒泡上升时, 符合条件时才会执行回调函数 */
+        var func = function(event) {
+            var event = event || window.event;
+            var target = event.srcElement || event.target;
+            var parent = target;
+
+            function contain(item, elmName) {
+                if (elmName.split('#')[1]) { //by id
+                    if (item.id && item.id === elmName.split('#')[1]) {
+                        return true;
+                    }
+                }
+                if (elmName.split('.')[1]) { //by class
+                    if (hasClass(item, elmName.split('.')[1])) {
+                        return true;
+                    }
+                }
+                if (item.tagName == elmName.toUpperCase()) {
+                    return true; //by tagname
+                }
+                return false;
+            }
+            while (parent) {
+                /* 如果触发的元素，属于(selector)元素的子级。 */
+                if (obj == parent) {
+                    return false; //触发元素是自己
+                }
+                if (contain(parent, selector)) {
+
+                    fn.call(obj, event);
+                    return;
+                }
+                parent = parent.parentNode;
+            }
+        };
+        return func;
+    },
+    addEvent: function(target, type, fn) {
+        if (!target) return false;
+        var add = function(obj) {
+            if (obj.addEventListener) {
+
+                obj.addEventListener(type, fn, false);
+
+            } else {
+                // for ie
+                if (!Event.ieFuncList[obj]) Event.ieFuncList[obj] = {};
+                if (!Event.ieFuncList[obj][type]) Event.ieFuncList[obj][type] = {};
+                Event.ieFuncList[obj][type][fn] = function() {
+                    fn.apply(obj, arguments);
+                };
+                obj.attachEvent("on" + type, Event.ieFuncList[obj][type][fn]);
+            }
+        }
+        if (target.length >= 0 && target !== window && !target.tagName) {
+            for (var i = 0, l = target.length; i < l; i++) {
+                add(target[i])
+            }
+        } else {
+            add(target);
+        }
+    },
+
+
+    offEvent: function(target, type, fn) {
+        if (!target) return false;
+        var remove = function(obj) {
+            if (obj.addEventListener) {
+                obj.removeEventListener(type, fn, false);
+
+            } else {
+                //for ie
+                if (!Event.ieFuncList[obj] || !Event.ieFuncList[obj][type] || !Event.ieFuncList[obj][type][fn]) {
+                    return;
+                }
+                obj.detachEvent("on" + type, Event.ieFuncList[obj][type][fn], false);
+                Event.ieFuncList[obj][type][fn] = {};
+            }
+        }
+        if (target.length >= 0 && target !== window && !target.tagName) {
+            for (var i = 0, l = target.length; i < l; i++) {
+                remove(target[i])
+            }
+        } else {
+            remove(target);
+        }
+    },
+};
+let $id=function(id)
+{
+    return document.getElementById(id) || id;
+}
+let $target=function(target)
+{
+    return document.getElementsByTagName(target) || target;
+}
+let outer = $id("app")
+Event.on(outer,"a","click",()=>{
+    if(back_json.num==0){
+        back_json.num++;
+    }
+});
+window.onbeforeunload=()=>{
+    localStorage.clear();
+}

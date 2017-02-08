@@ -271,6 +271,13 @@ export default function (Vue,router){
     })
     
     router.afterEach(transition =>{
-
+        if(back_json.num==0){
+            back_json.isback=true;
+        }
+        else{
+            back_json.isback=false;
+            back_json.num=0;
+            localStorage.removeItem(transition.to.path);
+        }
     })
 }
