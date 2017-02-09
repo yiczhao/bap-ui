@@ -74,19 +74,22 @@
                     activityID:'',
                      startDate:'',
                      endDate:'',
+                     bankUuidString:'',
                 }
             }
         },
         methods:{
             getList(){
+                this.searchDate.bankUuidString=sessionStorage.getItem('uuids');
                 let data={
                     activityID:this.searchDate.activityID,
                     startDate:this.searchDate.startDate,
                     endDate:this.searchDate.endDate,
                     compareFlag:true,
-                    bankUuidString:sessionStorage.getItem('uuids')
+                    // bankUuidString:sessionStorage.getItem('uuids')
+                    bankUuidString:this.searchDate.bankUuidString,
                 };
-                (!!this.searchDate.activityID)? data.bankUuidString='':null;
+                // (!!this.searchDate.activityID)? data.bankUuidString='':null;
                 this.model.getTotal(data).then((res)=>{
                     this.$set('total',res.data.data);
                 })
@@ -119,10 +122,10 @@
                     }
                 })
             },
-            getId({id,name}){
+            getId({uniqueId,name}){
                 this.showList=false;
                 this.searchDate.name=name;
-                this.searchDate.activityID=id;
+                this.searchDate.activityID=uniqueId;
                 this.getList();
             },
             resetName(){
@@ -156,7 +159,8 @@
                     this.getTime();
                     this.getList();
                 }
-            })
+            });
+
         }
     }
 </script>
