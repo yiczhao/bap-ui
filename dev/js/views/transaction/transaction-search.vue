@@ -137,7 +137,7 @@
                 })
                 this.model.getTradeStatisticsSumList(this.searchData).then((res)=>{
                     if(res.data.code===0){
-                        this.$set('cumulative',res.data.data.dataList)
+                        this.$set('cumulative',res.data.data);
                     }
                 });
             },
