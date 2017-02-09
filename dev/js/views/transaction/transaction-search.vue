@@ -10,7 +10,8 @@
                 </ul>
             </div>
             <span>发起方（银行）</span>
-            <select class="select" v-model="searchData.bankUuidString">
+            <select class="select" v-model="bankUuidString" @change="setBank">
+                <option value="">请选择发起方</option>
                 <option v-for="n in bankFullName" :value="n.uuid" @change="getBankString">{{n.shortName}}</option>
             </select>
             <span>活动状态</span>
@@ -116,13 +117,17 @@
                 objectotalNumber:0,
                 activityName:'',
                 privilegeList:[],
+                bankUuidString:''
             }
         },
         methods:{
             getBankString(){
                 if (!this.searchData.bankUuidString) {
-                    this.searchData.bankUuidString=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
+                    this.searchData.bankUuidString=sessionStorage.getItem('uuids');
                 }
+            },
+            setBank(){
+                this.searchData.bankUuidString=this.bankUuidString
             },
             getList(){
                 this.getBankString();

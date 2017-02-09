@@ -753,8 +753,8 @@
 					if (res.data.code==0) {
 						this.cardBINDataArea.binStartNumber=res.data.data.category;
 						this.cardBINDataArea.tradeAmountCardBINChange=res.data.data.series[0].dataDecimal;
-						this.setHeightKaBin=(this.cardBINDataArea.tradeAmountCardBINChange.length)*50;
-						this.dataBarEchart('cardBIN-echart',['卡BIN刷卡金额(元)'],['卡BIN'].this.cardBINDataArea.binStartNumber,'卡BIN刷卡金额(元)',this.cardBINDataArea.tradeAmountCardBINChange);
+						this.setHeightKaBin=(this.cardBINDataArea.tradeAmountCardBINChange.length)*100;
+						this.dataBarEchart('cardBIN-echart',['卡BIN刷卡金额(元)'],['卡BIN'],this.cardBINDataArea.binStartNumber,'卡BIN刷卡金额(元)',this.cardBINDataArea.tradeAmountCardBINChange);
 					}
 				});
 			},
