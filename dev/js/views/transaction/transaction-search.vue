@@ -2,7 +2,7 @@
     <div class="transaction-search">
         <div class="search-div">
             <span>活动名称</span>
-            <input class="input" type="text" placeholder="输入活动名称" v-model="activityName" @keypress.enter="getActivity"/>
+            <input class="input" type="text" placeholder="输入活动名称" v-model="searchData.activityName" @keypress.enter="getActivity"/>
             <div class="showList" v-show="showList">
                 <ul>
                     <li v-for="n in activityList | filterBy searchData.activityName in 'name'" @click="getId(n)">{{n.name}}</li>
@@ -10,8 +10,7 @@
                 </ul>
             </div>
             <span>发起方（银行）</span>
-            <select class="select" v-model="bankUuidString">
-                <option selected="selected">请选择发起方</option>
+            <select class="select" v-model="searchData.bankUuidString">
                 <option v-for="n in bankFullName" :value="n.uuid" @change="getBankString">{{n.shortName}}</option>
             </select>
             <span>活动状态</span>
@@ -112,25 +111,23 @@
                     startDate:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
                     endDate:stringify(new Date())+' 23:59:59',//结束时间
                     pageIndex:1,//当前选中的分页值
-                    pageSize:1,//每页展示多少条数
+                    pageSize:10,//每页展示多少条数
                 },
                 objectotalNumber:0,
-                bankUuidString:'',
                 activityName:'',
                 privilegeList:[],
             }
         },
         methods:{
             getBankString(){
-                if (!this.bankUuidString) {
+                if (!this.searchData.bankUuidString) {
                     this.searchData.bankUuidString=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
-                }else{
-                    this.searchData.bankUuidString=this.bankUuidString;
                 }
             },
             getList(){
-                if (this.bankUuidString='请选择发起方') {
-                    this.searchData.bankUuidString=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
+                this.getBankString();
+                if(!this.searchData.activityName){
+                    this.searchData.activityID="";
                 }
                 this.model.getList(this.searchData).then((res)=>{
                     if(res.data.code===0){
@@ -146,7 +143,7 @@
             },
             getActivity(){
                 let data={
-                    name:this.activityName,
+                    name:this.searchData.activityName,
                     uuids:[JSON.parse(sessionStorage.getItem('loginList')).bankUUID]
                 };
                 this.$common_model.getActivityList(data).then((res)=>{
@@ -155,11 +152,10 @@
                         this.showList=true;
                     }
                 })
-                this.searchData.activityName=this.activityName
             },
             getId({uniqueId,name}){
                 this.showList=false;
-                this.activityName=name;
+                this.searchData.activityName=name;
                 this.searchData.activityID=uniqueId;
             },
             getBankList(){
@@ -189,6 +185,7 @@
                 }
             }, false);
             this.getMenuList();
+            this.getList();
         },
         beforeDestroy() {
             document.removeEventListener('click', this.resetName, false);
