@@ -5,11 +5,9 @@
             <span>活动名称</span>
             <input class="input" type="text" v-model="searchData.name" placeholder="输入活动名称"/>
             <span>活动时间</span>
-            <ks-date-picker time="00:00:00" @change=""
-                            placeholder="开始时间" :value.sync="searchData.startTime"></ks-date-picker>
+            <ks-date-picker time="00:00:00" placeholder="开始时间" :value.sync="searchData.startTime"></ks-date-picker>
             <span>到</span>
-            <ks-date-picker time="23:59:59" @change=""
-                            placeholder="结束时间" :value.sync="searchData.endTime"></ks-date-picker>
+            <ks-date-picker time="23:59:59" placeholder="结束时间" :value.sync="searchData.endTime"></ks-date-picker>
             <span>活动性质</span>
             <select class="select" v-model="actPropes" @change="getactPropes">
                 <option value="">全部性质</option>
@@ -121,9 +119,8 @@
                 this.getList();
             },
             getfirstResult(){
-                back_json.isback=true;
                 this.searchData.firstResult=(this.searchData.page-1)*this.searchData.maxResult;
-                this.getHistoryData();
+                back_json.fetchArray(this.$route.path)?this.getHistoryData():null;
                 this.getList();
             },
             setProp(val,val1){
@@ -159,14 +156,16 @@
                 })
             },
             getHistoryData(){
-                (back_json.isback&&back_json.fetchArray(this.$route.path)!='')?this.$set('searchData',back_json.fetchArray(this.$route.path)):null;
+                this.$set('searchData',back_json.fetchArray(this.$route.path));
                 (!this.searchData.actPropes)?this.actPropes='':this.actPropes= this.searchData.actPropes;
             }
         },
         ready(){
             sessionStorage.removeItem('activityId');
-            this.getHistoryData();
-            this.getList()
+            this.$nextTick(()=>{
+                (back_json.isback&&back_json.fetchArray(this.$route.path))?this.getHistoryData():null;
+                this.getList();
+            })
         },
         created(){
         }

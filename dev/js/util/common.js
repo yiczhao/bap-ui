@@ -137,7 +137,7 @@ _i.fetchArray=(key)=>{
     if(localStorage.getItem(key)){
         return JSON.parse(localStorage.getItem(key));
     }
-    return [];
+    return false;
 };
 _i.saveArray=(key, value)=>{
     localStorage.setItem(key, JSON.stringify(value));
