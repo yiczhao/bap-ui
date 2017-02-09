@@ -3,7 +3,7 @@
 		<div class="activity-search">
 			<div class="search-left">
 				<label>活动名称</label>
-				<input class="input" type="text" name="" placeholder="请输入活动名称" v-model="searchData.activityName" @keyup.enter="getActivity">
+				<input class="input" type="text" placeholder="输入活动名称" v-model="searchData.activityName" @keyup.enter="getActivity">
 			</div>
 			<div class="showList" v-show="searchData.showList">
                 <ul>
@@ -433,8 +433,7 @@
 				var myChart = echarts.init(document.getElementById('time-echart'));
 				var option = {
 				    tooltip: {trigger: 'axis'},
-				    toolbox: {show: true,
-				        feature: {magicType: {type: ['line', 'bar']},}},
+				    toolbox: {show: true},
 				    xAxis:  {type: 'category',boundaryGap: false,
 				        data:['00:00','01:00','02:00','03:00','04:00','05:00','06:00','07:00','08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00','24:00'],
 				    },
@@ -450,7 +449,7 @@
 				}
 				myChart.setOption(option);
 			},
-			dataBarEchart(chartID,cityName,dataName,cityData){
+			dataBarEchart(chartID,dataTitle,yAxisTitle,cityName,dataName,cityData){
 				var myChart = echarts.init(document.getElementById(chartID));
 				var option ={
 				    tooltip: {
@@ -459,11 +458,14 @@
 				            type: 'shadow'
 				        }
 				    },
+				    legend: {
+				        data:dataTitle
+				    },
 				    grid: {
 				        left: '3%',
 				        right: '4%',
 				        bottom: '3%',
-				        top:'3%',
+				        top:'33px',
 				        containLabel: true
 				    },
 				    xAxis: {
@@ -472,23 +474,35 @@
 				    },
 				    yAxis: {
 				        type: 'category',
-				        data: cityName
+				        axisTick : {show: false},
+				        data: cityName,
+				        name:yAxisTitle,
 				    },
 				    series: [
 				        {
-				        	type:'funnel',
 				            name: dataName,
 				            type: 'bar',
-				            // barGap:1,//柱子的大小设置
 				            barWidth:'23px',
 				            data: cityData,
 				            sort: 'descending',
 				            itemStyle:{
-				            	// normal:{color:'#045aad'}
-				            	normal:{color:function (params) {
-				            		var colorList = ['#429eeb','#a91f8c','#5a2d8c','#045aad','#0173ba','#00a9ae','#22af47','#a1cd38','#fdd503','#f7b717'];
-                        			return colorList[params.dataIndex]
-				            	}}
+				            	normal:{
+				            		color:'#429eeb'
+				            		// color:function (params) {
+				            		// 	var colorList = ['#429eeb','#a91f8c','#5a2d8c','#045aad','#0173ba','#00a9ae','#22af47','#a1cd38','#fdd503','#f7b717'];
+                  //       				return colorList[params.dataIndex]
+				            		// }
+				            		}//单色color后直接加rgb色号
+				            },
+				            label:{
+				                normal:{
+				                    show: true,
+				                    position: 'right',
+                    				offset:[0,-3],
+                    				textStyle:{
+                    					color:'#429eeb'
+                    				}
+				                }
 				            },
 				        }
 				    ]
@@ -633,9 +647,9 @@
         			if (res.data.code==0){
 						this.transactionRegion.tradeArea=res.data.data.category;
 						this.transactionRegion.cityData=res.data.data.series[0].dataDecimal;
-						this.setHeightArea=(this.transactionRegion.cityData.length)*50;
+						this.setHeightArea=(this.transactionRegion.cityData.length)*100;
+						this.dataBarEchart('region-echart',['交易金额(元)'],['区域名称'],this.transactionRegion.tradeArea,'交易金额(元)',this.transactionRegion.cityData);
         			}
-						this.dataBarEchart('region-echart',this.transactionRegion.tradeArea,'交易金额',this.transactionRegion.cityData);
         		})
 
         	},
@@ -649,7 +663,7 @@
         			if (res.data.code==0){
 						this.transactionRegion.tradeArea=res.data.data.category;
 						this.transactionRegion.cityData=res.data.data.series[0].dataLong;
-						this.dataBarEchart('region-echart',this.transactionRegion.tradeArea,'交易笔数',this.transactionRegion.cityData);
+						this.dataBarEchart('region-echart',['交易笔数(笔)'],['区域名称'],this.transactionRegion.tradeArea,'交易笔数(笔)',this.transactionRegion.cityData);
         			}
         		})
 			},
@@ -689,11 +703,12 @@
                 (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getMerchantTradeAmount(data).then((res)=>{
 					if (res.data.code==0){
+						// debugger;
 						this.merchantDataArea.storeName=res.data.data.series[0].storeAndMerchantName;//商户数据名称
 						this.merchantDataArea.tradeAmount=res.data.data.series[0].dataDecimal;//商户数据刷卡金额
 						this.setHeightMerchant=(this.merchantDataArea.tradeAmount.length)*50;
+						this.dataBarEchart('merchant-echart',['刷卡金额(元)'],['门店名称，所属商户'],this.merchantDataArea.storeName,'刷卡金额(元)',this.merchantDataArea.tradeAmount);
 					}
-						this.dataBarEchart('merchant-echart',this.merchantDataArea.storeName,'刷卡金额',this.merchantDataArea.tradeAmount);
 				})
 			},
 			merchantDataTradeCountChange(){//商户数据交易笔数
@@ -709,7 +724,7 @@
 						this.merchantDataArea.tradeCount=res.data.data.series[0].dataLong;//商户数据刷卡笔数
 						this.setHeightMerchant=(this.merchantDataArea.tradeAmount.length)*50;
 					}
-						this.dataBarEchart('merchant-echart',this.merchantDataArea.storeName,'刷卡笔数',this.merchantDataArea.tradeCount);
+						this.dataBarEchart('merchant-echart',['刷卡笔数(笔)'],['门店名称，所属商户'],this.merchantDataArea.storeName,'刷卡笔数(笔)',this.merchantDataArea.tradeCount);
 				})
 					// id==merchant-echart
 			},
@@ -739,8 +754,8 @@
 						this.cardBINDataArea.binStartNumber=res.data.data.category;
 						this.cardBINDataArea.tradeAmountCardBINChange=res.data.data.series[0].dataDecimal;
 						this.setHeightKaBin=(this.cardBINDataArea.tradeAmountCardBINChange.length)*50;
+						this.dataBarEchart('cardBIN-echart',['卡BIN刷卡金额(元)'],['卡BIN'].this.cardBINDataArea.binStartNumber,'卡BIN刷卡金额(元)',this.cardBINDataArea.tradeAmountCardBINChange);
 					}
-						this.dataBarEchart('cardBIN-echart',this.cardBINDataArea.binStartNumber,'卡BIN刷卡金额',this.cardBINDataArea.tradeAmountCardBINChange);
 				});
 			},
 			cardBINDetailNumber(){//卡BIN交易笔数change
@@ -753,7 +768,7 @@
 					if (res.data.code==0) {
 						this.$set('cardBINDataArea.binStartNumber',res.data.data.category)
 						this.$set('cardBINDataArea.tradeNumCardBINChange',res.data.series[0].dataLong)
-						this.dataBarEchart('cardBIN-echart',this.cardBINDataArea.binStartNumber,'卡BIN刷卡笔数',this.cardBINDataArea.tradeNumCardBINChange);
+						this.dataBarEchart('cardBIN-echart',['卡BIN刷卡笔数(笔)'],['卡BIN'],this.cardBINDataArea.binStartNumber,'卡BIN刷卡笔数(笔)',this.cardBINDataArea.tradeNumCardBINChange);
 					}
 				});
 				//cardBIN-echart
@@ -781,10 +796,9 @@
 					if (res.data.code==0) {
 						this.$set('oneCardArea.oneCardChance',res.data.data.series[0].data);
 						this.$set('oneCardArea.oneCardNum',res.data.data.series[0].dataLong);
-						// this.dataBarEchart('one-echart',this.oneCardArea.oneCardNum,'卡数量',this.oneCardArea.oneCardChance);
 						this.setHeightOneCard=(this.oneCardArea.oneCardChance.length)*50;
+						this.dataBarEchart('one-echart',['卡数量(张)'],['次数(次)'],this.oneCardArea.oneCardNum,'卡数量(张)',this.oneCardArea.oneCardChance);
 					}
-						this.dataBarEchart('one-echart',['','','','','','','','','',''],'卡数量',this.oneCardArea.oneCardChance);
 				})
 			},
 			//展开收起触发======================================================================
@@ -867,33 +881,6 @@
             resetName(){
                 this.searchData.showList=false;
             },
-    //         pdfOutput(toggle){
-    //         	this.tradeDataModelToday();
-				// this.tradeDataModelTotail();
-    //         	switch(toggle){
-    //         		case 'trade-area-week':
-    //         			this.tradeDataEchart.echartDivID='trade-area-week';
-				// 		this.changeDataShow('TradeAmountList');
-				// 		break;
-				// 	case 'trade-area-month':
-				// 		this.tradeDataEchart.echartDivID='trade-area-month';
-				// 		this.changeDataShow('TradeAmountList');
-				// 		break;
-    //         	}
-            	//交易数据数据
-				// this.changeDataShow('TradeAmountList');				
-				//交易区域分析
-				// this.regionDetailReady();
-				// //交易时段分析
-				// // this.transactionTimeReady();
-				// //商户数据分析
-				// this.merchantDataAreaReady();
-				// //卡BIN数据分析
-				// this.cardBINDataAreaReady();
-				// //单卡交易分析
-				// this.oneCardDataReady();
-            // },
-
 		},
 		ready(){
 			this.tradeGET.startDate=this.times.lastWeek;

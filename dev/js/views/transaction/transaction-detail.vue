@@ -57,7 +57,7 @@
                     <td>{{n.totalAmount }} </td><!-- 消费金额 -->
                     <td>{{n.canDisAmount}}</td><!-- 可打折金额（元） -->
                     <td>{{n.payAmount}}</td><!-- 实付金额 -->
-                    <td>{{n.disAmount}}</td><!-- 结算折扣 -->
+                    <td>{{n.settlementDiscount}}</td><!-- 结算折扣 -->
                     <td>{{n.subsidyAmount}}</td><!-- 补贴金额 -->
                 </tr>
             </table>
@@ -117,7 +117,7 @@
                 })
                 this.model.getTradeStatisticsSumList(this.searchData).then((res)=>{
                     if(res.data.code===0){
-                        this.$set('cumulative',res.data.dataList[0]);
+                        this.$set('cumulative',res.data.data);
                     }
                 })
             },
