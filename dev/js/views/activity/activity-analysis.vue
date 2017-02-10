@@ -140,7 +140,7 @@
 						<a class="btn btn-primary" :class="regionDetailJudgeChoose=='amount'?'btn-primary':'btn-gray'" @click="regionDetailAmount">交易金额</a>
 						<a class="btn btn-primary" :class="regionDetailJudgeChoose=='num'?'btn-primary':'btn-gray'" @click="regionDetailNumber">交易笔数</a>
 					</div>
-					<div class="region-echart" id="region-echart" :style="'height:'+setHeightArea+'px'"></div>
+					<div class="region-echart" id="region-echart" style="height:500px;"></div>
 				</div>
 			</span>
 		</div>
@@ -196,7 +196,7 @@
 						<a class="btn btn-primary" :class="merchantDataDetailJudgeName=='amount'?'btn-primary':'btn-gray'" @click="merchantDataTradeAmountChange">交易金额</a>
 						<a class="btn btn-primary" :class="merchantDataDetailJudgeName=='num'?'btn-primary':'btn-gray'" @click="merchantDataTradeCountChange">交易笔数</a>
 					</div>
-					<div class="merchant-echart" id="merchant-echart" :style="'height:'+setHeightMerchant+'px'">
+					<div class="merchant-echart" id="merchant-echart" style="height:500px;">
 					</div>
 				</div>
 			</span>
@@ -237,7 +237,7 @@
 						<a class="btn btn-primary" :class="cardBINDetailJudgeChoose=='amount'?'btn-primary':'btn-gray'" @click="cardBINDetailAmount">交易金额</a>
 						<a class="btn btn-primary" :class="cardBINDetailJudgeChoose=='num'?'btn-primary':'btn-gray'" @click="cardBINDetailNumber">交易笔数</a>
 					</div>
-					<div class="cardBIN-echart" id="cardBIN-echart" :style="'height:'+setHeightKaBin+'px'">
+					<div class="cardBIN-echart" id="cardBIN-echart" style="height:500px;">
 					</div>
 				</div>
 			</span>
@@ -270,7 +270,7 @@
 				</div>
 				<div class="one-detail">
 					<span class="title"><i></i>单卡参与次数（次）</span>
-					<div class="one-echart" id="one-echart" :style="'height:'+setHeightOneCard+'px'"></div>
+					<div class="one-echart" id="one-echart" style="height:500px;"></div>
 				</div>
 			</span>
 		</div>
@@ -374,10 +374,6 @@
 					now:'当前数据(元)',
 					contrast:'对比数据(元)',
 				},
-				setHeightMerchant:'',
-				setHeightKaBin:'',
-				setHeightOneCard:'',
-				setHeightArea:'',
 			}
 		},
 		methods:{
@@ -436,7 +432,7 @@
 				    toolbox: {show: true},
 				    legend: {data:['交易笔数(笔)']},
 				    xAxis:  {type: 'category',boundaryGap: false,
-				        data:['00:00','01:00','02:00','03:00','04:00','05:00','06:00','07:00','08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00','24:00'],
+				        data:["00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"],
 				        name:['时间段']
 				    },
 				    yAxis: {
@@ -476,7 +472,6 @@
 				    },
 				    xAxis: {
 				        type: 'value',
-				        boundaryGap: [0, 0.01]
 				    },
 				    yAxis: {
 				        type: 'category',
@@ -641,7 +636,6 @@
         				this.$set('transactionRegion.tradeAreaModel',res.data.data);
         			}
         		});
-        		this.regionDetailAmount();
         	},
         	regionDetailAmount(){//交易区域交易金额切换
         		this.regionDetailJudgeChoose='amount';
@@ -653,7 +647,6 @@
         			if (res.data.code==0){
 						this.transactionRegion.tradeArea=res.data.data.category;
 						this.transactionRegion.cityData=res.data.data.series[0].dataDecimal;
-						this.setHeightArea=(this.transactionRegion.cityData.length)*105;
 						this.dataBarEchart('region-echart',['交易金额(元)'],['区域名称'],this.transactionRegion.tradeArea,'交易金额(元)',this.transactionRegion.cityData);
         			}
         		})
@@ -699,7 +692,6 @@
 						this.$set('merchantDataArea.merchantDataTotal',res.data.data);
 					}
 				})
-				this.merchantDataTradeAmountChange();
 			},
 			merchantDataTradeAmountChange(){//商户数据交易金额
 				this.merchantDataDetailJudgeName='amount';
@@ -712,7 +704,6 @@
 						// debugger;
 						this.merchantDataArea.storeName=res.data.data.series[0].storeAndMerchantName;//商户数据名称
 						this.merchantDataArea.tradeAmount=res.data.data.series[0].dataDecimal;//商户数据刷卡金额
-						this.setHeightMerchant=(this.merchantDataArea.tradeAmount.length)*55;
 						this.dataBarEchart('merchant-echart',['刷卡金额(元)'],['门店名称，所属商户'],this.merchantDataArea.storeName,'刷卡金额(元)',this.merchantDataArea.tradeAmount);
 					}
 				})
@@ -728,11 +719,9 @@
 					if (res.data.code==0){
 						this.merchantDataArea.storeName=res.data.data.series[0].storeAndMerchantName;//商户数据名称
 						this.merchantDataArea.tradeCount=res.data.data.series[0].dataLong;//商户数据刷卡笔数
-						this.setHeightMerchant=(this.merchantDataArea.tradeAmount.length)*55;
-					}
 						this.dataBarEchart('merchant-echart',['刷卡笔数(笔)'],['门店名称，所属商户'],this.merchantDataArea.storeName,'刷卡笔数(笔)',this.merchantDataArea.tradeCount);
+					}
 				})
-					// id==merchant-echart
 			},
 			// =================================================================================================
 			//卡BIN数据分析 success
@@ -790,8 +779,6 @@
 						this.$set('oneCardArea.oneCardModel',res.data.data);
 					}
 				});
-
-				this.oneCardDataOnceData();
 			},
 			oneCardDataOnceData(){//获取单卡参与次数数据
 				let data={
@@ -800,10 +787,11 @@
                 (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getOneCardSwipedCount(data).then((res)=>{
 					if (res.data.code==0) {
-						this.$set('oneCardArea.oneCardChance',res.data.data.series[0].data);
-						this.$set('oneCardArea.oneCardNum',res.data.data.series[0].dataLong);
-						this.setHeightOneCard=(this.oneCardArea.oneCardChance.length)*55;
-						this.dataBarEchart('one-echart',['卡数量(张)'],['次数(次)'],this.oneCardArea.oneCardNum,'卡数量(张)',this.oneCardArea.oneCardChance);
+						this.$set('oneCardArea.oneCardNum',res.data.data.series[0].dataLong);//x轴
+						this.$set('oneCardArea.oneCardChance',res.data.data.series[0].data);//y轴
+						console.log("x轴"+this.oneCardArea.oneCardNum);
+						console.log("y轴"+this.oneCardArea.oneCardChance);
+						this.dataBarEchart('one-echart',['卡数量(张)'],['次数(次)'],this.oneCardArea.oneCardChance,'卡数量(张)',this.oneCardArea.oneCardNum);
 					}
 				})
 			},
@@ -867,6 +855,7 @@
 			getActivity(){
 				 let data={
                     name:this.searchData.activityName,
+                    maxResult:100,
                     uuids:_.split(sessionStorage.getItem('uuids'), ','),
                     activityID:this.searchData.activityID
                 };
@@ -874,7 +863,6 @@
                     if(res.data.code===0){
                         this.$set('activityList',res.data.data);
                         this.searchData.showList=true;
-                        console.log(this.activityList.uniqueId);
                     }
                 })
 			},
@@ -882,7 +870,6 @@
                 this.searchData.showList=false;
                 this.searchData.activityName=name;
                 this.tradeGET.activityID=uniqueId;
-                console.log(this.tradeGET.activityID);
                 this.transactionDataToggle("transaDataToggleDown");
             },
             resetName(){

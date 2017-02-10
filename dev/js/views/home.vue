@@ -113,6 +113,7 @@
             getActivity(){
                 let data={
                     name:this.searchDate.name,
+                    maxResult:100,
                     uuids:_.split(sessionStorage.getItem('uuids'), ',')
                 }
                 this.$common_model.getActivityList(data).then((res)=>{

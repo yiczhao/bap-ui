@@ -104,10 +104,10 @@
                     statuses:['online','draft_other','draft','wait_check','check_fail','early_offline','finish'],
                     page:1,
                     firstResult:0,
-                    maxResult:10,
+                    maxResult:100,
                     uuids:_.split(sessionStorage.getItem('uuids'), ','),
                     systemId:'yhhd',
-                    total:0
+                    total:0,
                 },
                 checkedBox:[true,true,true,true]
             }

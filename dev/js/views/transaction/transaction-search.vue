@@ -149,6 +149,7 @@
             getActivity(){
                 let data={
                     name:this.searchData.activityName,
+                    maxResult:100,
                     uuids:[JSON.parse(sessionStorage.getItem('loginList')).bankUUID]
                 };
                 this.$common_model.getActivityList(data).then((res)=>{
