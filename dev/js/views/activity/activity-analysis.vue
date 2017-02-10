@@ -789,8 +789,6 @@
 					if (res.data.code==0) {
 						this.$set('oneCardArea.oneCardNum',res.data.data.series[0].dataLong);//x轴
 						this.$set('oneCardArea.oneCardChance',res.data.data.series[0].data);//y轴
-						console.log("x轴"+this.oneCardArea.oneCardNum);
-						console.log("y轴"+this.oneCardArea.oneCardChance);
 						this.dataBarEchart('one-echart',['卡数量(张)'],['次数(次)'],this.oneCardArea.oneCardChance,'卡数量(张)',this.oneCardArea.oneCardNum);
 					}
 				})
@@ -859,12 +857,17 @@
                     uuids:_.split(sessionStorage.getItem('uuids'), ','),
                     activityID:this.searchData.activityID
                 };
-                this.$common_model.getActivityList(data).then((res)=>{
-                    if(res.data.code===0){
-                        this.$set('activityList',res.data.data);
-                        this.searchData.showList=true;
-                    }
-                })
+                if(!this.searchData.activityName){
+                	this.tradeGET.activityID="";
+                	this.transactionDataToggle("transaDataToggleDown");
+                }else{
+	                this.$common_model.getActivityList(data).then((res)=>{
+	                    if(res.data.code===0){
+	                        this.$set('activityList',res.data.data);
+	                		this.searchData.showList=true;
+	                    }
+	                })
+                }
 			},
 			getId({uniqueId,name}){
                 this.searchData.showList=false;
