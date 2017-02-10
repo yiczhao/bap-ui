@@ -434,12 +434,18 @@
 				var option = {
 				    tooltip: {trigger: 'axis'},
 				    toolbox: {show: true},
+				    legend: {data:['交易笔数(笔)']},
 				    xAxis:  {type: 'category',boundaryGap: false,
 				        data:['00:00','01:00','02:00','03:00','04:00','05:00','06:00','07:00','08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00','24:00'],
+				        name:['时间段']
 				    },
-				    yAxis: {type: 'value'},
+				    yAxis: {
+				    	type: 'value',
+				        name:['交易笔数(笔)'],
+
+					},
 				    series: [{
-				            name:'交易笔数',
+				            name:'交易笔数(笔)',
 				            type:'line',
 				            data:timePoint,
 				            itemStyle:{
@@ -707,7 +713,6 @@
 						this.merchantDataArea.storeName=res.data.data.series[0].storeAndMerchantName;//商户数据名称
 						this.merchantDataArea.tradeAmount=res.data.data.series[0].dataDecimal;//商户数据刷卡金额
 						this.setHeightMerchant=(this.merchantDataArea.tradeAmount.length)*55;
-						console.log(document.getElementById('merchant-echart').offsetHeight)
 						this.dataBarEchart('merchant-echart',['刷卡金额(元)'],['门店名称，所属商户'],this.merchantDataArea.storeName,'刷卡金额(元)',this.merchantDataArea.tradeAmount);
 					}
 				})
@@ -768,7 +773,7 @@
 				this.model.getCardBINTradeNumList(data).then((res)=>{
 					if (res.data.code==0) {
 						this.$set('cardBINDataArea.binStartNumber',res.data.data.category)
-						this.$set('cardBINDataArea.tradeNumCardBINChange',res.data.series[0].dataLong)
+						this.$set('cardBINDataArea.tradeNumCardBINChange',res.data.data.series[0].dataLong)
 						this.dataBarEchart('cardBIN-echart',['卡BIN刷卡笔数(笔)'],['卡BIN'],this.cardBINDataArea.binStartNumber,'卡BIN刷卡笔数(笔)',this.cardBINDataArea.tradeNumCardBINChange);
 					}
 				});
@@ -877,6 +882,7 @@
                 this.searchData.showList=false;
                 this.searchData.activityName=name;
                 this.tradeGET.activityID=uniqueId;
+                console.log(this.tradeGET.activityID);
                 this.transactionDataToggle("transaDataToggleDown");
             },
             resetName(){
