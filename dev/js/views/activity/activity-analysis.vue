@@ -2,7 +2,7 @@
 	<div class="activity-analysis">
 		<div class="activity-search">
 			<div class="search-left">
-				<label>活动名称</label>
+				<span>活动名称</span>
 				<input class="input" type="text" placeholder="输入活动名称" v-model="searchData.activityName" @keyup.enter="getActivity">
 			</div>
 			<div class="showList" v-show="searchData.showList">
