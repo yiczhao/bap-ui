@@ -647,7 +647,7 @@
         			if (res.data.code==0){
 						this.transactionRegion.tradeArea=res.data.data.category;
 						this.transactionRegion.cityData=res.data.data.series[0].dataDecimal;
-						this.setHeightArea=(this.transactionRegion.cityData.length)*100;
+						this.setHeightArea=(this.transactionRegion.cityData.length)*105;
 						this.dataBarEchart('region-echart',['交易金额(元)'],['区域名称'],this.transactionRegion.tradeArea,'交易金额(元)',this.transactionRegion.cityData);
         			}
         		})
@@ -706,7 +706,8 @@
 						// debugger;
 						this.merchantDataArea.storeName=res.data.data.series[0].storeAndMerchantName;//商户数据名称
 						this.merchantDataArea.tradeAmount=res.data.data.series[0].dataDecimal;//商户数据刷卡金额
-						this.setHeightMerchant=(this.merchantDataArea.tradeAmount.length)*50;
+						this.setHeightMerchant=(this.merchantDataArea.tradeAmount.length)*55;
+						console.log(document.getElementById('merchant-echart').offsetHeight)
 						this.dataBarEchart('merchant-echart',['刷卡金额(元)'],['门店名称，所属商户'],this.merchantDataArea.storeName,'刷卡金额(元)',this.merchantDataArea.tradeAmount);
 					}
 				})
@@ -722,7 +723,7 @@
 					if (res.data.code==0){
 						this.merchantDataArea.storeName=res.data.data.series[0].storeAndMerchantName;//商户数据名称
 						this.merchantDataArea.tradeCount=res.data.data.series[0].dataLong;//商户数据刷卡笔数
-						this.setHeightMerchant=(this.merchantDataArea.tradeAmount.length)*50;
+						this.setHeightMerchant=(this.merchantDataArea.tradeAmount.length)*55;
 					}
 						this.dataBarEchart('merchant-echart',['刷卡笔数(笔)'],['门店名称，所属商户'],this.merchantDataArea.storeName,'刷卡笔数(笔)',this.merchantDataArea.tradeCount);
 				})
@@ -753,7 +754,7 @@
 					if (res.data.code==0) {
 						this.cardBINDataArea.binStartNumber=res.data.data.category;
 						this.cardBINDataArea.tradeAmountCardBINChange=res.data.data.series[0].dataDecimal;
-						this.setHeightKaBin=(this.cardBINDataArea.tradeAmountCardBINChange.length)*100;
+						this.setHeightKaBin=(this.cardBINDataArea.tradeAmountCardBINChange.length)*105;
 						this.dataBarEchart('cardBIN-echart',['卡BIN刷卡金额(元)'],['卡BIN'],this.cardBINDataArea.binStartNumber,'卡BIN刷卡金额(元)',this.cardBINDataArea.tradeAmountCardBINChange);
 					}
 				});
@@ -796,7 +797,7 @@
 					if (res.data.code==0) {
 						this.$set('oneCardArea.oneCardChance',res.data.data.series[0].data);
 						this.$set('oneCardArea.oneCardNum',res.data.data.series[0].dataLong);
-						this.setHeightOneCard=(this.oneCardArea.oneCardChance.length)*50;
+						this.setHeightOneCard=(this.oneCardArea.oneCardChance.length)*55;
 						this.dataBarEchart('one-echart',['卡数量(张)'],['次数(次)'],this.oneCardArea.oneCardNum,'卡数量(张)',this.oneCardArea.oneCardChance);
 					}
 				})
