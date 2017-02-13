@@ -119,8 +119,11 @@
                 this.getList();
             },
             getfirstResult(){
-                this.searchData.firstResult=(this.searchData.page-1)*this.searchData.maxResult;
+                let page=this.searchData.page;
+                let firstResult=(page-1)*this.searchData.maxResult;
                 back_json.fetchArray(this.$route.path)?this.getHistoryData():null;
+                this.searchData.page=page;
+                this.searchData.firstResult=firstResult;
                 this.getList();
             },
             setProp(val,val1){
