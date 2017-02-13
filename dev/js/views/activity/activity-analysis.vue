@@ -859,6 +859,7 @@
                 };
                 if(!this.searchData.activityName){
                 	this.tradeGET.activityID="";
+	                this.searchData.showList=false;
                 	this.transactionDataToggle("transaDataToggleDown");
                 }else{
 	                this.$common_model.getActivityList(data).then((res)=>{

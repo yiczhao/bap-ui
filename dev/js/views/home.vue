@@ -116,12 +116,18 @@
                     maxResult:100,
                     uuids:_.split(sessionStorage.getItem('uuids'), ',')
                 }
-                this.$common_model.getActivityList(data).then((res)=>{
-                    if(res.data.code===0){
-                        this.$set('activityList',res.data.data);
-                        this.showList=true;
-                    }
-                })
+                if(!this.searchDate.name){
+                    this.searchDate.activityID="";
+                    this.showList=false;
+                    this.getList();
+                }else{
+                    this.$common_model.getActivityList(data).then((res)=>{
+                        if(res.data.code===0){
+                            this.$set('activityList',res.data.data);
+                            this.showList=true;
+                        }
+                    })
+                }
             },
             getId({uniqueId,name}){
                 this.showList=false;
