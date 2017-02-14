@@ -64,15 +64,15 @@
                     <th>操作</th>
                 </tr>
                 <tr v-for="n in dataList">
-                    <td>{{n.activityName }}</td><!-- 活动名称 -->
-                    <td>{{n.bankName }}</td><!-- 发起方 -->
+                    <td>{{n.activityName}}</td><!-- 活动名称 -->
+                    <td>{{n.bankUuidsName}}</td><!-- 发起方 -->
                     <td><span v-if="n.subType==online">线上</span><span v-else>线下</span></td><!-- 子类型 -->
                     <td>{{n.activitStatus}}</td><!-- 活动状态 -->
-                    <td>{{n.totalNumber }}</td><!-- 总笔数 -->
+                    <td>{{n.totalNumber}}</td><!-- 总笔数 -->
                     <td>{{n.totalAmount}}</td><!-- 总金额 -->
-                    <td>{{n.avgAmount }}</td><!-- 单笔金额 -->
-                    <td>{{n.startDate  }} </td><!-- 开始日期 -->
-                    <td>{{n.endDate }}</td><!-- 结束日期 -->
+                    <td>{{n.avgAmount}}</td><!-- 单笔金额 -->
+                    <td>{{n.startDate}} </td><!-- 开始日期 -->
+                    <td>{{n.endDate}}</td><!-- 结束日期 -->
                     <td><a v-link="{name:'transaction-detail',params:{'transactionName':n.activityName,'transactionId':n.activityId}}">交易明细</a></td><!-- 操作 -->
                 </tr>
                  <tr v-if="!dataList.length">

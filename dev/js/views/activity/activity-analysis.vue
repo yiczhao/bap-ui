@@ -278,7 +278,7 @@
 	</div>
 </template>
 <script type="text/javascript">
-    import model from '../../ajax/activity/activity-analysis'
+    import model from '../../ajax/activity/activity-analysis';
 	export default{
 		data(){
             this.model=model(this)
@@ -387,15 +387,9 @@
 			dataLineEchart(divID,title,xData,parentDataName,parentData,passDataName,passData){
 				var myChart=echarts.init(document.getElementById(divID));
 				var option = {
-				    title: {
-				        text: title
-				    },
-				    tooltip: {
-				        trigger: 'axis'
-				    },
-				    legend: {
-				        data:['当前数据(元)','对比数据(元)']
-				    },
+				    title: {text: title},//表名称
+				    tooltip: {trigger: 'axis'},
+				    legend: {data:['当前数据(元)','对比数据(元)']},
 				    xAxis: {
 				        type: 'category',
 				        boundaryGap: false,
@@ -409,44 +403,36 @@
 				            name:parentDataName,
 				            type:'line',
 				            data:parentData,
-				            itemStyle:{
-				            	normal:{color:'#e75035'}
-				            },
+				            itemStyle:{normal:{color:'#e75035'}},
 				        },
 				        {
 				            name:passDataName,
 				            type:'line',
 				            data:passData,
-				            itemStyle:{
-				            	normal:{color:'#429eeb'}
-				            },
+				            itemStyle:{normal:{color:'#429eeb'}},
 				        }
 				    ]
 				};
         		myChart.setOption(option)
 			},
-			justChart(timeData,timePoint){
+			justChart(timePoint){
 				var myChart = echarts.init(document.getElementById('time-echart'));
 				var option = {
 				    tooltip: {trigger: 'axis'},
 				    toolbox: {show: true},
 				    legend: {data:['交易笔数(笔)']},
-				    xAxis:  {type: 'category',boundaryGap: false,
-				        data:["00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"],
+				    xAxis:  {type: 'category',boundaryGap: false,data:["00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"],
 				        name:['时间段']
 				    },
 				    yAxis: {
 				    	type: 'value',
 				        name:['交易笔数(笔)'],
-
 					},
 				    series: [{
 				            name:'交易笔数(笔)',
 				            type:'line',
 				            data:timePoint,
-				            itemStyle:{
-				            	normal:{color:'#429eeb'}
-				            }
+				            itemStyle:{normal:{color:'#429eeb'}}
 				        }]
 				}
 				myChart.setOption(option);
@@ -456,13 +442,9 @@
 				var option ={
 				    tooltip: {
 				        trigger: 'axis',
-				        axisPointer: {
-				            type: 'shadow'
-				        }
+				        axisPointer: {type: 'shadow'}
 				    },
-				    legend: {
-				        data:dataTitle
-				    },
+				    legend: {data:dataTitle},
 				    grid: {
 				        left: '3%',
 				        right: '4%',
@@ -677,7 +659,7 @@
 					if (res.data.code==0){
 						this.$set('transactionTime.timePoint',res.data.data.series);
         			}
-					this.justChart(this.transactionTime.timeData,this.transactionTime.timePoint);
+						this.justChart(this.transactionTime.timePoint);
 				})
 			},
 			// =================================================================================================
@@ -888,8 +870,6 @@
                     this.resetName();
                 }
             }, false);
-        	// this.pdfOutput('trade-area-week');
-        	// this.pdfOutput('trade-area-month');
 		},
 		beforeDestroy () {
             document.removeEventListener('click', this.resetName, false);
