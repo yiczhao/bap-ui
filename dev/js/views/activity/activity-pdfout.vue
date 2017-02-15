@@ -3,8 +3,6 @@
 		<div class="pdf-title">
 			<span class="p-title">活动分析报告</span>
 			<span class="out-pdf"><a :href="origin+'/pdf/analysis'">导出PDF报告</a></span>
-
-			<!-- <span class="out-pdf"><a href="http://www.baidu.com">导出PDF报告</a></span> -->
 		</div>
 		<span></span>
 		<div class="information-area basic-information">
