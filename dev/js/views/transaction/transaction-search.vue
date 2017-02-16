@@ -21,9 +21,9 @@
                 <option value="0">已结束</option>
             </select>
             <span>交易时间</span>
-            <ks-date-picker time="00:00:00" :value.sync="searchData.startDate"></ks-date-picker>
+            <ks-date-picker :value.sync="searchData.startDate"></ks-date-picker>
             <span>到</span>
-            <ks-date-picker time="23:59:59" :value.sync="searchData.endDate"></ks-date-picker>
+            <ks-date-picker :value.sync="searchData.endDate"></ks-date-picker>
             <a class="btn btn-primary searchBtn" @click="getList">搜索</a>
         </div>
         <div class="table">
@@ -63,15 +63,15 @@
                     <th>操作</th>
                 </tr>
                 <tr v-for="n in dataList">
-                    <td>{{n.activityName }}</td><!-- 活动名称 -->
-                    <td>{{n.bankName }}</td><!-- 发起方 -->
+                    <td>{{n.activityName}}</td><!-- 活动名称 -->
+                    <td>{{n.bankUuidsName}}</td><!-- 发起方 -->
                     <td><span v-if="n.subType==online">线上</span><span v-else>线下</span></td><!-- 子类型 -->
                     <td>{{n.activitStatus}}</td><!-- 活动状态 -->
-                    <td>{{n.totalNumber }}</td><!-- 总笔数 -->
+                    <td>{{n.totalNumber}}</td><!-- 总笔数 -->
                     <td>{{n.totalAmount}}</td><!-- 总金额 -->
-                    <td>{{n.avgAmount }}</td><!-- 单笔金额 -->
-                    <td>{{n.startDate  }} </td><!-- 开始日期 -->
-                    <td>{{n.endDate }}</td><!-- 结束日期 -->
+                    <td>{{n.avgAmount}}</td><!-- 单笔金额 -->
+                    <td>{{n.startDate}} </td><!-- 开始日期 -->
+                    <td>{{n.endDate}}</td><!-- 结束日期 -->
                     <td><a v-link="{name:'transaction-detail',params:{'transactionName':n.activityName,'transactionId':n.activityId}}">交易明细</a></td><!-- 操作 -->
                 </tr>
                  <tr v-if="!dataList.length">
@@ -150,7 +150,7 @@
                 let data={
                     name:this.searchData.activityName,
                     maxResult:100,
-                    uuids:[JSON.parse(sessionStorage.getItem('loginList')).bankUUID]
+                    uuids:_.split(sessionStorage.getItem('uuids'), ',')
                 };
                 this.$common_model.getActivityList(data).then((res)=>{
                     if(res.data.code===0){

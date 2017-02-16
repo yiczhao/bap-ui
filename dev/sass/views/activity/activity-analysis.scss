@@ -134,7 +134,6 @@
 			@extend .data-detail;
 		}
 		.region-echart{
-			// height:600px;
 			margin:20px 0;
 			border:1px solid rgba(233,233,233,1);
 		}
@@ -162,12 +161,8 @@
 		.merchant-detail{
 			@extend .data-detail;
 			.merchant-echart{
-				// @extend .data-echart;
 				margin:20px 0;
 				border:1px solid rgba(233,233,233,1);
-				// height:320px;
-				// height:auto;
-				// border-width: 0px;
 			}
 		}
 	}
@@ -182,8 +177,6 @@
 		.cardBIN-detail{
 			@extend .data-detail;
 			.cardBIN-echart{
-				// @extend .data-echart;
-				// height:600px;
 				margin:20px 0;
 				border:1px solid rgba(233,233,233,1);
 			}
@@ -200,95 +193,9 @@
 		.one-detail{
 			@extend .data-detail;
 			.one-echart{
-				// @extend .data-echart;
-				// height:600px;
 				margin:20px 0;
 				border:1px solid rgba(233,233,233,1);
 			}
 		}
 	}
-	// .latinos-data{
-	// 	margin-bottom: 20px;
-	// 	padding-bottom: 20px;
-	// 	border:1px solid rgba(233,233,233,1);
-	// 	border-radius:3px;
-	// 	.latinos-title{
-	// 		height:36px;
-	// 		line-height:36px;
-	// 		background-color:rgba(242,242,242,1);
-	// 		.title-left{
-	// 			padding-left:20px;
-	// 		}
-	// 		.title-right{
-	// 			display:inline;
-	// 			float: right;
-	// 			padding-right: 20px;
-	// 		}
-	// 	}
-	// 	.latinos-data-table{
-	// 		padding:0 20px;
-	// 		margin-top: 20px;
-	// 		.title{
-	// 			display:inline-block;
-	// 			height:36px;
-	// 			line-height:36px;
-	// 			i{
-	// 				display:inline-block;
-	// 				float: left;
-	// 				margin:8px 10px 0 0;
-	// 				width:5px;
-	// 				height:16px;
-	// 				margin-top:8px; 
-	// 				background-color:#2196f3;
-	// 			}
-	// 		}
-	// 		table{
-	// 			margin-top:20px;
-	// 			tr{
-	// 				td{
-	// 					span{
-	// 						line-height:40px;
-	// 					}
-	// 					strong{
-	// 						display: block;
-	// 						font-size: 24px;
-	// 					}
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// }
-	// .latinos-probability{
-	// 	@extend .latinos-data;
-	// 	.probability-table{
-	// 		@extend .latinos-data-table;
-	// 		margin-top:0px;
-	// 		.title{
-	// 			margin-top:20px;
-	// 		}
-	// 	}
-	// 	.probability-detail{
-	// 		padding:0 20px;
-	// 		margin-top: 20px;
-	// 		.title{
-	// 			display:inline-block;
-	// 			height:36px;
-	// 			line-height:36px;
-	// 			i{
-	// 				display:inline-block;
-	// 				float: left;
-	// 				margin:8px 10px 0 0;
-	// 				width:5px;
-	// 				height:16px;
-	// 				margin-top:8px; 
-	// 				background-color:#2196f3;
-	// 			}
-	// 		}
-	// 		.probability-echart{			
-	// 			height:300px;
-	// 			margin:20px 0;
-	// 			border:1px solid rgba(233,233,233,1);
-	// 		}
-	// 	}
-	// }
 }
