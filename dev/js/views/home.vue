@@ -2,7 +2,7 @@
     <div class="home">
         <div class="search-div">
             <span>活动名称</span>
-            <input class="input" type="text" v-model="searchDate.name" placeholder="输入活动名称(回车键搜索)" @keypress.enter="getActivity"/>
+            <input class="input" type="text" v-model="searchDate.name" placeholder="输入活动名称" @keypress.enter="getActivity"/>
             <div class="showList showLi" v-show="showList">
                 <ul class="showLi">
                     <li class="showLi" v-for="n in activityList | filterBy searchDate.name in 'name'" @click="getId(n)">{{n.name}}</li>
@@ -74,18 +74,22 @@
                     activityID:'',
                      startDate:'',
                      endDate:'',
+                     bankUuidString:'',
                 }
             }
         },
         methods:{
             getList(){
+                this.searchDate.bankUuidString=sessionStorage.getItem('uuids');
                 let data={
                     activityID:this.searchDate.activityID,
                     startDate:this.searchDate.startDate,
                     endDate:this.searchDate.endDate,
                     compareFlag:true,
+                    // bankUuidString:sessionStorage.getItem('uuids')
+                    bankUuidString:this.searchDate.bankUuidString,
                 };
-                (!this.searchDate.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                // (!!this.searchDate.activityID)? data.bankUuidString='':null;
                 this.model.getTotal(data).then((res)=>{
                     this.$set('total',res.data.data);
                 })
@@ -109,19 +113,26 @@
             getActivity(){
                 let data={
                     name:this.searchDate.name,
+                    maxResult:100,
                     uuids:_.split(sessionStorage.getItem('uuids'), ',')
                 }
-                this.$common_model.getActivityList(data).then((res)=>{
-                    if(res.data.code===0){
-                        this.$set('activityList',res.data.data);
-                        this.showList=true;
-                    }
-                })
+                if(!this.searchDate.name){
+                    this.searchDate.activityID="";
+                    this.showList=false;
+                    this.getList();
+                }else{
+                    this.$common_model.getActivityList(data).then((res)=>{
+                        if(res.data.code===0){
+                            this.$set('activityList',res.data.data);
+                            this.showList=true;
+                        }
+                    })
+                }
             },
-            getId({id,name}){
+            getId({uniqueId,name}){
                 this.showList=false;
                 this.searchDate.name=name;
-                this.searchDate.activityID=id;
+                this.searchDate.activityID=uniqueId;
                 this.getList();
             },
             resetName(){
@@ -139,8 +150,24 @@
             document.removeEventListener('click', this.resetName, false);
         },
         created(){
-            this.getTime();
-            this.getList();
+            formDataRequest('./bank/bank_list').get({'noPage':1}).then((res)=>{
+                if(res.data.code===0){
+                    let data=[]
+                    let datas=[]
+                    _.map(res.data.dataList,(val)=>{
+                        (!!val.uuid)?data.push(val.uuid):null;
+                        (!!val.uuid)?datas.push({
+                            id:val.uuid,
+                            name:val.shortName
+                        }):null;
+                    })
+                    sessionStorage.setItem('uuids',_.join(data, ','));
+                    sessionStorage.setItem('bankNames',JSON.stringify(datas));
+                    this.getTime();
+                    this.getList();
+                }
+            });
+
         }
     }
 </script>

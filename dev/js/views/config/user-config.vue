@@ -89,7 +89,8 @@
                 <div class="form-group">
                     <label class="name-left"><i>*</i>功能级</label>
                     <div class="function-area">
-                        <ks-checkbox v-for="n in privileges" v-if="n.name!='密码设置'" @change="checked(n.selected,n.id)" :checked.sync="n.selected" :name="n.name">{{n.name}}</ks-checkbox>
+                        <div class="checkAll" :class="{'checked':checkAll}" @click.stop="checkedAll"><b></b><span>全选</span></div>
+                        <ks-checkbox v-for="n in privileges" @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">{{n.name}}</ks-checkbox>
                     </div>
                 </div>
             </div>
@@ -161,6 +162,7 @@
                 loginAccountType2:true,
                 passWordCheck:false,
                 userList:[],
+                checkAll:false,
                 bankLists:[],
                 privileges:[],
                 gnprivilegeIDs:[],
@@ -178,6 +180,34 @@
             }
         },
         methods:{
+            getCheckAll(){
+                let check=true;
+                _.map(this.privileges,(val)=>{
+                    if(!val.selected){
+                        check=false;
+                    }
+                })
+                this.checkAll=check;
+            },
+            checkedAll(){
+                let data=_.cloneDeep(this.privileges);
+                this.addList.privilegeIDs=[];
+                this.gnprivilegeIDs=[];
+                if(!this.checkAll){
+                    _.map(data,(val)=>{
+                        val.selected=true;
+                        this.addList.privilegeIDs.push(val.id);
+                        this.gnprivilegeIDs.push(val.name);
+                    })
+                    this.checkAll=true;
+                }else{
+                    _.map(data,(val)=>{
+                        val.selected=false;
+                    })
+                    this.checkAll=false;
+                }
+                this.$set('privileges',data);
+            },
             getList(){
                 this.model.getUserList(this.defaultData).then((res)=>{
                     if(res.data.code===0){
@@ -190,16 +220,18 @@
                 this.addshow=false;
                 this.getList();
             },
-            getBankList(){
-                this.model.getBanklevelList().then((res)=>{
-                    if(res.data.code===0){
-                        this.$set('bankLevelList',res.data.dataList);
-                        this.addList.bankLevel=''+this.bankLevelList[0];
-                    }
-                })
+            getBankList(){ 
+                // this.model.getBanklevelList().then((res)=>{
+                //     if(res.data.code===0){
+                //         // this.addList.bankLevel=''+this.bankLevelList[0];
+                //     }
+                // })
                 this.model.getPrivilegesList().then((res)=>{
                     if(res.data.code===0){
                         this.$set('privileges',res.data.dataList);
+                        _.map(this.privileges,(val)=>{
+                            val.selected=false;
+                        })
                     }
                 })
                 let requestParam = {
@@ -235,7 +267,7 @@
                 this.model.getUserInfo(_id).then((res)=>{
                     if(res.data.code===0){
                         this.$set('addList',res.data.data);
-                        this.$set('privileges',res.data.data.privileges);
+                        this.$set('privileges',res.data.data.privilegeList);
                         this.infoshow=true;
                     }
                 })
@@ -273,6 +305,7 @@
                             this.loginAccountType1=true;
                             this.loginAccountType2=true;
                         }
+                        this.getCheckAll();
                         this.addshow=true;
                     }
                 })
@@ -297,13 +330,14 @@
                 })
             },
             checked(_checked,_id){
-                if(!_checked){
+                if(_checked){
                     _.remove(this.addList.privilegeIDs,(val)=>{
                         return val==_id;
                     })
                 }else{
                     this.addList.privilegeIDs.push(_id);
                 }
+                this.getCheckAll();
             },
             getloginAccountType(bool1,bool2){
                 if(bool1){

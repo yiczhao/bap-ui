@@ -9,8 +9,7 @@
 		}
 		& > div,& > span,& > input,& > select,& > a{
 			float: left;
-			margin-right: 15px;
-			margin-bottom: 10px;
+			margin: 0 15px 10px 0;
 		}
 		& > span{
 			line-height: 40px;
@@ -64,6 +63,12 @@
 		span{
 			line-height:30px;
 			display: inline-block;
+		}
+		.infor-num{
+			padding-left:15px;
+			strong{
+				padding:0 5px;
+			}
 		}
 		.out-excel{
 			float: right;

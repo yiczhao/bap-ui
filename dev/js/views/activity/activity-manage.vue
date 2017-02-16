@@ -3,20 +3,18 @@
     <div class="activity-row activity-title">
         <div class="search-div">
             <span>活动名称</span>
-            <input class="input" type="text" v-model="searchDate.name" placeholder="输入活动名称"/>
+            <input class="input" type="text" v-model="searchData.name" placeholder="输入活动名称"/>
             <span>活动时间</span>
-            <ks-date-picker time="00:00:00" @change=""
-                            placeholder="开始时间" :value.sync="searchDate.startTime"></ks-date-picker>
+            <ks-date-picker time="00:00:00" placeholder="开始时间" :value.sync="searchData.startTime"></ks-date-picker>
             <span>到</span>
-            <ks-date-picker time="23:59:59" @change=""
-                            placeholder="结束时间" :value.sync="searchDate.endTime"></ks-date-picker>
+            <ks-date-picker time="23:59:59" placeholder="结束时间" :value.sync="searchData.endTime"></ks-date-picker>
             <span>活动性质</span>
             <select class="select" v-model="actPropes" @change="getactPropes">
                 <option value="">全部性质</option>
                 <option value="online">线上活动</option>
                 <option value="offline">线下活动</option>
             </select>
-            <a class="btn btn-primary" @click="getList">搜索</a>
+            <a class="btn btn-primary" @click="doSearch">搜索</a>
         </div>
         <div class="search-div">
             <span>活动状态</span>
@@ -43,13 +41,13 @@
             </tr>
             <tr v-show="!!searchList" v-for="n in searchList">
                 <td>{{n.name}}</td>
-                <td>{{n.startTime | datetimes}}</td>
-                <td>{{n.endTime | datetimes}}</td>
+                <td>{{n.startTime | datetime}}</td>
+                <td>{{n.endTime | datetime}}</td>
                 <td>
                     <template v-if="n.propes=='online'">线上</template>
                     <template v-else>线下</template>
                 </td>
-                <td>{{n.createdAt | datetimes}}</td>
+                <td>{{n.createdAt | datetime}}</td>
                 <td>{{n.uuid | get_bank uuidsList}}</td>
                 <td>
                     <template v-if="n.status=='draft_other'">草稿</template>
@@ -67,7 +65,8 @@
                 <td>
                     <a v-if="n.step==1&&n.status=='draft_other'" @click="setProp(n.propes,n.ruleType)" v-link="{name:'basic-rule',params:{'activityId':n.id,'rulename':n.ruleType}}">编辑</a>
                     <a v-if="n.step==2&&n.status=='draft_other'" @click="setProp(n.propes,n.ruleType)" v-link="{name:n.ruleType,params:{'ruleId':n.id}}">编辑</a>
-                    <a v-if="n.step==3&&n.status=='draft_other'" @click="setProp(n.propes,n.ruleType)" v-link="{name:'bussiness-set',params:{'bactivityId':n.id}}">编辑</a>
+                    <a v-if="n.step==3&&n.status=='draft_other'&&n.ruleType!='Ticket'" @click="setProp(n.propes,n.ruleType)" v-link="{name:'bussiness-set',params:{'bactivityId':n.id}}">编辑</a>
+                    <a v-if="n.step==3&&n.status=='draft_other'&&n.ruleType=='Ticket'" @click="setProp(n.propes,n.ruleType)" v-link="{name:'ticketbussiness-set',params:{'tactivityId':n.id}}">编辑</a>
                     <a v-if="n.status=='draft_other'" @click="deleteActivity(n.id)">删除</a>
                 </td>
             </tr>
@@ -77,9 +76,9 @@
         </table>
         <div v-show="!!searchList">
             <pagegroup
-                    :total="searchDate.total"
-                    :page_size.sync="searchDate.maxResult"
-                    :page_current.sync="searchDate.page"
+                    :total="searchData.total"
+                    :page_size.sync="searchData.maxResult"
+                    :page_current.sync="searchData.page"
                     v-on:current_change="getfirstResult"
                     v-on:size_change="getfirstResult"
             ></pagegroup>
@@ -96,7 +95,8 @@
                 searchList:[],
                 actPropes:'',
                 uuidsList:JSON.parse(sessionStorage.getItem('bankNames')),
-                searchDate:{
+                searchData:{
+                    sorts:'createdAt|desc',
                     name:'',
                     actPropes:null,
                     startTime:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,
@@ -104,17 +104,26 @@
                     statuses:['online','draft_other','draft','wait_check','check_fail','early_offline','finish'],
                     page:1,
                     firstResult:0,
-                    maxResult:10,
+                    maxResult:100,
                     uuids:_.split(sessionStorage.getItem('uuids'), ','),
                     systemId:'yhhd',
-                    total:0
+                    total:0,
                 },
                 checkedBox:[true,true,true,true]
             }
         },
         methods:{
+            doSearch(){
+                this.searchData.page=1;
+                this.searchData.firstResult=(this.searchData.page-1)*this.searchData.maxResult;
+                this.getList();
+            },
             getfirstResult(){
-                this.searchDate.firstResult=(this.searchDate.page-1)*this.searchDate.maxResult;
+                let page=this.searchData.page;
+                let firstResult=(page-1)*this.searchData.maxResult;
+                back_json.fetchArray(this.$route.path)?this.getHistoryData():null;
+                this.searchData.page=page;
+                this.searchData.firstResult=firstResult;
                 this.getList();
             },
             setProp(val,val1){
@@ -122,21 +131,22 @@
                 sessionStorage.setItem('rulename',val1)
             },
             getactPropes(){
-                (!this.actPropes)?this.searchDate.actPropes=null:this.searchDate.actPropes= this.actPropes;
+                (!this.actPropes)?this.searchData.actPropes=null:this.searchData.actPropes= this.actPropes;
             },
             checked(type,bool){
                 if(bool){
-                    this.searchDate.statuses=_.concat(this.searchDate.statuses,type);
+                    this.searchData.statuses=_.concat(this.searchData.statuses,type);
                 }else{
-                    _.pullAll(this.searchDate.statuses,type);
+                    _.pullAll(this.searchData.statuses,type);
                 }
                 this.getList();
             },
             getList(){
-                this.model.getList(this.searchDate).then((res)=>{
+                back_json.saveArray(this.$route.path,this.searchData);
+                this.model.getList(this.searchData).then((res)=>{
                     if(res.data.code===0){
                         this.$set('searchList',res.data.data);
-                        this.searchDate.total=res.data.total;
+                        this.searchData.total=res.data.total;
                     }
                 })
             },
@@ -147,13 +157,20 @@
                         this.getList();
                     }
                 })
+            },
+            getHistoryData(){
+                this.$set('searchData',back_json.fetchArray(this.$route.path));
+                (!this.searchData.actPropes)?this.actPropes='':this.actPropes= this.searchData.actPropes;
             }
         },
         ready(){
             sessionStorage.removeItem('activityId');
+            this.$nextTick(()=>{
+                (back_json.isback&&back_json.fetchArray(this.$route.path))?this.getHistoryData():null;
+                this.getList();
+            })
         },
         created(){
-            this.getList()
         }
     }
 </script>

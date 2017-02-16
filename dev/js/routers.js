@@ -149,6 +149,13 @@ export default function (Vue,router){
                         require(['./views/activity/bussiness-set.vue'],resolve)
                     }
                 },
+                'ticketbussiness-set/:tactivityId':{
+                    name:'ticketbussiness-set',
+                    router_type:'activity',
+                    component:(resolve)=>{
+                        require(['./views/activity/ticketbussiness-set.vue'],resolve)
+                    }
+                },
                 /* 活动管理页面 */
                 'activity-manage': {
                     name: 'activity-manage',
@@ -173,7 +180,15 @@ export default function (Vue,router){
                         require(['./views/activity/activity-analysis.vue'], resolve)
                     }
                 },
-                /* 交易明细查询*/
+                /* 活动分析页面pdf导出页面 */
+                'activity-pdfout': {
+                    name: 'activity-pdfout',
+                    router_type:'activity',
+                    component: (resolve) => {
+                        require(['./views/activity/activity-pdfout.vue'], resolve)
+                    }
+                },
+                /* 交易查询*/
                 'transaction-search':{
                     name:'transaction-search',
                     router_type:'transaction',
@@ -256,6 +271,13 @@ export default function (Vue,router){
     })
     
     router.afterEach(transition =>{
-
+        if(back_json.num==0){
+            back_json.isback=true;
+        }
+        else{
+            back_json.isback=false;
+            back_json.num=0;
+            localStorage.removeItem(transition.to.path);
+        }
     })
 }
