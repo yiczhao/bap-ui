@@ -19,7 +19,7 @@
          * @returns {*}
          */
         getTradeStatisticsSumList(data) {
-            return formDataRequest('./transfer/data_analysis/das/api/v1/trade_query/statisticsSum/list').get(data)
+            return formDataRequest('./transfer/data_analysis/das/api/v1/trade_query/tradeSum/list').get(data)
         },
     }
 }
