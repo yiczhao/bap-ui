@@ -2,7 +2,7 @@
 	<div class="activity-pdfout" id="pdf-area">
 		<div class="pdf-title">
 			<span class="p-title">活动分析报告</span>
-			<span class="out-pdf"><a :href="origin+'/pdf/analysis'">导出PDF报告</a></span>
+			<span class="out-pdf"><a @click="outPDF">导出PDF报告</a></span>
 		</div>
 		<span></span>
 		<div class="information-area basic-information" v-show="!!this.tradeGET.id">
@@ -196,7 +196,7 @@
 			<div class="data-table">
 				<span class="data-title"><i></i>商户刷卡金额排行</span>
 				<div class="data-echart merchant-echart" id="merchant-echart-amount"></div>
-				<span class="data-title"><i></i>商户啥卡笔数排行</span>
+				<span class="data-title"><i></i>商户刷卡笔数排行</span>
 				<div class="data-echart merchant-echart" id="merchant-echart-num"></div>
 			</div>
 		</div>
@@ -374,10 +374,72 @@
 					detail:'',
 					posPrint:'',
 					timesList:[]
+				},
+				id:{
+					activityID:'',
+					bankUuidString:'',
+					tradedata:{
+						today:{
+							startDate:'',
+							endDate:''
+						},
+						total:{
+							startDate:'',
+							endDate:''	
+						},
+						tradeAmountWeek:{
+							startDate:'',
+							endDate:'',
+							base64:''
+						},
+						tradeAmountMonth:{
+							startDate:'',
+							endDate:'',
+							base64:''
+						},
+						subsidyAmountWeek:{
+							startDate:'',
+							endDate:'',
+							base64:''
+						},
+						subsidyAmountMonth:{
+							startDate:'',
+							endDate:'',
+							base64:''
+						},
+						tradeNumWeek:{
+							startDate:'',
+							endDate:'',
+							base64:''
+						},
+						tradeNumMonth:{
+							startDate:'',
+							endDate:'',
+							base64:''
+						}
+					},
+					tradeArea:{
+
+					},
+					tradeTime:{
+
+					},
+					merchantData:{
+
+					}
 				}
 			}
 		},
 		methods:{
+			outPDF(){
+				let formdata = '';
+	            _.map(this.basicData,(val,key)=>{
+	                formdata+=key+'='+val+'&';
+	            })
+	            // formdata=response.request.url+'?'+formdata;
+	            console.log(formdata);
+				window.open(origin+'/pdf/analysis?'+formdata)
+			},
 			dateGetShow(){
 				var date = new Date(),lyear = date.getFullYear(),lmonth = date.getMonth() + 1,agoMonth = lmonth-1,lday = date.getDate(),pdate = new Date(date.getTime() - 7 * 24 * 3600 * 1000),pyear = pdate.getFullYear(),pmonth = pdate.getMonth() + 1,pday = pdate.getDate(),locakDate=lyear + '-' + lmonth + '-' + lday,pastDate=pyear + '-' + pmonth + '-' + pday,agoMonthDate=lyear+'-'+agoMonth+'-'+lday;
 				this.times.lastWeek=pastDate;
@@ -524,7 +586,8 @@
 				let data={
 					startDate:this.times.todayDate,
 					endDate:this.times.todayDate,
-					activityID:this.tradeGET.uniqueId
+					activityID:this.tradeGET.uniqueId,
+					
 				};
                 (!this.tradeGET.uniqueId)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
         		this.model.getTradeDataTotal(data).then((res)=>{
