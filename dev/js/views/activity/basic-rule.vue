@@ -41,15 +41,6 @@
             <ks-checkbox v-for="n in weeksList" :checked.sync="n.checked">{{n.name}}</ks-checkbox>
         </div>
     </div>
-    <!--<div class="rule-row">-->
-        <!--<div class="rule-label"><i>*</i>删选时间</div>-->
-        <!--<div class="rule-input">-->
-                <!--<a @click="dater.show = true" class="btn btn-primary">删选时间</a>-->
-                <!--<ks-dater style="position: relative; z-index: 9" v-show="dater.show" :exclude="true"-->
-                          <!--:value.sync="dater.includeTimes" @change="removeDate"-->
-                          <!--placeholder="删选时间"></ks-dater>-->
-        <!--</div>-->
-    <!--</div>-->
     <div class="rule-row">
         <div class="rule-label">全天</div>
         <div class="rule-input">
@@ -74,6 +65,17 @@
                 </select>
                 <i v-if="n===0" class="icon-add" @click="timesList.push({'start':'0:00','end':'23:59'})"></i>
                 <i v-if="n!==0" class="icon-remove" @click="timesList.splice(n, 1)"></i>
+            </div>
+        </div>
+    </div>
+    <div class="rule-row">
+        <div class="rule-label"><i>*</i>删选时间</div>
+        <div class="rule-input" style="position:relative;" v-ks-click-outside="close">
+            <a @click="dater.show = true" class="btn btn-primary">删选时间</a>
+            <div style="position:absolute;width: 233px;left: 0;top: 40px;">
+                <ks-dater style="position: relative; z-index: 9" v-show="dater.show" :exclude="true"
+                          :value.sync="includeTimes" @change="removeDate"
+                          placeholder="删选时间"></ks-dater>
             </div>
         </div>
     </div>
@@ -124,8 +126,8 @@
                     name:'',
                     // city:'',
                     budget:'',
-                    startTime:'',
-                    endTime:'',
+                    startTime:stringify(new Date()),
+                    endTime:stringify(new Date()),
                     actType:'common_act',
                     subject:'',
                     detail:'',
@@ -134,9 +136,12 @@
                 timesList:[
                     {start:'0:00',end:'23:59'}
                 ],
+                includeTimes: '',
                 dater:{
-                    show:false,
-                    includeTimes:''
+                    show: false,
+                    excludeTimes: [],
+                    prevStartTime: '',
+                    prevEndTime: ''
                 },
                 weeksList:[
                     {name:'周日',checked:true,id:0},
@@ -152,10 +157,22 @@
         },
         methods:{
             setincludeTimes(){
-                console.log(this.addData.startTime);
+                if(this.addData.startTime>this.addData.endTime){
+                    this.addData.endTime=this.addData.startTime;
+                }
+                this.$nextTick(()=>{
+                    let newIncludeTimes='';
+                    for(let i=Date.parse(this.addData.startTime);i<=Date.parse(this.addData.endTime);i+=86400000){
+                       newIncludeTimes+=stringify(new Date(i))+',';
+                    }
+                    this.includeTimes=newIncludeTimes.substring(0,newIncludeTimes.length-1);
+                })
             },
-            removeDate(){
-
+            removeDate(val){
+                let data=val.split(',');
+                this.addData.startTime=_.min(data)+' 00:00:00';
+                console.log(_.min(data))
+                this.addData.endTime=_.max(data)+' 23:59:59';
             },
             addtimesList(){
                 this.switch? this.timesList=[{start:'0:00',end:'23:59'}]:null;
@@ -284,6 +301,7 @@
                     }
                 }
                 !!sessionStorage.getItem('activityId')?data.id=sessionStorage.getItem('activityId'):(data.id=this.$route.params.activityId << 0 ===0?'':this.$route.params.activityId << 0 );
+                data.includeTimesList=this.includeTimes.split(',');
                 this.model.addBasic(data).then((res)=>{
                     if(res.data.code===0){
                         let activityId = this.$route.params.activityId << 0;
@@ -304,6 +322,9 @@
             errHandle (err) {
                 dialog('info', err)
             },
+            close(){
+                this.dater.show=false;
+            }
         },
         created(){
             // this.getProvince();

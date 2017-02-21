@@ -4,6 +4,7 @@ import limitaddprice from './limit-addprice'
 import limitids from './limit-ids'
 import auth from './auth'
 import limitphone from './limit-phone'
+import KsClickOutside from './clickOutside'
 export default {
-    auth,limitids,limitaddprice,limitprice,limitnumber,limitphone
+    auth,limitids,limitaddprice,limitprice,limitnumber,limitphone,KsClickOutside
 }
