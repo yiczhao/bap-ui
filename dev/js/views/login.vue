@@ -1,36 +1,64 @@
 <template>
     <div class="login login-container" id="test01">
-        <div class="page-container">
-            <div class="container-left">
-                <div class="kashuo-logo"></div>
-                <div class="system-title">银行活动管理系统</div>
-                <div class="center-img"></div>
+        <div class="container">
+            <div class="header">
+                <div class="header-left">
+                    <div class="header-logo"></div>
+                    <div class="header-text">·</div>
+                    <div class="header-text">银行管理后台</div>
+                </div>
+                <!-- <div class="header-right">
+                    <div>语言选择</div>
+                    <div class="change-language chinese" :style="color=='1'?'background-color:#424242':'background-color:transparent'"><span>中文</span></div>
+                    <div class="change-language english" :style="color=='0'?'background-color:#424242':'background-color:transparent'"><span>English</span></div>
+                </div> -->
             </div>
-            <form>
-                <div class="center-container">
-                    <div class="form-group">
-                        <div class="group-title">
-                                <span>请登录</span>
-                        </div>
-                        <div class="group-username">
-                            <input id="login-usertype" class="login-usertype" type="text" name="name" placeholder="用户名/手机号码" v-model="loginData.name">
-                        </div>
-                        <div class="group-password">
-                            <input id="login-passwordtype" class="login-passwordtype" type="password" name="password" placeholder="密码" @keyup.enter="login" v-model="loginData.password">
-                        </div>
-                        <div class="login">
-                             <ks-switch :disable="false" @change="autoType" :def-checked="true" color="#2196F3" size="mini" :checked.sync="checked"></ks-switch>
-                             记住密码
-                        </div>
-                        <div class="form-login">
-                            <input class="Login" type="button" name="" value="登   录" @click="login">
-                        </div>
+            <div class="section">
+                <div class="section-title">致力于构建支付增值平台</div>
+                <div class="section-infor">卡说利用现代金融技术和互联网技术手段，以智能POS终端和移动支付终端为载体，融合多种支付方式，搭建一个全方位资源整合的支付增值。</div>
+                <div class="section-about">
+                    <div><span></span>平台体系</div>
+                    <div><span></span>专业服务</div>
+                    <div><span></span>卡说版图</div>
+                </div>
+                <div class="section-type">
+                    <div class="type-title">用户登录
                     </div>
-                    <div class="forget-password">
-                        <a v-link="{'name':'forget-password'}">忘记密码</a>
+                    <div class="type-into username"><input class="input" type="text" placeholder="手机号/账户名" v-model="loginData.name"></div>
+                    <div class="type-into password"><input class="input" type="password" placeholder="请输入您的密码" @keyup.enter="login" v-model="loginData.password"></div>
+                    <div class="type-into check">
+                        <span class="input-check"><input class="input" type="text" placeholder="验证码"></span>
+                        <span class="img"></span>
+                        <span class="icon icon-spinner"></span></div>
+                    <div class="save-password">
+                        <ks-switch :disable="false" @change="autoType" :def-checked="true" color="#2196F3" size="mini" :checked.sync="checked"></ks-switch><span>记住密码</span>
                     </div>
                 </div>
-            </form>
+                <div class="section-login"><input class="btn btn-primary" type="button" name="" value="登 录" @click="login"></div>
+                <div class="forget-password">
+                    <a v-link="{'name':'forget-password'}">忘记密码</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer-container">
+                <div class="footer-title">上海新卡说信息技术有限公司</div>
+                <div class="footer-infor">
+                    <div>
+                        <span>上海市杨浦区黄兴路2077号蓝天大厦1901室</span>
+                        <span>400 0192 266</span>
+                        <span>service@kashuo.com</span>
+                    </div>
+                    <div>
+                        <span>赣ICP备11001642号-1</span>
+                        <span>赣工商网备第201011300310427299号</span>
+                        <span>南昌网安备案第3601010110</span>
+                    </div>
+                    <div>
+                        <span>©2010-2016 kashuo.com</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -43,6 +71,7 @@ export default {
                     password:"",
                 },
                 checked:false,
+                color:1,
             }
         },
         methods:{

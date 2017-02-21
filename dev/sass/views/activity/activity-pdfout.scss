@@ -77,6 +77,14 @@
 					}
 				}
 			}
+			.data-echart{
+				height:300px;
+				margin-top:20px;
+				border:1px solid #E9E9E9;
+			}
+			.data-echart:last-child{
+				margin-bottom:20px;
+			}
 		}
 	}
 	// .transaction-data{

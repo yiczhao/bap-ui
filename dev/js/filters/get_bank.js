@@ -1,4 +1,7 @@
 export default  (value,data) => {
+	if(!data){
+		return ''
+	}
 	let str='';
 	if(!data.length){
 		return str

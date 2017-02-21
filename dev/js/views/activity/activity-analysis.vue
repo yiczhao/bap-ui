@@ -13,7 +13,9 @@
             </div>
 			<div class="search-right">
 				<span class="search-time">活动进行中，数据截止到{{times.todayDate}}</span>
-				<a class="view-report" v-link="{name:'activity-pdfout'}">查看分析报告</a>
+				<a v-if="!!tradeGET.pdfId" class="view-report" v-link="{name:'activity-pdfout',params:{'pdfoutId':tradeGET.pdfId,'pdfActivityId':tradeGET.activityID}}">查看分析报告</a>
+				<a v-else class="view-report" v-link="{name:'activity-pdfout'}">查看分析报告</a>
+
 			</div>
 		</div>
 		<div class="transaction-data border">
@@ -321,7 +323,8 @@
 					startDate:'',
 					endDate:'',
 					compareFlag:true,
-					activityID:''
+					activityID:'',
+					pdfId:''
 				},
 				transactionDataShow:{//交易数据分析
 					tradeDataModelToday:[],//交易数据今日累计关键数据
@@ -413,7 +416,8 @@
 				        }
 				    ]
 				};
-        		myChart.setOption(option)
+        		myChart.setOption(option);
+        		// this.imgURL = myChart.getDataURL('png');//获取base64编码
 			},
 			justChart(timePoint){
 				var myChart = echarts.init(document.getElementById('time-echart'));
@@ -436,6 +440,7 @@
 				        }]
 				}
 				myChart.setOption(option);
+				// this.imgURL = myChart.getDataURL('png');//获取base64编码
 			},
 			dataBarEchart(chartID,dataTitle,yAxisTitle,cityName,dataName,cityData){
 				var myChart = echarts.init(document.getElementById(chartID));
@@ -491,6 +496,7 @@
 				    ]
 				}
 				myChart.setOption(option);
+				// this.imgURL = myChart.getDataURL('png');//获取base64编码
 			},
 			// =================================================================================================
 			//交易数据分析
@@ -520,7 +526,10 @@
         		})
 			},
 			tradeDataModelTotail(){//获取累计交易数据
-				let data={compareFlag:true,activityID:this.tradeGET.activityID};
+				let data={
+					compareFlag:true,
+					activityID:this.tradeGET.activityID
+				};
                 (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
         		this.model.getTradeDataTotal(data).then((res)=>{
         			if (res.data.code==0){
@@ -730,7 +739,6 @@
 					if (res.data.code==0) {
 						this.cardBINDataArea.binStartNumber=res.data.data.category;
 						this.cardBINDataArea.tradeAmountCardBINChange=res.data.data.series[0].dataDecimal;
-						this.setHeightKaBin=(this.cardBINDataArea.tradeAmountCardBINChange.length)*105;
 						this.dataBarEchart('cardBIN-echart',['卡BIN刷卡金额(元)'],['卡BIN'],this.cardBINDataArea.binStartNumber,'卡BIN刷卡金额(元)',this.cardBINDataArea.tradeAmountCardBINChange);
 					}
 				});
@@ -852,11 +860,14 @@
 	                })
                 }
 			},
-			getId({uniqueId,name}){
+			getId({uniqueId,name,id}){
                 this.searchData.showList=false;
                 this.searchData.activityName=name;
                 this.tradeGET.activityID=uniqueId;
+                this.tradeGET.pdfId=id;
                 this.transactionDataToggle("transaDataToggleDown");
+                console.log(this.tradeGET.activityID);
+                console.log(this.tradeGET.pdfId);
             },
             resetName(){
                 this.searchData.showList=false;

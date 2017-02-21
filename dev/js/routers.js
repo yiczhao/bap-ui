@@ -181,7 +181,7 @@ export default function (Vue,router){
                     }
                 },
                 /* 活动分析页面pdf导出页面 */
-                'activity-pdfout': {
+                'activity-pdfout/:pdfoutId/:pdfActivityId': {
                     name: 'activity-pdfout',
                     router_type:'activity',
                     component: (resolve) => {
