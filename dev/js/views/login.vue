@@ -27,9 +27,9 @@
                     <div class="type-into username"><input class="input" type="text" placeholder="手机号/账户名" v-model="loginData.name"></div>
                     <div class="type-into password"><input class="input" type="password" placeholder="请输入您的密码" @keyup.enter="login" v-model="loginData.password"></div>
                     <div class="type-into check">
-                        <span class="input-check"><input class="input" type="text" placeholder="验证码"></span>
-                        <span class="img"></span>
-                        <span class="icon icon-spinner"></span></div>
+                        <span class="input-check"><input class="input" type="text" placeholder="请输入图片中的数字或字母" v-model="loginData.usrImgCode"></span>
+                        <span class="img"><img :src="sysCodeImg"></span>
+                        <span class="icon icon-spinner" @click="getusrImgCode"></span></div>
                     <div class="save-password">
                         <ks-switch :disable="false" @change="autoType" :def-checked="true" color="#2196F3" size="mini" :checked.sync="checked"></ks-switch><span>记住密码</span>
                     </div>
@@ -67,15 +67,23 @@ export default {
         data (){
             return {
                 loginData:{
-                    name:"",
-                    password:"",
+                    name:'',
+                    password:'',
+                    usrImgCode:''
                 },
                 checked:false,
                 color:1,
+                sysCodeImg:'',
+                usrImgCode:'',
+                id:'',
             }
         },
         methods:{
             login(){
+                if(this.usrImgCode!=this.loginData.usrImgCode){
+                    dialog('info','验证码不正确请重新输入！');
+                    return;
+                }
                 this.$http.post('./user/login',this.loginData).then((data)=>{
                     if(data.data.code===0){
                         sessionStorage.setItem('loginList',JSON.stringify(data.data.data));
@@ -92,6 +100,16 @@ export default {
                     localStorage.clear();
                 }
             },
+            getusrImgCode(){
+                formDataRequest('./verify/create_img_code').get().then((res)=>{
+                    if(res.data.code===0){
+                        this.sysCodeImg="data:image/png;base64,"+res.data.data.image;
+                        this.usrImgCode=res.data.data.sysImgCode;
+                        this.id=res.data.data.id;
+                        console.log(res.data.data.sysImgCode)
+                    }
+                })
+            },
         },
         ready (){
             if (!!localStorage.getItem('userInfor')) {
@@ -99,6 +117,7 @@ export default {
                 this.checked=true;
             }
             sessionStorage.clear()
+            this.getusrImgCode();
         }
     }
 </script>

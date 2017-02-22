@@ -371,112 +371,12 @@
 				id:{
 					activityID:'',
 					bankUuidString:'',
-					activityBaseInfo:{
+					pdfMap:{
 						activityBaseInfo:{
-							id:'',
-							url:'',
-						}
-					},
-					tradeDataAnalysis:{
-						today:{
-							startDate:'',
-							endDate:'',
-							url:'',
-						},
-						total:{
-							startDate:'',
-							endDate:'',
-							url:'',
-						},
-						tradeAmount_7:{
-							startDate:'',
-							endDate:'',
-							base64:'',
-							url:'',
-						},
-						tradeAmount_30:{
-							startDate:'',
-							endDate:'',
-							base64:'',
-							url:'',
-						},
-						subsidyAmount_7:{
-							startDate:'',
-							endDate:'',
-							base64:'',
-							url:'',
-						},
-						subsidyAmount_30:{
-							startDate:'',
-							endDate:'',
-							base64:'',
-							url:'',
-						},
-						tradeNum_7:{
-							startDate:'',
-							endDate:'',
-							base64:'',
-							url:'',
-						},
-						tradeNum_30:{
-							startDate:'',
-							endDate:'',
-							base64:'',
-							url:'',
-						}
-					},
-					tradeAreaAnalysis:{
-						keydata:{
-							url:''
-						},
-						tradeAmountTop:{
-							base64:'',
-							url:'',
-						},
-						tradeNumTop:{
-							base64:'',
-							url:'',	
-						},
-					},
-					tradePeriodAnalysis:{
-						tradeNum:{
-							base64:'',
-							url:'',
-						},
-					},
-					merchantDataAnalysis:{
-						keydata:{
-							url:''
-						},
-						amountTop:{
-							base64:'',
-							url:'',
-						},
-						numTop:{
-							base64:'',
-							url:'',
-						},
-					},
-					cardBINDataAnalysis:{
-						keydata:{
-							url:''
-						},
-						amountTop:{
-							base64:'',
-							url:'',
-						},
-						numTop:{
-							base64:'',
-							url:'',
-						},
-					},
-					oneCardTradeAnalysis:{
-						keydata:{
-							url:''
-						},
-						participateNum:{
-							base64:'',
-							url:'',
+							'activityBaseInfo':[{
+								'id':'',
+								'uri':''
+							}]
 						},
 					},
 				}
@@ -929,73 +829,73 @@
 	                formdata+=key+'='+val+'&';
 	            })
 	            // formdata=response.request.url+'?'+formdata;
-	            // console.log(formdata);
+	            console.log(formdata);
 				window.open(origin+'/pdf/analysis?'+formdata)
 			},
 			upID(){
 				//activityBaseInfo
-				this.id.activityBaseInfo.activityBaseInfo.url=this.$API.getinfoList+this.id.activityBaseInfo.activityBaseInfo.id;
+				this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].uri=this.$API.getinfoList+this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id;
 				//tradeDataAnalysis
 				(!this.id.activityID)?this.id.bankUuidString=sessionStorage.getItem('uuids'):null;
-				this.id.tradeDataAnalysis.today.startDate=this.times.todayDate;
-				this.id.tradeDataAnalysis.today.endDate=this.times.todayDate;
-				this.id.tradeDataAnalysis.today.url=this.$API.getTradeDataTotal;
-				this.id.tradeDataAnalysis.total.url=this.$API.getTradeDataTotal;
-					// 
-				this.id.tradeDataAnalysis.tradeAmount_7.startDate=this.times.lastWeek;
-				this.id.tradeDataAnalysis.tradeAmount_7.endDate=this.times.todayDate;
-				this.id.tradeDataAnalysis.tradeAmount_7.base64=this.base64.trade_all_amount_7;
-				this.id.tradeDataAnalysis.tradeAmount_7.url=this.$API.getTradeAmount;
-					// 
-				this.id.tradeDataAnalysis.tradeAmount_30.startDate=this.times.monthAgo;
-				this.id.tradeDataAnalysis.tradeAmount_30.endDate=this.times.todayDate;
-				this.id.tradeDataAnalysis.tradeAmount_30.base64=this.base64.trade_all_amount_30;
-				this.id.tradeDataAnalysis.tradeAmount_30.url=this.$API.getTradeAmount;
-					// 
-				this.id.tradeDataAnalysis.subsidyAmount_7.startDate=this.times.lastWeek;
-				this.id.tradeDataAnalysis.subsidyAmount_7.endDate=this.times.todayDate;
-				this.id.tradeDataAnalysis.subsidyAmount_7.base64=this.base64.subsidy_all_amount_7;
-				this.id.tradeDataAnalysis.subsidyAmount_7.url=this.$API.getSubsidyAmount;
-					// 
-				this.id.tradeDataAnalysis.subsidyAmount_30.startDate=this.times.monthAgo;
-				this.id.tradeDataAnalysis.subsidyAmount_30.endDate=this.times.todayDate;
-				this.id.tradeDataAnalysis.subsidyAmount_30.base64=this.base64.subsidy_all_amount_30;
-				this.id.tradeDataAnalysis.subsidyAmount_30.url=this.$API.getSubsidyAmount;
-					// 
-				this.id.tradeDataAnalysis.tradeNum_7.startDate=this.times.lastWeek;
-				this.id.tradeDataAnalysis.tradeNum_7.endDate=this.times.todayDate;
-				this.id.tradeDataAnalysis.tradeNum_7.base64=this.base64.trade_all_num_7;
-				this.id.tradeDataAnalysis.tradeNum_7.url=this.$API.getTradeNum;
-					// 
-				this.id.tradeDataAnalysis.tradeNum_30.startDate=this.times.monthAgo;
-				this.id.tradeDataAnalysis.tradeNum_30.endDate=this.times.todayDate;
-				this.id.tradeDataAnalysis.tradeNum_30.base64=this.base64.trade_all_num_30;
-				this.id.tradeDataAnalysis.tradeNum_30.url=this.$API.getTradeNum;
-				//tradeAreaAnalysis
-				this.id.tradeAreaAnalysis.keydata.url=this.$API.getTradeAreaTotal;
-				this.id.tradeAreaAnalysis.tradeAmountTop.base64=this.base64.trade_area_amount;
-				this.id.tradeAreaAnalysis.tradeAmountTop.url=this.$API.getTradeAreaTotalAmountList;
-				this.id.tradeAreaAnalysis.tradeNumTop.base64=this.base64.trade_area_num;
-				this.id.tradeAreaAnalysis.tradeNumTop.url=this.$API.getTradeAreaNumList;
-				//tradePeriodAnalysis
-				this.id.tradePeriodAnalysis.tradeNum.base64=this.base64.trade_time;
-				this.id.tradePeriodAnalysis.tradeNum.url=this.$API.getTradeAreaNumList;
-				//merchantDataAnalysis
-				this.id.merchantDataAnalysis.keydata.url=this.$API.getMerchantTradeTotal;
-				this.id.merchantDataAnalysis.amountTop.base64=this.base64.merchant_trade_amount;
-				this.id.merchantDataAnalysis.amountTop.url=this.$API.getMerchantTradeAmount;
-				this.id.merchantDataAnalysis.numTop.base64=this.base64.merchant_trade_num;
-				this.id.merchantDataAnalysis.numTop.url=this.$API.getMerchantTradeCount;
-				//cardBINDataAnalysis
-				this.id.cardBINDataAnalysis.keydata.url=this.$API.getCardBINTotal;
-				this.id.cardBINDataAnalysis.amountTop.base64=this.base64.cardBIN_trade_amount;
-				this.id.cardBINDataAnalysis.amountTop.url=this.$API.getCardBINTradeAmountList;
-				this.id.cardBINDataAnalysis.numTop.base64=this.base64.cardBIN_trade_num;
-				this.id.cardBINDataAnalysis.numTop.url=this.$API.getCardBINTradeNumList;
-				//oneCardTradeAnalysis
-				this.id.oneCardTradeAnalysis.keydata.url=this.$API.getOneCardTotal;
-				this.id.oneCardTradeAnalysis.participateNum.base64=this.base64.oneCard_num;
-				this.id.oneCardTradeAnalysis.participateNum.url=this.$API.getOneCardSwipedCount;
+				// this.id.pdfMap.tradeDataAnalysis.today.startDate=this.times.todayDate;
+				// this.id.pdfMap.tradeDataAnalysis.today.endDate=this.times.todayDate;
+				// this.id.pdfMap.tradeDataAnalysis.today.uri=this.$API.getTradeDataTotal;
+				// this.id.pdfMap.tradeDataAnalysis.total.uri=this.$API.getTradeDataTotal;
+					
+				// this.id.pdfMap.tradeDataAnalysis.tradeAmount_7.startDate=this.times.lastWeek;
+				// this.id.pdfMap.tradeDataAnalysis.tradeAmount_7.endDate=this.times.todayDate;
+				// this.id.pdfMap.tradeDataAnalysis.tradeAmount_7.base64IMG=this.base64.trade_all_amount_7;
+				// this.id.pdfMap.tradeDataAnalysis.tradeAmount_7.uri=this.$API.getTradeAmount;
+				// 	// 
+				// this.id.pdfMap.tradeDataAnalysis.tradeAmount_30.startDate=this.times.monthAgo;
+				// this.id.pdfMap.tradeDataAnalysis.tradeAmount_30.endDate=this.times.todayDate;
+				// this.id.pdfMap.tradeDataAnalysis.tradeAmount_30.base64IMG=this.base64.trade_all_amount_30;
+				// this.id.pdfMap.tradeDataAnalysis.tradeAmount_30.uri=this.$API.getTradeAmount;
+				// 	// 
+				// this.id.pdfMap.tradeDataAnalysis.subsidyAmount_7.startDate=this.times.lastWeek;
+				// this.id.pdfMap.tradeDataAnalysis.subsidyAmount_7.endDate=this.times.todayDate;
+				// this.id.pdfMap.tradeDataAnalysis.subsidyAmount_7.base64IMG=this.base64.subsidy_all_amount_7;
+				// this.id.pdfMap.tradeDataAnalysis.subsidyAmount_7.uri=this.$API.getSubsidyAmount;
+				// 	// 
+				// this.id.pdfMap.tradeDataAnalysis.subsidyAmount_30.startDate=this.times.monthAgo;
+				// this.id.pdfMap.tradeDataAnalysis.subsidyAmount_30.endDate=this.times.todayDate;
+				// this.id.pdfMap.tradeDataAnalysis.subsidyAmount_30.base64IMG=this.base64.subsidy_all_amount_30;
+				// this.id.pdfMap.tradeDataAnalysis.subsidyAmount_30.uri=this.$API.getSubsidyAmount;
+				// 	// 
+				// this.id.pdfMap.tradeDataAnalysis.tradeNum_7.startDate=this.times.lastWeek;
+				// this.id.pdfMap.tradeDataAnalysis.tradeNum_7.endDate=this.times.todayDate;
+				// this.id.pdfMap.tradeDataAnalysis.tradeNum_7.base64IMG=this.base64.trade_all_num_7;
+				// this.id.pdfMap.tradeDataAnalysis.tradeNum_7.uri=this.$API.getTradeNum;
+				// 	// 
+				// this.id.pdfMap.tradeDataAnalysis.tradeNum_30.startDate=this.times.monthAgo;
+				// this.id.pdfMap.tradeDataAnalysis.tradeNum_30.endDate=this.times.todayDate;
+				// this.id.pdfMap.tradeDataAnalysis.tradeNum_30.base64IMG=this.base64.trade_all_num_30;
+				// this.id.pdfMap.tradeDataAnalysis.tradeNum_30.uri=this.$API.getTradeNum;
+				// //tradeAreaAnalysis
+				// this.id.pdfMap.tradeAreaAnalysis.keydata.uri=this.$API.getTradeAreaTotal;
+				// this.id.pdfMap.tradeAreaAnalysis.tradeAmountTop.base64IMG=this.base64.trade_area_amount;
+				// this.id.pdfMap.tradeAreaAnalysis.tradeAmountTop.uri=this.$API.getTradeAreaTotalAmountList;
+				// this.id.pdfMap.tradeAreaAnalysis.tradeNumTop.base64IMG=this.base64.trade_area_num;
+				// this.id.pdfMap.tradeAreaAnalysis.tradeNumTop.uri=this.$API.getTradeAreaNumList;
+				// //tradePeriodAnalysis
+				// this.id.pdfMap.tradePeriodAnalysis.tradeNum.base64IMG=this.base64.trade_time;
+				// this.id.pdfMap.tradePeriodAnalysis.tradeNum.uri=this.$API.getTradeAreaNumList;
+				// //merchantDataAnalysis
+				// this.id.pdfMap.merchantDataAnalysis.keydata.uri=this.$API.getMerchantTradeTotal;
+				// this.id.pdfMap.merchantDataAnalysis.amountTop.base64IMG=this.base64.merchant_trade_amount;
+				// this.id.pdfMap.merchantDataAnalysis.amountTop.uri=this.$API.getMerchantTradeAmount;
+				// this.id.pdfMap.merchantDataAnalysis.numTop.base64IMG=this.base64.merchant_trade_num;
+				// this.id.pdfMap.merchantDataAnalysis.numTop.uri=this.$API.getMerchantTradeCount;
+				// //cardBINDataAnalysis
+				// this.id.pdfMap.cardBINDataAnalysis.keydata.uri=this.$API.getCardBINTotal;
+				// this.id.pdfMap.cardBINDataAnalysis.amountTop.base64IMG=this.base64.cardBIN_trade_amount;
+				// this.id.pdfMap.cardBINDataAnalysis.amountTop.uri=this.$API.getCardBINTradeAmountList;
+				// this.id.pdfMap.cardBINDataAnalysis.numTop.base64IMG=this.base64.cardBIN_trade_num;
+				// this.id.pdfMap.cardBINDataAnalysis.numTop.uri=this.$API.getCardBINTradeNumList;
+				// //oneCardTradeAnalysis
+				// this.id.pdfMap.oneCardTradeAnalysis.keydata.uri=this.$API.getOneCardTotal;
+				// this.id.pdfMap.oneCardTradeAnalysis.participateNum.base64IMG=this.base64.oneCard_num;
+				// this.id.pdfMap.oneCardTradeAnalysis.participateNum.uri=this.$API.getOneCardSwipedCount;
 			},
 		},
 		ready(){
@@ -1013,7 +913,7 @@
 			this.dateGetShow();
 			(this.$route.params.pdfActivityId!=':pdfActivityId')? this.id.activityID=this.$route.params.pdfActivityId : this.id.activityID='';
 			(this.$route.params.pdfoutId!=':pdfoutId')? this.id.activityBaseInfo.activityBaseInfo.id=this.$route.params.pdfoutId : this.id.id='';
-			if(!!this.id.activityBaseInfo.activityBaseInfo.id){
+			if(!!this.id.pdfMap.activityBaseInfo.activityBaseInfo.id){
 				this.model.getinfoList(this.id.id).then((res)=>{
 					if(res.data.code===0){
 						this.$set('basicData',res.data.data.base);
