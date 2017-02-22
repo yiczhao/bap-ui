@@ -199,8 +199,8 @@
             }
         },
         methods:{
-            initIncludeTimes(){
-                if(!this.includeTimes){
+            initIncludeTimes(val){
+                if(!val){
                     this.$nextTick(()=>{
                         this.addData.endTime=this.addData.startTime.split(' ')[0]+' 23:59:59';
                         this.includeTimes=this.addData.startTime.split(' ')[0];
@@ -230,7 +230,7 @@
                 this.$nextTick(()=>{
                     let newIncludeTimes=this.getIncludeTimeData(this.addData.startTime,this.addData.endTime);
                     this.includeTimes=_.join(newIncludeTimes,',');
-                    this.initIncludeTimes();
+                    this.initIncludeTimes(this.includeTimes);
                 })
             },
             removeIncludeTimes(check,i){
@@ -245,12 +245,13 @@
                     })
                     this.includeTimes=_.join(data,',');
                 }
-                this.initIncludeTimes();
+                this.initIncludeTimes(this.includeTimes);
             },
             removeDate(val){
                 let data=val.split(',');
                 if(data.length<1||!val){
-                    this.initIncludeTimes();
+                    this.includeTimes='';
+                    this.initIncludeTimes(val);
                     return;
                 }
 //                if(_.min(data)<this.addData.startTime.split(' ')[0]||this.addData.endTime.split(' ')[0]<_.max(data)){
