@@ -153,14 +153,14 @@ $color:#ddd;
 						}
 					}
 					.check{
+						width:210px;
 						span{
 							float: left;
 						}
 						.input-check{
-							width:100px;
+							width:140px;
 							.input{
-								width: 105px;
-								background-size: 20%;
+								background-size: 10%;
 								background-image:url("../img/security.png");
 							}
 						}
@@ -171,6 +171,9 @@ $color:#ddd;
 							height: 20px;
 							margin-top: 8px;
 							border: 1px solid rgba(255,255,255,0.5);
+							img{
+								height:100%;
+							}
 						}
 						.icon{
 							width: 20px;

@@ -25,9 +25,9 @@
                     <div class="type-title">用户登录
                     </div>
                     <div class="type-into username"><input class="input" type="text" placeholder="手机号/账户名" v-model="loginData.name"></div>
-                    <div class="type-into password"><input class="input" type="password" placeholder="请输入您的密码" @keyup.enter="login" v-model="loginData.password"></div>
+                    <div class="type-into password"><input class="input" type="password" placeholder="请输入您的密码" v-model="loginData.password"></div>
                     <div class="type-into check">
-                        <span class="input-check"><input class="input" type="text" placeholder="请输入图片中的数字或字母" v-model="loginData.usrImgCode"></span>
+                        <span class="input-check"><input class="input" type="text" placeholder="请输入数字或字母" v-model="loginData.usrImgCode" @keyup.enter="login"></span>
                         <span class="img"><img :src="sysCodeImg"></span>
                         <span class="icon icon-spinner" @click="getusrImgCode"></span></div>
                     <div class="save-password">
@@ -80,7 +80,8 @@ export default {
         },
         methods:{
             login(){
-                if(this.usrImgCode!=this.loginData.usrImgCode){
+                if((this.usrImgCode).toLowerCase()!=this.loginData.usrImgCode){
+                    debugger
                     dialog('info','验证码不正确请重新输入！');
                     return;
                 }
@@ -106,7 +107,6 @@ export default {
                         this.sysCodeImg="data:image/png;base64,"+res.data.data.image;
                         this.usrImgCode=res.data.data.sysImgCode;
                         this.id=res.data.data.id;
-                        console.log(res.data.data.sysImgCode)
                     }
                 })
             },
