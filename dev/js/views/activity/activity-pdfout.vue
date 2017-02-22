@@ -5,7 +5,7 @@
 			<span class="out-pdf"><a @click="outPDF">导出PDF报告</a></span>
 		</div>
 		<span></span>
-		<div class="information-area basic-information" v-show="!!this.tradeGET.id">
+		<div class="information-area basic-information" v-show="!!this.id.id">
 			<div class="title">活动基本信息</div>
 			<div class="something-about">
 				<table>
@@ -258,8 +258,8 @@
 				<div class="data-echart one-echart" id="one-echart-times"></div>
 			</div>
 		</div>
+		<span>{{$API.getinfoList}}</span>
 	</div>
-
 </template>
 <script type="text/javascript">
     import model from '../../ajax/activity/activity-analysis'
@@ -281,7 +281,7 @@
 					merchant_trade_amount:'',//商户交易金额
 					merchant_trade_num:'',//商户交易笔数
 					cardBIN_trade_amount:'',//卡bin交易金额
-					cardBIN_trade_num:'',//卡bin交易不熟
+					cardBIN_trade_num:'',//卡bin交易笔数
 					oneCard_num:'',//单卡参与次数
 				},
 				tableTitleChoose:{
@@ -302,13 +302,6 @@
 					xAxisData:[],
 					weekThis:[],
 					weekLast:[],
-				},
-				tradeGET:{
-					startDate:'',
-					endDate:'',
-					compareFlag:true,
-					uniqueId:'',
-					id:''
 				},
 				transactionDataShow:{//交易数据分析
 					tradeDataModelToday:[],//交易数据今日累计关键数据
@@ -378,68 +371,118 @@
 				id:{
 					activityID:'',
 					bankUuidString:'',
-					tradedata:{
+					activityBaseInfo:{
+						activityBaseInfo:{
+							id:'',
+							url:'',
+						}
+					},
+					tradeDataAnalysis:{
 						today:{
 							startDate:'',
-							endDate:''
+							endDate:'',
+							url:'',
 						},
 						total:{
 							startDate:'',
-							endDate:''	
+							endDate:'',
+							url:'',
 						},
-						tradeAmountWeek:{
+						tradeAmount_7:{
 							startDate:'',
 							endDate:'',
-							base64:''
+							base64:'',
+							url:'',
 						},
-						tradeAmountMonth:{
+						tradeAmount_30:{
 							startDate:'',
 							endDate:'',
-							base64:''
+							base64:'',
+							url:'',
 						},
-						subsidyAmountWeek:{
+						subsidyAmount_7:{
 							startDate:'',
 							endDate:'',
-							base64:''
+							base64:'',
+							url:'',
 						},
-						subsidyAmountMonth:{
+						subsidyAmount_30:{
 							startDate:'',
 							endDate:'',
-							base64:''
+							base64:'',
+							url:'',
 						},
-						tradeNumWeek:{
+						tradeNum_7:{
 							startDate:'',
 							endDate:'',
-							base64:''
+							base64:'',
+							url:'',
 						},
-						tradeNumMonth:{
+						tradeNum_30:{
 							startDate:'',
 							endDate:'',
-							base64:''
+							base64:'',
+							url:'',
 						}
 					},
-					tradeArea:{
-
+					tradeAreaAnalysis:{
+						keydata:{
+							url:''
+						},
+						tradeAmountTop:{
+							base64:'',
+							url:'',
+						},
+						tradeNumTop:{
+							base64:'',
+							url:'',	
+						},
 					},
-					tradeTime:{
-
+					tradePeriodAnalysis:{
+						tradeNum:{
+							base64:'',
+							url:'',
+						},
 					},
-					merchantData:{
-
-					}
+					merchantDataAnalysis:{
+						keydata:{
+							url:''
+						},
+						amountTop:{
+							base64:'',
+							url:'',
+						},
+						numTop:{
+							base64:'',
+							url:'',
+						},
+					},
+					cardBINDataAnalysis:{
+						keydata:{
+							url:''
+						},
+						amountTop:{
+							base64:'',
+							url:'',
+						},
+						numTop:{
+							base64:'',
+							url:'',
+						},
+					},
+					oneCardTradeAnalysis:{
+						keydata:{
+							url:''
+						},
+						participateNum:{
+							base64:'',
+							url:'',
+						},
+					},
 				}
 			}
 		},
 		methods:{
-			outPDF(){
-				let formdata = '';
-	            _.map(this.basicData,(val,key)=>{
-	                formdata+=key+'='+val+'&';
-	            })
-	            // formdata=response.request.url+'?'+formdata;
-	            console.log(formdata);
-				window.open(origin+'/pdf/analysis?'+formdata)
-			},
 			dateGetShow(){
 				var date = new Date(),lyear = date.getFullYear(),lmonth = date.getMonth() + 1,agoMonth = lmonth-1,lday = date.getDate(),pdate = new Date(date.getTime() - 7 * 24 * 3600 * 1000),pyear = pdate.getFullYear(),pmonth = pdate.getMonth() + 1,pday = pdate.getDate(),locakDate=lyear + '-' + lmonth + '-' + lday,pastDate=pyear + '-' + pmonth + '-' + pday,agoMonthDate=lyear+'-'+agoMonth+'-'+lday;
 				this.times.lastWeek=pastDate;
@@ -586,10 +629,10 @@
 				let data={
 					startDate:this.times.todayDate,
 					endDate:this.times.todayDate,
-					activityID:this.tradeGET.uniqueId,
+					activityID:this.id.activityID
 					
 				};
-                (!this.tradeGET.uniqueId)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
         		this.model.getTradeDataTotal(data).then((res)=>{
         			if (res.data.code==0){
         				this.$set('transactionDataShow.tradeDataModelToday',res.data.data);
@@ -599,9 +642,9 @@
 			tradeDataModelTotail(){//获取累计交易数据
 				let data={
 					compareFlag:true,
-					activityID:this.tradeGET.uniqueId
+					activityID:this.id.activityID
 				};
-                (!this.tradeGET.uniqueId)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
         		this.model.getTradeDataTotal(data).then((res)=>{
         			if (res.data.code==0){
         				this.$set('transactionDataShow.tradeDataModelTotail',res.data.data);
@@ -613,9 +656,9 @@
 					compareFlag:true,
 					startDate:this.times.lastWeek,
 					endDate:this.times.todayDate,
-					activityID:this.tradeGET.uniqueId
+					activityID:this.id.activityID
 				};
-                (!this.tradeGET.uniqueId)? data_7.bankUuidString=sessionStorage.getItem('uuids'):data_7.bankUuidString='';
+                (!this.id.activityID)? data_7.bankUuidString=sessionStorage.getItem('uuids'):data_7.bankUuidString='';
 				this.model.getTradeAmount(data_7).then((res)=>{
 	        		if (res.data.code==0){
 						this.tradeSetData(res.data.data,this.echartID.tradeAmount_7,'7日交易总金额数据展示图','trade_all_amount_7');
@@ -627,9 +670,9 @@
 					compareFlag:true,
 					startDate:this.times.monthAgo,
 					endDate:this.times.todayDate,
-					activityID:this.tradeGET.uniqueId,
+					activityID:this.id.activityID
 				};
-                (!this.tradeGET.uniqueId)? data_30.bankUuidString=sessionStorage.getItem('uuids'):data_30.bankUuidString='';
+                (!this.id.activityID)? data_30.bankUuidString=sessionStorage.getItem('uuids'):data_30.bankUuidString='';
 				this.model.getTradeAmount(data_30).then((res)=>{
 	        		if (res.data.code==0){
 							this.tradeSetData(res.data.data,this.echartID.tradeAmount_30,'30日交易总金额数据展示图','trade_all_amount_30');
@@ -642,9 +685,9 @@
 					compareFlag:true,
 					startDate:this.times.lastWeek,
 					endDate:this.times.todayDate,
-					activityID:this.tradeGET.uniqueId
+					activityID:this.id.activityID
 				};
-                (!this.tradeGET.uniqueId)? data_7.bankUuidString=sessionStorage.getItem('uuids'):data_7.bankUuidString='';
+                (!this.id.activityID)? data_7.bankUuidString=sessionStorage.getItem('uuids'):data_7.bankUuidString='';
 				this.model.getSubsidyAmount(data_7).then((res)=>{
 	        		if (res.data.code==0){
 							this.tradeSetData(res.data.data,this.echartID.subsidyAmoun_7,'7日补贴总金额数据展示图','subsidy_all_amount_7');
@@ -656,9 +699,9 @@
 					compareFlag:true,
 					startDate:this.times.monthAgo,
 					endDate:this.times.todayDate,
-					activityID:this.tradeGET.uniqueId,
+					activityID:this.id.activityID,
 				};
-                (!this.tradeGET.uniqueId)? data_30.bankUuidString=sessionStorage.getItem('uuids'):data_30.bankUuidString='';
+                (!this.id.activityID)? data_30.bankUuidString=sessionStorage.getItem('uuids'):data_30.bankUuidString='';
 				this.model.getSubsidyAmount(data_30).then((res)=>{
 	        		if (res.data.code==0){
 							this.tradeSetData(res.data.data,this.echartID.subsidyAmoun_30,'30日补贴总金额数据展示图','subsidy_all_amount_30');
@@ -670,9 +713,9 @@
 					compareFlag:true,
 					startDate:this.times.lastWeek,
 					endDate:this.times.todayDate,
-					activityID:this.tradeGET.uniqueId
+					activityID:this.id.activityID
 				};
-                (!this.tradeGET.uniqueId)? data_7.bankUuidString=sessionStorage.getItem('uuids'):data_7.bankUuidString='';
+                (!this.id.activityID)? data_7.bankUuidString=sessionStorage.getItem('uuids'):data_7.bankUuidString='';
 				this.model.getTradeAmount(data_7).then((res)=>{
 	        		if (res.data.code==0){
 							this.tradeSetData(res.data.data,this.echartID.tradeNum_7,'7日交易总笔数数据展示图','trade_all_num_7');
@@ -684,9 +727,9 @@
 					compareFlag:true,
 					startDate:this.times.monthAgo,
 					endDate:this.times.todayDate,
-					activityID:this.tradeGET.uniqueId,
+					activityID:this.id.activityID,
 				};
-                (!this.tradeGET.uniqueId)? data_30.bankUuidString=sessionStorage.getItem('uuids'):data_30.bankUuidString='';
+                (!this.id.activityID)? data_30.bankUuidString=sessionStorage.getItem('uuids'):data_30.bankUuidString='';
 				this.model.getTradeAmount(data_30).then((res)=>{
 	        		if (res.data.code==0){
 							this.tradeSetData(res.data.data,this.echartID.tradeNum_30,'30日交易总笔数数据展示图','trade_all_num_30');
@@ -702,9 +745,9 @@
         	},
         	regionDetailReady(){//交易区域数据获取
         		let data={
-        			activityID:this.tradeGET.uniqueId
+        			activityID:this.id.activityID
         		};
-                (!this.tradeGET.uniqueId)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
         		this.model.getTradeAreaTotal(data).then((res)=>{
         			if (res.data.code==0){
         				this.$set('transactionRegion.tradeAreaModel',res.data.data);
@@ -714,9 +757,9 @@
         	regionDetailAmount(){//交易区域交易金额切换
         		this.regionDetailJudgeChoose='amount';
         		let data={
-        			activityID:this.tradeGET.uniqueId
+        			activityID:this.id.activityID
         		};
-                (!this.tradeGET.uniqueId)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
         		this.model.getTradeAreaTotalAmountList(data).then((res)=>{
         			if (res.data.code==0){
 						this.transactionRegion.tradeArea=res.data.data.category;
@@ -729,9 +772,9 @@
 			regionDetailNumber(){//交易区域交易笔数切换
 				this.regionDetailJudgeChoose='num';
 				let data={
-        			activityID:this.tradeGET.uniqueId
+        			activityID:this.id.activityID
 				};
-                (!this.tradeGET.uniqueId)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getTradeAreaNumList(data).then((res)=>{
         			if (res.data.code==0){
 						this.transactionRegion.tradeArea=res.data.data.category;
@@ -744,9 +787,9 @@
 			//交易时段分析 sucess
 			transactionTimeReady(){//交易时段加载数据
 				let data={
-        			activityID:this.tradeGET.uniqueId
+        			activityID:this.id.activityID
 				};
-                (!this.tradeGET.uniqueId)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getTradePeriodTotal(data).then((res)=>{
 					if (res.data.code==0){
 						this.$set('transactionTime.timePoint',res.data.data.series);
@@ -763,9 +806,9 @@
 			},
 			merchantDataAreaReady(){//商户关键数据
 				let data={
-        			activityID:this.tradeGET.uniqueId
+        			activityID:this.id.activityID
 				};
-                (!this.tradeGET.uniqueId)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getMerchantTradeTotal(data).then((res)=>{
 					if (res.data.code==0){
 						this.$set('merchantDataArea.merchantDataTotal',res.data.data);
@@ -775,9 +818,9 @@
 			merchantDataTradeAmountChange(){//商户数据交易金额
 				this.merchantDataDetailJudgeName='amount';
 				let data={
-        			activityID:this.tradeGET.uniqueId
+        			activityID:this.id.activityID
 				};
-                (!this.tradeGET.uniqueId)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getMerchantTradeAmount(data).then((res)=>{
 					if (res.data.code==0){
 						// debugger;
@@ -790,9 +833,9 @@
 			merchantDataTradeCountChange(){//商户数据交易笔数
 				this.merchantDataDetailJudgeName='num';
 				let data={
-        			activityID:this.tradeGET.uniqueId
+        			activityID:this.id.activityID
 				};
-                (!this.tradeGET.uniqueId)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 
 				this.model.getMerchantTradeCount(data).then((res)=>{
 					if (res.data.code==0){
@@ -811,9 +854,9 @@
 			},
 			cardBINDataAreaReady(){//卡BIN数据分析获取数据
 				let data={
-        			activityID:this.tradeGET.uniqueId
+        			activityID:this.id.activityID
 				};
-                (!this.tradeGET.uniqueId)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getCardBINTotal(data).then((res)=>{
 					if (res.data.code==0){
 						this.$set('cardBINDataArea.CardBinModel',res.data.data);
@@ -823,10 +866,10 @@
 			cardBINDetailAmount(){//卡BIN交易金额chenge
 				this.cardBINDetailJudgeChoose='amount';
 				let data={
-        			activityID:this.tradeGET.uniqueId
+        			activityID:this.id.activityID
 
 				};
-                (!this.tradeGET.uniqueId)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getCardBINTradeAmountList(data).then((res)=>{
 					if (res.data.code==0) {
 						this.cardBINDataArea.binStartNumber=res.data.data.category;
@@ -838,9 +881,9 @@
 			cardBINDetailNumber(){//卡BIN交易笔数change
 				this.cardBINDetailJudgeChoose='num';
 				let data={
-        			activityID:this.tradeGET.uniqueId
+        			activityID:this.id.activityID
 				};
-                (!this.tradeGET.uniqueId)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getCardBINTradeNumList(data).then((res)=>{
 					if (res.data.code==0) {
 						this.$set('cardBINDataArea.binStartNumber',res.data.data.category)
@@ -857,9 +900,9 @@
 			},
 			oneCardDataReady(){//单卡获取total
 				let data={
-        			activityID:this.tradeGET.uniqueId
+        			activityID:this.id.activityID
 				};
-				(!this.tradeGET.uniqueId)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+				(!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getOneCardTotal(data).then((res)=>{
 					if (res.data.code==0) {
 						this.$set('oneCardArea.oneCardModel',res.data.data);
@@ -868,9 +911,9 @@
 			},
 			oneCardDataOnceData(){//获取单卡参与次数数据
 				let data={
-        			activityID:this.tradeGET.uniqueId
+        			activityID:this.id.activityID
 				};
-                (!this.tradeGET.uniqueId)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getOneCardSwipedCount(data).then((res)=>{
 					if (res.data.code==0) {
 						this.$set('oneCardArea.oneCardNum',res.data.data.series[0].dataLong);//x轴
@@ -879,10 +922,83 @@
 					}
 				})
 			},
+			outPDF(){
+				this.upID();
+				let formdata = '';
+	            _.map(this.id,(val,key)=>{
+	                formdata+=key+'='+val+'&';
+	            })
+	            // formdata=response.request.url+'?'+formdata;
+	            // console.log(formdata);
+				window.open(origin+'/pdf/analysis?'+formdata)
+			},
+			upID(){
+				//activityBaseInfo
+				this.id.activityBaseInfo.activityBaseInfo.url=this.$API.getinfoList+this.id.activityBaseInfo.activityBaseInfo.id;
+				//tradeDataAnalysis
+				(!this.id.activityID)?this.id.bankUuidString=sessionStorage.getItem('uuids'):null;
+				this.id.tradeDataAnalysis.today.startDate=this.times.todayDate;
+				this.id.tradeDataAnalysis.today.endDate=this.times.todayDate;
+				this.id.tradeDataAnalysis.today.url=this.$API.getTradeDataTotal;
+				this.id.tradeDataAnalysis.total.url=this.$API.getTradeDataTotal;
+					// 
+				this.id.tradeDataAnalysis.tradeAmount_7.startDate=this.times.lastWeek;
+				this.id.tradeDataAnalysis.tradeAmount_7.endDate=this.times.todayDate;
+				this.id.tradeDataAnalysis.tradeAmount_7.base64=this.base64.trade_all_amount_7;
+				this.id.tradeDataAnalysis.tradeAmount_7.url=this.$API.getTradeAmount;
+					// 
+				this.id.tradeDataAnalysis.tradeAmount_30.startDate=this.times.monthAgo;
+				this.id.tradeDataAnalysis.tradeAmount_30.endDate=this.times.todayDate;
+				this.id.tradeDataAnalysis.tradeAmount_30.base64=this.base64.trade_all_amount_30;
+				this.id.tradeDataAnalysis.tradeAmount_30.url=this.$API.getTradeAmount;
+					// 
+				this.id.tradeDataAnalysis.subsidyAmount_7.startDate=this.times.lastWeek;
+				this.id.tradeDataAnalysis.subsidyAmount_7.endDate=this.times.todayDate;
+				this.id.tradeDataAnalysis.subsidyAmount_7.base64=this.base64.subsidy_all_amount_7;
+				this.id.tradeDataAnalysis.subsidyAmount_7.url=this.$API.getSubsidyAmount;
+					// 
+				this.id.tradeDataAnalysis.subsidyAmount_30.startDate=this.times.monthAgo;
+				this.id.tradeDataAnalysis.subsidyAmount_30.endDate=this.times.todayDate;
+				this.id.tradeDataAnalysis.subsidyAmount_30.base64=this.base64.subsidy_all_amount_30;
+				this.id.tradeDataAnalysis.subsidyAmount_30.url=this.$API.getSubsidyAmount;
+					// 
+				this.id.tradeDataAnalysis.tradeNum_7.startDate=this.times.lastWeek;
+				this.id.tradeDataAnalysis.tradeNum_7.endDate=this.times.todayDate;
+				this.id.tradeDataAnalysis.tradeNum_7.base64=this.base64.trade_all_num_7;
+				this.id.tradeDataAnalysis.tradeNum_7.url=this.$API.getTradeNum;
+					// 
+				this.id.tradeDataAnalysis.tradeNum_30.startDate=this.times.monthAgo;
+				this.id.tradeDataAnalysis.tradeNum_30.endDate=this.times.todayDate;
+				this.id.tradeDataAnalysis.tradeNum_30.base64=this.base64.trade_all_num_30;
+				this.id.tradeDataAnalysis.tradeNum_30.url=this.$API.getTradeNum;
+				//tradeAreaAnalysis
+				this.id.tradeAreaAnalysis.keydata.url=this.$API.getTradeAreaTotal;
+				this.id.tradeAreaAnalysis.tradeAmountTop.base64=this.base64.trade_area_amount;
+				this.id.tradeAreaAnalysis.tradeAmountTop.url=this.$API.getTradeAreaTotalAmountList;
+				this.id.tradeAreaAnalysis.tradeNumTop.base64=this.base64.trade_area_num;
+				this.id.tradeAreaAnalysis.tradeNumTop.url=this.$API.getTradeAreaNumList;
+				//tradePeriodAnalysis
+				this.id.tradePeriodAnalysis.tradeNum.base64=this.base64.trade_time;
+				this.id.tradePeriodAnalysis.tradeNum.url=this.$API.getTradeAreaNumList;
+				//merchantDataAnalysis
+				this.id.merchantDataAnalysis.keydata.url=this.$API.getMerchantTradeTotal;
+				this.id.merchantDataAnalysis.amountTop.base64=this.base64.merchant_trade_amount;
+				this.id.merchantDataAnalysis.amountTop.url=this.$API.getMerchantTradeAmount;
+				this.id.merchantDataAnalysis.numTop.base64=this.base64.merchant_trade_num;
+				this.id.merchantDataAnalysis.numTop.url=this.$API.getMerchantTradeCount;
+				//cardBINDataAnalysis
+				this.id.cardBINDataAnalysis.keydata.url=this.$API.getCardBINTotal;
+				this.id.cardBINDataAnalysis.amountTop.base64=this.base64.cardBIN_trade_amount;
+				this.id.cardBINDataAnalysis.amountTop.url=this.$API.getCardBINTradeAmountList;
+				this.id.cardBINDataAnalysis.numTop.base64=this.base64.cardBIN_trade_num;
+				this.id.cardBINDataAnalysis.numTop.url=this.$API.getCardBINTradeNumList;
+				//oneCardTradeAnalysis
+				this.id.oneCardTradeAnalysis.keydata.url=this.$API.getOneCardTotal;
+				this.id.oneCardTradeAnalysis.participateNum.base64=this.base64.oneCard_num;
+				this.id.oneCardTradeAnalysis.participateNum.url=this.$API.getOneCardSwipedCount;
+			},
 		},
 		ready(){
-			this.tradeGET.startDate=this.times.lastWeek;
-			this.tradeGET.endDate=this.times.todayDate;
             this.tradeAnalysis();
             this.regionDetail();
             this.transactionTimeReady();
@@ -895,10 +1011,10 @@
         },
         created(){
 			this.dateGetShow();
-			(this.$route.params.pdfActivityId!=':pdfActivityId')? this.tradeGET.uniqueId=this.$route.params.pdfActivityId : this.tradeGET.uniqueId='';
-			(this.$route.params.pdfoutId!=':pdfoutId')? this.tradeGET.id=this.$route.params.pdfoutId : this.tradeGET.id='';
-			if(!!this.tradeGET.id){
-				this.model.getinfoList(this.tradeGET.id).then((res)=>{
+			(this.$route.params.pdfActivityId!=':pdfActivityId')? this.id.activityID=this.$route.params.pdfActivityId : this.id.activityID='';
+			(this.$route.params.pdfoutId!=':pdfoutId')? this.id.activityBaseInfo.activityBaseInfo.id=this.$route.params.pdfoutId : this.id.id='';
+			if(!!this.id.activityBaseInfo.activityBaseInfo.id){
+				this.model.getinfoList(this.id.id).then((res)=>{
 					if(res.data.code===0){
 						this.$set('basicData',res.data.data.base);
 		            }

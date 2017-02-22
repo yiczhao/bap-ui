@@ -44,17 +44,17 @@
                      <th>赠送时间</th>
                      <th>权益有效期</th>
                      <th>商户名称</th>
-                     <th>状态(元)</th>
+                     <th>状态</th>
                  </tr>
-                 <tr>
-                     <td>手机号码</td>
-                     <td>权益名称</td>
-                     <td>面额/折扣</td>
-                     <td>权益来源</td>
-                     <td>赠送时间</td>
-                     <td>权益有效期</td>
-                     <td>商户名称</td>
-                     <td>状态(元)</td>
+                 <tr v-for="n in latinosDetailTotal">
+                    <td>{{n.phone}}</td>
+                    <td>{{n.name}}</td>
+                    <td>{{n.discount}}</td>
+                    <td>{{n.from}}</td>
+                    <td>{{n.time}}</td>
+                    <td>{{n.validity}}</td>
+                    <td>{{n.merchant}}</td>
+                    <td>{{n.satatue}}</td>
                  </tr>
              </table>
          </div>
@@ -74,6 +74,16 @@
                      pageIndex:1,//当前选中的分页值
                      total:1,//数据总条数
                      pageSize:10,//每页展示多少条数
+                 },
+                 latinosDetailTotal:{
+                    'phone':'1',
+                    'name':'1',
+                    'discount':'1',
+                    'from':'1',
+                    'time':'1',
+                    'validity':'1',
+                    'merchant':'1',
+                    'satatue':'1',
                  }
              }
          },

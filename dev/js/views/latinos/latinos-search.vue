@@ -25,26 +25,18 @@
                   <option value="">22</option>
                   <option value="">33</option>
               </select>
-              <span>权益种类</span>
-              <select class="select" v-model="">
-                  <option value="">11</option>
-                  <option value="">22</option>
-                  <option value="">33</option>
-              </select>
               <a class="btn btn-primary searchBtn" @click="latinosSearch">搜索</a>
           </div>
            <div class="table">
               <table>
                   <tr>
                       <th>权益总数量</th>
-                      <th>权益领取量</th>
                       <th>权益使用量</th>
                       <th>权益未使用量</th>
                       <th>权益逾期量</th>
                   </tr>
                   <tr>
                       <td>{{latinosCumulative.latinosNum}}</td>
-                      <td>{{latinosCumulative.latinosReceive}}</td>
                       <td>{{latinosCumulative.latinosAlreadyUse}}</td>
                       <td>{{latinosCumulative.latinosNotUse}}</td>
                       <td>{{latinosCumulative.latinosOverdue}}</td>
@@ -60,7 +52,6 @@
                   <tr>
                       <th>权益名称</th>
                       <th>结算方</th>
-                      <th>权益种类</th>
                       <th>权益类型</th>
                       <th>权益面值</th>
                       <th>状态</th>
@@ -74,7 +65,6 @@
                   <tr v-for="n in latinosTotalList">
                       <td>{{n.latinosName }}</td><!-- 权益名称-->
                       <td>{{n.settlementParty }}</td><!-- 结算方-->
-                      <td>{{n.latinosKinds }}</td><!-- 权益种类-->
                       <td>{{n.latinosTypes }}</td><!-- 权益类型-->
                       <td>{{n.denomination }}</td><!-- 权益面值-->
                       <td>{{n.latinosStatues }}</td><!-- 状态-->
@@ -83,7 +73,11 @@
                       <td>{{n.overdueNum }}</td><!-- 过期-->
                       <td>{{n.startDate }}</td><!-- 开始时间-->
                       <td>{{n.endDate }}</td><!-- 结束时间-->
-                      <td><a v-link="{name:'latinos-detail',params:{'latinosID':id}}">查看明细</a></td><!--操作-->
+                      <td>
+                        <a v-link="{name:'latinos-detail',params:{'latinosID':id}}">生成宣传页</a>
+                        <a v-link="{name:'latinos-detail',params:{'latinosID':id}}">批量赠送</a>
+                        <a v-link="{name:'latinos-detail',params:{'latinosID':id}}">查看明细</a>
+                      </td><!--操作-->
                       <!-- <td><a v-link="{name:'latinos-detail',params:{'startDate':searchData,'endDate':endDate}}">查看明细</a></td> -->
                   </tr>
               </table>
@@ -118,7 +112,6 @@
                        {
                            'latinosName':'权益名称',
                            'settlementParty':'结算方',
-                           'latinosKinds':'权益种类',
                            'latinosTypes':'权益类型',
                            'denomination':'权益面值',
                            'latinosStatues':'状态',
