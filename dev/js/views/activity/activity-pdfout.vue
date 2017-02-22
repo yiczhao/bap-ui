@@ -824,13 +824,15 @@
 			},
 			outPDF(){
 				this.upID();
-				let formdata = '';
+				let formdata = {};
 	            _.map(this.id,(val,key)=>{
-	                formdata+=key+'='+val+'&';
+	            	formdata[key]=val;
 	            })
-	            // formdata=response.request.url+'?'+formdata;
 	            console.log(formdata);
-				window.open(origin+'/pdf/analysis?'+formdata)
+	            this.$http.post(origin+'/pdf/analysis',formdata).then((res)=>{
+	            		console.log(res);
+	            })
+				// window.open(+formdata)
 			},
 			upID(){
 				//activityBaseInfo
