@@ -127,7 +127,7 @@
         </div>
     </div>
     <div class="rule-row">
-        <div class="rule-label"><i>*</i>二维码</div>
+        <div class="rule-label">二维码</div>
         <div class="rule-input">
             <input class="input" type="text" v-model="addData.qrcodeUrl" placeholder="请输入POS小票上需要打印的二维码链接" />
         </div>
@@ -456,7 +456,7 @@
                     this.$set('weeksList',this.setweeks(res.data.data.weeksList,this.weeksList));
                     this.$set('timesList',this.settimesList(res.data.data.timesList));
                     res.data.data.timesList.length==1&&res.data.data.timesList[0]==='0:00 ~ 23:59'?this.$set('switch',true):this.$set('switch',false);
-                    this.getIncludeTimeData(res.data.data.startTime,res.data.data.endTime);
+                    this.includeTimes=_.join(res.data.data.includeTimesList,',');
                 })
             }
         },
