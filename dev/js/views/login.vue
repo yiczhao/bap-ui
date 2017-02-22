@@ -81,7 +81,6 @@ export default {
         methods:{
             login(){
                 if((this.usrImgCode).toLowerCase()!=this.loginData.usrImgCode){
-                    debugger
                     dialog('info','验证码不正确请重新输入！');
                     return;
                 }

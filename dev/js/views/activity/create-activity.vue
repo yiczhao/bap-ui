@@ -25,6 +25,15 @@
 					<a v-show="value.show" class="btn btn-primary"  @click="setProp('online')" v-link="{'name':'basic-rule',params:{'rulename':'CouponMinus'}}">优惠金额券</a>
 					<a v-show="value.show" class="btn btn-danger" @click="setProp('online')" v-link="{'name':'basic-rule',params:{'rulename':'CouponDiscount'}}">优惠打折券</a>
 				</div>
+				<div v-if="value.type=='zidingyi'" class="show-activity" @click="showbg(value)">
+					<div class="bg-show" :class="value.type" v-link="{'name':''}">
+						<div class="activity-name">
+							<h4><a>自定义</a></h4>
+						</div>
+						<div class="activity-intru">无所需模板可将所需活动进行描述</div>
+					</div>
+					<div class="hover-bg" v-show="value.show"></div>
+				</div>
 			</template>
 		</div>
 	</div>
@@ -94,6 +103,9 @@
 					'link':'Ticket',
 					'show':false,
 					'type':'piaowu'
+				},{
+					'show':false,
+					'type':'quanyi'
 				},{
 					'show':false,
 					'type':'quanyi'
