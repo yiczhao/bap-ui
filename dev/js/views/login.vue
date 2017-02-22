@@ -80,10 +80,6 @@ export default {
         },
         methods:{
             login(){
-                if((this.usrImgCode).toLowerCase()!=this.loginData.usrImgCode){
-                    dialog('info','验证码不正确请重新输入！');
-                    return;
-                }
                 this.$http.post('./user/login',this.loginData).then((data)=>{
                     if(data.data.code===0){
                         sessionStorage.setItem('loginList',JSON.stringify(data.data.data));
