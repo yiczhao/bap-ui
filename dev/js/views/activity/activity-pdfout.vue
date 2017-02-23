@@ -258,7 +258,6 @@
 				<div class="data-echart one-echart" id="one-echart-times"></div>
 			</div>
 		</div>
-		<span>{{$API.getinfoList}}</span>
 	</div>
 </template>
 <script type="text/javascript">
@@ -373,112 +372,39 @@
 					bankUuidString:'',
 					pdfMap:{
 						activityBaseInfo:{
-							'activityBaseInfo':[{
-								'id':'',
-								'uri':''
-							}]
+							'activityBaseInfo':[{'id':'','uri':''}],
 						},
 						tradeAreaAnalysis:{
-							'keydata':[{
-								'uri':''
-							}],
-							'tradeAmountTop':[{
-								'base64IMG':'',
-								'uri':'',
-							}],
-							'tradeNumTop':[{
-								'base64IMG':'',
-								'uri':'',	
-							}],
+							'keyData':[{'uri':''}],
+							'tradeAmountTop':[{'base64IMG':'','uri':''}],
+							'tradeNumTop':[{'base64IMG':'','uri':''}],
 						},
 						tradePeriodAnalysis:{
-							'tradeNum':[{
-								'base64IMG':'',
-								'uri':'',
-							}],
+							'tradeNum':[{'base64IMG':'','uri':''}],
 						},
 						merchantDataAnalysis:{
-							'keydata':[{
-								'uri':''
-							}],
-							'amountTop':[{
-								'base64IMG':'',
-								'uri':'',
-							}],
-							'numTop':[{
-								'base64IMG':'',
-								'uri':'',
-							}],
+							'keyData':[{'uri':''}],
+							'amountTop':[{'base64IMG':'','uri':''}],
+							'numTop':[{'base64IMG':'','uri':''}],
 						},
 						cardBINDataAnalysis:{
-							'keydata':[{
-								'uri':''
-							}],
-							'amountTop':[{
-								'base64IMG':'',
-								'uri':'',
-							}],
-							'numTop':[{
-								'base64IMG':'',
-								'uri':'',
-							}],
+							'keyData':[{'uri':''}],
+							'amountTop':[{'base64IMG':'','uri':''}],
+							'numTop':[{'base64IMG':'','uri':''}],
 						},
 						oneCardTradeAnalysis:{
-							'keydata':[{
-								'uri':''
-							}],
-							'participateNum':[{
-								'base64IMG':'',
-								'uri':'',
-							}],
+							'keyData':[{'uri':''}],
+							'participateNum':[{'base64IMG':'','uri':''}],
 						},
 						tradeDataAnalysis:{
-							'today':[{
-								'startDate':'',
-								'endDate':'',
-								'uri':'',
-							}],
-							'total':[{
-								'startDate':'',
-								'endDate':'',
-								'uri':'',
-							}],
-							'tradeAmount_7':[{
-								'startDate':'',
-								'endDate':'',
-								'base64IMG':'',
-								'uri':'',
-							}],
-							'tradeAmount_30':[{
-								'startDate':'',
-								'endDate':'',
-								'base64IMG':'',
-								'uri':'',
-							}],
-							'subsidyAmount_7':[{
-								'startDate':'',
-								'endDate':'',
-								'base64IMG':'',
-								'uri':'',
-							}],
-							'subsidyAmount_30':[{
-								'startDate':'',
-								'endDate':'',
-								'base64IMG':'',
-								'uri':'',
-							}],
-							'tradeNum_7':[{
-								'startDate':'',
-								'endDate':'',
-								'base64IMG':'',
-								'uri':'',
-							}],
-							'tradeNum_30':[{
-								'startDate':'',
-								'endDate':'',
-								'base64IMG':'',
-								'uri':'',
-							}]
+							'today':[{'startDate':'','endDate':'','uri':''}],
+							'total':[{'startDate':'','endDate':'','uri':''}],
+							'tradeAmount_7':[{'startDate':'','endDate':'','base64IMG':'','uri':''}],
+							'tradeAmount_30':[{'startDate':'','endDate':'','base64IMG':'','uri':''}],
+							'subsidyAmount_7':[{'startDate':'','endDate':'','base64IMG':'','uri':''}],
+							'subsidyAmount_30':[{'startDate':'','endDate':'','base64IMG':'','uri':''}],
+							'tradeNum_7':[{'startDate':'','endDate':'','base64IMG':'','uri':''}],
+							'tradeNum_30':[{'startDate':'','endDate':'','base64IMG':'','uri':''}],
 						},
 					},
 				}
@@ -524,7 +450,7 @@
         		myChart.setOption(option);
         		this.base64[type] = myChart.getDataURL('png');//获取base64编码
 			},
-			justChart(timePoint,imgURL){
+			justChart(timePoint){
 				var myChart = echarts.init(document.getElementById('time-echart'));
 				var option = {
 				    tooltip: {trigger: 'axis'},
@@ -546,6 +472,7 @@
 				}
 				myChart.setOption(option);
 				this.base64.trade_time=myChart.getDataURL('png');//获取base64编码
+				this.id.pdfMap.tradePeriodAnalysis.tradeNum[0].base64IMG=myChart.getDataURL('png');
 			},
 			dataBarEchart(chartID,dataTitle,yAxisTitle,cityName,dataName,cityData,type){
 				var myChart = echarts.init(document.getElementById(chartID));
@@ -663,9 +590,9 @@
                 (!this.id.activityID)? data_7.bankUuidString=sessionStorage.getItem('uuids'):data_7.bankUuidString='';
 				this.model.getTradeAmount(data_7).then((res)=>{
 	        		if (res.data.code==0){
-						this.tradeSetData(res.data.data,this.echartID.tradeAmount_7,'7日交易总金额数据展示图','trade_all_amount_7');
 	        		};
 	        	});
+						this.tradeSetData(res.data.data,this.echartID.tradeAmount_7,'7日交易总金额数据展示图','trade_all_amount_7');
 			},
 			tradeAmountEchart_month(){
 				let data_30={
@@ -677,9 +604,9 @@
                 (!this.id.activityID)? data_30.bankUuidString=sessionStorage.getItem('uuids'):data_30.bankUuidString='';
 				this.model.getTradeAmount(data_30).then((res)=>{
 	        		if (res.data.code==0){
-							this.tradeSetData(res.data.data,this.echartID.tradeAmount_30,'30日交易总金额数据展示图','trade_all_amount_30');
 	        			};
 	        		});
+							this.tradeSetData(res.data.data,this.echartID.tradeAmount_30,'30日交易总金额数据展示图','trade_all_amount_30');
 
 			},
 			subsidyAmountEchart_week(){
@@ -692,9 +619,9 @@
                 (!this.id.activityID)? data_7.bankUuidString=sessionStorage.getItem('uuids'):data_7.bankUuidString='';
 				this.model.getSubsidyAmount(data_7).then((res)=>{
 	        		if (res.data.code==0){
-							this.tradeSetData(res.data.data,this.echartID.subsidyAmoun_7,'7日补贴总金额数据展示图','subsidy_all_amount_7');
 	        			};
 	        		});
+							this.tradeSetData(res.data.data,this.echartID.subsidyAmoun_7,'7日补贴总金额数据展示图','subsidy_all_amount_7');
 			},
 			subsidyAmountEchart_month(){
 				let data_30={
@@ -706,9 +633,9 @@
                 (!this.id.activityID)? data_30.bankUuidString=sessionStorage.getItem('uuids'):data_30.bankUuidString='';
 				this.model.getSubsidyAmount(data_30).then((res)=>{
 	        		if (res.data.code==0){
-							this.tradeSetData(res.data.data,this.echartID.subsidyAmoun_30,'30日补贴总金额数据展示图','subsidy_all_amount_30');
 	        			};
 	        		});
+							this.tradeSetData(res.data.data,this.echartID.subsidyAmoun_30,'30日补贴总金额数据展示图','subsidy_all_amount_30');
 			},
 			tradeNumEchart_week(){
 				let data_7={
@@ -720,9 +647,9 @@
                 (!this.id.activityID)? data_7.bankUuidString=sessionStorage.getItem('uuids'):data_7.bankUuidString='';
 				this.model.getTradeAmount(data_7).then((res)=>{
 	        		if (res.data.code==0){
-							this.tradeSetData(res.data.data,this.echartID.tradeNum_7,'7日交易总笔数数据展示图','trade_all_num_7');
 	        			};
 	        		});
+							this.tradeSetData(res.data.data,this.echartID.tradeNum_7,'7日交易总笔数数据展示图','trade_all_num_7');
 			},
 			tradeNumEchart_month(){
 				let data_30={
@@ -734,9 +661,9 @@
                 (!this.id.activityID)? data_30.bankUuidString=sessionStorage.getItem('uuids'):data_30.bankUuidString='';
 				this.model.getTradeAmount(data_30).then((res)=>{
 	        		if (res.data.code==0){
-							this.tradeSetData(res.data.data,this.echartID.tradeNum_30,'30日交易总笔数数据展示图','trade_all_num_30');
 	        			};
 	        		});
+							this.tradeSetData(res.data.data,this.echartID.tradeNum_30,'30日交易总笔数数据展示图','trade_all_num_30');
 			},
 			// =================================================================================================
         	//交易区域 sucess
@@ -766,9 +693,9 @@
         			if (res.data.code==0){
 						this.transactionRegion.tradeArea=res.data.data.category;
 						this.transactionRegion.cityData=res.data.data.series[0].dataDecimal;
-						this.dataBarEchart('region-echart-amount',['交易金额(元)'],['区域名称'],this.transactionRegion.tradeArea,'交易金额(元)',this.transactionRegion.cityData,'trade_area_amount');
         			}
         		})
+						this.dataBarEchart('region-echart-amount',['交易金额(元)'],['区域名称'],this.transactionRegion.tradeArea,'交易金额(元)',this.transactionRegion.cityData,'trade_area_amount');
 
         	},
 			regionDetailNumber(){//交易区域交易笔数切换
@@ -781,9 +708,9 @@
         			if (res.data.code==0){
 						this.transactionRegion.tradeArea=res.data.data.category;
 						this.transactionRegion.cityData=res.data.data.series[0].dataLong;
-						this.dataBarEchart('region-echart-num',['交易笔数(笔)'],['区域名称'],this.transactionRegion.tradeArea,'交易笔数(笔)',this.transactionRegion.cityData,'trade_area_num');
         			}
         		})
+						this.dataBarEchart('region-echart-num',['交易笔数(笔)'],['区域名称'],this.transactionRegion.tradeArea,'交易笔数(笔)',this.transactionRegion.cityData,'trade_area_num');
 			},
 			// =================================================================================================
 			//交易时段分析 sucess
@@ -828,9 +755,9 @@
 						// debugger;
 						this.merchantDataArea.storeName=res.data.data.series[0].storeAndMerchantName;//商户数据名称
 						this.merchantDataArea.tradeAmount=res.data.data.series[0].dataDecimal;//商户数据刷卡金额
-						this.dataBarEchart('merchant-echart-amount',['刷卡金额(元)'],['门店名称，所属商户'],this.merchantDataArea.storeName,'刷卡金额(元)',this.merchantDataArea.tradeAmount,'merchant_trade_amount');
 					}
 				})
+						this.dataBarEchart('merchant-echart-amount',['刷卡金额(元)'],['门店名称，所属商户'],this.merchantDataArea.storeName,'刷卡金额(元)',this.merchantDataArea.tradeAmount,'merchant_trade_amount');
 			},
 			merchantDataTradeCountChange(){//商户数据交易笔数
 				this.merchantDataDetailJudgeName='num';
@@ -843,9 +770,9 @@
 					if (res.data.code==0){
 						this.merchantDataArea.storeName=res.data.data.series[0].storeAndMerchantName;//商户数据名称
 						this.merchantDataArea.tradeCount=res.data.data.series[0].dataLong;//商户数据刷卡笔数
-						this.dataBarEchart('merchant-echart-num',['刷卡笔数(笔)'],['门店名称，所属商户'],this.merchantDataArea.storeName,'刷卡笔数(笔)',this.merchantDataArea.tradeCount,'merchant_trade_num');
 					}
 				})
+						this.dataBarEchart('merchant-echart-num',['刷卡笔数(笔)'],['门店名称，所属商户'],this.merchantDataArea.storeName,'刷卡笔数(笔)',this.merchantDataArea.tradeCount,'merchant_trade_num');
 			},
 			// =================================================================================================
 			//卡BIN数据分析 success
@@ -876,9 +803,9 @@
 					if (res.data.code==0) {
 						this.cardBINDataArea.binStartNumber=res.data.data.category;
 						this.cardBINDataArea.tradeAmountCardBINChange=res.data.data.series[0].dataDecimal;
-						this.dataBarEchart('cardBIN-echart-amount',['卡BIN刷卡金额(元)'],['卡BIN'],this.cardBINDataArea.binStartNumber,'卡BIN刷卡金额(元)',this.cardBINDataArea.tradeAmountCardBINChange,'cardBIN_trade_amount');
 					}
 				});
+						this.dataBarEchart('cardBIN-echart-amount',['卡BIN刷卡金额(元)'],['卡BIN'],this.cardBINDataArea.binStartNumber,'卡BIN刷卡金额(元)',this.cardBINDataArea.tradeAmountCardBINChange,'cardBIN_trade_amount');
 			},
 			cardBINDetailNumber(){//卡BIN交易笔数change
 				this.cardBINDetailJudgeChoose='num';
@@ -890,9 +817,9 @@
 					if (res.data.code==0) {
 						this.$set('cardBINDataArea.binStartNumber',res.data.data.category)
 						this.$set('cardBINDataArea.tradeNumCardBINChange',res.data.data.series[0].dataLong)
-						this.dataBarEchart('cardBIN-echart-num',['卡BIN刷卡笔数(笔)'],['卡BIN'],this.cardBINDataArea.binStartNumber,'卡BIN刷卡笔数(笔)',this.cardBINDataArea.tradeNumCardBINChange,'cardBIN_trade_num');
 					}
 				});
+						this.dataBarEchart('cardBIN-echart-num',['卡BIN刷卡笔数(笔)'],['卡BIN'],this.cardBINDataArea.binStartNumber,'卡BIN刷卡笔数(笔)',this.cardBINDataArea.tradeNumCardBINChange,'cardBIN_trade_num');
 				//cardBIN-echart
 			},
 			// =================================================================================================
@@ -920,9 +847,9 @@
 					if (res.data.code==0) {
 						this.$set('oneCardArea.oneCardNum',res.data.data.series[0].dataLong);//x轴
 						this.$set('oneCardArea.oneCardChance',res.data.data.series[0].data);//y轴
-						this.dataBarEchart('one-echart-times',['卡数量(张)'],['次数(次)'],this.oneCardArea.oneCardChance,'卡数量(张)',this.oneCardArea.oneCardNum,'oneCard_num');
 					}
 				})
+						this.dataBarEchart('one-echart-times',['卡数量(张)'],['次数(次)'],this.oneCardArea.oneCardChance,'卡数量(张)',this.oneCardArea.oneCardNum,'oneCard_num');
 			},
 			outPDF(){
 				this.upID();
@@ -941,65 +868,64 @@
 				this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].uri= this.$API.getinfoList + this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id;
 				//tradeDataAnalysis
 				(!this.id.activityID)?this.id.bankUuidString=sessionStorage.getItem('uuids'):null;
-				this.id.pdfMap.tradeDataAnalysis.today[0].startDate=this.times.todayDate;
-				this.id.pdfMap.tradeDataAnalysis.today[0].endDate=this.times.todayDate;
-				this.id.pdfMap.tradeDataAnalysis.today[0].uri=this.$API.getTradeDataTotal;
-				this.id.pdfMap.tradeDataAnalysis.total[0].uri=this.$API.getTradeDataTotal;
-					
-				this.id.pdfMap.tradeDataAnalysis.tradeAmount_7[0].startDate=this.times.lastWeek;
-				this.id.pdfMap.tradeDataAnalysis.tradeAmount_7[0].endDate=this.times.todayDate;
-				this.id.pdfMap.tradeDataAnalysis.tradeAmount_7[0].base64IMG=this.base64.trade_all_amount_7;
-				this.id.pdfMap.tradeDataAnalysis.tradeAmount_7[0].uri=this.$API.getTradeAmount;
-				// 	// 
-				this.id.pdfMap.tradeDataAnalysis.tradeAmount_30[0].startDate=this.times.monthAgo;
-				this.id.pdfMap.tradeDataAnalysis.tradeAmount_30[0].endDate=this.times.todayDate;
-				this.id.pdfMap.tradeDataAnalysis.tradeAmount_30[0].base64IMG=this.base64.trade_all_amount_30;
-				this.id.pdfMap.tradeDataAnalysis.tradeAmount_30[0].uri=this.$API.getTradeAmount;
-				// 	// 
-				this.id.pdfMap.tradeDataAnalysis.subsidyAmount_7[0].startDate=this.times.lastWeek;
-				this.id.pdfMap.tradeDataAnalysis.subsidyAmount_7[0].endDate=this.times.todayDate;
-				this.id.pdfMap.tradeDataAnalysis.subsidyAmount_7[0].base64IMG=this.base64.subsidy_all_amount_7;
-				this.id.pdfMap.tradeDataAnalysis.subsidyAmount_7[0].uri=this.$API.getSubsidyAmount;
-				// 	// 
-				this.id.pdfMap.tradeDataAnalysis.subsidyAmount_30[0].startDate=this.times.monthAgo;
-				this.id.pdfMap.tradeDataAnalysis.subsidyAmount_30[0].endDate=this.times.todayDate;
-				this.id.pdfMap.tradeDataAnalysis.subsidyAmount_30[0].base64IMG=this.base64.subsidy_all_amount_30;
-				this.id.pdfMap.tradeDataAnalysis.subsidyAmount_30[0].uri=this.$API.getSubsidyAmount;
-				// 	// 
-				this.id.pdfMap.tradeDataAnalysis.tradeNum_7[0].startDate=this.times.lastWeek;
-				this.id.pdfMap.tradeDataAnalysis.tradeNum_7[0].endDate=this.times.todayDate;
-				this.id.pdfMap.tradeDataAnalysis.tradeNum_7[0].base64IMG=this.base64.trade_all_num_7;
-				this.id.pdfMap.tradeDataAnalysis.tradeNum_7[0].uri=this.$API.getTradeNum;
-				// 	// 
-				this.id.pdfMap.tradeDataAnalysis.tradeNum_30[0].startDate=this.times.monthAgo;
-				this.id.pdfMap.tradeDataAnalysis.tradeNum_30[0].endDate=this.times.todayDate;
-				this.id.pdfMap.tradeDataAnalysis.tradeNum_30[0].base64IMG=this.base64.trade_all_num_30;
-				this.id.pdfMap.tradeDataAnalysis.tradeNum_30[0].uri=this.$API.getTradeNum;
+				var dataAnalysis=this.id.pdfMap.tradeDataAnalysis;
+				dataAnalysis.today[0].startDate=this.times.todayDate;
+				dataAnalysis.today[0].endDate=this.times.todayDate;
+				dataAnalysis.today[0].uri=this.$API.getTradeDataTotal;
+				dataAnalysis.total[0].uri=this.$API.getTradeDataTotal;
+				dataAnalysis.tradeAmount_7[0].startDate=this.times.lastWeek;
+				dataAnalysis.tradeAmount_7[0].endDate=this.times.todayDate;
+				dataAnalysis.tradeAmount_7[0].base64IMG=this.base64.trade_all_amount_7;
+				dataAnalysis.tradeAmount_7[0].uri=this.$API.getTradeAmount;
+				dataAnalysis.tradeAmount_30[0].startDate=this.times.monthAgo;
+				dataAnalysis.tradeAmount_30[0].endDate=this.times.todayDate;
+				dataAnalysis.tradeAmount_30[0].base64IMG=this.base64.trade_all_amount_30;
+				dataAnalysis.tradeAmount_30[0].uri=this.$API.getTradeAmount;
+				dataAnalysis.subsidyAmount_7[0].startDate=this.times.lastWeek;
+				dataAnalysis.subsidyAmount_7[0].endDate=this.times.todayDate;
+				dataAnalysis.subsidyAmount_7[0].base64IMG=this.base64.subsidy_all_amount_7;
+				dataAnalysis.subsidyAmount_7[0].uri=this.$API.getSubsidyAmount;
+				dataAnalysis.subsidyAmount_30[0].startDate=this.times.monthAgo;
+				dataAnalysis.subsidyAmount_30[0].endDate=this.times.todayDate;
+				dataAnalysis.subsidyAmount_30[0].base64IMG=this.base64.subsidy_all_amount_30;
+				dataAnalysis.subsidyAmount_30[0].uri=this.$API.getSubsidyAmount;
+				dataAnalysis.tradeNum_7[0].startDate=this.times.lastWeek;
+				dataAnalysis.tradeNum_7[0].endDate=this.times.todayDate;
+				dataAnalysis.tradeNum_7[0].base64IMG=this.base64.trade_all_num_7;
+				dataAnalysis.tradeNum_7[0].uri=this.$API.getTradeNum;
+				dataAnalysis.tradeNum_30[0].startDate=this.times.monthAgo;
+				dataAnalysis.tradeNum_30[0].endDate=this.times.todayDate;
+				dataAnalysis.tradeNum_30[0].base64IMG=this.base64.trade_all_num_30;
+				dataAnalysis.tradeNum_30[0].uri=this.$API.getTradeNum;
 				// //tradeAreaAnalysis
-				this.id.pdfMap.tradeAreaAnalysis.keydata[0].uri=this.$API.getTradeAreaTotal;
-				this.id.pdfMap.tradeAreaAnalysis.tradeAmountTop[0].base64IMG=this.base64.trade_area_amount;
-				this.id.pdfMap.tradeAreaAnalysis.tradeAmountTop[0].uri=this.$API.getTradeAreaTotalAmountList;
-				this.id.pdfMap.tradeAreaAnalysis.tradeNumTop[0].base64IMG=this.base64.trade_area_num;
-				this.id.pdfMap.tradeAreaAnalysis.tradeNumTop[0].uri=this.$API.getTradeAreaNumList;
+				var areaAnalysis=this.id.pdfMap.tradeAreaAnalysis;
+				areaAnalysis.keydata[0].uri=this.$API.getTradeAreaTotal;
+				areaAnalysis.tradeAmountTop[0].base64IMG=this.base64.trade_area_amount;
+				areaAnalysis.tradeAmountTop[0].uri=this.$API.getTradeAreaTotalAmountList;
+				areaAnalysis.tradeNumTop[0].base64IMG=this.base64.trade_area_num;
+				areaAnalysis.tradeNumTop[0].uri=this.$API.getTradeAreaNumList;
 				// //tradePeriodAnalysis
 				this.id.pdfMap.tradePeriodAnalysis.tradeNum[0].base64IMG=this.base64.trade_time;
 				this.id.pdfMap.tradePeriodAnalysis.tradeNum[0].uri=this.$API.getTradeAreaNumList;
 				// //merchantDataAnalysis
-				this.id.pdfMap.merchantDataAnalysis.keydata[0].uri=this.$API.getMerchantTradeTotal;
-				this.id.pdfMap.merchantDataAnalysis.amountTop[0].base64IMG=this.base64.merchant_trade_amount;
-				this.id.pdfMap.merchantDataAnalysis.amountTop[0].uri=this.$API.getMerchantTradeAmount;
-				this.id.pdfMap.merchantDataAnalysis.numTop[0].base64IMG=this.base64.merchant_trade_num;
-				this.id.pdfMap.merchantDataAnalysis.numTop[0].uri=this.$API.getMerchantTradeCount;
+				var merchant=this.id.pdfMap.merchantDataAnalysis;
+				merchant.keydata[0].uri=this.$API.getMerchantTradeTotal;
+				merchant.amountTop[0].base64IMG=this.base64.merchant_trade_amount;
+				merchant.amountTop[0].uri=this.$API.getMerchantTradeAmount;
+				merchant.numTop[0].base64IMG=this.base64.merchant_trade_num;
+				merchant.numTop[0].uri=this.$API.getMerchantTradeCount;
 				// //cardBINDataAnalysis
-				this.id.pdfMap.cardBINDataAnalysis.keydata[0].uri=this.$API.getCardBINTotal;
-				this.id.pdfMap.cardBINDataAnalysis.amountTop[0].base64IMG=this.base64.cardBIN_trade_amount;
-				this.id.pdfMap.cardBINDataAnalysis.amountTop[0].uri=this.$API.getCardBINTradeAmountList;
-				this.id.pdfMap.cardBINDataAnalysis.numTop[0].base64IMG=this.base64.cardBIN_trade_num;
-				this.id.pdfMap.cardBINDataAnalysis.numTop[0].uri=this.$API.getCardBINTradeNumList;
+				var cardBIN=this.id.pdfMap.cardBINDataAnalysis;
+				cardBIN.keydata[0].uri=this.$API.getCardBINTotal;
+				cardBIN.amountTop[0].base64IMG=this.base64.cardBIN_trade_amount;
+				cardBIN.amountTop[0].uri=this.$API.getCardBINTradeAmountList;
+				cardBIN.numTop[0].base64IMG=this.base64.cardBIN_trade_num;
+				cardBIN.numTop[0].uri=this.$API.getCardBINTradeNumList;
 				// //oneCardTradeAnalysis
-				this.id.pdfMap.oneCardTradeAnalysis.keydata[0].uri=this.$API.getOneCardTotal;
-				this.id.pdfMap.oneCardTradeAnalysis.participateNum[0].base64IMG=this.base64.oneCard_num;
-				this.id.pdfMap.oneCardTradeAnalysis.participateNum[0].uri=this.$API.getOneCardSwipedCount;
+				var oneCard=this.id.pdfMap.oneCardTradeAnalysis;
+				oneCard.keydata[0].uri=this.$API.getOneCardTotal;
+				oneCard.participateNum[0].base64IMG=this.base64.oneCard_num;
+				oneCard.participateNum[0].uri=this.$API.getOneCardSwipedCount;
 			},
 		},
 		ready(){
@@ -1009,6 +935,7 @@
             this.merchantData();
             this.cardBINData();
             this.oneCard();
+            console.log(this.id.pdfMap.tradeDataAnalysis.today.length)
 		},
 		beforeDestroy () {
             document.removeEventListener('click', this.resetName, false);
