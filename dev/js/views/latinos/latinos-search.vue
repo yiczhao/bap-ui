@@ -92,7 +92,7 @@
                   </tr>
               </table>
           </div>
-          <div v-show="!!searchList">
+          <div class="pages" v-show="!!searchList">
               <pagegroup
                       :total="searchData.total"
                       :page_size.sync="searchData.maxResult"
@@ -121,7 +121,7 @@
                        maxResult:10,
                        startTime:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
                        endTime:stringify(new Date())+' 23:59:59',//结束时间
-                       uuids:sessionStorage.getItem('uuids'),
+                       uuids:_.split(sessionStorage.getItem('uuids'), ','),
                    },
                    searchTotal:{
                    },
@@ -139,9 +139,9 @@
                },
                getBankString(){
                    if (!this.bankUuidString) {
-                       this.searchData.uuids=sessionStorage.getItem('uuids');
+                       this.searchData.uuids=_.split(sessionStorage.getItem('uuids'), ',');
                    }else{
-                       this.searchData.uuids=this.bankUuidString;
+                       this.searchData.uuids=[this.bankUuidString];
                    }
                },
                doSearch(){
@@ -159,13 +159,13 @@
                getList(){
                    this.model.getLatinosCumulative(this.searchData).then((res)=>{
                        if (res.data.code==0) {
-                           this.$set('searchList',res.data.dataList);
+                           this.$set('searchList',res.data.data);
                            this.searchData.total=res.data.total;
                        }
                    })
                    this.model.getLationsTotal(this.searchData).then((res)=>{
                        if (res.data.code==0) {
-                           this.$set('searchTotal',res.data.dataList);
+                           this.$set('searchTotal',res.data.data);
                        }
                    })
                },
