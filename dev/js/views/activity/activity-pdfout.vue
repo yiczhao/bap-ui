@@ -590,9 +590,11 @@
                 (!this.id.activityID)? data_7.bankUuidString=sessionStorage.getItem('uuids'):data_7.bankUuidString='';
 				this.model.getTradeAmount(data_7).then((res)=>{
 	        		if (res.data.code==0){
+	        			this.trade_a_week=res.data.data;
 	        		};
-	        	});
 						this.tradeSetData(res.data.data,this.echartID.tradeAmount_7,'7日交易总金额数据展示图','trade_all_amount_7');
+	        	});
+						// this.tradeSetData(this.trade_a_week,this.echartID.tradeAmount_7,'7日交易总金额数据展示图','trade_all_amount_7');
 			},
 			tradeAmountEchart_month(){
 				let data_30={
@@ -604,9 +606,11 @@
                 (!this.id.activityID)? data_30.bankUuidString=sessionStorage.getItem('uuids'):data_30.bankUuidString='';
 				this.model.getTradeAmount(data_30).then((res)=>{
 	        		if (res.data.code==0){
+	        			this.trade_a_month=res.data.dat;
 	        			};
-	        		});
 							this.tradeSetData(res.data.data,this.echartID.tradeAmount_30,'30日交易总金额数据展示图','trade_all_amount_30');
+	        		});
+							// this.tradeSetData(this.trade_a_month,this.echartID.tradeAmount_30,'30日交易总金额数据展示图','trade_all_amount_30');
 
 			},
 			subsidyAmountEchart_week(){
@@ -619,9 +623,11 @@
                 (!this.id.activityID)? data_7.bankUuidString=sessionStorage.getItem('uuids'):data_7.bankUuidString='';
 				this.model.getSubsidyAmount(data_7).then((res)=>{
 	        		if (res.data.code==0){
+	        			this.subsidy_a_week=res.data.data;
 	        			};
-	        		});
 							this.tradeSetData(res.data.data,this.echartID.subsidyAmoun_7,'7日补贴总金额数据展示图','subsidy_all_amount_7');
+	        		});
+							// this.tradeSetData(this.subsidy_a_week,this.echartID.subsidyAmoun_7,'7日补贴总金额数据展示图','subsidy_all_amount_7');
 			},
 			subsidyAmountEchart_month(){
 				let data_30={
@@ -633,9 +639,11 @@
                 (!this.id.activityID)? data_30.bankUuidString=sessionStorage.getItem('uuids'):data_30.bankUuidString='';
 				this.model.getSubsidyAmount(data_30).then((res)=>{
 	        		if (res.data.code==0){
+	        			this.subsidy_a_month=res.data.data;
 	        			};
-	        		});
 							this.tradeSetData(res.data.data,this.echartID.subsidyAmoun_30,'30日补贴总金额数据展示图','subsidy_all_amount_30');
+	        		});
+							// this.tradeSetData(this.subsidy_a_month,this.echartID.subsidyAmoun_30,'30日补贴总金额数据展示图','subsidy_all_amount_30');
 			},
 			tradeNumEchart_week(){
 				let data_7={
@@ -647,9 +655,11 @@
                 (!this.id.activityID)? data_7.bankUuidString=sessionStorage.getItem('uuids'):data_7.bankUuidString='';
 				this.model.getTradeAmount(data_7).then((res)=>{
 	        		if (res.data.code==0){
+	        			this.trade_n_week=res.data.data;
 	        			};
-	        		});
 							this.tradeSetData(res.data.data,this.echartID.tradeNum_7,'7日交易总笔数数据展示图','trade_all_num_7');
+	        		});
+							// this.tradeSetData(this.trade_n_week,this.echartID.tradeNum_7,'7日交易总笔数数据展示图','trade_all_num_7');
 			},
 			tradeNumEchart_month(){
 				let data_30={
@@ -661,9 +671,11 @@
                 (!this.id.activityID)? data_30.bankUuidString=sessionStorage.getItem('uuids'):data_30.bankUuidString='';
 				this.model.getTradeAmount(data_30).then((res)=>{
 	        		if (res.data.code==0){
+	        			this.trade_n_month=res.data.data
 	        			};
-	        		});
 							this.tradeSetData(res.data.data,this.echartID.tradeNum_30,'30日交易总笔数数据展示图','trade_all_num_30');
+	        		});
+							// this.tradeSetData(this.trade_n_month,this.echartID.tradeNum_30,'30日交易总笔数数据展示图','trade_all_num_30');
 			},
 			// =================================================================================================
         	//交易区域 sucess
