@@ -5,7 +5,7 @@
 			<span class="out-pdf"><a @click="outPDF">导出PDF报告</a></span>
 		</div>
 		<span></span>
-		<div class="information-area basic-information" v-show="!!this.id.activityBaseInfo.activityBaseInfo[0].id">
+		<div class="information-area basic-information" v-show="!!this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id">
 			<div class="title">活动基本信息</div>
 			<div class="something-about">
 				<table>
@@ -1016,7 +1016,7 @@
         created(){
 			this.dateGetShow();
 			(this.$route.params.pdfActivityId!=':pdfActivityId')? this.id.activityID=this.$route.params.pdfActivityId : this.id.activityID='';
-			(this.$route.params.pdfoutId!=':pdfoutId')? this.id.activityBaseInfo.activityBaseInfo[0].id=this.$route.params.pdfoutId : this.id.activityBaseInfo.activityBaseInfo[0].id='';
+			(this.$route.params.pdfoutId!=':pdfoutId')? this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id=this.$route.params.pdfoutId : this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id='';
 			if(!!this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id){
 				this.model.getinfoList(this.id.id).then((res)=>{
 					if(res.data.code===0){
