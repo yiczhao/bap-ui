@@ -5,7 +5,7 @@
 			<span class="out-pdf"><a @click="outPDF">导出PDF报告</a></span>
 		</div>
 		<span></span>
-		<div class="information-area basic-information" v-show="!!this.id.id">
+		<div class="information-area basic-information" v-show="!!this.id.activityBaseInfo.activityBaseInfo[0].id">
 			<div class="title">活动基本信息</div>
 			<div class="something-about">
 				<table>
