@@ -930,15 +930,15 @@
 	            _.map(this.id,(val,key)=>{
 	            	formdata[key]=val;
 	            })
-	            console.log(formdata);
+	            // console.log(formdata);
 	            this.$http.post(origin+'/pdf/analysis',formdata).then((res)=>{
-	            		console.log(res);
+	            		// console.log(res);
 	            })
 				// window.open(+formdata)
 			},
 			upID(){
 				//activityBaseInfo
-				this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].uri=this.$API.getinfoList+this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id;
+				this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].uri= this.$API.getinfoList + this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id;
 				//tradeDataAnalysis
 				(!this.id.activityID)?this.id.bankUuidString=sessionStorage.getItem('uuids'):null;
 				this.id.pdfMap.tradeDataAnalysis.today[0].startDate=this.times.todayDate;
@@ -1018,7 +1018,7 @@
 			(this.$route.params.pdfActivityId!=':pdfActivityId')? this.id.activityID=this.$route.params.pdfActivityId : this.id.activityID='';
 			(this.$route.params.pdfoutId!=':pdfoutId')? this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id=this.$route.params.pdfoutId : this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id='';
 			if(!!this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id){
-				this.model.getinfoList(this.id.id).then((res)=>{
+				this.model.getinfoList(this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id).then((res)=>{
 					if(res.data.code===0){
 						this.$set('basicData',res.data.data.base);
 		            }
