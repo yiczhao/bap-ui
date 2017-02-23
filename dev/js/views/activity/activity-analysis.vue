@@ -866,8 +866,6 @@
                 this.tradeGET.activityID=uniqueId;
                 this.tradeGET.pdfId=id;
                 this.transactionDataToggle("transaDataToggleDown");
-                console.log(this.tradeGET.activityID);
-                console.log(this.tradeGET.pdfId);
             },
             resetName(){
                 this.searchData.showList=false;

@@ -1016,8 +1016,8 @@
         created(){
 			this.dateGetShow();
 			(this.$route.params.pdfActivityId!=':pdfActivityId')? this.id.activityID=this.$route.params.pdfActivityId : this.id.activityID='';
-			(this.$route.params.pdfoutId!=':pdfoutId')? this.id.activityBaseInfo.activityBaseInfo[0].id=this.$route.params.pdfoutId : this.id.id='';
-			if(!!this.id.pdfMap.activityBaseInfo.activityBaseInfo.id){
+			(this.$route.params.pdfoutId!=':pdfoutId')? this.id.activityBaseInfo.activityBaseInfo[0].id=this.$route.params.pdfoutId : this.id.activityBaseInfo.activityBaseInfo[0].id='';
+			if(!!this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id){
 				this.model.getinfoList(this.id.id).then((res)=>{
 					if(res.data.code===0){
 						this.$set('basicData',res.data.data.base);
