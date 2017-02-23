@@ -5,7 +5,7 @@
 			<span class="out-pdf"><a @click="outPDF">导出PDF报告</a></span>
 		</div>
 		<span></span>
-		<div class="information-area basic-information" v-show="!!this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id">
+		<div class="information-area basic-information" v-show="!!this.id.pdfMap.activityBaseInfo &&!!this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id">
 			<div class="title">活动基本信息</div>
 			<div class="something-about">
 				<table>
@@ -877,7 +877,6 @@
 			},
 			upID(){
 				//activityBaseInfo
-				this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].uri= this.$API.getinfoList + this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id;
 				//tradeDataAnalysis
 				(!this.id.activityID)?this.id.bankUuidString=sessionStorage.getItem('uuids'):null;
 				var dataAnalysis=this.id.pdfMap.tradeDataAnalysis;
@@ -955,14 +954,21 @@
         created(){
 			this.dateGetShow();
 			(this.$route.params.pdfActivityId!=':pdfActivityId')? this.id.activityID=this.$route.params.pdfActivityId : this.id.activityID='';
-			(this.$route.params.pdfoutId!=':pdfoutId')? this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id=this.$route.params.pdfoutId : this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id='';
-			if(!!this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id){
-				this.model.getinfoList(this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id).then((res)=>{
-					if(res.data.code===0){
-						this.$set('basicData',res.data.data.base);
-		            }
-	            })
-			}        
+			if(this.$route.params.pdfoutId!=':pdfoutId'){
+				this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id=this.$route.params.pdfoutId;
+				this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].uri= this.$API.getinfoList + this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id;
+				if(!!this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id){ 
+					this.model.getinfoList(this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id).then((res)=>{
+						if(res.data.code===0){
+							this.$set('basicData',res.data.data.base);
+			            }
+		            })
+				}    	
+			}else{
+				this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id='';
+				this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].uri='';
+				this.id.pdfMap=_.omit(this.id.pdfMap, ['activityBaseInfo']);
+			}
 		}
 	}
 </script>

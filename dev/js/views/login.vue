@@ -80,6 +80,10 @@ export default {
         },
         methods:{
             login(){
+                if(!this.loginData.usrImgCode){
+                  dialog('info','未输入验证码') ;
+                  return
+              };
                 this.$http.post('./user/login',this.loginData).then((data)=>{
                     if(data.data.code===0){
                         sessionStorage.setItem('loginList',JSON.stringify(data.data.data));
