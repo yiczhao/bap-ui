@@ -899,7 +899,7 @@
 				dataAnalysis.tradeNum_30[0].uri=this.$API.getTradeNum;
 				// //tradeAreaAnalysis
 				var areaAnalysis=this.id.pdfMap.tradeAreaAnalysis;
-				areaAnalysis.keydata[0].uri=this.$API.getTradeAreaTotal;
+				areaAnalysis.keyData[0].uri=this.$API.getTradeAreaTotal;
 				areaAnalysis.tradeAmountTop[0].base64IMG=this.base64.trade_area_amount;
 				areaAnalysis.tradeAmountTop[0].uri=this.$API.getTradeAreaTotalAmountList;
 				areaAnalysis.tradeNumTop[0].base64IMG=this.base64.trade_area_num;
@@ -909,21 +909,21 @@
 				this.id.pdfMap.tradePeriodAnalysis.tradeNum[0].uri=this.$API.getTradeAreaNumList;
 				// //merchantDataAnalysis
 				var merchant=this.id.pdfMap.merchantDataAnalysis;
-				merchant.keydata[0].uri=this.$API.getMerchantTradeTotal;
+				merchant.keyData[0].uri=this.$API.getMerchantTradeTotal;
 				merchant.amountTop[0].base64IMG=this.base64.merchant_trade_amount;
 				merchant.amountTop[0].uri=this.$API.getMerchantTradeAmount;
 				merchant.numTop[0].base64IMG=this.base64.merchant_trade_num;
 				merchant.numTop[0].uri=this.$API.getMerchantTradeCount;
 				// //cardBINDataAnalysis
 				var cardBIN=this.id.pdfMap.cardBINDataAnalysis;
-				cardBIN.keydata[0].uri=this.$API.getCardBINTotal;
+				cardBIN.keyData[0].uri=this.$API.getCardBINTotal;
 				cardBIN.amountTop[0].base64IMG=this.base64.cardBIN_trade_amount;
 				cardBIN.amountTop[0].uri=this.$API.getCardBINTradeAmountList;
 				cardBIN.numTop[0].base64IMG=this.base64.cardBIN_trade_num;
 				cardBIN.numTop[0].uri=this.$API.getCardBINTradeNumList;
 				// //oneCardTradeAnalysis
 				var oneCard=this.id.pdfMap.oneCardTradeAnalysis;
-				oneCard.keydata[0].uri=this.$API.getOneCardTotal;
+				oneCard.keyData[0].uri=this.$API.getOneCardTotal;
 				oneCard.participateNum[0].base64IMG=this.base64.oneCard_num;
 				oneCard.participateNum[0].uri=this.$API.getOneCardSwipedCount;
 			},
