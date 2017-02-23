@@ -19,7 +19,7 @@ function model(_this) {
          * @returns {*}
          */
         getLationsTotal(data) {
-            return _this.$http.post('./transfer/activity_configure/api/coupon/list',data)
+            return _this.$http.post('./transfer/activity_configure/api/coupon/statistics',data)
         },
         /**
          * @description 获取银行信息

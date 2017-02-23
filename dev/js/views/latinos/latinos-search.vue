@@ -28,11 +28,14 @@
                       <th>权益未使用量</th>
                       <th>权益逾期量</th>
                   </tr>
-                  <tr>
-                      <td>{{searchTotal.latinosNum}}</td>
-                      <td>{{searchTotal.latinosAlreadyUse}}</td>
-                      <td>{{searchTotal.latinosNotUse}}</td>
-                      <td>{{searchTotal.latinosOverdue}}</td>
+                  <tr v-show="!!searchTotal">
+                      <td>{{searchTotal.circulation}}</td>
+                      <td>{{searchTotal.usedAmount}}</td>
+                      <td>{{searchTotal.unusedAmount}}</td>
+                      <td>{{searchTotal.expiredAmount}}</td>
+                  </tr>
+                  <tr v-show="!searchTotal">
+                      <td colspan="12">未查询到数据</td>
                   </tr>
               </table>
           </div>
@@ -123,8 +126,7 @@
                        endTime:stringify(new Date())+' 23:59:59',//结束时间
                        uuids:_.split(sessionStorage.getItem('uuids'), ','),
                    },
-                   searchTotal:{
-                   },
+                   searchTotal:'',
                    bankFullName:'',
                    uuidsList:JSON.parse(sessionStorage.getItem('bankNames'))
                }
@@ -164,13 +166,13 @@
                        }
                    })
                    this.model.getLationsTotal(this.searchData).then((res)=>{
-                       if (res.data.code==0) {
+                       if (res.data.code==0 && !_.isEmpty(res.data.data)) {
                            this.$set('searchTotal',res.data.data);
                        }
                    })
                },
            },
-           ready(){
+           created(){
                this.getBankList();
                this.getList();
            }
