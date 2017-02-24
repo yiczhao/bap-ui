@@ -1,25 +1,25 @@
 /**
- * @description 权益查询接口
- * @author yicZhao
- * @date 2017.02.22
+ * @description 权益明细接口
+ * @author 郑杰
+ * @date 2017.02.23
  */
 function model(_this) {
     return {
         /**
-         * @description 获取权益列表
+         * @description 获取权益明细列表
          * @param data
          * @returns {*}
          */
         getLatinosCumulative(data) {
-            return _this.$http.post('./transfer/activity_configure/api/coupon/list',data)
+            return _this.$http.post('./transfer/activity_configure/api/coupon/detail/list',data)
         },
         /**
-         * @description 获取权益总数
+         * @description 获取权益明细总数
          * @param data
          * @returns {*}
          */
         getLationsTotal(data) {
-            return _this.$http.post('./transfer/activity_configure/api/coupon/statistics',data)
+            return _this.$http.post('./transfer/activity_configure/api/coupon/detail/statistics',data)
         },
         /**
          * @description 获取银行信息
