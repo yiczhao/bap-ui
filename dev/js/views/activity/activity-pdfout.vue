@@ -407,7 +407,8 @@
 							'tradeNum_30':[{'startDate':'','endDate':'','base64IMG':'','uri':''}],
 						},
 					},
-				}
+				},
+				fileName:'',
 			}
 		},
 		methods:{
@@ -870,7 +871,10 @@
 	            })
 	            // console.log(formdata);
 	            this.$http.post(origin+'/pdf/analysis',formdata).then((res)=>{
-	            		// console.log(res);
+	            		if(res.data.code==0){
+	            			window.open(origin+'/pdf/downLoad?fileName='+res.data.data)
+	            			
+	            		}
 	            })
 				// window.open(+formdata)
 			},
