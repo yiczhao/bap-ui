@@ -19,20 +19,20 @@
                      <th>权益未使用量</th>
                      <th>权益逾期量</th>
                  </tr>
-                 <tr v-for="n in latinosDetailTotal">
-                     <td>{{n.circulation }}</td><!-- 权益总数量 -->
-                     <td>{{n.usedAmount}}</td><!-- 权益使用量 -->
-                     <td>{{n.unusedAmount}}</td><!-- 权益未使用量 -->
-                     <td>{{n.expiredAmount}}</td><!-- 权益逾期量 -->
+                 <tr>
+                     <td>{{latinosDetailTotal.circulation}}</td><!-- 权益总数量 -->
+                     <td>{{latinosDetailTotal.usedAmount}}</td><!-- 权益使用量 -->
+                     <td>{{latinosDetailTotal.unusedAmount}}</td><!-- 权益未使用量 -->
+                     <td>{{latinosDetailTotal.expiredAmount}}</td><!-- 权益逾期量 -->
                  </tr>
                  <tr v-show="!latinosDetailTotal.length">
-                      <td colspan="4">未查询到数据</td>
+                      <td colspan="4">未查询到数据</td> 
                   </tr>
              </table>
          </div>
          <div class="showInfo">
              <span class="activity-name">权益名称</span>
-             <span class="infor-num">共1条数据</span>
+             <span class="infor-num">共{{searchData.total}}条数据</span>
              <span class="out-excel"><i class="icon-file-excel"></i>导出excel表格</span>
          </div>
          <div class="table">
@@ -77,15 +77,15 @@
                this.model=model(this);
              return{
                  searchData:{
-                     couponID:'',
+                     id:'',
                      usedFlag:'',
                      mobileNumber :'',
-                     firstResult :1,//当前选中的分页值
-                     total:1,//数据总条数
+                     firstResult :0,//当前选中的分页值
+                     total:0,//数据总条数
                      maxResult :10,//每页展示多少条数
                  },
-                 latinosDetailTotal:'',
-                 latinosDetailList:'',
+                 latinosDetailTotal:{},
+                 latinosDetailList:{},
              }
          },
          methods:{
@@ -108,7 +108,7 @@
             console.log(this.$route.params.latinosID)
          },
          created(){
-            this.searchData.couponID=this.$route.params.latinosID;
+            this.searchData.id=(this.$route.params.latinosID)>>0;
          },
      }
  </script>

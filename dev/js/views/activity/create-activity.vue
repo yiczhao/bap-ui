@@ -2,7 +2,7 @@
 	<div class="create-activity">
 		<div class="activity-list">
 			<template v-for="(index,value) in activityName">
-				<div v-if="value.type!='quanyi'" class="show-activity" @click="showbg(value)">
+				<div v-if="value.type!='quanyi' && value.type!='zidingyi'" class="show-activity" @click="showbg(value)">
 					<div class="bg-show" :class="value.type">
 						<div class="activity-name">
 							<h4><a>{{value.name}}</a></h4>
@@ -25,14 +25,13 @@
 					<a v-show="value.show" class="btn btn-primary"  @click="setProp('online')" v-link="{'name':'basic-rule',params:{'rulename':'CouponMinus'}}">优惠金额券</a>
 					<a v-show="value.show" class="btn btn-danger" @click="setProp('online')" v-link="{'name':'basic-rule',params:{'rulename':'CouponDiscount'}}">优惠打折券</a>
 				</div>
-				<div v-if="value.type=='zidingyi'" class="show-activity" @click="showbg(value)">
-					<div class="bg-show" :class="value.type" v-link="{'name':''}">
+				<div v-if="value.type=='zidingyi'" class="show-activity" @click="">
+					<div class="bg-show" :class="value.type" v-link="{'name':'Custom'}">
 						<div class="activity-name">
 							<h4><a>自定义</a></h4>
 						</div>
-						<div class="activity-intru">无所需模板可将所需活动进行描述</div>
+						<div class="activity-intru">所需模板可将所需活动进行描述</div>
 					</div>
-					<div class="hover-bg" v-show="value.show"></div>
 				</div>
 			</template>
 		</div>
@@ -107,8 +106,9 @@
 					'show':false,
 					'type':'quanyi'
 				},{
+					'link':'Custom',
 					'show':false,
-					'type':'quanyi'
+					'type':'zidingyi',
 				}]
 			}
 		},

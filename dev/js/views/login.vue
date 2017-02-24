@@ -24,8 +24,8 @@
                 <div class="section-type">
                     <div class="type-title">用户登录
                     </div>
-                    <div class="type-into username"><input class="input" type="text" placeholder="手机号/账户名" v-model="loginData.name"></div>
-                    <div class="type-into password"><input class="input" type="password" placeholder="请输入您的密码" v-model="loginData.password"></div>
+                    <div class="type-into username"><input class="input" type="text" placeholder="手机号/账户名" v-model="loginData.name" @keyup.enter="login"></div>
+                    <div class="type-into password"><input class="input" type="password" placeholder="请输入您的密码" v-model="loginData.password" @keyup.enter="login"></div>
                     <div class="type-into check">
                         <span class="input-check"><input class="input" type="text" placeholder="请输入数字或字母" v-model="loginData.usrImgCode" @keyup.enter="login"></span>
                         <span class="img"><img :src="sysCodeImg"></span>
