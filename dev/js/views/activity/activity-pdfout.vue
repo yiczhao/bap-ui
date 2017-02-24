@@ -374,6 +374,16 @@
 						activityBaseInfo:{
 							'activityBaseInfo':[{'id':'','uri':''}],
 						},
+						tradeDataAnalysis:{
+							'today':[{'startDate':'','endDate':'','uri':''}],
+							'total':[{'startDate':'','endDate':'','uri':''}],
+							'tradeAmount_7':[{'startDate':'','endDate':'','base64IMG':'','uri':''}],
+							'tradeAmount_30':[{'startDate':'','endDate':'','base64IMG':'','uri':''}],
+							'subsidyAmount_7':[{'startDate':'','endDate':'','base64IMG':'','uri':''}],
+							'subsidyAmount_30':[{'startDate':'','endDate':'','base64IMG':'','uri':''}],
+							'tradeNum_7':[{'startDate':'','endDate':'','base64IMG':'','uri':''}],
+							'tradeNum_30':[{'startDate':'','endDate':'','base64IMG':'','uri':''}],
+						},
 						tradeAreaAnalysis:{
 							'keyData':[{'uri':''}],
 							'tradeAmountTop':[{'base64IMG':'','uri':''}],
@@ -395,16 +405,6 @@
 						oneCardTradeAnalysis:{
 							'keyData':[{'uri':''}],
 							'participateNum':[{'base64IMG':'','uri':''}],
-						},
-						tradeDataAnalysis:{
-							'today':[{'startDate':'','endDate':'','uri':''}],
-							'total':[{'startDate':'','endDate':'','uri':''}],
-							'tradeAmount_7':[{'startDate':'','endDate':'','base64IMG':'','uri':''}],
-							'tradeAmount_30':[{'startDate':'','endDate':'','base64IMG':'','uri':''}],
-							'subsidyAmount_7':[{'startDate':'','endDate':'','base64IMG':'','uri':''}],
-							'subsidyAmount_30':[{'startDate':'','endDate':'','base64IMG':'','uri':''}],
-							'tradeNum_7':[{'startDate':'','endDate':'','base64IMG':'','uri':''}],
-							'tradeNum_30':[{'startDate':'','endDate':'','base64IMG':'','uri':''}],
 						},
 					},
 				},
