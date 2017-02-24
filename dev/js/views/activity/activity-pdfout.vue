@@ -449,7 +449,9 @@
 				    ]
 				};
         		myChart.setOption(option);
-        		this.base64[type] = myChart.getDataURL('png');//获取base64编码
+        		this.base64[type] = myChart.getDataURL({
+        			type:'jpeg',
+        		});//获取base64编码
 			},
 			justChart(timePoint){
 				var myChart = echarts.init(document.getElementById('time-echart'));
@@ -457,6 +459,12 @@
 				    tooltip: {trigger: 'axis'},
 				    toolbox: {show: true},
 				    legend: {data:['交易笔数(笔)']},
+				    grid: {
+				        left: '3%',
+				        right: '4%',
+				        bottom: '3%',
+				        containLabel: true
+				    },
 				    xAxis:  {type: 'category',boundaryGap: false,data:["00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"],
 				        name:['时间段']
 				    },
@@ -472,8 +480,12 @@
 				        }]
 				}
 				myChart.setOption(option);
-				this.base64.trade_time=myChart.getDataURL('png');//获取base64编码
-				this.id.pdfMap.tradePeriodAnalysis.tradeNum[0].base64IMG=myChart.getDataURL('png');
+				this.base64.trade_time=myChart.getDataURL({
+        			type:'jpeg',
+        		});//获取base64编码
+				this.id.pdfMap.tradePeriodAnalysis.tradeNum[0].base64IMG=myChart.getDataURL({
+        			type:'jpeg',
+        		});
 			},
 			dataBarEchart(chartID,dataTitle,yAxisTitle,cityName,dataName,cityData,type){
 				var myChart = echarts.init(document.getElementById(chartID));
@@ -484,10 +496,9 @@
 				    },
 				    legend: {data:dataTitle},
 				    grid: {
-				        left: '3%',
+				        left: '5%',
 				        right: '4%',
 				        bottom: '3%',
-				        top:'33px',
 				        containLabel: true
 				    },
 				    xAxis: {
@@ -529,7 +540,9 @@
 				    ]
 				}
 				myChart.setOption(option);
-				this.base64[type]= myChart.getDataURL('png');//获取base64编码
+				this.base64[type]= myChart.getDataURL({
+        			type:'jpeg',
+        		});//获取base64编码
 			},
 			// =================================================================================================
 			//交易数据分析

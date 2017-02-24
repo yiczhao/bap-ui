@@ -104,6 +104,19 @@ export default function install(Vue) {
      * @method POST
      */
     _o.getinfoList = './transfer/activity_configure/api/v1/activity/view/';
+    /**
+     * @description 交易查询导出
+     * @author 赵勇
+     * @method POST
+     */
+    _o.tradeSearchExport = '/transfer/data_analysis/das/api/v1/trade_query/statistics/list/excel/export?';
+        /**
+     * @description 交易明细导出
+     * @author 赵勇
+     * @method POST
+     */
+    _o.tradeDetailExport = '/transfer/data_analysis/das/api/v1/trade_query/detail/list/excel/export?';
+
 
     Object.defineProperties(Vue.prototype, {
         $API: {get(){return _o}}

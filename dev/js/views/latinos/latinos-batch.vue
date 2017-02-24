@@ -3,11 +3,18 @@
         <activity-step :datas="datas" :showstep.sync="showstep"></activity-step>
         <h5>宣传页面预览</h5>
         <div class="batch-upload">
-            <div>
+            <div class="up-load">
+                <div class="file"><input type="file" name=""></div>
+                <div class="info">
+                    <span>点击上传图片</span>
+                    <span>图片支持jpg、jpeg、格式；尺寸720*280，大小不超过100k；</span>
+                </div>
+            </div>
+            <div class="title">
                 <label>*</label>
                 <input type="text" class="input" v-model="batchData.title" placeholder="分享标题"/>
             </div>
-            <div>
+            <div class="show-list">
                 <h3>使用指南</h3>
                 <ul>
                     <li>1.活动名称：{{bacthRule.name}}</li>
@@ -19,8 +26,8 @@
                     <li>7.权益发布银行对本权益的最终解释权</li>
                 </ul>
             </div>
-            <div>
-                <h3>使用门店</h3>0
+            <div class="show-list">
+                <h3>适用门店</h3>
                 <ul>
                     <li v-for="n in bacthRule.store">{{n.storeName}}</li>
                 </ul>

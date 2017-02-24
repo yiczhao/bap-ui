@@ -29,14 +29,6 @@
          getBankList(data){
             return formDataRequest('./bank/bank_list').get(data)
          },
-         /**
-         * @description 导出交易查询列表数据
-         * @param data
-         * @returns {*}
-         */
-         getExcel(data){
-            return formDataRequest('./transfer/data_analysis/das/api/v1/trade_query/statistics/list/excel/export').get(data)
-         },
     }
 }
 module.exports = model
