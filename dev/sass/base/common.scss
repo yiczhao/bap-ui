@@ -127,8 +127,10 @@ html,body{
     }
     .content-right{
       margin: 20px;
-      background: #fff;
-      padding: 20px;
+      & > div:first-child{
+        background: #fff;
+        padding: 20px;
+      }
       table{
         width:100%;
         border:1px solid #E9E9E9;

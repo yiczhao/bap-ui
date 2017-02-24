@@ -227,6 +227,14 @@ export default function (Vue,router){
                         require(['./views/latinos/latinos-detail.vue'], resolve)
                     }
                 },
+                /* 批量送权益*/
+                'latinos-batch/:batchId':{
+                    name:'latinos-batch',
+                    router_type:'latinos',
+                    component:(resolve)=>{
+                        require(['./views/latinos/latinos-batch.vue'], resolve)
+                    }
+                },
                 /* 银行基本设置页面 */
                 'bank-config': {
                     name: 'bank-config',
