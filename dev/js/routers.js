@@ -139,7 +139,14 @@ export default function (Vue,router){
                             component:(resolve)=>{
                                 require(['./views/rule-template/CouponMinus.vue'],resolve)
                             }
-                        }
+                        },
+                    }
+                },
+                'Custom':{
+                    name:'Custom',
+                    router_type:'Custom',
+                    component:(resolve)=>{
+                        require(['./views/rule-template/Custom.vue'],resolve)
                     }
                 },
                 'bussiness-set/:bactivityId':{
@@ -213,7 +220,7 @@ export default function (Vue,router){
                     }
                 },
                 /* 权益明细查询*/
-                'latinos-detail':{
+                'latinos-detail/:latinosID':{
                     name:'latinos-detail',
                     router_type:'latinos',
                     component:(resolve)=>{
