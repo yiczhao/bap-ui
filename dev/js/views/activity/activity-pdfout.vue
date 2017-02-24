@@ -764,7 +764,6 @@
                 (!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
 				this.model.getMerchantTradeAmount(data).then((res)=>{
 					if (res.data.code==0){
-						// debugger;
 						this.merchantDataArea.storeName=res.data.data.series[0].storeAndMerchantName;//商户数据名称
 						this.merchantDataArea.tradeAmount=res.data.data.series[0].dataDecimal;//商户数据刷卡金额
 					}
@@ -946,7 +945,6 @@
             this.merchantData();
             this.cardBINData();
             this.oneCard();
-            console.log(this.id.pdfMap.tradeDataAnalysis.today.length)
 		},
 		beforeDestroy () {
             document.removeEventListener('click', this.resetName, false);
