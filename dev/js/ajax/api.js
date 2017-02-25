@@ -110,13 +110,18 @@ export default function install(Vue) {
      * @method POST
      */
     _o.tradeSearchExport = '/transfer/data_analysis/das/api/v1/trade_query/statistics/list/excel/export?';
-        /**
+    /**
      * @description 交易明细导出
      * @author 赵勇
      * @method POST
      */
     _o.tradeDetailExport = '/transfer/data_analysis/das/api/v1/trade_query/detail/list/excel/export?';
-
+    /**
+     * @description 交易明细导出
+     * @author 赵勇
+     * @method POST
+     */
+    _o.uploadExcel = '/bams/v1/upload/up_files_info';
 
     Object.defineProperties(Vue.prototype, {
         $API: {get(){return _o}}
