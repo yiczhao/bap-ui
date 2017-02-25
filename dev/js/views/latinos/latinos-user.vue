@@ -8,7 +8,7 @@
                     :src.sync="upCheck.upload_src"
                     :size="1048576"
                     :exts="['xlsx','doc','docx','xls']"
-                    :url="'./user/rights/phone/upload_read_excel'"></upload>
+                    :url="'./upload/file'"></upload>
             <span>/</span>
             <a @click="downLoad">下载手机号Excel表</a>
         </div>
@@ -104,14 +104,19 @@ export default{
             userData:{
                 messageContent:''
             },
-            phoneList:[
-                 '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321',
-            ]
+            phoneList:[]
         }
     },
     events:{
-        uploadSuccess(phoneList){
+        uploadSuccess(_id){
+            let phoneList=[];
+            this.$http.get('./user/rights/phone/read_excel?id='+_id).then((res)=>{
+                if(res.data.code===0){
+                    phoneList=res.data.data;
+                }
+            })
             let data=[];
+            if(!phoneList.length)return;
             _.map(phoneList,(val,index)=>{
                 data[index]={
                     phone:val,
@@ -127,19 +132,6 @@ export default{
     methods:{
         downLoad(){
             window.open(origin+'/user/rights/phone/download');
-        },
-        getList(){
-            let data=[];
-            _.map(this.phoneList,(val,index)=>{
-                data[index]={
-                    phone:val,
-                    ischeck:true
-                }
-            })
-            this.phoneList=_.chunk(data,5);
-            for(let i=0,j=5-_.size(_.last(this.phoneList));i<j;i++){
-                _.last(this.phoneList).push({phone:''});
-            }
         },
         submit(){
             if(!this.userData.messageContent){

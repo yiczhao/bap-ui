@@ -132,10 +132,10 @@
                     data:this.result.split(',')[1]
                   }
                   vm.upload(vm.url,datas).then(res=> {
-                    vm.MultipartFile = res.data.data
+                    vm.MultipartFile = res.data.data;
+                    vm.$dispatch('uploadSuccess',vm.MultipartFile);
                   })
                 }
-                this.$dispatch('uploadSuccess',this.MultipartFile);
             }
         },
         ready(){
