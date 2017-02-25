@@ -113,20 +113,20 @@ export default{
             this.$http.get('./user/rights/phone/read_excel?id='+_id).then((res)=>{
                 if(res.data.code===0){
                     phoneList=res.data.data;
+                    let data=[];
+                    if(!phoneList.length)return;
+                    _.map(phoneList,(val,index)=>{
+                        data[index]={
+                            phone:val,
+                            ischeck:true
+                        }
+                    })
+                    this.phoneList=_.chunk(data,5);
+                    for(let i=0,j=5-_.size(_.last(this.phoneList));i<j;i++){
+                        _.last(this.phoneList).push({phone:''});
+                    }
                 }
             })
-            let data=[];
-            if(!phoneList.length)return;
-            _.map(phoneList,(val,index)=>{
-                data[index]={
-                    phone:val,
-                    ischeck:true
-                }
-            })
-            this.phoneList=_.chunk(data,5);
-            for(let i=0,j=5-_.size(_.last(this.phoneList));i<j;i++){
-                _.last(this.phoneList).push({phone:''});
-            }
         }
     },
     methods:{
