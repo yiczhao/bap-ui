@@ -132,11 +132,9 @@
                     data:this.result.split(',')[1]
                   }
                   vm.upload(vm.url,datas).then(res=> {
-                    this.src = res.data.url
+                    vm.MultipartFile = res.data.data
                   })
                 }
-                // *** 上传图片
-                this.MultipartFile=fd;
                 this.$dispatch('uploadSuccess',this.MultipartFile);
             }
         },

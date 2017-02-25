@@ -10,7 +10,7 @@
                         :src.sync="'upCheck.upload_src'"
                         :size="1048576"  
                         :exts="['xlsx','doc','docx','xls']"
-                        :url="./bams/v1/upload/file"></upload>
+                        :url="'./bams/v1/upload/file'"></upload>
                 </div>
                 <div class="info">仅支持Word、Excel文档</div>
             </div>
@@ -36,24 +36,28 @@
             }
         },
         methods:{
-            showMessage(message){
-                dialog('info', message);
-            },
             submit(){
-                dialog('info','提示');
-                console.log(this.upCheck)
-            },
-            change(){
-                console.log(this.upCheck.textarea);
+                let data={
+                    description:this.upCheck.textarea,
+                    id:this.upCheck.id
+                }
+                this.$http({
+                    url: './user/defined/up_files_info',
+                    method: 'POST',
+                    data: data
+                }).then((res)=>{
+                    if(res.data.code===0){
+                        dialog('successTime','已保存！')
+                    }
+                })
             }
         },
         events:{
             uploadSuccess(data){
-                console.log(data);
+                this.upCheck.id=data;
             }
         },
         ready (){
-            
         },
     }
 </script>
