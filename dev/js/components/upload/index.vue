@@ -62,8 +62,6 @@
       </div>
      </div>
   </div>
-
-
 </template>
 
 <script type="text/javascript">
@@ -78,9 +76,9 @@
             // 格式
             exts:{type:Array,default:[]},
             // 大小 默认1M
-            size:{type:Number,default:1048576}
-            
-            
+            size:{type:Number,default:1048576},
+            // 接口地址
+            url:{type:String,default:''},
         },
         data(){
             return {}
@@ -102,14 +100,11 @@
             // 类型检查
             check_type(input){
                 var error_message = []
-
                 if(!~this.exts.indexOf(input.name.split('.')[1])){
                     error_message.push( '输入格式不正确' )
                 }else if(input.size > this.size){
                     error_message.push('大小不超过' +this.size/1024+'k')
                 }    
-                
-
                 if(error_message.length){
                     dialog('error',error_message.join(' , '))
                     return false
@@ -122,34 +117,30 @@
              * @param e {Object} 事件event对象
              */
             change(e) {
-                
                 var fd = new FormData(),
                     input = e.target.files[0]
-
                 fd.append('file', input)
                 e.target.value = ''
-                if(!this.check_type(input)) return
-
+                if(!this.check_type(input)) return;
                 this.src = input.name;
-                let data={
-                  MultipartFile:fd,
-                  bankUuid:'',
-                  activityDescription:'',
-
+                var reader = new FileReader();
+                reader.readAsDataURL(input);
+                let vm=this;
+                reader.onload = function(e){
+                  let datas={
+                    name:input.name,
+                    data:this.result.split(',')[1]
+                  }
+                  vm.upload(vm.url,datas).then(res=> {
+                    this.src = res.data.url
+                  })
                 }
-                debugger
-                this.$http.post('./bams/v1/upload/file',data).then(res=> {
-                  this.src = res.data.url
-                })
-                  // *** 上传图片
+                // *** 上传图片
                 this.MultipartFile=fd;
                 this.$dispatch('uploadSuccess',this.MultipartFile);
             }
         },
         ready(){
         }
-
-
     }
-
 </script>
