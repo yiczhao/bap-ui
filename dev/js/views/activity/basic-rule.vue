@@ -224,6 +224,10 @@
                 return newIncludeTimes;
             },
             setincludeTimes(){
+                if(!this.addData.startTime||!this.addData.endTime){
+                    this.includeTimes=this.addData.startTime.split(' ')[0]||this.addData.endTime.split(' ')[0];
+                    return;
+                }
                 if(this.addData.startTime>this.addData.endTime){
                     this.addData.endTime=this.addData.startTime;
                 }
@@ -249,6 +253,9 @@
             },
             removeDate(val){
                 let data=val.split(',');
+                _.remove(data,(val)=>{
+                    return _.isEmpty(val);
+                })
                 if(data.length<1||!val){
                     this.includeTimes='';
                     this.initIncludeTimes(val);
