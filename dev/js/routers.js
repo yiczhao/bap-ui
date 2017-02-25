@@ -228,7 +228,7 @@ export default function (Vue,router){
                     }
                 },
                 /* 批量送权益*/
-                'latinos-batch/:batchId':{
+                'latinos-batch/:batchId/:batchUserId':{
                     name:'latinos-batch',
                     router_type:'latinos',
                     component:(resolve)=>{

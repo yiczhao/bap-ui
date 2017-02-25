@@ -35,7 +35,7 @@
         </div>
     </div>
     <div class="batch-btn">
-        <a class="btn btn-primary" v-link="{'name':'latinos-user'}">下一步</a>
+        <a class="btn btn-primary" v-link="{'name':'latinos-user',params:{'latinosUserId':$route.params.batchUserId}}">下一步</a>
     </div>
 </template>
 <script>

@@ -86,7 +86,7 @@
                       <td>{{n.startTime }}</td><!-- 开始时间-->
                       <td>{{n.endTime}}</td><!-- 结束时间-->
                       <td>
-                        <a v-link="{name:'latinos-batch',params:{'batchId':n.activityID,'batchId':n.activityID}}">批量赠送</a>
+                        <a v-link="{name:'latinos-batch',params:{'batchId':n.activityID,'batchUserId':n.couponID}}">批量赠送</a>
                         <a v-link="{name:'latinos-detail',params:{'latinosID':n.couponID}}">查看明细</a>
                       </td><!--操作-->
                   </tr>
