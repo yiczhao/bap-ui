@@ -83,7 +83,9 @@
             }
         },
         events:{
-            
+            uploadSuccess(data){
+                console.log(data);
+            }
         },
         ready (){
             

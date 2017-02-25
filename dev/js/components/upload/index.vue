@@ -56,6 +56,7 @@
         </p>
         <div class="rol upload-style">
           &emsp;<span class="upload-text" v-text="src"></span>
+          {{src}}
           <input type="file" :accept="hasimg && 'image/gif, image/jpeg, image/png'" @change="change($event)">
         </div>
       </div>
@@ -129,22 +130,23 @@
                 e.target.value = ''
                 if(!this.check_type(input)) return
 
-                this.src = ''
+                this.src = input.name;
                 let data={
                   MultipartFile:fd,
                   bankUuid:'',
                   activityDescription:'',
-                  
+
                 }
-                // this.upload('./user/defined/up_files_info',).then(res=> {
-                //     this.src = res.data.url
-                // })
+                debugger
+                this.$http.post('./bams/v1/upload/file',data).then(res=> {
+                  this.src = res.data.url
+                })
                   // *** 上传图片
-                
+                this.MultipartFile=fd;
+                this.$dispatch('uploadSuccess',this.MultipartFile);
             }
         },
         ready(){
-            // this.$dispatch('COMPONENT-UPLOAD-MSG')
         }
 
 
