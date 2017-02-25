@@ -10,7 +10,7 @@
                         :src.sync="'upCheck.upload_src'"
                         :size="1048576"  
                         :exts="['xlsx','doc','docx','xls']"
-                        :url="'./bams/v1/upload/file'"></upload>
+                        :url="'./upload/file'"></upload>
                 </div>
                 <div class="info">仅支持Word、Excel文档</div>
             </div>

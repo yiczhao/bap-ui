@@ -21,11 +21,14 @@
                     <th>手机号</th>
                     <th>手机号</th>
                 </tr>
-                <tr v-for="n in phoneList">
+                <tr v-if="!!phoneList.length" v-for="n in phoneList">
                     <td v-for="m in n">
                         <ks-checkbox v-if="!!m.phone" :checked.sync="m.ischeck">{{m.phone}}</ks-checkbox>
                         <span v-if="!m.phone"></span>
                     </td>
+                </tr>
+                <tr v-if="!phoneList.length">
+                    <td colspan="5">请下载手机模板填写上传</td>
                 </tr>
             </table>
         </div>
@@ -38,7 +41,7 @@
         </div>
     </div>
     <div class="latinos-user-btn">
-        <a class="btn btn-primary">确定</a>
+        <a class="btn btn-primary" @click="submit">确定</a>
     </div>
 </template>
 <style lang="scss">
@@ -102,24 +105,67 @@ export default{
                 messageContent:''
             },
             phoneList:[
-                 '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321',
+//                 '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321', '12321321321',
             ]
+        }
+    },
+    events:{
+        uploadSuccess(phoneList){
+            let data=[];
+            _.map(phoneList,(val,index)=>{
+                data[index]={
+                    phone:val,
+                    ischeck:true
+                }
+            })
+            this.phoneList=_.chunk(data,5);
+            for(let i=0,j=5-_.size(_.last(this.phoneList));i<j;i++){
+                _.last(this.phoneList).push({phone:''});
+            }
         }
     },
     methods:{
         downLoad(){
             window.open(origin+'/user/rights/phone/download');
         },
+        getList(){
+            let data=[];
+            _.map(this.phoneList,(val,index)=>{
+                data[index]={
+                    phone:val,
+                    ischeck:true
+                }
+            })
+            this.phoneList=_.chunk(data,5);
+            for(let i=0,j=5-_.size(_.last(this.phoneList));i<j;i++){
+                _.last(this.phoneList).push({phone:''});
+            }
+        },
         submit(){
+            if(!this.userData.messageContent){
+                dialog('info','请输入短信内容！')
+                return
+            }
             let phones=_.cloneDeep(this.phoneList);
-            phones=_.concat(phones);
+            let userMobiles=[];
+            _.map(phones,(val)=>{
+                _.map(val,(value)=>{
+                    if(value.ischeck){
+                        userMobiles.push(value.phone);
+                    }
+                })
+            })
+            if(!userMobiles.length){
+                dialog('info','请选择手机号码！')
+                return
+            }
             let data={
-                userMobiles:this.upCheck.textarea,
+                userMobiles:userMobiles,
                 messageContent:this.userData.messageContent,
-                favorID:this.upCheck.id
+                favorID:this.id
             }
             this.$http({
-                url: './user/defined/up_files_info',
+                url: './transfer/activity_configure/api/v1/coupon/give',
                 method: 'POST',
                 data: data
             }).then((res)=>{
@@ -130,21 +176,7 @@ export default{
         }
     },
     created(){
-//        this.id=this.$route.params.latinosUserId;
-        let data=[];
-        _.map(this.phoneList,(val,index)=>{
-            data[index]={
-                phone:val,
-                ischeck:true
-            }
-        })
-        this.phoneList=_.chunk(data,5);
-        console.log(_.concat(this.phoneList))
-        for(let i=0,j=5-_.size(_.last(this.phoneList));i<j;i++){
-            _.last(this.phoneList).push({phone:''});
-        }
-        this.model.getBatchList(this.id).then((res)=>{
-        })
+        (this.$route.params.latinosUserId!=":latinosUserId")?this.id=this.$route.params.latinosUserId:this.id='';
     },
     components: { activityStep }
 }
