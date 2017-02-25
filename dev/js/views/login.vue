@@ -83,8 +83,18 @@ export default {
                 if(!this.loginData.usrImgCode){
                   dialog('info','未输入验证码') ;
                   return
-              };
-                this.$http.post('./user/login',this.loginData).then((data)=>{
+                };
+                if(this.usrImgCode.toLowerCase()!==this.loginData.usrImgCode.toLowerCase()){
+                    dialog('info','请输入正确的验证码！') ;
+                    return
+                }
+                let data={
+                    name:this.loginData.name,
+                    password:this.loginData.password,
+                    verifyID:this.id,
+                    verifyCode:this.loginData.usrImgCode,
+                }
+                this.$http.post('./user/login',data).then((data)=>{
                     if(data.data.code===0){
                         sessionStorage.setItem('loginList',JSON.stringify(data.data.data));
                         sessionStorage.setItem('menuList',JSON.stringify(data.data.data.privilegeList));
