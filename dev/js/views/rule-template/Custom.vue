@@ -3,10 +3,7 @@
         <div><span></span></div>
         <div class="custom-section">
             <div class="title">活动自定义</div>
-            <div class="type-text">
-            <span class="title"><span>*</span>活动描述</span><!-- 旧版样式添加 -->
-            <textarea class="textarea" v-model="upCheck.textarea" placeholder="如所给模板没有能满足您的活动需求时，请您将您的问题在此进行描述。尽量将您的需求描述完整，方便我们为您提供更好的服务。"></textarea>
-            </div>
+            <div class="type-text"><textarea class="textarea" v-model="upCheck.textarea" placeholder="如所给模板没有能满足您的活动需求时，请您将您的问题在此进行描述。尽量将您的需求描述完整，方便我们为您提供更好的服务。"></textarea></div>
             <div class="upload-file">
                 <div class="file">
                     <upload
@@ -40,10 +37,6 @@
         },
         methods:{
             submit(){
-                if(!this.upCheck.textarea){
-                    dialog('info','请完善信息！');
-                    return
-                };
                 let data={
                     description:this.upCheck.textarea,
                     id:this.upCheck.id
