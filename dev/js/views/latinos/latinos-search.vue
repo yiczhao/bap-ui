@@ -126,7 +126,7 @@
                    searchData:{
                        page:1,
                        total:0,
-                       // favorName:'',
+                       favorName:'',
                        favorTypesStr:'cash,discount',
                        firstResult:0,
                        maxResult:10,

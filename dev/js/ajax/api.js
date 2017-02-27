@@ -123,17 +123,17 @@ export default function install(Vue) {
      */
     _o.uploadExcel = '/bams/v1/upload/up_files_info';
     /**
-     * @description 权益明查询导出
+     * @description 权益查询导出
      * @author 赵勇
      * @method POST
      */
-    _o.latinosSearchExcel = '/bams/v1/upload/up_files_info';
+    _o.latinosSearchExcel = '/transfer/activity_configure/api/v1/coupon/list/excel/export?';
     /**
      * @description 权益明细导出
      * @author 赵勇
      * @method POST
      */
-    _o.latinosDetailExcel = '/bams/v1/upload/up_files_info';
+    _o.latinosDetailExcel = '/transfer/activity_configure/api/v1/coupon/detail/list/excel/export?';
 
     Object.defineProperties(Vue.prototype, {
         $API: {get(){return _o}}

@@ -419,12 +419,12 @@
 				this.times.monthAgo=agoMonthDate;
 			},
 			// =================================================================================================
-			dataLineEchart(divID,title,xData,parentDataName,parentData,passDataName,passData,type){
+			dataLineEchart(divID,title,duibi,xData,parentDataName,parentData,passDataName,passData,type){
 				var myChart=echarts.init(document.getElementById(divID));
 				var option = {
-				    title: {text: title},//表名称
+				    title: {text:title},//表名称
 				    tooltip: {trigger: 'axis'},
-				    legend: {data:['当前数据(元)','对比数据(元)']},
+				    legend: {data:duibi},
 				    backgroundColor:'#fff',
 				    xAxis: {
 				        type: 'category',
@@ -559,16 +559,32 @@
 				this.tradeNumEchart_week();
 				this.tradeNumEchart_month();
 			},
-			tradeSetData(data,ID,title,type){
+			tradeSetData(data,divID,title,duibi,first,last,type){
 				this.$set('transactionDataShow.XData',data.category);
 				this.$set('transactionDataShow.PData',data.series[0].dataDecimal);
 				this.$set('transactionDataShow.Ldata',data.series[1].dataDecimal);
          		this.dataLineEchart(
-         			ID,
-         			title,
+         			divID,title,duibi,
 					this.transactionDataShow.XData,
-					this.tradeDataEchart.now,this.transactionDataShow.PData,
-					this.tradeDataEchart.contrast,this.transactionDataShow.Ldata,type
+					first,
+					this.transactionDataShow.PData,
+					last,
+					this.transactionDataShow.Ldata,
+					type
+				)
+			},
+			tradeSetData_long(data,divID,title,duibi,first,last,type){
+				this.$set('transactionDataShow.XData',data.category);
+				this.$set('transactionDataShow.PData',data.series[0].dataLong);
+				this.$set('transactionDataShow.Ldata',data.series[1].dataLong);
+         		this.dataLineEchart(
+         			divID,title,duibi,
+					this.transactionDataShow.XData,
+					first,
+					this.transactionDataShow.PData,
+					last,
+					this.transactionDataShow.Ldata,
+					type
 				)
 			},
 			tradeDataModelToday(){//获取今日关键数据
@@ -609,9 +625,8 @@
 	        		if (res.data.code==0){
 	        			this.trade_a_week=res.data.data;
 	        		};
-						this.tradeSetData(res.data.data,this.echartID.tradeAmount_7,'7日交易总金额数据展示图','trade_all_amount_7');
+						this.tradeSetData(res.data.data,this.echartID.tradeAmount_7,'7日交易总金额数据展示图',['当前数据(元)','对比数据(元)'],'当前数据(元)','对比数据(元)','trade_all_amount_7');
 	        	});
-						// this.tradeSetData(this.trade_a_week,this.echartID.tradeAmount_7,'7日交易总金额数据展示图','trade_all_amount_7');
 			},
 			tradeAmountEchart_month(){
 				let data_30={
@@ -625,9 +640,8 @@
 	        		if (res.data.code==0){
 	        			this.trade_a_month=res.data.dat;
 	        			};
-							this.tradeSetData(res.data.data,this.echartID.tradeAmount_30,'30日交易总金额数据展示图','trade_all_amount_30');
+							this.tradeSetData(res.data.data,this.echartID.tradeAmount_30,'30日交易总金额数据展示图',['当前数据(元)','对比数据(元)'],'当前数据(元)','对比数据(元)','trade_all_amount_30');
 	        		});
-							// this.tradeSetData(this.trade_a_month,this.echartID.tradeAmount_30,'30日交易总金额数据展示图','trade_all_amount_30');
 
 			},
 			subsidyAmountEchart_week(){
@@ -642,9 +656,8 @@
 	        		if (res.data.code==0){
 	        			this.subsidy_a_week=res.data.data;
 	        			};
-							this.tradeSetData(res.data.data,this.echartID.subsidyAmoun_7,'7日补贴总金额数据展示图','subsidy_all_amount_7');
+							this.tradeSetData(res.data.data,this.echartID.subsidyAmoun_7,'7日补贴总金额数据展示图',['当前数据(元)','对比数据(元)'],'当前数据(元)','对比数据(元)','subsidy_all_amount_7');
 	        		});
-							// this.tradeSetData(this.subsidy_a_week,this.echartID.subsidyAmoun_7,'7日补贴总金额数据展示图','subsidy_all_amount_7');
 			},
 			subsidyAmountEchart_month(){
 				let data_30={
@@ -658,9 +671,8 @@
 	        		if (res.data.code==0){
 	        			this.subsidy_a_month=res.data.data;
 	        			};
-							this.tradeSetData(res.data.data,this.echartID.subsidyAmoun_30,'30日补贴总金额数据展示图','subsidy_all_amount_30');
+							this.tradeSetData(res.data.data,this.echartID.subsidyAmoun_30,'30日补贴总金额数据展示图',['当前数据(元)','对比数据(元)'],'当前数据(元)','对比数据(元)','subsidy_all_amount_30');
 	        		});
-							// this.tradeSetData(this.subsidy_a_month,this.echartID.subsidyAmoun_30,'30日补贴总金额数据展示图','subsidy_all_amount_30');
 			},
 			tradeNumEchart_week(){
 				let data_7={
@@ -670,13 +682,12 @@
 					activityID:this.id.activityID
 				};
                 (!this.id.activityID)? data_7.bankUuidString=sessionStorage.getItem('uuids'):data_7.bankUuidString='';
-				this.model.getTradeAmount(data_7).then((res)=>{
+				this.model.getTradeNum(data_7).then((res)=>{
 	        		if (res.data.code==0){
 	        			this.trade_n_week=res.data.data;
 	        			};
-							this.tradeSetData(res.data.data,this.echartID.tradeNum_7,'7日交易总笔数数据展示图','trade_all_num_7');
+							this.tradeSetData_long(res.data.data,this.echartID.tradeNum_7,'7日交易总笔数数据展示图',['当前数据(笔)','对比数据(笔)'],'当前数据(笔)','对比数据(笔)','trade_all_num_7');
 	        		});
-							// this.tradeSetData(this.trade_n_week,this.echartID.tradeNum_7,'7日交易总笔数数据展示图','trade_all_num_7');
 			},
 			tradeNumEchart_month(){
 				let data_30={
@@ -686,13 +697,12 @@
 					activityID:this.id.activityID,
 				};
                 (!this.id.activityID)? data_30.bankUuidString=sessionStorage.getItem('uuids'):data_30.bankUuidString='';
-				this.model.getTradeAmount(data_30).then((res)=>{
+				this.model.getTradeNum(data_30).then((res)=>{
 	        		if (res.data.code==0){
 	        			this.trade_n_month=res.data.data
 	        			};
-							this.tradeSetData(res.data.data,this.echartID.tradeNum_30,'30日交易总笔数数据展示图','trade_all_num_30');
+							this.tradeSetData_long(res.data.data,this.echartID.tradeNum_30,'30日交易总笔数数据展示图',['当前数据(笔)','对比数据(笔)'],'当前数据(笔)','对比数据(笔)','trade_all_num_30');
 	        		});
-							// this.tradeSetData(this.trade_n_month,this.echartID.tradeNum_30,'30日交易总笔数数据展示图','trade_all_num_30');
 			},
 			// =================================================================================================
         	//交易区域 sucess
@@ -723,8 +733,8 @@
 						this.transactionRegion.tradeArea=res.data.data.category;
 						this.transactionRegion.cityData=res.data.data.series[0].dataDecimal;
         			}
-        		})
 						this.dataBarEchart('region-echart-amount',['交易金额(元)'],['区域名称'],this.transactionRegion.tradeArea,'交易金额(元)',this.transactionRegion.cityData,'trade_area_amount');
+        		})
 
         	},
 			regionDetailNumber(){//交易区域交易笔数切换
@@ -738,8 +748,8 @@
 						this.transactionRegion.tradeArea=res.data.data.category;
 						this.transactionRegion.cityData=res.data.data.series[0].dataLong;
         			}
-        		})
 						this.dataBarEchart('region-echart-num',['交易笔数(笔)'],['区域名称'],this.transactionRegion.tradeArea,'交易笔数(笔)',this.transactionRegion.cityData,'trade_area_num');
+        		})
 			},
 			// =================================================================================================
 			//交易时段分析 sucess
@@ -783,9 +793,12 @@
 					if (res.data.code==0){
 						this.merchantDataArea.storeName=res.data.data.series[0].storeAndMerchantName;//商户数据名称
 						this.merchantDataArea.tradeAmount=res.data.data.series[0].dataDecimal;//商户数据刷卡金额
+					}else{
+						this.merchantDataArea.storeName=['1'];
+						this.merchantDataArea.tradeAmount=['1'];				
 					}
+						this.dataBarEchart('merchant-echart-amount',['刷卡金额(元)'],['门店名称,所属商户'],this.merchantDataArea.storeName,'刷卡金额(元)',this.merchantDataArea.tradeAmount,'merchant_trade_amount');
 				})
-						this.dataBarEchart('merchant-echart-amount',['刷卡金额(元)'],['门店名称，所属商户'],this.merchantDataArea.storeName,'刷卡金额(元)',this.merchantDataArea.tradeAmount,'merchant_trade_amount');
 			},
 			merchantDataTradeCountChange(){//商户数据交易笔数
 				this.merchantDataDetailJudgeName='num';
@@ -799,8 +812,8 @@
 						this.merchantDataArea.storeName=res.data.data.series[0].storeAndMerchantName;//商户数据名称
 						this.merchantDataArea.tradeCount=res.data.data.series[0].dataLong;//商户数据刷卡笔数
 					}
+						this.dataBarEchart('merchant-echart-num',['刷卡笔数(笔)'],['门店名称,所属商户'],this.merchantDataArea.storeName,'刷卡笔数(笔)',this.merchantDataArea.tradeCount,'merchant_trade_num');
 				})
-						this.dataBarEchart('merchant-echart-num',['刷卡笔数(笔)'],['门店名称，所属商户'],this.merchantDataArea.storeName,'刷卡笔数(笔)',this.merchantDataArea.tradeCount,'merchant_trade_num');
 			},
 			// =================================================================================================
 			//卡BIN数据分析 success
@@ -832,8 +845,8 @@
 						this.cardBINDataArea.binStartNumber=res.data.data.category;
 						this.cardBINDataArea.tradeAmountCardBINChange=res.data.data.series[0].dataDecimal;
 					}
-				});
 						this.dataBarEchart('cardBIN-echart-amount',['卡BIN刷卡金额(元)'],['卡BIN'],this.cardBINDataArea.binStartNumber,'卡BIN刷卡金额(元)',this.cardBINDataArea.tradeAmountCardBINChange,'cardBIN_trade_amount');
+				});
 			},
 			cardBINDetailNumber(){//卡BIN交易笔数change
 				this.cardBINDetailJudgeChoose='num';
@@ -846,8 +859,8 @@
 						this.$set('cardBINDataArea.binStartNumber',res.data.data.category)
 						this.$set('cardBINDataArea.tradeNumCardBINChange',res.data.data.series[0].dataLong)
 					}
-				});
 						this.dataBarEchart('cardBIN-echart-num',['卡BIN刷卡笔数(笔)'],['卡BIN'],this.cardBINDataArea.binStartNumber,'卡BIN刷卡笔数(笔)',this.cardBINDataArea.tradeNumCardBINChange,'cardBIN_trade_num');
+				});
 				//cardBIN-echart
 			},
 			// =================================================================================================
@@ -876,8 +889,8 @@
 						this.$set('oneCardArea.oneCardNum',res.data.data.series[0].dataLong);//x轴
 						this.$set('oneCardArea.oneCardChance',res.data.data.series[0].data);//y轴
 					}
-				})
 						this.dataBarEchart('one-echart-times',['卡数量(张)'],['次数(次)'],this.oneCardArea.oneCardChance,'卡数量(张)',this.oneCardArea.oneCardNum,'oneCard_num');
+				})
 			},
 			outPDF(){
 				this.upID();
