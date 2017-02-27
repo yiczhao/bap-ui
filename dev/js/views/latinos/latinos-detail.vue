@@ -39,7 +39,7 @@
          <div class="showInfo">
              <span class="activity-name">权益名称：<strong>{{showTitle.couponName}}</strong></span>
              <span class="infor-num">共<strong>{{searchData.total}}</strong>条数据</span>
-             <span class="out-excel" class="getExcel"><i class="icon-file-excel"></i>导出excel表格</span>
+             <span class="out-excel" @click="getExcel"><i class="icon-file-excel"></i>导出excel表格</span>
          </div>
          <div class="table">
              <table>
@@ -125,6 +125,7 @@
                 this.getList();
             },
             getExcel(){
+                console.log('success')
                 let data=getFormData(this.searchData);
                 data+='&methodName=couponDetailDataExportExcel&mid='+JSON.parse(sessionStorage.getItem('loginList')).token;
                 window.open(origin+this.$API.latinosDetailExcel+data);
