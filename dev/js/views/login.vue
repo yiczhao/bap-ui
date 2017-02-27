@@ -70,7 +70,7 @@ export default {
                     name:'',
                     password:'',
                     usrImgCode:'',
-                    id:'',
+                    verifyID:'',
                 },
                 checked:false,
                 color:1,
@@ -91,7 +91,7 @@ export default {
                 let data={
                     name:this.loginData.name,
                     password:this.loginData.password,
-                    verifyID:this.id,
+                    verifyID:this.loginData.verifyID,
                     verifyCode:this.loginData.usrImgCode,
                 }
                 this.$http.post('./user/login',data).then((data)=>{
@@ -115,7 +115,7 @@ export default {
                     if(res.data.code===0){
                         this.sysCodeImg="data:image/png;base64,"+res.data.data.image;
                         this.usrImgCode=res.data.data.sysImgCode;
-                        this.loginData.id=res.data.data.id;
+                        this.loginData.verifyID=res.data.data.id;
                     }
                 })
             },
