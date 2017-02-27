@@ -11,7 +11,7 @@ function model(_this) {
          * @returns {*}
          */
         getLatinosCumulative(data) {
-            return _this.$http.post('./transfer/activity_configure/api/coupon/list',data)
+            return _this.$http.post('./transfer/activity_configure/api/v1/coupon/list',data)
         },
         /**
          * @description 获取权益总数
@@ -19,7 +19,7 @@ function model(_this) {
          * @returns {*}
          */
         getLationsTotal(data) {
-            return _this.$http.post('./transfer/activity_configure/api/coupon/statistics',data)
+            return _this.$http.post('./transfer/activity_configure/api/v1/coupon/statistics',data)
         },
         /**
          * @description 获取银行信息

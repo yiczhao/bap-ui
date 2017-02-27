@@ -11,7 +11,7 @@ function model(_this) {
          * @returns {*}
          */
         batchNext(data) {
-            return _this.$http.post('./transfer/activity_configure/api/coupon/detail/list',data)
+            return _this.$http.post('./transfer/activity_configure/api/v1/coupon/detail/list',data)
         },
         /**
          * @description 获取权益明细列表
