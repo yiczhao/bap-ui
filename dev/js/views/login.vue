@@ -69,13 +69,13 @@ export default {
                 loginData:{
                     name:'',
                     password:'',
-                    usrImgCode:''
+                    usrImgCode:'',
+                    id:'',
                 },
                 checked:false,
                 color:1,
                 sysCodeImg:'',
                 usrImgCode:'',
-                id:'',
             }
         },
         methods:{
@@ -115,7 +115,7 @@ export default {
                     if(res.data.code===0){
                         this.sysCodeImg="data:image/png;base64,"+res.data.data.image;
                         this.usrImgCode=res.data.data.sysImgCode;
-                        this.id=res.data.data.id;
+                        this.loginData.id=res.data.data.id;
                     }
                 })
             },
