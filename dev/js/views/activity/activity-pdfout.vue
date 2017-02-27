@@ -449,9 +449,7 @@
 				    ]
 				};
         		myChart.setOption(option);
-        		this.base64[type] = myChart.getDataURL({
-        			type:'jpeg',
-        		});//获取base64编码
+        		this.base64[type] = myChart.getDataURL();//获取base64编码
 			},
 			justChart(timePoint){
 				var myChart = echarts.init(document.getElementById('time-echart'));
@@ -480,12 +478,8 @@
 				        }]
 				}
 				myChart.setOption(option);
-				this.base64.trade_time=myChart.getDataURL({
-        			type:'jpeg',
-        		});//获取base64编码
-				this.id.pdfMap.tradePeriodAnalysis.tradeNum[0].base64IMG=myChart.getDataURL({
-        			type:'jpeg',
-        		});
+				this.base64.trade_time=myChart.getDataURL();//获取base64编码
+				this.id.pdfMap.tradePeriodAnalysis.tradeNum[0].base64IMG=myChart.getDataURL();
 			},
 			dataBarEchart(chartID,dataTitle,yAxisTitle,cityName,dataName,cityData,type){
 				var myChart = echarts.init(document.getElementById(chartID));
@@ -540,9 +534,7 @@
 				    ]
 				}
 				myChart.setOption(option);
-				this.base64[type]= myChart.getDataURL({
-        			type:'jpeg',
-        		});//获取base64编码
+				this.base64[type]= myChart.getDataURL();//获取base64编码
 			},
 			// =================================================================================================
 			//交易数据分析

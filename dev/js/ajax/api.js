@@ -117,11 +117,23 @@ export default function install(Vue) {
      */
     _o.tradeDetailExport = '/transfer/data_analysis/das/api/v1/trade_query/detail/list/excel/export?';
     /**
-     * @description 交易明细导出
+     * @description 上传
      * @author 赵勇
      * @method POST
      */
     _o.uploadExcel = '/bams/v1/upload/up_files_info';
+    /**
+     * @description 权益明查询导出
+     * @author 赵勇
+     * @method POST
+     */
+    _o.latinosSearchExcel = '/bams/v1/upload/up_files_info';
+    /**
+     * @description 权益明细导出
+     * @author 赵勇
+     * @method POST
+     */
+    _o.latinosDetailExcel = '/bams/v1/upload/up_files_info';
 
     Object.defineProperties(Vue.prototype, {
         $API: {get(){return _o}}

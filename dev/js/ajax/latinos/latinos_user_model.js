@@ -11,7 +11,7 @@ function model(_this) {
          * @returns {*}
          */
         getMessage(_id) {
-            return _this.$http.post('./transfer/activity_configure/api/coupon/message/'+_id);
+            return formDataRequest('./transfer/activity_configure/api/coupon/message/'+_id).get();
         },
         /**
          * @description 批量权益提交

@@ -2,7 +2,13 @@
 	  <div class="latinos-search">
 		  <div class="search-div">
               <span>权益名称</span>
-              <input class="input" type="text" v-model="searchData.favorName" placeholder="输入权益名称"/>
+              <input class="input" type="text" v-model="searchData.favorName" placeholder="输入权益名称" @keypress.enter="getLatinosList"/>
+              <div class="showList" v-show="showList">
+                <ul>
+                    <li v-for="n in activityList | filterBy searchData.activityList in 'couponName' " @click="getId(n)">{{n.couponName}}</li>
+                    <li v-if="!activityList.length">未查询到{{searchData.couponName}}活动</li>
+                </ul>
+            </div>
               <span>结算方（银行）</span>
               <select class="select" v-model="bankUuidString" @change="getBankString">
                   <option value="">全部银行</option>
@@ -41,7 +47,7 @@
           </div>
           <div class="showInfo">
               <span class="infor-num">共{{searchData.total}}条数据</span>
-              <span class="out-excel"><i class="icon-file-excel"></i>导出excel表格</span>
+              <span class="out-excel" @click="getExcel"><i class="icon-file-excel"></i>导出excel表格</span>
           </div>
           <div class="table">
               <table>
@@ -87,7 +93,7 @@
                       <td>{{n.endTime}}</td><!-- 结束时间-->
                       <td>
                         <a v-link="{name:'latinos-batch',params:{'batchId':n.activityID,'batchUserId':n.couponID}}">批量赠送</a>
-                        <a v-link="{name:'latinos-detail',params:{'latinosID':n.couponID}}">查看明细</a>
+                        <a v-link="{name:'latinos-detail',params:{'latinosID':n.couponID,'couponName':n.couponName,'activityName':n.activityName,'startTime':n.startTime,'endTime':n.endTime,'couponFaceValue':n.couponFaceValue}}">查看明细</a>
                       </td><!--操作-->
                   </tr>
                   <tr v-show="!searchList.length">
@@ -114,6 +120,8 @@
                return{
                    searchList:{
                    },
+                   activityList:[],
+                   showList:false,
                    bankUuidString:'',
                    searchData:{
                        page:1,
@@ -171,6 +179,29 @@
                        }
                    })
                },
+               getLatinosList(){
+                let data={
+                  favorName:this.searchData.favorName,
+                  maxResult:this.searchData.maxResult,
+                  uuids:this.searchData.uuids,
+                }
+                    this.model.getLatinosCumulative(data).then((res)=>{
+                         if (res.data.code==0) {
+                          this.$set('activityList',res.data.data);
+                          this.showList=true;
+                         }
+
+                  })
+               },
+               getId({couponName}){
+                  this.showList=false;
+                  this.searchData.favorName=couponName;
+               },
+               getExcel(){
+                let data=getFormData(this.searchData);
+                data+='&methodName=couponDataExportExcel&mid='+JSON.parse(sessionStorage.getItem('loginList')).token;
+                window.open(origin+this.$API.latinosSearchExcel+data);
+              },
            },
            created(){
                this.getBankList();
