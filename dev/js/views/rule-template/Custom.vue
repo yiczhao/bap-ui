@@ -42,7 +42,7 @@
                     id:this.upCheck.id
                 }
                 this.$http({
-                    url: './user/defined/up_files_info',
+                    url: './activity/activity_info',
                     method: 'POST',
                     data: data
                 }).then((res)=>{

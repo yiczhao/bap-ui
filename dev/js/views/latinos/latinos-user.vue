@@ -88,7 +88,7 @@
     }
 </style>
 <script>
-import model from '../../ajax/latinos/latinos_batch_model'
+import model from '../../ajax/latinos/latinos_user_model'
 import activityStep from '../../components/activity-step.vue'
 export default{
     data(){
@@ -110,7 +110,7 @@ export default{
     events:{
         uploadSuccess(_id){
             let phoneList=[];
-            this.$http.get('./user/rights/phone/read_excel?id='+_id).then((res)=>{
+            this.model.batchNext({id:_id}).then((res)=>{
                 if(res.data.code===0){
                     phoneList=res.data.data;
                     let data=[];
@@ -132,6 +132,13 @@ export default{
     methods:{
         downLoad(){
             window.open(origin+'/user/rights/phone/download');
+        },
+        getMessage(){
+            this.model.getMessage(this.id).then((res)=>{
+                if(res.data.code===0){
+                    this.userData.messageContent=res.data.data.messageContent;
+                }
+            })
         },
         submit(){
             if(!this.userData.messageContent){
@@ -156,11 +163,7 @@ export default{
                 messageContent:this.userData.messageContent,
                 favorID:this.id
             }
-            this.$http({
-                url: './transfer/activity_configure/api/v1/coupon/give',
-                method: 'POST',
-                data: data
-            }).then((res)=>{
+            this.model.submitUser(data).then((res)=>{
                 if(res.data.code===0){
                     dialog('successTime','已保存！')
                 }
@@ -169,6 +172,7 @@ export default{
     },
     created(){
         (this.$route.params.latinosUserId!=":latinosUserId")?this.id=this.$route.params.latinosUserId:this.id='';
+        this.getMessage();
     },
     components: { activityStep }
 }
