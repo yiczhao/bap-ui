@@ -391,12 +391,12 @@
 				this.times.monthAgo=agoMonthDate;
 			},
 			// =================================================================================================
-			dataLineEchart(divID,title,xData,parentDataName,parentData,passDataName,passData){
+			dataLineEchart(divID,title,duibi,xData,parentDataName,parentData,passDataName,passData){
 				var myChart=echarts.init(document.getElementById(divID));
 				var option = {
 				    title: {text: title},//表名称
 				    tooltip: {trigger: 'axis'},
-				    legend: {data:['当前数据(元)','对比数据(元)']},
+				    legend: {data:duibi},
 				    xAxis: {
 				        type: 'category',
 				        boundaryGap: false,
@@ -504,16 +504,17 @@
 			},
 			// =================================================================================================
 			//交易数据分析
-			tradeSetData(data){
+			tradeSetData(data,duibi,parentDataName,passDataName){
 				this.$set('transactionDataShow.XData',data.category);
 				this.$set('transactionDataShow.PData',data.series[0].dataDecimal);
 				this.$set('transactionDataShow.Ldata',data.series[1].dataDecimal);
          		this.dataLineEchart(
          			this.tradeDataEchart.echartDivID,
          			this.transactionDataShow.tableTitle,
+         			duibi,
 					this.transactionDataShow.XData,
-					this.tradeDataEchart.now,this.transactionDataShow.PData,
-					this.tradeDataEchart.contrast,this.transactionDataShow.Ldata
+					parentDataName,this.transactionDataShow.PData,
+					passDataName,this.transactionDataShow.Ldata
 				)
 			},
 			tradeDataModelToday(){//获取今日关键数据
@@ -549,7 +550,7 @@
                 		(!this.tradeGET.activityID)? this.tradeGET.bankUuidString=sessionStorage.getItem('uuids'):this.tradeGET.bankUuidString='';
 	        			this.model.getTradeAmount(this.tradeGET).then((res)=>{
 	        				if (res.data.code==0){
-								this.tradeSetData(res.data.data)
+								this.tradeSetData(res.data.data,['当前数据(元)','对比数据(元)'],'当前数据(元)','对比数据(元)')
 	        				};
 	        			});
 	        			break;
@@ -560,7 +561,7 @@
 
 						this.model.getSubsidyAmount(this.tradeGET).then((res)=>{
 		        			if (res.data.code==0){
-		        				this.tradeSetData(res.data.data)
+		        				this.tradeSetData(res.data.data,['当前数据(元)','对比数据(元)'],'当前数据(元)','对比数据(元)')
 		        			}
 		        		});
 		        		break;
@@ -576,9 +577,10 @@
 		         				this.dataLineEchart(
 		         					this.tradeDataEchart.echartDivID,
 		         					this.transactionDataShow.tableTitle,
+		         					['当前数据(笔)','对比数据(笔)'],
 									this.transactionDataShow.XData,
-									'当前数据(元)',this.transactionDataShow.PData,
-									'对比数据(元)',this.transactionDataShow.Ldata
+									'当前数据(笔)',this.transactionDataShow.PData,
+									'对比数据(笔)',this.transactionDataShow.Ldata
 								);
 		        			}
 		        		});
