@@ -101,7 +101,7 @@
             check_type(input){
                 var error_message = []
                 if(!~this.exts.indexOf(input.name.split('.')[1])){
-                    error_message.push( '输入格式不正确' )
+                    error_message.push( '文件格式不正确' )
                 }else if(input.size > this.size){
                     error_message.push('大小不超过' +this.size/1024+'k')
                 }    
