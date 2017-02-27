@@ -19,10 +19,10 @@
               <span>到</span>
               <ks-date-picker :value.sync="searchData.endTime"></ks-date-picker>
               <span>权益类型</span>
-              <select class="select" v-model="searchData.favorTypes">
-                  <option :value="['cash','discount']">请选择</option>
-                  <option :value="['cash']">优惠金额券</option>
-                  <option :value="['discount']">优惠折扣券</option>
+              <select class="select" v-model="searchData.favorTypesStr">
+                  <option value="cash,discount">请选择</option>
+                  <option value="cash">优惠金额券</option>
+                  <option value="discount">优惠折扣券</option>
               </select>
               <a class="btn btn-primary searchBtn" @click="doSearch">搜索</a>
           </div>
@@ -126,13 +126,13 @@
                    searchData:{
                        page:1,
                        total:0,
-                       favorName:'',
-                       favorTypes:['cash','discount'],
+                       // favorName:'',
+                       favorTypesStr:'cash,discount',
                        firstResult:0,
                        maxResult:10,
                        startTime:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
                        endTime:stringify(new Date())+' 23:59:59',//结束时间
-                       uuids:_.split(sessionStorage.getItem('uuids'), ','),
+                       uuidsStr:sessionStorage.getItem('uuids'),
                    },
                    searchTotal:'',
                    bankFullName:'',
@@ -149,9 +149,9 @@
                },
                getBankString(){
                    if (!this.bankUuidString) {
-                       this.searchData.uuids=_.split(sessionStorage.getItem('uuids'), ',');
+                       this.searchData.uuidsStr=_.split(sessionStorage.getItem('uuids'), ',');
                    }else{
-                       this.searchData.uuids=[this.bankUuidString];
+                       this.searchData.uuidsStr=[this.bankUuidString];
                    }
                },
                doSearch(){
@@ -183,7 +183,7 @@
                 let data={
                   favorName:this.searchData.favorName,
                   maxResult:this.searchData.maxResult,
-                  uuids:this.searchData.uuids,
+                  uuidsStr:this.searchData.uuidsStr,
                 }
                     this.model.getLatinosCumulative(data).then((res)=>{
                          if (res.data.code==0) {

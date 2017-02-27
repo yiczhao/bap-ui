@@ -425,6 +425,7 @@
 				    title: {text: title},//表名称
 				    tooltip: {trigger: 'axis'},
 				    legend: {data:['当前数据(元)','对比数据(元)']},
+				    backgroundColor:'#fff',
 				    xAxis: {
 				        type: 'category',
 				        boundaryGap: false,
@@ -449,7 +450,9 @@
 				    ]
 				};
         		myChart.setOption(option);
-        		this.base64[type] = myChart.getDataURL();//获取base64编码
+        		this.base64[type] = myChart.getDataURL({
+					type:'jpeg'
+				});//获取base64编码
 			},
 			justChart(timePoint){
 				var myChart = echarts.init(document.getElementById('time-echart'));
@@ -457,6 +460,7 @@
 				    tooltip: {trigger: 'axis'},
 				    toolbox: {show: true},
 				    legend: {data:['交易笔数(笔)']},
+				    backgroundColor:'#fff',
 				    grid: {
 				        left: '3%',
 				        right: '4%',
@@ -478,8 +482,12 @@
 				        }]
 				}
 				myChart.setOption(option);
-				this.base64.trade_time=myChart.getDataURL();//获取base64编码
-				this.id.pdfMap.tradePeriodAnalysis.tradeNum[0].base64IMG=myChart.getDataURL();
+				this.base64.trade_time=myChart.getDataURL({
+					type:'jpeg'
+				});//获取base64编码
+				this.id.pdfMap.tradePeriodAnalysis.tradeNum[0].base64IMG=myChart.getDataURL({
+					type:'jpeg',
+				});
 			},
 			dataBarEchart(chartID,dataTitle,yAxisTitle,cityName,dataName,cityData,type){
 				var myChart = echarts.init(document.getElementById(chartID));
@@ -488,6 +496,7 @@
 				        trigger: 'axis',
 				        axisPointer: {type: 'shadow'}
 				    },
+				    backgroundColor:'#fff',
 				    legend: {data:dataTitle},
 				    grid: {
 				        left: '5%',
@@ -534,7 +543,9 @@
 				    ]
 				}
 				myChart.setOption(option);
-				this.base64[type]= myChart.getDataURL();//获取base64编码
+				this.base64[type]= myChart.getDataURL({
+					type:'jpeg'
+				});//获取base64编码
 			},
 			// =================================================================================================
 			//交易数据分析
