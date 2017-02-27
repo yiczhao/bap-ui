@@ -45,6 +45,7 @@
       margin-top: -16px;margin-left: -16px;
       font-size: 40px;
       @include center-translate();
+      position: fixed;
     }
   }
 </style>

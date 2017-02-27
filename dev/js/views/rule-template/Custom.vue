@@ -10,7 +10,7 @@
             <div class="upload-file">
                 <div class="file">
                     <upload
-                        :src.sync="'upCheck.upload_src'"
+                        :src.sync="upCheck.upload_src"
                         :size="1048576"  
                         :exts="['xlsx','doc','docx','xls']"
                         :url="'./upload/file'"></upload>

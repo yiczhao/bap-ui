@@ -54,15 +54,15 @@
 						</td>
 						<td>
 							<span>补贴总金额(元)</span>
-							<strong>{{transactionDataShow.tradeDataModelToday.subsidyAmount}}<strong>
+							<strong>{{transactionDataShow.tradeDataModelToday.subsidyAmount}}</strong>
 						</td>
 						<td>
 							<span>交易总笔数(笔)</span>
-							<strong>{{transactionDataShow.tradeDataModelToday.tradeNum}}<strong>
+							<strong>{{transactionDataShow.tradeDataModelToday.tradeNum}}</strong>
 						</td>
 						<td>
 							<span>参与活动卡数量(个)</span>
-							<strong>{{transactionDataShow.tradeDataModelToday.tradeCardNum}}<strong>
+							<strong>{{transactionDataShow.tradeDataModelToday.tradeCardNum}}</strong>
 						</td>
 						<td>
 							<span>单笔平均交易金额(元)</span>
@@ -81,19 +81,19 @@
 					<tr>
 						<td>
 							<span>交易总金额(元)</span>
-							<strong>{{transactionDataShow.tradeDataModelTotail.tradeAmount}}<strong>
+							<strong>{{transactionDataShow.tradeDataModelTotail.tradeAmount}}</strong>
 						</td>
 						<td>
 							<span>补贴总金额(元)</span>
-							<strong>{{transactionDataShow.tradeDataModelTotail.subsidyAmount}}<strong>
+							<strong>{{transactionDataShow.tradeDataModelTotail.subsidyAmount}}</strong>
 						</td>
 						<td>
 							<span>交易总笔数(笔)</span>
-							<strong>{{transactionDataShow.tradeDataModelTotail.tradeNum}}<strong>
+							<strong>{{transactionDataShow.tradeDataModelTotail.tradeNum}}</strong>
 						</td>
 						<td>
 							<span>参与活动卡数量(个)</span>
-							<strong>{{transactionDataShow.tradeDataModelTotail.tradeCardNum}}<strong>
+							<strong>{{transactionDataShow.tradeDataModelTotail.tradeCardNum}}</strong>
 						</td>
 						<td>
 							<span>单笔平均交易金额(元)</span>
@@ -130,23 +130,23 @@
 					<tr>
 						<td>
 							<span>产生交易区域（个）</span>
-							<strong>{{transactionRegion.tradeAreaModel.tradeAreaNum}}<strong>
+							<strong>{{transactionRegion.tradeAreaModel.tradeAreaNum}}</strong>
 						</td>
 						<td>
 							<span>区域平均交易笔数(笔)</span>
-							<strong>{{transactionRegion.tradeAreaModel.averageTradeNum}}<strong>
+							<strong>{{transactionRegion.tradeAreaModel.averageTradeNum}}</strong>
 						</td>
 						<td>
 							<span>最高交易区域</span>
-							<strong>{{transactionRegion.tradeAreaModel.maxTradeArea}}<strong>
+							<strong>{{transactionRegion.tradeAreaModel.maxTradeArea}}</strong>
 						</td>
 						<td>
 							<span>最高交易区域交易笔数(笔)</span>
-							<strong>{{transactionRegion.tradeAreaModel.maxTradeAreaTradeNum}}<strong>
+							<strong>{{transactionRegion.tradeAreaModel.maxTradeAreaTradeNum}}</strong>
 						</td>
 					 	<td>
 							<span>最高交易区域交易额（元）</span>
-							<strong>{{transactionRegion.tradeAreaModel.maxTradeAreaTradeAmount}}<strong>
+							<strong>{{transactionRegion.tradeAreaModel.maxTradeAreaTradeAmount}}</strong>
 						</td>
 					</tr>
 				</table>
@@ -172,7 +172,7 @@
 					<tr>
 						<td>
 							<span>参与门店数（个）</span>
-							<strong>{{merchantDataArea.merchantDataTotal.storeNumbers}}<strong>
+							<strong>{{merchantDataArea.merchantDataTotal.storeNumbers}}</strong>
 						</td>
 						<td>
 							<span>产生交易门店数(个)</span>
@@ -180,15 +180,15 @@
 						</td>
 						<td>
 							<span>店均交易笔数(个)</span>
-							<strong>{{merchantDataArea.merchantDataTotal.averageTradeNumbers}}<strong>
+							<strong>{{merchantDataArea.merchantDataTotal.averageTradeNumbers}}</strong>
 						</td>
 						<td>
 							<span>店均补贴金额(元)</span>
-							<strong>{{merchantDataArea.merchantDataTotal.averageSubsidyAmount}}<strong>
+							<strong>{{merchantDataArea.merchantDataTotal.averageSubsidyAmount}}</strong>
 						</td>
 						<td>
 							<span>店均交易金额（元）</span>
-							<strong>{{merchantDataArea.merchantDataTotal.averageTradeAmount}}<strong>
+							<strong>{{merchantDataArea.merchantDataTotal.averageTradeAmount}}</strong>
 						</td>
 					</tr>
 				</table>
@@ -201,7 +201,7 @@
 			</div>
 		</div>
 		<div class="information-area">
-			<div class="title">卡BIN数据分析</span></div>
+			<div class="title"><span>卡BIN数据分析</span></div>
 			<div class="data-table">
 				<span class="data-title"><i></i>关键数据</span>
 				<table>
@@ -212,15 +212,15 @@
 						</td>
 						<td>
 							<span>卡BIN平均交易笔数(个)</span>
-							<strong>{{cardBINDataArea.CardBinModel.averageTradeNum}}<strong>
+							<strong>{{cardBINDataArea.CardBinModel.averageTradeNum}}</strong>
 						</td>
 						<td>
 							<span>卡BIN平均交易金额（元）</span>
-							<strong>{{cardBINDataArea.CardBinModel.averageTradeAmount}}<strong>
+							<strong>{{cardBINDataArea.CardBinModel.averageTradeAmount}}</strong>
 						</td>
 						<td>
 							<span>卡BIN平均补贴金额(元)</span>
-							<strong>{{cardBINDataArea.CardBinModel.averageSubsidyAmount}}<strong>
+							<strong>{{cardBINDataArea.CardBinModel.averageSubsidyAmount}}</strong>
 						</td>
 					</tr>
 				</table>
@@ -244,11 +244,11 @@
 						</td>
 						<td>
 							<span>卡均参与次数(次)</span>
-							<strong>{{oneCardArea.oneCardModel.averageCardNumbers}}</stron>
+							<strong>{{oneCardArea.oneCardModel.averageCardNumbers}}</strong>
 						</td>
 						<td>
 							<span>单卡最高参与次数（次）</span>
-							<strong>{{oneCardArea.oneCardModel.maxSwipedCardNumbers}}<strong>
+							<strong>{{oneCardArea.oneCardModel.maxSwipedCardNumbers}}</strong>
 						</td>
 					</tr>
 				</table>
@@ -963,9 +963,6 @@
             this.cardBINData();
             this.oneCard();
 		},
-		beforeDestroy () {
-            document.removeEventListener('click', this.resetName, false);
-        },
         created(){
 			this.dateGetShow();
 			(this.$route.params.pdfActivityId!=':pdfActivityId')? this.id.activityID=this.$route.params.pdfActivityId : this.id.activityID='';
