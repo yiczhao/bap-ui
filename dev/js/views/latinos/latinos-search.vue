@@ -92,7 +92,7 @@
                       <td>{{n.startTime }}</td><!-- 开始时间-->
                       <td>{{n.endTime}}</td><!-- 结束时间-->
                       <td>
-                        <a v-link="{name:'latinos-batch',params:{'batchId':n.activityID,'batchUserId':n.couponID}}">批量赠送</a>
+                        <a v-show="n.activityStatus=='online'" v-link="{name:'latinos-batch',params:{'batchId':n.activityID,'batchUserId':n.couponID}}">批量赠送</a>
                         <a v-link="{name:'latinos-detail',params:{'latinosID':n.couponID,'couponName':n.couponName,'activityName':n.activityName,'startTime':n.startTime,'endTime':n.endTime,'couponFaceValue':n.couponFaceValue}}">查看明细</a>
                       </td><!--操作-->
                   </tr>
