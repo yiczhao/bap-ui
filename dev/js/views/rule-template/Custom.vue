@@ -27,6 +27,9 @@
     .upload-input{
         width: 360px;
     }
+    .upload-text{
+            overflow: hidden;
+    }
 </style>
 <script type="text/javascript">
     export default{
