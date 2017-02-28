@@ -70,7 +70,7 @@
 						</td>
 						<td>
 							<span>单笔平均补贴金额(元)</span>
-							<strong>{{transactionDataShow.tradeDataModelToday.averageSubsiyAmount}}</strong>
+							<strong>{{transactionDataShow.tradeDataModelToday.averageSubsidyAmount}}</strong>
 						</td>
 					</tr>
 				</table>
@@ -101,7 +101,7 @@
 						</td>
 						<td>
 							<span>单笔平均补贴金额(元)</span>
-							<strong>{{transactionDataShow.tradeDataModelTotail.averageSubsdyAmount}}</strong>
+							<strong>{{transactionDataShow.tradeDataModelTotail.averageSubsidyAmount}}</strong>
 						</td>
 					</tr>
 				</table>
@@ -176,7 +176,7 @@
 						</td>
 						<td>
 							<span>产生交易门店数(个)</span>
-							<strong>{{merchantDataArea.merchantDataTotal.generateTradeStorNumbers}}</strong>
+							<strong>{{merchantDataArea.merchantDataTotal.generateTradeStoreNumbers}}</strong>
 						</td>
 						<td>
 							<span>店均交易笔数(个)</span>
