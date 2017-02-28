@@ -19,7 +19,7 @@
 						<td>活动时间: </td>
 						<td>{{basicData.startTime}} ~ {{basicData.endTime}}</td>
 						<td>所属银行: </td>
-						<td>{{basicData.uuid | get_bank uuidsList}}</td>
+						<td>{{shortName}}</td>
 					</tr>
 					<tr>
 						<td>参与时间段:</td>
@@ -367,6 +367,7 @@
 					posPrint:'',
 					timesList:[]
 				},
+				shortName:'',
 				id:{
 					activityID:'',
 					bankUuidString:'',
@@ -991,6 +992,14 @@
 					this.model.getinfoList(this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id).then((res)=>{
 						if(res.data.code===0){
 							this.$set('basicData',res.data.data.base);
+				            let data={
+				            	uuid:this.basicData.uuid
+				            }
+				            this.model.getBankByUuid(data).then((res)=>{
+								if(res.data.code===0){
+									this.shortName=res.data.data.shortName;
+								}
+					        })
 			            }
 		            })
 				}    	

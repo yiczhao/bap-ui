@@ -140,6 +140,14 @@ function model(_this) {
          */
         getinfoList (_id) {
             return formDataRequest('./transfer/activity_configure/api/v1/activity/view/'+_id).get()
+        },
+        /**
+         * @description 获取银行信息
+         * @param data
+         * @returns {*}
+         */
+        getBankByUuid (data) {
+            return formDataRequest('./bank/uuid').get(data)
         }
 	}
 }
