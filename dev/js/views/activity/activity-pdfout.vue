@@ -425,6 +425,7 @@
 				    title: {text:title},//表名称
 				    tooltip: {trigger: 'axis'},
 				    legend: {data:duibi},
+				    animation:false,
 				    backgroundColor:'#fff',
 				    xAxis: {
 				        type: 'category',
@@ -451,7 +452,7 @@
 				};
         		myChart.setOption(option);
         		this.base64[type] = myChart.getDataURL({
-					type:'jpeg'
+					type:'jpeg',
 				});//获取base64编码
 			},
 			justChart(timePoint){
@@ -461,6 +462,7 @@
 				    toolbox: {show: true},
 				    legend: {data:['交易笔数(笔)']},
 				    backgroundColor:'#fff',
+				    animation:false,
 				    grid: {
 				        left: '3%',
 				        right: '4%',
