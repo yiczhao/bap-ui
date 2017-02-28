@@ -149,9 +149,9 @@
                },
                getBankString(){
                    if (!this.bankUuidString) {
-                       this.searchData.uuidsStr=_.split(sessionStorage.getItem('uuids'), ',');
+                       this.searchData.uuidsStr=sessionStorage.getItem('uuids');
                    }else{
-                       this.searchData.uuidsStr=[this.bankUuidString];
+                       this.searchData.uuidsStr=this.bankUuidString;
                    }
                },
                doSearch(){

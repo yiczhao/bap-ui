@@ -44,6 +44,10 @@
                     dialog('info','请完善信息！');
                     return
                 };
+                if(!this.upCheck.id){
+                    dialog('info','请上传文件！');
+                    return
+                };
                 let data={
                     description:this.upCheck.textarea,
                     id:this.upCheck.id
