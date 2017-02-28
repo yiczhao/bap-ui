@@ -83,13 +83,19 @@
     <div class="rule-row">
         <div class="rule-label"><i>*</i>活动主题</div>
         <div class="rule-input">
-            <textarea class="input textarea" v-model="addData.subject"></textarea>
+            <textarea class="input textarea"
+                      placeholder="最多可输入200个字符"
+                      maxlength="200"
+                      v-model="addData.subject" ></textarea>
         </div>
     </div>
     <div class="rule-row">
         <div class="rule-label"><i>*</i>活动细则</div>
         <div class="rule-input">
-            <textarea class="input textarea" v-model="addData.detail"></textarea>
+            <textarea class="input textarea"
+                      placeholder="最多可输入500个字符"
+                      maxlength="500"
+                      v-model="addData.detail"></textarea>
         </div>
     </div>
     <div class="rule-row">
@@ -100,6 +106,7 @@
             </div>
             <div class="rule-input">
                 <textarea v-show="smsContentswitch" class="input textarea" v-model="addData.smsContent"
+                          maxlength="56"
                           placeholder="请输入发送内容：含标点符号56个汉字加上签名括号，签名必须前置。如【建设银行】尽享5折活动,单笔消费最高可优惠200元"></textarea>
             </div>
         </div>
