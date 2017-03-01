@@ -307,7 +307,7 @@
                   let mesa='';
                   try {
                       if(_.isArray(datas)){
-                          mesa='请至少填写一条规则信息';
+                          mesa='请至少填写一条完整的规则信息';
                           this.checkRule(datas[0]);
                       }else{
                           mesa='请填写规则信息';
