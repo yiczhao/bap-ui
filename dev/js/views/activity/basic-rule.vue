@@ -20,7 +20,7 @@
         </div>
     </div> -->
     <div class="rule-row">
-        <div class="rule-label"><i>*</i>活动预算</div>
+        <div class="rule-label">活动预算</div>
         <div class="rule-input">
             <input class="input" maxlength="8" type="text" v-model="addData.budget" v-limitaddprice="addData.budget" placeholder="请输入预算" />
             <span>元</span>
@@ -38,18 +38,9 @@
     <div class="rule-row">
         <div class="rule-label"><i>*</i>可选时间段</div>
         <div class="rule-input">
-            <ks-checkbox v-for="n in weeksList" :checked.sync="n.checked">{{n.name}}</ks-checkbox>
+            <ks-checkbox v-for="n in weeksList" @change="removeIncludeTimes(n.checked,$index)" :checked.sync="n.checked">{{n.name}}</ks-checkbox>
         </div>
     </div>
-    <!--<div class="rule-row">-->
-        <!--<div class="rule-label"><i>*</i>删选时间</div>-->
-        <!--<div class="rule-input">-->
-                <!--<a @click="dater.show = true" class="btn btn-primary">删选时间</a>-->
-                <!--<ks-dater style="position: relative; z-index: 9" v-show="dater.show" :exclude="true"-->
-                          <!--:value.sync="dater.includeTimes" @change="removeDate"-->
-                          <!--placeholder="删选时间"></ks-dater>-->
-        <!--</div>-->
-    <!--</div>-->
     <div class="rule-row">
         <div class="rule-label">全天</div>
         <div class="rule-input">
@@ -77,20 +68,77 @@
             </div>
         </div>
     </div>
+    <div class="rule-row">
+        <div class="rule-label"><i>*</i>删选时间</div>
+        <div class="rule-input" style="position:relative;" v-ks-click-outside="close">
+            <a @click="dater.show = true" class="btn btn-primary">删选时间</a>
+            <div style="position:absolute;width: 233px;left: 0;top: 40px;">
+                <ks-dater style="position: relative; z-index: 9" v-show="dater.show" :exclude="true"
+                          :value.sync="includeTimes" @change="removeDate"
+                          placeholder="删选时间"></ks-dater>
+            </div>
+        </div>
+    </div>
     <div class="dashed"></div>
     <div class="rule-row">
         <div class="rule-label"><i>*</i>活动主题</div>
         <div class="rule-input">
-            <textarea class="input textarea" v-model="addData.subject"></textarea>
+            <textarea class="input textarea"
+                      placeholder="最多可输入200个字符"
+                      maxlength="200"
+                      v-model="addData.subject" ></textarea>
         </div>
     </div>
     <div class="rule-row">
         <div class="rule-label"><i>*</i>活动细则</div>
         <div class="rule-input">
-            <textarea class="input textarea" v-model="addData.detail"></textarea>
+            <textarea class="input textarea"
+                      placeholder="最多可输入500个字符"
+                      maxlength="500"
+                      v-model="addData.detail"></textarea>
+        </div>
+    </div>
+    <div class="rule-row">
+        <div class="bg-gray">
+            <div class="rule-input">
+                <span>消费短信提醒</span>
+                <ks-switch :color="'#2196F3'" :checked.sync="smsContentswitch" @change="addtimesList"></ks-switch>
+            </div>
+            <div class="rule-input">
+                <textarea v-show="smsContentswitch" class="input textarea" v-model="addData.smsContent"
+                          maxlength="56"
+                          placeholder="请输入发送内容：含标点符号56个汉字加上签名括号，签名必须前置。如【建设银行】尽享5折活动,单笔消费最高可优惠200元"></textarea>
+            </div>
         </div>
     </div>
     <div class="dashed"></div>
+    <div class="rule-row">
+        <div class="rule-label"><i>*</i>POS小票内容设置</div>
+        <div class="rule-input pos-div">
+            <div class="pos-span">
+                <span @click="insertPosTicketWildcard('%DISRATE%')">用户折扣</span>
+                <span @click="insertPosTicketWildcard('%FAVORAMT%')">优惠金额</span>
+                <span @click="insertPosTicketWildcard('%DAYLEFT%')">当天剩余名额</span>
+                <span @click="insertPosTicketWildcard('%TOTALLEFT%')">总剩余名额</span>
+            </div>
+            <div>
+                <textarea  v-el:pos-print  class="input textarea"
+                           v-model="addData.posPrint"
+                           :maxlength="77"
+                           placeholder="恭喜您，总共优惠了n（n=优惠金额）元"></textarea>
+            </div>
+            <div class="red">
+                注：插入“当天剩余名额”必须设置“限制条件：活动总次数中的“每天次数”。
+                插入“总剩余名额”必须设置“限制条件：活动总次数中的“总次数”。
+            </div>
+        </div>
+    </div>
+    <div class="rule-row">
+        <div class="rule-label">二维码</div>
+        <div class="rule-input">
+            <input class="input" type="text" v-model="addData.qrcodeUrl" placeholder="请输入POS小票上需要打印的二维码链接" />
+        </div>
+    </div>
     <div class="rule-row tc">
         <a class="btn btn-gray" @click="submitAdd(false)">保存草稿</a>
         <a class="btn btn-primary" @click="submitAdd(true)">下一步</a>
@@ -124,19 +172,25 @@
                     name:'',
                     // city:'',
                     budget:'',
-                    startTime:'',
-                    endTime:'',
+                    startTime:stringify(new Date()),
+                    endTime:stringify(new Date()),
                     actType:'common_act',
                     subject:'',
                     detail:'',
                     propes :sessionStorage.getItem('props'),
+                    smsContent:'',
+                    posPrint:'',
+                    qrcodeUrl:'',
                 },
                 timesList:[
                     {start:'0:00',end:'23:59'}
                 ],
+                includeTimes: '',
                 dater:{
-                    show:false,
-                    includeTimes:''
+                    show: false,
+                    excludeTimes: [],
+                    prevStartTime: '',
+                    prevEndTime: ''
                 },
                 weeksList:[
                     {name:'周日',checked:true,id:0},
@@ -147,15 +201,85 @@
                     {name:'周五',checked:true,id:5},
                     {name:'周六',checked:true,id:6}
                 ],
-                switch:true
+                switch:true,
+                smsContentswitch:true,
             }
         },
         methods:{
-            setincludeTimes(){
-                console.log(this.addData.startTime);
+            initIncludeTimes(val){
+                if(!val){
+                    this.$nextTick(()=>{
+                        this.addData.endTime=this.addData.startTime.split(' ')[0]+' 23:59:59';
+                        this.includeTimes=this.addData.startTime.split(' ')[0];
+                    })
+                }
             },
-            removeDate(){
-
+            getIncludeTimeData(startDate,endDate){
+                let newIncludeTimes='';
+                for(let i=Date.parse(startDate);i<=Date.parse(endDate);i+=86400000){
+                    newIncludeTimes+=stringify(new Date(i))+',';
+                }
+                newIncludeTimes=newIncludeTimes.substring(0,newIncludeTimes.length-1).split(',');
+                _.map(this.weeksList,(val)=>{
+                    if(!val.checked){
+                        _.remove(newIncludeTimes,(value)=>{
+                            let _index=new Date(value).getDay();
+                            return _index==val.id;
+                        })
+                    }
+                })
+                return newIncludeTimes;
+            },
+            setincludeTimes(){
+                if(!this.addData.startTime||!this.addData.endTime){
+                    this.includeTimes=this.addData.startTime.split(' ')[0]||this.addData.endTime.split(' ')[0];
+                    return;
+                }
+                if(this.addData.startTime>this.addData.endTime){
+                    this.addData.endTime=this.addData.startTime;
+                }
+                this.$nextTick(()=>{
+                    let newIncludeTimes=this.getIncludeTimeData(this.addData.startTime,this.addData.endTime);
+                    this.includeTimes=_.join(newIncludeTimes,',');
+                    this.initIncludeTimes(this.includeTimes);
+                })
+            },
+            removeIncludeTimes(check,i){
+                let data=this.includeTimes.split(',');
+                if(check){
+                    let newIncludeTimes=this.getIncludeTimeData(this.addData.startTime,this.addData.endTime);
+                    this.includeTimes=_.join(newIncludeTimes,',');
+                }else{
+                    _.remove(data,(val)=>{
+                        let _index=new Date(val).getDay();
+                        return _index==i;
+                    })
+                    this.includeTimes=_.join(data,',');
+                }
+                this.initIncludeTimes(this.includeTimes);
+            },
+            removeDate(val){
+                let data=val.split(',');
+                _.remove(data,(val)=>{
+                    return _.isEmpty(val);
+                })
+                if(data.length<1||!val){
+                    this.includeTimes='';
+                    this.initIncludeTimes(val);
+                    return;
+                }
+//                if(_.min(data)<this.addData.startTime.split(' ')[0]||this.addData.endTime.split(' ')[0]<_.max(data)){
+//                    let newIncludeTimes=this.getIncludeTimeData(this.addData.startTime,this.addData.endTime);
+//                    this.$nextTick(()=>{
+//                        this.includeTimes=_.join(newIncludeTimes,',');
+//                    })
+//                    return;
+//                }
+                this.addData.startTime=_.min(data)+' 00:00:00';
+                this.addData.endTime=_.max(data)+' 23:59:59';
+                this.$nextTick(()=>{
+                    this.includeTimes=val;
+                })
             },
             addtimesList(){
                 this.switch? this.timesList=[{start:'0:00',end:'23:59'}]:null;
@@ -232,15 +356,18 @@
                     name: '活动名称',
 //                    city: '所在地区',
                     actType: '活动类型',
-                    budget: '活动预算',
+//                    budget: '活动预算',
                     propes: '活动性质',
                     startTime:'活动开始时间',
                     endTime:'活动结束时间',
                     weeksList: '可选时间段',
                     subject: '活动主题',
+                    posPrint:'POS小票内容设置',
                     detail: '活动细则'
                 }
-
+                if(this.smsContentswitch){
+                    errMapper['smsContent']='消费短信提醒';
+                }
                 // 检测是否存在未填写项
                 for (let k in data) {
                     let m = data[k]
@@ -284,6 +411,7 @@
                     }
                 }
                 !!sessionStorage.getItem('activityId')?data.id=sessionStorage.getItem('activityId'):(data.id=this.$route.params.activityId << 0 ===0?'':this.$route.params.activityId << 0 );
+                data.includeTimesList=this.includeTimes.split(',');
                 this.model.addBasic(data).then((res)=>{
                     if(res.data.code===0){
                         let activityId = this.$route.params.activityId << 0;
@@ -304,11 +432,38 @@
             errHandle (err) {
                 dialog('info', err)
             },
+            close(){
+                this.dater.show=false;
+            },
+            insertPosTicketWildcard (wildcard) {
+                let posPrintTextarea = this.$els.posPrint
+                let ABM = this.addData
+
+                if (typeof posPrintTextarea.selectionStart === 'number' &&
+                        typeof posPrintTextarea.selectionEnd === 'number') {
+                    let startPos = posPrintTextarea.selectionStart
+                    let endPos = posPrintTextarea.selectionEnd
+                    let cursorPos = startPos
+                    let tStr = posPrintTextarea.value
+
+                    // 将字符插入到当前光标位置
+                    let resultStr = tStr.substring(0, startPos) + wildcard + tStr.substring(endPos, tStr.length)
+                    posPrintTextarea.value = resultStr
+                    ABM.posPrint = resultStr
+
+                    // 将光标移动到文本段末尾
+                    cursorPos += tStr.length
+                    posPrintTextarea.selectionStart = posPrintTextarea.selectionEnd = cursorPos
+                } else {
+                    ABM.posPrint += wildcard
+                }
+            }
         },
         created(){
             // this.getProvince();
             let activityId='';
             !!sessionStorage.getItem('activityId')?activityId=sessionStorage.getItem('activityId'):(activityId=this.$route.params.activityId << 0 ===0?'':this.$route.params.activityId << 0 );
+            this.removeDate(this.addData.startTime)
             if (activityId) {
                 // 获取活动信息
                 this.model.getAddList(activityId).then((res)=>{
@@ -316,6 +471,7 @@
                     this.$set('weeksList',this.setweeks(res.data.data.weeksList,this.weeksList));
                     this.$set('timesList',this.settimesList(res.data.data.timesList));
                     res.data.data.timesList.length==1&&res.data.data.timesList[0]==='0:00 ~ 23:59'?this.$set('switch',true):this.$set('switch',false);
+                    this.includeTimes=_.join(res.data.data.includeTimesList,',');
                 })
             }
         },

@@ -4,11 +4,14 @@
         <input class="input" type="text" v-model="n.name"/>
         <span>抵扣</span>
         <input class="input" type="text" v-model="n.deductibleMoney" v-limitaddprice="n.deductibleMoney"/>
-        <span>元， 每次可使用</span>
-        <input class="input" type="text" v-model="n.number" v-limitaddprice="n.number"/>
-        <span>张</span>
-        <i v-if="index===0" class="icon-add" @click="submitdata.push({'deductibleMoney':'','number':'','name':''})"></i>
+        <span>元。</span>
+        <i v-if="index===0" class="icon-add" @click="submitdata.push({'deductibleMoney':'','name':''})"></i>
         <i v-if="index!==0" class="icon-remove" @click="submitdata.splice(index, 1)"></i>
+    </div>
+    <div class="rule-input">
+        <span>每次可使用</span>
+        <input class="input" type="text" v-model="snumber" v-limitaddprice="snumber"/>
+        <span>张。</span>
     </div>
 </template>
 <script type="text/javascript">
@@ -28,14 +31,19 @@
                     name:'',
                     deductibleMoney:'',
                     number:'',
-                }]
+                }],
+                snumber:''
             }
         },
         methods:{
         },
         events:{
             getData(){
-                this.$dispatch('getDatas',  this.submitdata);
+                let data=_.cloneDeep(this.submitdata);
+                for(let i = 0;i<data.length;i++){
+                    data[i].number=this.snumber;
+                }
+                this.$dispatch('getDatas',data);
             },
             setData(data){
                 let sdata=[];
@@ -43,9 +51,9 @@
                     sdata.push({
                         name:val.name,
                         deductibleMoney:val.deductibleMoney,
-                        number:val.number
                     })
                 })
+                this.snumber=data[0].number;
                 this.$set('submitdata', sdata);
             },
         },

@@ -30,7 +30,7 @@
         <div class="showInfo">
             <span class="activity-name">活动名称：<strong>{{activityName}}</strong></span>
             <span class="infor-num">共<strong>{{searchData.total}}</strong>条数据</span>
-            <!-- <span class="out-excel"><i class="icon-file-excel"></i>导出excel表格</span> -->
+            <span class="out-excel" @click="getExcel"><i class="icon-file-excel"></i>导出excel表格</span>
         </div>
         <div class="table">
             <table>
@@ -120,6 +120,11 @@
                         this.$set('cumulative',res.data.data);
                     }
                 })
+            },
+            getExcel(){
+                let data=getFormData(this.searchData);
+                data+='&methodName=statisticsDetailDataExportExcel&mid='+JSON.parse(sessionStorage.getItem('loginList')).token;
+                window.open(origin+this.$API.tradeDetailExport+data);
             },
         },
         ready(){

@@ -1,4 +1,4 @@
-@font-face {
+  @font-face {
   font-family: 'icomoon';
   src:url('./fonts/icomoon.eot');
   src:url('./fonts/icomoon.eot?#iefix') format('embedded-opentype'),
@@ -43,6 +43,15 @@
   border-radius: 50%;
 }
 
+.icon-mobile:before {
+  content: "\e958";
+}
+.icon-spinner:before {
+  content: "\e984";
+}
+.icon-search:before {
+  content: "\e986";
+}
 .icon-BJBZ:before {
   content: "\e900";
 }
@@ -111,7 +120,4 @@
 }
 .icon-file-excel:before {
   content: "\ef39";
-}
-.icon-search:before {
-  content: "\e986";
 }

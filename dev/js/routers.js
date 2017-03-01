@@ -139,7 +139,14 @@ export default function (Vue,router){
                             component:(resolve)=>{
                                 require(['./views/rule-template/CouponMinus.vue'],resolve)
                             }
-                        }
+                        },
+                    }
+                },
+                'Custom':{
+                    name:'Custom',
+                    router_type:'Custom',
+                    component:(resolve)=>{
+                        require(['./views/rule-template/Custom.vue'],resolve)
                     }
                 },
                 'bussiness-set/:bactivityId':{
@@ -181,7 +188,7 @@ export default function (Vue,router){
                     }
                 },
                 /* 活动分析页面pdf导出页面 */
-                'activity-pdfout': {
+                'activity-pdfout/:pdfoutId/:pdfActivityId': {
                     name: 'activity-pdfout',
                     router_type:'activity',
                     component: (resolve) => {
@@ -213,11 +220,27 @@ export default function (Vue,router){
                     }
                 },
                 /* 权益明细查询*/
-                'latinos-detail':{
+                'latinos-detail/:latinosID/:couponName/:activityName/:startTime/:endTime/:couponFaceValue':{
                     name:'latinos-detail',
                     router_type:'latinos',
                     component:(resolve)=>{
                         require(['./views/latinos/latinos-detail.vue'], resolve)
+                    }
+                },
+                /* 批量送权益*/
+                'latinos-batch/:batchId/:batchUserId':{
+                    name:'latinos-batch',
+                    router_type:'latinos',
+                    component:(resolve)=>{
+                        require(['./views/latinos/latinos-batch.vue'], resolve)
+                    }
+                },
+                /* 批量送权益*/
+                'latinos-user/:latinosUserId':{
+                    name:'latinos-user',
+                    router_type:'latinos',
+                    component:(resolve)=>{
+                        require(['./views/latinos/latinos-user.vue'], resolve)
                     }
                 },
                 /* 银行基本设置页面 */

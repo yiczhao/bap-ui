@@ -6,6 +6,14 @@ window.formDataRequest =(url)=>{
         emulateJSON: true
     })
 }
+window.getFormData =(data)=>{
+    let formData='';
+    _.map(data,(val,key)=>{  
+        formData+= key+'='+val+'&';
+    })
+    formData=formData.substring(0,formData.length-1);
+    return formData;
+}
 window.dialog=((types,mes)=>{
     switch (types){
         case 'error':

@@ -6,8 +6,8 @@
                 <menu-component></menu-component>
             </div>
             <div class="content-right">
-                <loading></loading>
                 <router-view></router-view>
+                <loading></loading>
             </div>
         </div>
     </div>

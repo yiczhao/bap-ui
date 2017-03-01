@@ -15,15 +15,15 @@
 	}
 	.rule-row{
 		padding: 0 20px;
-		width: 750px;
+		width: 800px;
 		margin: 0 auto 20px;
 		@extend .clearfix;
 		font-size: 15px;
 		.rule-label{
-			width: 120px;
+			width: 135px;
 			float: left;
-			text-align:right;
-			margin-right: 20px;
+			text-align:left;
+			margin-right: 15px;
 			i{
 				color:red;
 				margin: 2px 3px 0 0;
@@ -79,6 +79,58 @@
 		}
 		.rule-label,.rule-input{
 			line-height:36px;
+		}
+		div.bg-gray{
+			width: 500px;
+			margin-left: 150px;
+			overflow: hidden;
+			padding: 20px 20px 0 20px;
+			span{
+				position: relative;
+				top: -7px;
+				font-size: 13px;
+				margin-bottom: 9px;
+				color:#444;
+			}
+			.KSIosSwitch{
+				float: right;
+			}
+			textarea{
+				margin-bottom: 10px;
+			}
+		}
+	}
+	.pos-div{
+		width: 500px;
+		background: #f5f5f5;
+		padding: 10px 20px;
+		color: #444;
+		font-size: 13px;
+		position: relative;
+		top: -10px;
+		.pos-span{
+			span{
+				display: inline-block;
+				padding: 2px 15px;
+				background: #ccc;
+				height: 20px;
+				line-height: 22px;
+				margin-right: 10px;
+				text-align: center;
+				color: #fff;
+				cursor: pointer;
+				&:hover{
+					opacity:0.7;
+				}
+			}
+		}
+		.textarea{
+			width: 506px;
+			height: 80px;
+		}
+		.red{
+			color:red;
+			line-height: 20px;
 		}
 	}
 }

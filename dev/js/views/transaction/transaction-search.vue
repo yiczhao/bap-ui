@@ -46,7 +46,7 @@
         </div>
         <div class="showInfo">
             <span class="infor-num">共<strong>{{objectotalNumber}}</strong>条数据</span>
-            <!-- <span class="out-excel"><i class="icon-file-excel"></i>导出excel表格</span> -->
+            <span class="out-excel" @click="getExcel"><i class="icon-file-excel"></i>导出excel表格</span>
         </div>
         <div class="table"> 
             <table>
@@ -181,7 +181,12 @@
                 _.map(privilegeList,(val)=>{
                     this.privilegeList.push(val.name)
                 })
-            }
+            },
+            getExcel(){
+                let data=getFormData(this.searchData);
+                data+='&methodName=statisticsDataExportExcel&mid='+JSON.parse(sessionStorage.getItem('loginList')).token;
+                window.open(origin+this.$API.tradeSearchExport+data);
+            },
         },
         ready(){
             this.getBankList();

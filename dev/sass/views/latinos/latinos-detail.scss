@@ -30,6 +30,16 @@
 			height:36px;
 		}
 	}
+	.something{
+		margin-top: 15px;
+		span{
+			display:inline-block;
+			padding: 0 20px;
+		}
+		span:first-child{
+			padding-left: 0px;
+		}
+	}
 	.table{
 		margin-top: 20px;
 	}
@@ -39,6 +49,15 @@
 		span{
 			line-height:30px;
 			display: inline-block;
+			strong{
+				padding-left: 10px;
+			}
+		}
+		.infor-num{
+			margin-left: 20px;
+			strong{
+				padding:0 10px;
+			}
 		}
 		.out-excel{
 			float: right;

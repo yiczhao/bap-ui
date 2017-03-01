@@ -11,6 +11,7 @@ import filters from './filters/index'
 import common_model from './ajax/common/commom_model'
 import routers from './routers'
 import interceptor from './middlewares/interceptor'
+import API from './ajax/api.js'
 Object.keys(components).forEach(k => {
     var a = Vue.component(k, components[k]);
 })
@@ -18,6 +19,7 @@ Object.keys(components).forEach(k => {
 Object.keys(filters).forEach(k => Vue.filter(k, filters[k]));
 // *** 引入directive
 Object.keys(directives).forEach(k => Vue.directive(k, directives[k]));
+Vue.use(API)
 Vue.use(VueResource)
 Vue.use(VueRouter)
 Vue.use(ksComponents)

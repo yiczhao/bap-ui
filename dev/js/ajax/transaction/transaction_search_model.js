@@ -1,5 +1,5 @@
 /**
- * @description 交易明细查询接口
+ * @description 交易查询接口
  * @author 郑杰
  * @date 2017.01.04
  */
@@ -28,7 +28,7 @@
          */
          getBankList(data){
             return formDataRequest('./bank/bank_list').get(data)
-         }
+         },
     }
 }
 module.exports = model

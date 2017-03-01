@@ -7,6 +7,7 @@
 @import "./activity/activity-rule";
 @import "./activity/bussiness-set";
 @import "./activity/activity-manage";
+@import "./activity/custom";
 @import "./config/bank-config";
 @import "./config/user-config";
 @import "./config/password-config";
@@ -15,3 +16,4 @@
 @import "./transaction/transaction-search";
 @import "./latinos/latinos-search";
 @import "./latinos/latinos-detail";
+@import "./latinos/latinos-batch";

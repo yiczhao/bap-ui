@@ -2,65 +2,60 @@
 	  <div class="latinos-search">
 		  <div class="search-div">
               <span>权益名称</span>
-              <input class="input" type="text" v-model="" placeholder="输入权益名称"/>
+              <input class="input" type="text" v-model="searchData.favorName" placeholder="输入权益名称" @keypress.enter="getLatinosList"/>
               <div class="showList" v-show="showList">
-                  <ul>
-                      <li v-for="n in activityList | filterBy activityName in 'name'" @click="getId(n)">{{n.name}}</li>
-                      <li v-if="!activityList.length">未查询到{{searchData.activityName}}活动</li>
-                  </ul>
-              </div>
+                <ul>
+                    <li v-for="n in activityList | filterBy searchData.activityList in 'couponName' " @click="getId(n)">{{n.couponName}}</li>
+                    <li v-if="!activityList.length">未查询到{{searchData.couponName}}活动</li>
+                </ul>
+            </div>
               <span>结算方（银行）</span>
-              <select class="select" v-model="">
-                  <option value="">11</option>
-                  <option value="">22</option>
-                  <option value="">33</option>
+              <select class="select" v-model="bankUuidString" @change="getBankString">
+                  <option value="">全部银行</option>
+                  <option v-for="n in bankFullName" :value="n.uuid">{{n.shortName}}</option>
               </select>
               <span>开始时间</span>
-              <ks-date-picker value="2016-10-12"></ks-date-picker>
+              <ks-date-picker :value.sync="searchData.startTime"></ks-date-picker>
               <span>到</span>
-              <ks-date-picker value="2016-10-12"></ks-date-picker>
+              <ks-date-picker :value.sync="searchData.endTime"></ks-date-picker>
               <span>权益类型</span>
-              <select class="select" v-model="">
-                  <option value="">11</option>
-                  <option value="">22</option>
-                  <option value="">33</option>
+              <select class="select" v-model="searchData.favorTypesStr">
+                  <option value="cash,discount">请选择</option>
+                  <option value="cash">优惠金额券</option>
+                  <option value="discount">优惠折扣券</option>
               </select>
-              <span>权益种类</span>
-              <select class="select" v-model="">
-                  <option value="">11</option>
-                  <option value="">22</option>
-                  <option value="">33</option>
-              </select>
-              <a class="btn btn-primary searchBtn" @click="latinosSearch">搜索</a>
+              <a class="btn btn-primary searchBtn" @click="doSearch">搜索</a>
           </div>
            <div class="table">
               <table>
                   <tr>
                       <th>权益总数量</th>
-                      <th>权益领取量</th>
                       <th>权益使用量</th>
                       <th>权益未使用量</th>
                       <th>权益逾期量</th>
                   </tr>
-                  <tr>
-                      <td>{{latinosCumulative.latinosNum}}</td>
-                      <td>{{latinosCumulative.latinosReceive}}</td>
-                      <td>{{latinosCumulative.latinosAlreadyUse}}</td>
-                      <td>{{latinosCumulative.latinosNotUse}}</td>
-                      <td>{{latinosCumulative.latinosOverdue}}</td>
+                  <tr v-show="!!searchTotal">
+                      <td>{{searchTotal.circulation}}</td>
+                      <td>{{searchTotal.usedAmount}}</td>
+                      <td>{{searchTotal.unusedAmount}}</td>
+                      <td>{{searchTotal.expiredAmount}}</td>
+                  </tr>
+                  <tr v-show="!searchTotal">
+                      <td colspan="12">未查询到数据</td>
                   </tr>
               </table>
           </div>
           <div class="showInfo">
-              <span class="infor-num">共{{pagegroupInfor.total}}条数据</span>
-              <span class="out-excel"><i class="icon-file-excel"></i>导出excel表格</span>
+              <span class="infor-num">共{{searchData.total}}条数据</span>
+              <span class="out-excel" @click="getExcel"><i class="icon-file-excel"></i>导出excel表格</span>
           </div>
           <div class="table">
               <table>
                   <tr>
+                      <th>活动名称</th>
                       <th>权益名称</th>
+                      <!--<th>权益种类</th>-->
                       <th>结算方</th>
-                      <th>权益种类</th>
                       <th>权益类型</th>
                       <th>权益面值</th>
                       <th>状态</th>
@@ -71,117 +66,146 @@
                       <th>结束时间</th>
                       <th>操作</th>
                   </tr>
-                  <tr v-for="n in latinosTotalList">
-                      <td>{{n.latinosName }}</td><!-- 权益名称-->
-                      <td>{{n.settlementParty }}</td><!-- 结算方-->
-                      <td>{{n.latinosKinds }}</td><!-- 权益种类-->
-                      <td>{{n.latinosTypes }}</td><!-- 权益类型-->
-                      <td>{{n.denomination }}</td><!-- 权益面值-->
-                      <td>{{n.latinosStatues }}</td><!-- 状态-->
-                      <td>{{n.latinosCirculation }}</td><!-- 发行量-->
-                      <td>{{n.latinosUsage  }} </td><!-- 使用量-->
-                      <td>{{n.overdueNum }}</td><!-- 过期-->
-                      <td>{{n.startDate }}</td><!-- 开始时间-->
-                      <td>{{n.endDate }}</td><!-- 结束时间-->
-                      <td><a v-link="{name:'latinos-detail',params:{'latinosID':id}}">查看明细</a></td><!--操作-->
-                      <!-- <td><a v-link="{name:'latinos-detail',params:{'startDate':searchData,'endDate':endDate}}">查看明细</a></td> -->
+                  <tr v-for="n in searchList">
+                      <td>{{n.activityName}}</td><!-- 活动名称-->
+                      <td>{{n.couponName}}</td><!-- 权益名称-->
+                      <!--<td>{{n.settlementParty }}</td>&lt;!&ndash; 权益种类&ndash;&gt;-->
+                      <td>{{n.uuid | get_bank uuidsList}}</td>
+                      <td>
+                          <template v-if="n.couponType=='cash'">优惠金额券</template>
+                          <template v-if="n.couponType=='discount'">优惠折扣券</template>
+                      </td><!-- 权益类型-->
+                      <td>{{n.couponFaceValue}}</td><!-- 权益面值-->
+                      <td>
+                          <template v-if="n.activityStatus=='draft_other'">草稿</template>
+                          <template v-if="n.activityStatus=='wait_early_offline'">运行中</template>
+                          <template v-if="n.activityStatus=='draft'">待审核</template>
+                          <template v-if="n.activityStatus=='wait_check'">待审核</template>
+                          <template v-if="n.activityStatus=='check_fail'">审核失败</template>
+                          <template v-if="n.activityStatus=='online'">运行中</template>
+                          <template v-if="n.activityStatus=='early_offline'">已结束</template>
+                          <template v-if="n.activityStatus=='finish'">已结束</template>
+                      </td><!-- 状态-->
+                      <td>{{n.circulation }}</td><!-- 发行量-->
+                      <td>{{n.usedAmount}} </td><!-- 使用量-->
+                      <td>{{n.expiredAmount}}</td><!-- 过期-->
+                      <td>{{n.startTime }}</td><!-- 开始时间-->
+                      <td>{{n.endTime}}</td><!-- 结束时间-->
+                      <td>
+                        <a v-show="n.activityStatus=='online'" v-link="{name:'latinos-batch',params:{'batchId':n.activityID,'batchUserId':n.couponID}}">批量赠送</a>
+                        <a v-link="{name:'latinos-detail',params:{'latinosID':n.couponID,'couponName':n.couponName,'activityName':n.activityName,'startTime':n.startTime,'endTime':n.endTime,'couponFaceValue':n.couponFaceValue}}">查看明细</a>
+                      </td><!--操作-->
+                  </tr>
+                  <tr v-show="!searchList.length">
+                      <td colspan="12">未查询到数据</td>
                   </tr>
               </table>
           </div>
-          <pagegroup class="pagegroup"
-              :page_current.sync="pagegroupInfor.page" 
-              :total="pagegroupInfor.total" 
-              :page_size.sync="pagegroupInfor.maxResult"
-              :pages="pagegroupInfor.allPages">
-          </pagegroup>
+          <div class="pages" v-show="!!searchList">
+              <pagegroup
+                      :total="searchData.total"
+                      :page_size.sync="searchData.maxResult"
+                      :page_current.sync="searchData.page"
+                      v-on:current_change="getfirstResult"
+                      v-on:size_change="getfirstResult"
+              ></pagegroup>
+          </div>
 	  </div>
   </template>
   <script>
-      // import model from '../../ajax/latinos/latinos_search_model'
+       import model from '../../ajax/latinos/latinos_search_model'
       export default{
            data(){
+               this.model=model(this);
                return{
-             	  pagegroupInfor:{
-                       page:1,//当前选中的分页值
-                       total:5,//数据总条数
-                       maxResult:1,//每页展示多少条数
-                       allPages:1,//总页数
+                   searchList:{
                    },
-                   latinosCumulative:{     //权益汇总
-                       latinosNum:'50',    //权益总数量
-                       latinosReceive:'20',    //权益领取量
-                       latinosAlreadyUse:'15',    //权益使用量
-                       latinosNotUse:'5',    //权益未使用量
-                       latinosOverdue:'5',    //权益逾期量
-                   },
-                   latinosTotalList:[
-                       {
-                           'latinosName':'权益名称',
-                           'settlementParty':'结算方',
-                           'latinosKinds':'权益种类',
-                           'latinosTypes':'权益类型',
-                           'denomination':'权益面值',
-                           'latinosStatues':'状态',
-                            'latinosCirculation':'发行量',
-                            'latinosUsage ':'使用量',
-                            'overdueNum':'过期',
-                            'startDate':'开始时间',
-                            'endDate':'结束时间'
-                       }
-                   ],
-                   // latinosCumulative:[],//权益汇总
-                   // latinosTotalList:[],//权益列表
+                   activityList:[],
+                   showList:false,
+                   bankUuidString:'',
                    searchData:{
-                       latinosName:'',
-                       latinosSettlement:'',
-                       startDate:'',
-                       endDate:'',
-                       latinosKinds:'',
-                       activityName:'',
-                       latinosTypes:''
+                       page:1,
+                       total:0,
+                       favorName:'',
+                       favorTypesStr:'cash,discount',
+                       firstResult:0,
+                       maxResult:10,
+                       startTime:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
+                       endTime:stringify(new Date())+' 23:59:59',//结束时间
+                       uuidsStr:sessionStorage.getItem('uuids'),
                    },
-                    activityList:[],
+                   searchTotal:'',
+                   bankFullName:'',
+                   uuidsList:JSON.parse(sessionStorage.getItem('bankNames'))
                }
            },
            methods:{
-               getLatinosCumulative(){
-                   let data={
-                       activityID:''
-                   };
-                   this.model.getLatinosCumulative(data).then((res)=>{
+               getBankList(){
+                   this.model.getBankList().then((res)=>{
                        if (res.data.code==0) {
-                           console.log("getLatinosCumulative"+"success")
+                           this.$set('bankFullName',res.data.dataList);
                        }
                    })
                },
-               getLatinosTotalList(){
-                   let data={
-                   };
-                   this.model.getLatinosTotalList(data).then((res)=>{
+               getBankString(){
+                   if (!this.bankUuidString) {
+                       this.searchData.uuidsStr=sessionStorage.getItem('uuids');
+                   }else{
+                       this.searchData.uuidsStr=this.bankUuidString;
+                   }
+               },
+               doSearch(){
+                   this.searchData.page=1;
+                   this.searchData.firstResult=(this.searchData.page-1)*this.searchData.maxResult;
+                   this.getList();
+               },
+               getfirstResult(){
+                   let page=this.searchData.page;
+                   let firstResult=(page-1)*this.searchData.maxResult;
+                   this.searchData.page=page;
+                   this.searchData.firstResult=firstResult;
+                   this.getList();
+               },
+               getList(){
+                   this.model.getLatinosCumulative(this.searchData).then((res)=>{
                        if (res.data.code==0) {
-                           console.log("getLatinosTotalList"+"success")
+                           this.$set('searchList',res.data.data);
+                           this.searchData.total=res.data.total;
+                       }
+                   })
+                   this.model.getLationsTotal(this.searchData).then((res)=>{
+                       if (res.data.code==0 && !_.isEmpty(res.data.data)) {
+                           this.$set('searchTotal',res.data.data);
                        }
                    })
                },
-               latinosSearch(){
-                   let data={
-                       latinosName:this.searchData.latinosName,
-                       latinosSettlement:this.searchData.latinosSettlement,
-                       startDate:this.searchData.startDate,
-                       endDate:this.searchData.endDate,
-                       latinosKinds:this.searchData.latinosKinds,
-                       latinosTypes:this.searchData.latinosTypes,
-                   };
-                   // this.model.getSearchLatinos(data).then((res)=>{
-                       // if (res.data.code==0){
-                           console.log("success");
-                       // }
-                   // })
-               }
+               getLatinosList(){
+                let data={
+                  favorName:this.searchData.favorName,
+                  maxResult:this.searchData.maxResult,
+                  uuidsStr:this.searchData.uuidsStr,
+                }
+                    this.model.getLatinosCumulative(data).then((res)=>{
+                         if (res.data.code==0) {
+                          this.$set('activityList',res.data.data);
+                          this.showList=true;
+                         }
+
+                  })
+               },
+               getId({couponName}){
+                  this.showList=false;
+                  this.searchData.favorName=couponName;
+               },
+               getExcel(){
+                let data=getFormData(this.searchData);
+                data+='&methodName=couponDataExportExcel&mid='+JSON.parse(sessionStorage.getItem('loginList')).token;
+                window.open(origin+this.$API.latinosSearchExcel+data);
+              },
            },
-           ready(){
-               // this.getLatinosCumulative();
-               // this.getLatinosTotalList();
+           created(){
+               this.getBankList();
+               this.getList();
            }
       } 
   </script>

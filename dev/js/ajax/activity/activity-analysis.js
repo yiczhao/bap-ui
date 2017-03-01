@@ -5,22 +5,6 @@
  */
 function model(_this) {
  	return {
- 		/**
-         * @description 交易数据分析获取某个时间段的交易总金额集合
-         * @param id
-         * @returns {*}
-         */
-         getTradeAmount(data){
-         	return formDataRequest('./transfer/data_analysis/das/api/v1/trade_data/trade_amount/list').get(data)
-         },
-         /**
-         * @description 交易数据分析获取某个时间段的补贴总金额集合
-         * @param id
-         * @returns {*}
-         */
-         getSubsidyAmount(data){
-         	return formDataRequest('./transfer/data_analysis/das/api/v1/trade_data/subsidy_amount/list').get(data)
-         },
          /**
          * @description 交易数据分析获取某个时间段的累计关键数据信息
          * @param id
@@ -28,6 +12,22 @@ function model(_this) {
          */
          getTradeDataTotal(data){
          	return formDataRequest('./transfer/data_analysis/das/api/v1/trade_data/total').get(data)
+         },
+         /**
+         * @description 交易数据分析获取某个时间段的交易总金额集合
+         * @param id
+         * @returns {*}
+         */
+         getTradeAmount(data){
+            return formDataRequest('./transfer/data_analysis/das/api/v1/trade_data/trade_amount/list').get(data)
+         },
+         /**
+         * @description 交易数据分析获取某个时间段的补贴总金额集合
+         * @param id
+         * @returns {*}
+         */
+         getSubsidyAmount(data){
+            return formDataRequest('./transfer/data_analysis/das/api/v1/trade_data/subsidy_amount/list').get(data)
          },
          /**
          * @description 交易数据分析获取某个时间段的交易总笔数集合
@@ -132,7 +132,23 @@ function model(_this) {
          */
          getOneCardSwipedCount(data){
          	return formDataRequest('./transfer/data_analysis/das/api/v1/one_card/swiped_count').get(data)
-         }
+         },
+         /**
+         * @description 查询活动所有数据
+         * @param data
+         * @returns {*}
+         */
+        getinfoList (_id) {
+            return formDataRequest('./transfer/activity_configure/api/v1/activity/view/'+_id).get()
+        },
+        /**
+         * @description 获取银行信息
+         * @param data
+         * @returns {*}
+         */
+        getBankByUuid (data) {
+            return formDataRequest('./bank/uuid').get(data)
+        }
 	}
 }
  module.exports = model
