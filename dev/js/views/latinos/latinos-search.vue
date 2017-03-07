@@ -54,10 +54,9 @@
                   <tr>
                       <th>活动名称</th>
                       <th>权益名称</th>
-                      <!--<th>权益种类</th>-->
                       <th>结算方</th>
                       <th>权益类型</th>
-                      <th>权益面值</th>
+                      <th>面值/折扣</th>
                       <th>状态</th>
                       <th>发行量</th>
                       <th>使用量</th>
@@ -69,13 +68,15 @@
                   <tr v-for="n in searchList">
                       <td>{{n.activityName}}</td><!-- 活动名称-->
                       <td>{{n.couponName}}</td><!-- 权益名称-->
-                      <!--<td>{{n.settlementParty }}</td>&lt;!&ndash; 权益种类&ndash;&gt;-->
                       <td>{{n.uuid | get_bank uuidsList}}</td>
                       <td>
                           <template v-if="n.couponType=='cash'">优惠金额券</template>
                           <template v-if="n.couponType=='discount'">优惠折扣券</template>
                       </td><!-- 权益类型-->
-                      <td>{{n.couponFaceValue}}</td><!-- 权益面值-->
+                      <td>
+                          <template v-if="n.couponType=='cash'">{{n.couponFaceValue}}元</template>
+                          <template v-if="n.couponType=='discount'">{{n.couponFaceValue}}折</template>
+                      </td><!-- 面值/折扣-->
                       <td>
                           <template v-if="n.activityStatus=='draft_other'">草稿</template>
                           <template v-if="n.activityStatus=='wait_early_offline'">运行中</template>
@@ -93,7 +94,7 @@
                       <td>{{n.endTime}}</td><!-- 结束时间-->
                       <td>
                         <a v-show="n.activityStatus=='online'" v-link="{name:'latinos-batch',params:{'batchId':n.activityID,'batchUserId':n.couponID}}">批量赠送</a>
-                        <a v-link="{name:'latinos-detail',params:{'latinosID':n.couponID,'couponName':n.couponName,'activityName':n.activityName,'startTime':n.startTime,'endTime':n.endTime,'couponFaceValue':n.couponFaceValue}}">查看明细</a>
+                        <a v-link="{name:'latinos-detail',params:{'latinosID':n.couponID,'couponName':n.couponName,'activityName':n.activityName,'startTime':n.startTime,'endTime':n.endTime,'couponFaceValue':n.couponFaceValue,'couponType':n.couponType}}">查看明细</a>
                       </td><!--操作-->
                   </tr>
                   <tr v-show="!searchList.length">

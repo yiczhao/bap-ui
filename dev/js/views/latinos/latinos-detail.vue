@@ -37,7 +37,13 @@
              </table>
          </div>
          <div class="showInfo">
-             <span class="activity-name">权益名称：<strong>{{showTitle.couponName}}</strong></span>
+             <span class="activity-name">活动名称：<strong>{{showTitle.activityName}}</strong></span>
+             <span class="infor-num">权益名称：<strong>{{showTitle.couponName}}</strong></span>
+             <span class="infor-num">面额/折扣：
+                <strong v-if="showTitle.couponType=='cash'">{{showTitle.couponFaceValue}}元</strong>
+                <strong v-if="showTitle.couponType=='discount'">{{showTitle.couponFaceValue}}折</strong>
+            </span>
+             <span class="infor-num">活动时间：<strong>{{showTitle.startTime}}~{{showTitle.endTime}}</strong></span>
              <span class="infor-num">共<strong>{{searchData.total}}</strong>条数据</span>
              <span class="out-excel" @click="getExcel"><i class="icon-file-excel"></i>导出excel表格</span>
          </div>
@@ -95,6 +101,7 @@
                     startTime:'',
                     endTime:'',
                     couponFaceValue:'',
+                    couponType:'',
                  }
              }
          },
@@ -141,6 +148,7 @@
            this.showTitle.startTime=this.$route.params.startTime;
            this.showTitle.endTime=this.$route.params.endTime;
            this.showTitle.couponFaceValue=this.$route.params.couponFaceValue;
+           this.showTitle.couponType=this.$route.params.couponType;
         },
      }
  </script>
