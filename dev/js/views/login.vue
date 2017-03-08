@@ -28,7 +28,7 @@
                     <div class="type-into password"><input class="input" type="password" placeholder="请输入您的密码" v-model="loginData.password" @keyup.enter="login"></div>
                     <div class="type-into check">
                         <span class="input-check"><input class="input" type="text" placeholder="请输入数字或字母" v-model="loginData.usrImgCode" @keyup.enter="login"></span>
-                        <span class="img"><img :src="sysCodeImg"></span>
+                        <span class="img"><img :src="sysCodeImg" @click="getusrImgCode"></span>
                         <span class="icon icon-spinner" @click="getusrImgCode"></span></div>
                     <div class="save-password">
                         <ks-switch :disable="false" @change="autoType" :def-checked="true" color="#2196F3" size="mini" :checked.sync="checked"></ks-switch><span>记住密码</span>
