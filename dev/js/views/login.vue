@@ -99,7 +99,11 @@ export default {
                         sessionStorage.setItem('loginList',JSON.stringify(data.data.data));
                         sessionStorage.setItem('menuList',JSON.stringify(data.data.data.privilegeList));
                         if (this.checked) {
-                            localStorage.setItem('userInfor',JSON.stringify(this.loginData));
+                            let data={
+                                name:this.loginData.name,
+                                password:this.loginData.password,
+                            }
+                            setCookie('userInfor',JSON.stringify(data),30);
                         }
                         this.$router.go({'name':'home'});
                     }
@@ -107,7 +111,7 @@ export default {
             },
             autoType(){
                 if (!this.checked) {
-                    localStorage.clear();
+                    clearCookie('userInfor');
                 }
             },
             getusrImgCode(){
@@ -121,8 +125,8 @@ export default {
             },
         },
         ready (){
-            if (!!localStorage.getItem('userInfor')) {
-                this.$set('loginData',JSON.parse(localStorage.getItem('userInfor')));
+            if (!!getCookie('userInfor')) {
+                this.$set('loginData',JSON.parse(getCookie('userInfor')));
                 this.checked=true;
             }
             sessionStorage.clear()
