@@ -40,7 +40,7 @@ $skin-size: 18px;                                               // 选择框大�
     height: $skin-size / 1.8; width: $skin-size / 1.8;
     border-radius: 3px;
     //background-color: $primary-color;
-    opacity: 0;
+    // opacity: 0;
     transition: opacity .3s;
   }
 }
