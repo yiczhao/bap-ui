@@ -15,9 +15,9 @@
                   <option v-for="n in bankFullName" :value="n.uuid">{{n.shortName}}</option>
               </select>
               <span>开始时间</span>
-              <ks-date-picker :value.sync="searchData.startTime"></ks-date-picker>
+              <ks-date-picker type="datetime" :value.sync="searchData.startTime"></ks-date-picker>
               <span>到</span>
-              <ks-date-picker :value.sync="searchData.endTime"></ks-date-picker>
+              <ks-date-picker type="datetime" :value.sync="searchData.endTime"></ks-date-picker>
               <span>权益类型</span>
               <select class="select" v-model="searchData.favorTypesStr">
                   <option value="cash,discount">请选择</option>
