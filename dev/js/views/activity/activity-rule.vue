@@ -307,8 +307,10 @@
                   let mesa='';
                   try {
                       if(_.isArray(datas)){
-                          mesa='请至少填写一条完整的规则信息';
-                          this.checkRule(datas[0]);
+                          mesa='请填写完整的规则信息';
+                          _.map(datas,(val)=>{
+                              this.checkRule(val);
+                          });
                       }else{
                           mesa='请填写规则信息';
                           this.checkRule(datas);
