@@ -40,7 +40,7 @@
                 </div>
             </div>
         </div>
-        <div class="footer">
+        <div class="login_footer">
             <div class="footer-container">
                 <div class="footer-title">上海新卡说信息技术有限公司</div>
                 <div class="footer-infor">

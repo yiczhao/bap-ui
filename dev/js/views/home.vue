@@ -1,55 +1,57 @@
 <template>
-    <div class="home">
+    <div class="page-title">数据总览</div>
+    <div class="include-area">
         <div class="search-div">
-            <span>活动名称</span>
-            <input class="input" type="text" v-model="searchDate.name" placeholder="输入活动名称" @keypress.enter="getActivity"/>
+            <input class="input " type="text" v-model="searchDate.name" placeholder="输入活动名称" @keypress.enter="getActivity"/>
             <div class="showList showLi" v-show="showList">
                 <ul class="showLi">
                     <li class="showLi" v-for="n in activityList | filterBy searchDate.name in 'name'" @click="getId(n)">{{n.name}}</li>
                     <li class="showLi" v-if="!activityList.length">未查询到{{searchDate.name}}活动</li>
                 </ul>
             </div>
-            <span>时间类型</span>
-            <select class="select" v-model="searchDate.type" @change="getTime">
+            <select class="select" v-model="searchDate.type">
+                <option value="">时间类型</option>
                 <option value="all">累计</option>
                 <option value="now">今日</option>
             </select>
-            <div class="right">当前数据截止到{{now}} (每整点更新数据)</div>
+            <input class="btn btn-primary" type="button" @click="getTime" value="搜 索">
         </div>
+        <div class="right">展示所有正在进行中的活动今日、累计的刷卡数据，以及活动中不同商户交易、不同卡bin交易的笔数排行。</div>
+        <div class="right">当前数据截止到小时,{{now}} (每整点更新数据)</div>
+    </div>
+    <div class="home">
         <div class="total-div">
-            <div class="total-left">
+            <div class="total left">
+                <span>{{total.tradeAmount[0]}}.<i v-if="total.tradeAmount.length!=1">{{total.tradeAmount[1]}}</i><i v-else>00</i></span>
                 <span>交易总金额(元)</span>
-                <span>{{total.tradeAmount}}</span>
             </div>
-            <div class="total-right">
-                <div>
+            <div class="total center">
+                    <span>{{total.tradeNum[0]}}</span>
                     <span>交易总笔数(笔)</span>
-                    <span>{{total.tradeNum}}</span>
-                </div>
-                <div class="">
-                    <span>补贴总金额(元)</span>
-                    <span>{{total.subsidyAmount}}</span>
-                </div>
+            </div>
+            <div class="total right">
+                <span>{{total.subsidyAmount[0]}}.<i v-if="total.subsidyAmount.length!=1">{{total.subsidyAmount[1]}}</i><i v-else>00</i></span>
+                <span>补贴总金额(元)</span>
             </div>
         </div>
         <div class="top-ten">
             <div>
-                <h3>商户刷卡笔数排行</h3>
+                <h4>商户刷卡笔数排行</h4>
                 <ul>
                     <li v-for="n in TradeAreaNumList">
-                        <span>NO.{{$index + 1 }}</span>
+                        <span>{{$index + 1 }}</span>
                         <span>{{n.topName | substring 15}}</span>
-                        <span>{{n.topValue}}笔</span>
+                        <span><i>{{n.topValue}}</i>笔</span>
                     </li>
                 </ul>
             </div>
             <div>
-                <h3>卡bin刷卡笔数排行</h3>
+                <h4>卡bin刷卡笔数排行</h4>
                 <ul>
                     <li v-for="n in CardBINTradeNumList">
-                        <span>NO.{{$index + 1 }}</span>
+                        <span>{{$index + 1 }}</span>
                         <span>{{n.topName | substring 15}}</span>
-                        <span>{{n.topValue}}笔</span>
+                        <span><i>{{n.topValue}}</i>笔</span>
                     </li>
                 </ul>
             </div>
@@ -63,13 +65,17 @@
             this.model=model(this);
             return{
                 now:stringify(new Date()),
-                total:[],
+                total:{
+                    tradeAmount:'',
+                    tradeNum:'',
+                    subsidyAmount:'',
+                },
                 activityList:[],
                 TradeAreaNumList:[],
                 CardBINTradeNumList:[],
                 showList:false,
                 searchDate:{
-                    type:'all',
+                    type:'',
                     name:'',
                     activityID:'',
                      startDate:'',
@@ -91,7 +97,12 @@
                 };
                 // (!!this.searchDate.activityID)? data.bankUuidString='':null;
                 this.model.getTotal(data).then((res)=>{
-                    this.$set('total',res.data.data);
+                    var tradeAmount=String(res.data.data.tradeAmount);
+                    var tradeNum=String(res.data.data.tradeNum);
+                    var subsidyAmount=String(res.data.data.subsidyAmount);
+                    this.total.tradeAmount=tradeAmount.split('.');
+                    this.total.tradeNum=tradeNum.split('.');
+                    this.total.subsidyAmount=subsidyAmount.split('.');
                 })
                 this.model.getTradeAreaNumList(data).then((res)=>{
                     this.$set('TradeAreaNumList',res.data.dataList);

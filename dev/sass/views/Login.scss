@@ -221,10 +221,10 @@ $color:#ddd;
 				}
 			}
 		}
-		.footer{
-			width:100%;
+		.login_footer{
 			height:152px;
 			margin-top:-152px;
+			background-color:#fff;
 			@include user-select-default();
 			.footer-container{
 				width:1280px;

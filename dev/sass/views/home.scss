@@ -1,153 +1,237 @@
-.clearfix:before,.clearfix:after{
-	content:"";
-	display:table;
-}
-.clearfix:after{clear:both;}
+// .clearfix:before,.clearfix:after{
+// 	content:"";
+// 	display:table;
+// }
+// .clearfix:after{clear:both;}
 .clearfix{
 	*zoom:1;/*IE/7/6*/
 }
-.home{
-	padding-left: 60px!important;
+.page-title{
+	border-bottom:1px solid #eeeeee;
+}
+.include-area{
+	background-color: #fff;
+	height:245px;
 	.search-div{
-		margin-bottom:20px;
-		@extend .clearfix;
-		position: relative;
-		.KsDatePicker{
-			display: inline-block;
-			width: 200px;
-		}
-		& > div,& > span,& > input,& > select,& > a{
-			float: left;
-			color:#666;
-			margin-right: 15px;
-		}
-		& > span{
-			line-height: 34px;
-		}
-		& > select{
-			width: 150px;
-			height: 34px;
-		}
-		.btn-primary{
-			float: right;
-		}
-		.KSNRCheckbox{
-			margin-top: 4px;
-		}
-		.right{
-			line-height: 34px;
-			margin-left: 80px;
-		}
-		.showList{
-			position: absolute;
-			border: 1px solid #ddd;
-			background: #fff;
-			top: 38px;
-			left: 67px;
-			padding: 15px 15px 0 15px;
-			min-width: 158px;
-			border-radius: 5px;
-			max-height: 175px;
-			overflow: auto;
-			ul{
-				li{
-					margin-bottom: 10px;
-					cursor: pointer;
-					&:hover{
-						color:#2196f3;
+			margin-bottom:20px;
+			@extend .clearfix;
+			position: relative;
+			width: 468px;
+			margin: auto;
+			padding-top: 35px;
+			input::-webkit-input-placeholder {
+				color:#666666;
+			}
+			input::-moz-placeholder{
+				color:#666666;
+			}
+			input::-ms-input-placeholder{
+				color:#666666
+			}
+			.KsDatePicker{
+				display: inline-block;
+				width: 200px;
+			}
+			& > div,& > span,& > input,& > select,& > a{
+				float: left;
+				color:#666;
+				margin-right: 20px;
+			}
+			& > span{
+				line-height: 34px;
+			}
+			& > select{
+				width: 150px;
+				// height: 34px;
+				height: 37px;
+			}
+			.btn-primary{
+				float: left;
+				margin-right:0;
+				color:#fff;
+				background-color:#e76b5f;
+			}
+			.input{
+				height: 38px;
+			}
+			.KSNRCheckbox{
+				margin-top: 4px;
+			}
+			.showList{
+				position: absolute;
+				border: 1px solid #ddd;
+				background: #fff;
+				top: 38px;
+				left: 67px;
+				padding: 15px 15px 0 15px;
+				min-width: 158px;
+				border-radius: 5px;
+				max-height: 175px;
+				overflow: auto;
+				ul{
+					li{
+						margin-bottom: 10px;
+						cursor: pointer;
+						&:hover{
+							color:#2196f3;
+						}
 					}
 				}
 			}
-		}
 	}
+	.right{
+		text-align: center;
+		margin-top:20px;
+	}
+}
+.home{
+	padding-left: 60px!important;
+	margin-top: -70px;
 	.total-div{
 		width: 100%;
-		margin:15px 0;
 		box-sizing: border-box;
-		@extend .clearfix;
-		div{
-			float: left;
-			margin-right: 20px;
-		}
-		.total-left{
-			width: 34%;
-			height: 195px;
-			background: #26a69a;
+		// @extend .clearfix;
+		display: -webkit-flex;
+		display: -moz-flex;
+		display: -ms-flex;
+		display: -o-flex;
+		display: flex;
+		.total{
+			width:29%;
+			height: 135px;
+			padding-left:20px;
+			border-radius:3px;
 			span{
 				display: block;
 				width: 100%;
-				text-align: center;
 				color:#fff;
-				font-size: 36px;
+				i{
+					font-style: normal;
+					font-size: 34px;
+				}
 			}
 			span:first-child{
-				font-size: 18px;
-				padding-top: 50px;
+				font-size: 48px;
+				height: 80px;
+				line-height: 100px;
+			}
+			span:last-child{
+				font-size:16px;
 			}
 		}
-		.total-right{
-			width: 60%;
-			height: 195px;
-			padding: 35px 0;
-			box-sizing: border-box;
-			background-color: #00cccc;
-			div{
-				width: 50%;
-				box-sizing: border-box;
-				float: left;
-				margin-right: 0px;
-				height: 125px;
-				span{
-					display: block;
-					width: 100%;
-					text-align: center;
-					color:#fff;
-					font-size: 36px;
-				}
-				span:first-child{
-					font-size: 18px;
-					padding-top: 16px;
-				}
-			}
-			div:first-child{
-				border-right: 1px solid rgba(255,255,255,0.5);
-			}
+		.left{
+			background-color:#33cac5;
 		}
+		.center{
+			background-color:#1ebaed;
+			margin:0 2%;
+		}
+		.right{
+			background-color:#f2b128;
+		}
+		// .total-left{
+		// 	width: 34%;
+		// 	height: 195px;
+		// 	background: #26a69a;
+		// }
+		// .total-right{
+		// 	width: 60%;
+		// 	height: 195px;
+		// 	padding: 35px 0;
+		// 	box-sizing: border-box;
+		// 	background-color: #00cccc;
+		// 	div{
+		// 		width: 50%;
+		// 		box-sizing: border-box;
+		// 		float: left;
+		// 		margin-right: 0px;
+		// 		height: 125px;
+		// 		span{
+		// 			display: block;
+		// 			width: 100%;
+		// 			text-align: center;
+		// 			color:#fff;
+		// 			font-size: 36px;
+		// 		}
+		// 		span:first-child{
+		// 			font-size: 18px;
+		// 			padding-top: 16px;
+		// 		}
+		// 	}
+		// 	div:first-child{
+		// 		border-right: 1px solid rgba(255,255,255,0.5);
+		// 	}
+		// }
 	}
 	.top-ten{
 		margin: 30px 0 15px;
 		@extend .clearfix;
 		div{
-			border: 1px solid #ddd;
-			box-sizing: border-box;
 			float: left;
 			width: 47%;
-			height: 460px;
-			padding:35px 80px;
-			h3{
-				margin-bottom: 20px;
+			height: 450px;
+			background-color: #fff;
+			border-radius: 3px;
+			h4{
 				color: #666;
+				border-bottom: 1px solid #cdcdcd;
+				padding-left: 20px;
+				line-height: 40px;
 			}
 			ul{
 				li{
 					width: 100%;
 					@extend .clearfix;
-					margin-bottom: 10px;
 					font-size: 14px;
+					height: 40px;
+					line-height: 40px;
+					background-color:#fff;
+					border-bottom: 1px solid #ebebeb;
 					span{
 						float: left;
+						i{
+							font-style: normal;
+							padding: 0 10px;
+						}
 					}
 					span:first-child{
-						margin-right: 10px;
+						display: inline-block;
+						width: 20px;
+						height: 20px;
+						border-radius: 3px;
+						color: #fff;
+						text-align: center;
+						line-height: 20px;
+						margin: 9px 20px;
+						background-color: #cccccc;
 					}
 					span:last-child{
 						float: right;
+						margin-right: 20px;
+					}
+				}
+				li:nth-child(3n){
+					background-color:#fcfcfc;
+				}
+				li:first-child{
+					span:first-child{
+						background-color: #e76b5f;
+					}
+				}
+				li:nth-child(2){
+					span:first-child{
+						background-color: #f2b128;
+					}
+				}
+				li:nth-child(3){
+					span:first-child{
+						background-color: #33cac5;
 					}
 				}
 			}
 		}
 		div:first-child{
-			margin-right: 20px;
+			margin-right: 25px;
 		}
 	}
 }

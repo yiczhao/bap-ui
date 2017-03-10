@@ -1,5 +1,6 @@
 @import "./Login";
 @import "./home";
+@import "./footer";
 @import "./activity/create-activity";
 @import "./activity/activity-analysis";
 @import "./activity/activity-pdfout";
@@ -11,6 +12,7 @@
 @import "./config/bank-config";
 @import "./config/user-config";
 @import "./config/password-config";
+@import "./config/forgetpassword-config";
 @import "./config/branch-bank";
 @import "./transaction/transaction-detail";
 @import "./transaction/transaction-search";

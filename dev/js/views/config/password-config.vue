@@ -1,57 +1,53 @@
 <template>
+    <div class="page-title">密码设置</div>
     <div class="password-config">
-        <div class="four-type">
-            <div class="pr">
-                <div class="w265" :class="{'active':passwordShow=='1'}">1.验证身份</div>
-                    <div class="triangle-right" :class="{'active':passwordShow=='1'}"></div>
-                    <div class="triangle-right-white" v-if="passwordShow!=1"></div>
+        <div class="bg">
+            <div class="four-type">
+                <div class="pr" :class="{'active':passwordShow=='1'}">
+                    <div class="w265">1.验证身份</div>
                 </div>
-                <div class="pr">
-                    <div class="w265" :class="{'active':passwordShow=='2'}">2.验证密保手机</div>
-                    <div class="triangle-right" :class="{'active':passwordShow=='2'}"></div>
-                    <div class="triangle-right-white" v-if="passwordShow!=2"></div>
+                <div class="pr" :class="{'active':passwordShow=='2'}">
+                    <div class="w265">2.验证密保手机</div>
                 </div>
-                <div class="pr">
-                    <div class="w265" :class="{'active':passwordShow=='3'}">3.设置新密码</div>
-            </div>
-        </div>
-        <div class="verify-identity" v-show="passwordShow==1">
-            <div class="verify-title">您正在为账号{{phone}}找回密码，为了保护账号安全，需要身份验证</div>
-            <div class="verify-area">
-                <div class="phone-icon"><img src="../../../img/phone.png" alt=""></div>
-                <div class="verify-way">通过密保手机{{phone | filter_phone}}验证</div>
-                <div class="verify-next">
-                    <a class="btn btn-primary" @click="verifyIdentity">立即验证</a>
+                <div class="pr" :class="{'active':passwordShow=='3'}">
+                    <div class="w265">3.设置新密码</div>
                 </div>
             </div>
-
-        </div>
-        <div class="verify-phone" v-show="passwordShow==2">
-            <div class="verify-title">短信验证码已发送至{{phone | filter_phone}}</div>
-            <div class="form-input verify-area">
-                <input type="text" @keyup.enter="verifyPhone" v-model="passwordData.userMessageCode" class="input verify-input" placeholder="请输入短信验证码"/>
-                <div class="time-end" v-show="time>0"><a class="btn btn-gray">倒计时{{time}}</a></div>
-                <div class="resend-comfirm" v-show="time==0">
-                    <a class="btn btn-primary" @click="resendMessage">重新发送</a>
+            <div class="verify-1" v-show="passwordShow==1">
+                <div class="verify-title">您正在为账号{{phone}}找回密码，为了保护账号安全，需要身份验证</div>
+                <div class="form-row f18">
+                    <img src="../../../img/phone.png" alt="">
+                    通过密保手机{{phone | filter_phone}}验证
+                    <a style="width: 70px;float:right;margin-top: 22px;background-color: #e76b5f" class="btn btn-primary" @click="verifyIdentity">立即验证</a>
                 </div>
             </div>
-            <div class="form-row">
-                <a class="btn btn-primary" @click="verifyPhone">下一步</a>
-            </div>
-            <div class="form-row f17">
-                    如无法接收验证码，请于客服联系。<br>客服电话：400-0192-266
+            <div class="verify-2" v-show="passwordShow==2">
+                <div class="verify-title form-row f2">短信验证码已发送至{{phone | filter_phone}}</div>
+                <div class="form-row f18">
+                    <div class="form-label">
+                        <input type="text" @keyup.enter="verifyPhone" v-model="passwordData.userMessageCode" class="input" placeholder="请输入短信验证码"/>
+                        <a class="btn btn-gray" v-show="time>0">倒计时{{time}}</a>
+                        <a class="btn btn-primary" @click="resendMessage" v-show="time==0">重发验证码</a>
+                    </div>
                 </div>
-        </div>
-        <div class="setting-newpassword" v-show="passwordShow==3">
-            <div class="newpassword-title">密码长度6-20位，建议字母、数字与标点的组合来提高帐号安全度</div>
-            <div class="form-row">
-                <input type="password" v-model="passwordData.newPassword" class="input" placeholder="请输入密码"/>
+                <div class="form-row f11">
+                    <a class="btn btn-primary" @click="verifyPhone">下一步</a>
+                </div>
+                <div class="form-row f17">
+                        如无法接收验证码，请于客服联系。客服电话：400-0192-266
+                </div>
             </div>
-            <div class="form-row">
-                <input type="password" @keyup.enter="settingPassword" v-model="passwordData.confirmPassword" class="input" placeholder="请再次输入密码"/>
-            </div>
-            <div class="form-row">
-                <a class="btn btn-primary" @click="settingPassword">提交</a>
+            <div class="verify-3" v-show="passwordShow==3">
+                <div class="newpassword-title form-row f2">密码长度6-20位，建议字母、数字与标点的组合来提高帐号安全度</div>
+                <div class="form-row">
+                    <div class="form-input"><input type="password" maxlength="20" v-model="passwordData.newPassword" class="input" placeholder="请输入新密码"/></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-input"><input type="password" maxlength="20" @keyup.enter="settingPassword" v-model="passwordData.confirmPassword" class="input" placeholder="请再次输入新密码"/></div>
+                </div>
+                <div class="form-row f11">
+                    <a class="btn btn-primary" @click="settingPassword">提交</a>
+                </div>
             </div>
         </div>
     </div>

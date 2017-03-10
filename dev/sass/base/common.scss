@@ -1,7 +1,7 @@
 html,body{
   min-width: 1280px;
   height:100%;
-  background-color: rgb(245, 245, 245);
+  background-color: rgb(240, 240, 240);
   h1{
     font-size:30px;
   }
@@ -25,55 +25,77 @@ html,body{
   text-align: center;
 }
 .header{
-  background-color: #37474F;
+  background-color: #16191c;
   border-color: #37474F;
   border-width: 1px 0;
   border-bottom-color: rgba(255, 255, 255, 0.1);
   color: #fff;
   height:50px;
+  .header-logo{
+    float: left;
+    width: 135px;
+    height: 32px;
+    margin-top: 9px; 
+    margin-left: 20px;
+    background-size: 100%;
+    background-image:url("../img/logo横版.png");
+    background-repeat:no-repeat;
+  }
   .header-title{
     float:left;
     width:130px;
     height:24px;
     font-size: 16px;
     line-height: 24px;
-    padding: 13px 20px 0 20px;
+    margin: 13px 20px 0 20px;
   }
   .header-infor{
     float: right;
-    margin-right: 40px;
+    margin-right: 10px;
     .img-area{
       width: 40px;
       height: 50px;
       float: left;
       img{
-        width: 40px;
-        margin-top: 5px;
+        width: 35px;
+        height: 35px;
+        border-radius:30px;
+        margin-top: 8px;
       }
     }
     .information-show{
       float:left;
       margin:0 20px;
+      margin-top: 15px;
       font-size:12px;
       span:first-child{
-        margin-top: 7px;
-        display:block;
-        text-align: right;
+        // margin-top: 7px;
+        // display:block;
+        // text-align: right;
       }
       span:last-child{
-        position: relative;
-        display:block;
-        top: -3px;
-        text-align: right;
+        // position: relative;
+        // display:block;
+        // top: -3px;
+        // text-align: right;
+        padding-left: 15px;
       }
     }
     .function-click{
       cursor:pointer;
       width:30px;
+      height: 25px;
       float:left;
       margin-top:13px;
       padding-left:20px;
       border-left: 1px solid #fff;
+      background-size: 46%;
+      background-image:url("../img/logout.png");
+      background-repeat:no-repeat;
+      background-position: 20px 0px;
+    }
+    .function-click:hover{
+      background-image:url("../img/logoutH.png");
     }
   }
 }
@@ -88,7 +110,7 @@ html,body{
     .content-left{
       display: table-cell;
       width: 260px;
-      background-color: rgb(38, 50, 56);
+      background-color: #212528;
       color: rgb(255, 255, 255);
       position: relative;
       vertical-align: top;
@@ -113,24 +135,25 @@ html,body{
           color: #fff;
           &:hover{
             background-color: rgba(0,0,0,.1);
-            color: #fff;
+            // color: #fff;
           }
         }
         .v-link-active {
-          color: #fff;
-          background: #2196f3;
+          color: #e76b5f;
+          border-left: 3px solid #e76b5f;
           &:hover{
-            color: #fff;
-            background: #2196f3;
+            // color: #fff;
+            background-color: rgba(0,0,0,.1);
+            // background: #2196f3;
           }
         }
       }
     }
     .content-right{
-      margin: 20px;
-      & > div:first-child{
+      & > div:nth-child(2){
         background: #fff;
-        padding: 20px;
+        // margin: 20px;
+        // padding: 20px;
       }
       table{
         width:100%;
@@ -162,6 +185,23 @@ html,body{
       .pages{
         margin-top: 20px;
       }
+      .page-title{
+        height: 46px;
+        line-height: 46px;
+        background-color: #fff;
+        font-size: 22px;
+        padding-left: 20px;
+      }
+      .w265{
+          height:50px;
+          line-height: 50px;
+          box-sizing: border-box;
+          // color:#999999;
+      }
+      .w265.active{
+        border-bottom: 3px solid #e76b5f;
+          color: #e76b5f;
+      }
     }
   }
   .KsDatePicker .KsDater,.KsDater{
@@ -180,7 +220,7 @@ a:hover{
 }
 .footer{
   background-color:#fff;
-  height: 46px;
+  height: 30px;
 }
 .input[type="text"]:disabled,.input[type="text"]:read-only{
   cursor: not-allowed;
