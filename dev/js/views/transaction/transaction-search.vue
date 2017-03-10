@@ -20,7 +20,7 @@
                 <option value="1">运行中</option>
                 <option value="0">已结束</option>
             </select>
-            <span>交易时间</span>
+            <span>活动时间</span>
             <ks-date-picker type="datetime" :value.sync="searchData.startDate"></ks-date-picker>
             <span>到</span>
             <ks-date-picker type="datetime" :value.sync="searchData.endDate"></ks-date-picker>
