@@ -18,35 +18,34 @@
                 <option value="1">运行中</option>
                 <option value="0">已结束</option>
             </select>
-            <span>活动时间</span>
             <ks-date-picker type="datetime" :value.sync="searchData.startDate"></ks-date-picker>
             <ks-date-picker type="datetime" :value.sync="searchData.endDate"></ks-date-picker>
             <input type="button" class="btn btn-primary searchBtn" @click="getList" value="搜 索">
         </div>
         <div class="flex-chart">
             <div class="flex">
-                <div class="flex-title">交易总笔数</div>
-                <div class="echart-div"></div>
+                <div class="echart-div" id="num-echart"></div>
+                <div class="flex-title">{{cumulative.totalNumber}}笔</div>
                 <div class="border-right"></div>
             </div>
             <div class="flex">
-                <div class="flex-title">交易总金额</div>
-                <div class="echart-div"></div>
+                <div class="echart-div" id="amount-echart"></div>
+                <div class="flex-title">{{cumulative.totalAmount}}元</div>
                 <div class="border-right"></div>
             </div>
             <div class="flex">
-                <div class="flex-title">可打折金额</div>
-                <div class="echart-div"></div>
+                <div class="echart-div" id="disAmoun-echart"></div>
+                <div class="flex-title">{{cumulative.canDisAmount}}元</div>
                 <div class="border-right"></div>
             </div>
             <div class="flex">
-                <div class="flex-title">实付总金额</div>
-                <div class="echart-div"></div>
+                <div class="echart-div" id="pay-echart"></div>
+                <div class="flex-title">{{cumulative.payAmount}}元</div>
                 <div class="border-right"></div>
             </div>
             <div class="flex">
-                <div class="flex-title">补贴总金额</div>
-                <div class="echart-div"></div>
+                <div class="echart-div" id="subsidy-echart"></div>
+                <div class="flex-title">{{cumulative.subsidyAmount}}元</div>
                 <div class="2"></div>
             </div>
         </div>
@@ -148,6 +147,55 @@
             }
         },
         methods:{
+            tradeEchart(divID,data1,data_name,baseData,color_1,color_2){
+                var myChart=echarts.init(document.getElementById(divID));
+                var option = {
+                    series: [
+                        {
+                            type:'pie',
+                            radius: ['60%', '80%'],
+                            avoidLabelOverlap: false,
+                            hoverAnimation:false,
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'center',
+                                }
+                            },
+                            labelLine: {normal: {show: false}},
+                            data:[
+                                {
+                                    value:data1, 
+                                    name:data_name,
+                                    label:{
+                                        normal: {
+                                            show: true,
+                                            textStyle:{
+                                                color:'#444',
+                                                fontSize: '12',
+                                                fontWeight: 'bold',
+                                            }
+                                        }
+                                    },
+                                    itemStyle:{
+                                        normal:{
+                                            color:color_1   
+                                        }   
+                                    },
+                                },
+                                {value:baseData,
+                                    itemStyle:{
+                                        normal:{
+                                            color:color_2      
+                                        }   
+                                    },
+                                },
+                            ],
+                        }
+                    ]
+                };
+                myChart.setOption(option);
+            },
             getBankString(){
                 if (!this.searchData.bankUuidString) {
                     this.searchData.bankUuidString=sessionStorage.getItem('uuids');
@@ -170,6 +218,12 @@
                 this.model.getTradeStatisticsSumList(this.searchData).then((res)=>{
                     if(res.data.code===0){
                         this.$set('cumulative',res.data.data);
+                        // this.tradeEchart('num-echart',9999999,0);
+                        this.tradeEchart('num-echart',this.cumulative.totalNumber,'交易总笔数',0,'#e76b5f','#e76b5f');
+                        this.tradeEchart('amount-echart',this.cumulative.totalAmount,'交易总金额',0,'#e76b5f','#e76b5f');
+                        this.tradeEchart('disAmoun-echart',this.cumulative.canDisAmount,'可打折金额',this.cumulative.totalAmount-this.cumulative.canDisAmount,'#e76b5f','#f0f0f0');
+                        this.tradeEchart('pay-echart',this.cumulative.payAmount,'实付总金额',this.cumulative.totalAmount-this.cumulative.payAmount,'#e76b5f','#f0f0f0');
+                        this.tradeEchart('subsidy-echart',this.cumulative.subsidyAmount,'补贴总金额',this.cumulative.totalAmount-this.cumulative.subsidyAmount,'#e76b5f','#f0f0f0');
                     }
                 });
             },
