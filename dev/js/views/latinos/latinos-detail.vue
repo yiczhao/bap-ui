@@ -1,4 +1,5 @@
  <template>
+    <div class="page-title">权益明细查询</div>
 	 <div class="latinos-detail">
          <div class="search-div">
              <span>手机号码</span>
@@ -92,6 +93,7 @@
                      firstResult :0,//当前选中的分页值
                      total:0,//数据总条数
                      maxResult :10,//每页展示多少条数
+                     sorts:'useTime|desc',
                  },
                  latinosDetailTotal:'',
                  latinosDetailList:[],

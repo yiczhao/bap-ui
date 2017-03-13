@@ -1,22 +1,35 @@
 .transaction-search{
+	margin: 20px;
+	padding: 20px;
 	.search-div{
 		content:"";
 		display:table;
 		position: relative;
+		float: right;
 		.KsDatePicker{
 			display: inline-block;
 			width: 200px;
+			.KsDatePicker-input{
+				border-radius:0;
+				.ks-col{
+					height:34px;
+				}
+			}
+		}
+		& > input,& > select{
+			border-radius:0;
 		}
 		& > div,& > span,& > input,& > select,& > a{
 			float: left;
-			margin: 0 15px 10px 0;
+			margin:0 0 20px 20px
 		}
 		& > span{
 			line-height: 40px;
 		}
 		& > select{
 			width: 150px;
-			height: 38px;
+			height: 36px;
+		border-radius:0;
 		}
 		.btn-primary{
 			float: right;
@@ -26,6 +39,8 @@
 		}
 		.searchBtn{
 			float:left;
+			width:80px;
+			padding: 9px 18px 10px 18px;
 		}
 		.input{
 			height:36px;
@@ -54,12 +69,65 @@
 		}
 		
 	}
+	.flex-chart{
+		clear:both;
+		height:200px;
+		border-bottom:1px solid #f0f0f0;
+		border-top:1px solid #f0f0f0;
+		display:flex;
+		& > div{
+			flex:1;
+		}
+		.flex{
+			position: relative;
+			.flex-title{
+				height: 40px;
+				line-height: 40px;
+				text-align: center;
+				font-size: 16px;
+			}
+			.echart-div{
+				height: 160px;
+				width: 160px;
+				margin: auto;
+			}
+			.border-right{
+				position: absolute;
+				height: 160px;
+				top: 20px;
+				right: -1px;
+				border-right: 1px solid #f0f0f0;
+			}
+		}
+	}
 	.table{
 		margin-top: 20px;
+		clear: both;
+		tr{
+			height:37px !important;
+		}
 	}
 	.showInfo{
 		padding-top:20px;
-		height: 30px;
+		height: 36px;
+		display:flex;
+		.outPDF{
+			width: 95px;
+			line-height: 36px;
+		}
+		.pagegroup{
+			flex:1;
+			display:flex;
+			.KsPageGroup-statistical{
+				width:40px;
+			}
+			.ks-col{
+				flex:1;
+			}
+			.ks-col-auto{
+				width:153px;
+			}
+		}
 		span{
 			line-height:30px;
 			display: inline-block;
@@ -80,8 +148,5 @@
 				color: #2196f3;
 			}
 		}
-	}
-	.pagegroup{
-		margin-top:20px;
 	}
 }

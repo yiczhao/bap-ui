@@ -1,32 +1,56 @@
 <template>
+    <div class="page-title">交易查询</div>
     <div class="transaction-search">
         <div class="search-div">
-            <span>活动名称</span>
-            <input class="input" type="text" placeholder="输入活动名称" v-model="searchData.activityName" @keypress.enter="getActivity"/>
+            <input class="input" type="text" placeholder="请输入活动名称" v-model="searchData.activityName" @keypress.enter="getActivity"/>
             <div class="showList" v-show="showList">
                 <ul>
                     <li v-for="n in activityList | filterBy searchData.activityName in 'name'" @click="getId(n)">{{n.name}}</li>
                     <li v-if="!activityList.length">未查询到{{searchData.activityName}}活动</li>
                 </ul>
             </div>
-            <span>发起方（银行）</span>
             <select class="select" v-model="bankUuidString" @change="setBank">
                 <option value="">请选择发起方</option>
                 <option v-for="n in bankFullName" :value="n.uuid" @change="getBankString">{{n.shortName}}</option>
             </select>
-            <span>活动状态</span>
             <select class="select" v-model="searchData.activityStatus">
                 <option value="">请选择活动状态</option>
                 <option value="1">运行中</option>
                 <option value="0">已结束</option>
             </select>
-            <span>交易时间</span>
+            <span>活动时间</span>
             <ks-date-picker type="datetime" :value.sync="searchData.startDate"></ks-date-picker>
-            <span>到</span>
             <ks-date-picker type="datetime" :value.sync="searchData.endDate"></ks-date-picker>
-            <a class="btn btn-primary searchBtn" @click="getList">搜索</a>
+            <input type="button" class="btn btn-primary searchBtn" @click="getList" value="搜 索">
         </div>
-        <div class="table">
+        <div class="flex-chart">
+            <div class="flex">
+                <div class="flex-title">交易总笔数</div>
+                <div class="echart-div"></div>
+                <div class="border-right"></div>
+            </div>
+            <div class="flex">
+                <div class="flex-title">交易总金额</div>
+                <div class="echart-div"></div>
+                <div class="border-right"></div>
+            </div>
+            <div class="flex">
+                <div class="flex-title">可打折金额</div>
+                <div class="echart-div"></div>
+                <div class="border-right"></div>
+            </div>
+            <div class="flex">
+                <div class="flex-title">实付总金额</div>
+                <div class="echart-div"></div>
+                <div class="border-right"></div>
+            </div>
+            <div class="flex">
+                <div class="flex-title">补贴总金额</div>
+                <div class="echart-div"></div>
+                <div class="2"></div>
+            </div>
+        </div>
+        <!-- <div class="table">
             <table>
                 <tr>
                     <th>交易总笔数</th>
@@ -43,11 +67,11 @@
                     <td>{{cumulative.subsidyAmount}}</td>
                 </tr>
             </table>
-        </div>
-        <div class="showInfo">
+        </div> -->
+        <!-- <div class="showInfo">
             <span class="infor-num">共<strong>{{objectotalNumber}}</strong>条数据</span>
             <span class="out-excel" @click="getExcel"><i class="icon-file-excel"></i>导出excel表格</span>
-        </div>
+        </div> -->
         <div class="table"> 
             <table>
                 <tr>
@@ -79,13 +103,16 @@
                 </tr>
             </table>
         </div>
-        <pagegroup class="pagegroup"
-            :page_current.sync="searchData.pageIndex"
-            :total="objectotalNumber"
-            :page_size.sync="searchData.pageSize"
-            v-on:current_change="getList"
-            v-on:size_change="getList"
-            ></pagegroup>
+        <div class="showInfo">
+            <div class="outPDF" @click="getExcel"><a>导出excel表格</a></div>
+            <pagegroup class="pagegroup"
+                :page_current.sync="searchData.pageIndex"
+                :total="objectotalNumber"
+                :page_size.sync="searchData.pageSize"
+                v-on:current_change="getList"
+                v-on:size_change="getList"
+                ></pagegroup>
+        </div>
     </div>
 </template>
 <script type="text/javascript">

@@ -1,4 +1,5 @@
 <template>
+    <div class="page-title">交易明细查询</div>
     <div class="transaction-detail">
         <div class="search-div">
             <span>银行卡号</span>
