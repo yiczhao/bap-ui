@@ -92,6 +92,7 @@
                      firstResult :0,//当前选中的分页值
                      total:0,//数据总条数
                      maxResult :10,//每页展示多少条数
+                     sorts:'id|desc',
                  },
                  latinosDetailTotal:'',
                  latinosDetailList:[],
