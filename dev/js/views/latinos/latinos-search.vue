@@ -131,7 +131,6 @@
                        favorTypesStr:'cash,discount',
                        firstResult:0,
                        maxResult:10,
-                       sorts:'startTime|desc',
                        startTime:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
                        endTime:stringify(new Date())+' 23:59:59',//结束时间
                        uuidsStr:sessionStorage.getItem('uuids'),
