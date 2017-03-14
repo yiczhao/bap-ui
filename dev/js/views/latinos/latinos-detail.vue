@@ -10,7 +10,7 @@
                  <option value="true">已使用</option>
                  <option value="false">未使用</option>
              </select>
-             <a class="btn btn-primary searchBtn" @click="doSearch">搜索</a>
+             <input type="button" class="btn btn-primary searchBtn" @click="doSearch" value="搜 索">
          </div>
          <!-- <div class="something">
              <span>活动名称：<strong>{{showTitle.couponName}}</strong></span>
@@ -18,6 +18,29 @@
              <span>面额/折扣：<strong>{{showTitle.couponFaceValue}}</strong></span>
              <span>活动时间：<strong>{{showTitle.startTime}}~{{showTitle.endTime}}</strong></span>
          </div> -->
+         <div class="flex-chart" v-show="latinosDetailTotal.length!=0">
+            <div class="flex">
+                <div class="echart-div" id="all-echart"></div>
+                <div class="flex-title">{{latinosDetailTotal.circulation}}</div>
+                <div class="border-right"></div>
+            </div>
+            <div class="flex">
+                <div class="echart-div" id="use-echart"></div>
+                <div class="flex-title">{{latinosDetailTotal.usedAmount}}</div>
+                <div class="border-right"></div>
+            </div>
+            <div class="flex">
+                <div class="echart-div" id="unuse-echart"></div>
+                <div class="flex-title">{{latinosDetailTotal.unusedAmount}}</div>
+                <div class="border-right"></div>
+            </div>
+            <div class="flex">
+                <div class="echart-div" id="expired-echart"></div>
+                <div class="flex-title">{{latinosDetailTotal.expiredAmount}}</div>
+                <div class="2"></div>
+            </div>
+          </div>
+          <div class="flex-chart text" v-show="latinosDetailTotal.length==0">未查询到数据</div>
          <div class="table">
              <table>
                  <tr>
@@ -45,8 +68,6 @@
                 <strong v-if="showTitle.couponType=='discount'">{{showTitle.couponFaceValue}}折</strong>
             </span>
              <span class="infor-num">活动时间：<strong>{{showTitle.startTime}}~{{showTitle.endTime}}</strong></span>
-             <span class="infor-num">共<strong>{{searchData.total}}</strong>条数据</span>
-             <span class="out-excel" @click="getExcel"><i class="icon-file-excel"></i>导出excel表格</span>
          </div>
          <div class="table">
              <table>
@@ -70,13 +91,16 @@
                   </tr>
              </table>
          </div>
-         <pagegroup class="pagegroup"
-             :page_current.sync="searchData.page"
-             :total="searchData.total"
-             :page_size.sync="searchData.maxResult"
-              v-on:current_change="getfirstResult"
-                      v-on:size_change="getfirstResult"
-             ></pagegroup>
+         <div class="showInfo">
+            <div class="outPDF" @click="getExcel"><a>导出excel表格</a></div>
+             <pagegroup class="pagegroup"
+                 :page_current.sync="searchData.page"
+                 :total="searchData.total"
+                 :page_size.sync="searchData.maxResult"
+                  v-on:current_change="getfirstResult"
+                          v-on:size_change="getfirstResult"
+                 ></pagegroup>
+        </div>
      </div>
  </template>
  <script>
@@ -93,7 +117,7 @@
                      firstResult :0,//当前选中的分页值
                      total:0,//数据总条数
                      maxResult :10,//每页展示多少条数
-                     sorts:'useTime|desc',
+                     sorts:'id|desc',
                  },
                  latinosDetailTotal:'',
                  latinosDetailList:[],
@@ -108,10 +132,54 @@
              }
          },
          methods:{
+            latinosEchart(divID,data1,data_name,baseData,color_1,color_2){
+                    var myChart=echarts.init(document.getElementById(divID));
+                    var option = {
+                        series: [
+                            {
+                                type:'pie',
+                                radius: ['60%', '80%'],
+                                avoidLabelOverlap: false,
+                                hoverAnimation:false,
+                                label: {
+                                    normal: {
+                                        show: true,
+                                        position: 'center',
+                                    }
+                                },
+                                labelLine: {normal: {show: false}},
+                                data:[
+                                    {
+                                        value:data1, 
+                                        name:data_name,
+                                        label:{
+                                            normal: {
+                                                show: true,
+                                                textStyle:{
+                                                    color:'#444',
+                                                    fontSize: '12',
+                                                    fontWeight: 'bold'}
+                                            }
+                                        },
+                                        itemStyle:{normal:{color:color_1}   
+                                        },
+                                    },
+                                    {value:baseData,itemStyle:{normal:{color:color_2}},
+                                    },
+                                ],
+                            }
+                        ]
+                    };
+                    myChart.setOption(option);
+                },
             getList(){
                this.model.getLationsTotal(this.searchData).then((res)=>{
                    if (res.data.code==0 && !_.isEmpty(res.data.data)) {
                        this.$set('latinosDetailTotal',res.data.data);
+                       this.latinosEchart('all-echart',this.latinosDetailTotal.circulation,'权益总数量',0,'#e76b5f','#e76b5f');
+                       this.latinosEchart('use-echart',this.latinosDetailTotal.usedAmount,'权益使用量',this.latinosDetailTotal.circulation-this.latinosDetailTotal.usedAmount,'#e76b5f','#f0f0f0');
+                       this.latinosEchart('unuse-echart',this.latinosDetailTotal.unusedAmount,'权益未使用量',this.latinosDetailTotal.circulation-this.latinosDetailTotal.unusedAmount,'#e76b5f','#f0f0f0');
+                       this.latinosEchart('expired-echart',this.latinosDetailTotal.expiredAmount,'权益逾期量',this.latinosDetailTotal.circulation-this.latinosDetailTotal.expiredAmount,'#e76b5f','#f0f0f0');
                    }
                })
                this.model.getLatinosCumulative(this.searchData).then((res)=>{

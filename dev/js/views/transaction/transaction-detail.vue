@@ -2,37 +2,39 @@
     <div class="page-title">交易明细查询</div>
     <div class="transaction-detail">
         <div class="search-div">
-            <span>银行卡号</span>
-            <input class="input" type="text" v-model="searchData.cardNumber" v-limitaddprice="searchData.cardNumber" placeholder="银行卡号"/>
-            <span>交易时间</span>
+            <input class="input" type="text" v-model="searchData.cardNumber" v-limitaddprice="searchData.cardNumber" placeholder="请输入银行卡号"/>
             <ks-date-picker time="00:00:00" type="datetime" :value.sync="searchData.startDate"></ks-date-picker>
-            <span>到</span>
             <ks-date-picker time="23:59:59" type="datetime" :value.sync="searchData.endDate"></ks-date-picker>
-            <a class="btn btn-primary searchBtn" @click="getList">搜索</a>
+            <input type="button" class="btn btn-primary searchBtn" @click="getList" value="搜 索">
         </div>
-        <div class="table">
-            <table>
-                <tr>
-                    <th>交易总笔数</th>
-                    <th>交易总金额</th>
-                    <th>可打折金额</th>
-                    <th>实付总金额</th>
-                    <th>补贴总金额</th>
-                </tr>
-                <tr>
-                    <td>{{cumulative.totalNumber}}</td>
-                    <td>{{cumulative.totalAmount}}</td>
-                    <td>{{cumulative.canDisAmount}}</td>
-                    <td>{{cumulative.payAmount}}</td>
-                    <td>{{cumulative.subsidyAmount}}</td>
-                </tr>
-            </table>
+        <div class="flex-chart" v-show="cumulative.length!=0">
+            <div class="flex">
+                <div class="echart-div" id="num-echart"></div>
+                <div class="flex-title">{{cumulative.totalNumber}}笔</div>
+                <div class="border-right"></div>
+            </div>
+            <div class="flex">
+                <div class="echart-div" id="amount-echart"></div>
+                <div class="flex-title">{{cumulative.totalAmount}}元</div>
+                <div class="border-right"></div>
+            </div>
+            <div class="flex">
+                <div class="echart-div" id="disAmoun-echart"></div>
+                <div class="flex-title">{{cumulative.canDisAmount}}元</div>
+                <div class="border-right"></div>
+            </div>
+            <div class="flex">
+                <div class="echart-div" id="pay-echart"></div>
+                <div class="flex-title">{{cumulative.payAmount}}元</div>
+                <div class="border-right"></div>
+            </div>
+            <div class="flex">
+                <div class="echart-div" id="subsidy-echart"></div>
+                <div class="flex-title">{{cumulative.subsidyAmount}}元</div>
+                <div class="2"></div>
+            </div>
         </div>
-        <div class="showInfo">
-            <span class="activity-name">活动名称：<strong>{{activityName}}</strong></span>
-            <span class="infor-num">共<strong>{{searchData.total}}</strong>条数据</span>
-            <span class="out-excel" @click="getExcel"><i class="icon-file-excel"></i>导出excel表格</span>
-        </div>
+        <div class="flex-chart text" v-show="cumulative.length==0">未查询到数据</div>
         <div class="table">
             <table>
                 <tr>
@@ -63,13 +65,16 @@
                 </tr>
             </table>
         </div>
-        <pagegroup class="pagegroup"
-            :page_current.sync="searchData.pageIndex"
-            :total="searchData.total"
-            :page_size.sync="searchData.pageSize"
-            v-on:current_change="getList"
-            v-on:size_change="getList"
-            ></pagegroup>
+        <div class="showInfo">
+            <div class="outPDF" @click="getExcel"><a>导出excel表格</a></div>
+            <pagegroup class="pagegroup"
+                :page_current.sync="searchData.pageIndex"
+                :total="searchData.total"
+                :page_size.sync="searchData.pageSize"
+                v-on:current_change="getList"
+                v-on:size_change="getList"
+                ></pagegroup>
+        </div>
     </div>
     </template>
 </template>
@@ -104,6 +109,46 @@
             }
         },
         methods:{
+            tradeEchart(divID,data1,data_name,baseData,color_1,color_2){
+                var myChart=echarts.init(document.getElementById(divID));
+                var option = {
+                    series: [
+                        {
+                            type:'pie',
+                            radius: ['60%', '80%'],
+                            avoidLabelOverlap: false,
+                            hoverAnimation:false,
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'center',
+                                }
+                            },
+                            labelLine: {normal: {show: false}},
+                            data:[
+                                {
+                                    value:data1, 
+                                    name:data_name,
+                                    label:{
+                                        normal: {
+                                            show: true,
+                                            textStyle:{
+                                                color:'#444',
+                                                fontSize: '12',
+                                                fontWeight: 'bold'}
+                                        }
+                                    },
+                                    itemStyle:{normal:{color:color_1}   
+                                    },
+                                },
+                                {value:baseData,itemStyle:{normal:{color:color_2}},
+                                },
+                            ],
+                        }
+                    ]
+                };
+                myChart.setOption(option);
+            },
             getList(){
                 if (!this.searchData.activityID) {
                     this.searchData.bankUuidString=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
@@ -119,6 +164,11 @@
                 this.model.getTradeStatisticsSumList(this.searchData).then((res)=>{
                     if(res.data.code===0){
                         this.$set('cumulative',res.data.data);
+                        this.tradeEchart('num-echart',this.cumulative.totalNumber,'交易总笔数',0,'#e76b5f','#e76b5f');
+                        this.tradeEchart('amount-echart',this.cumulative.totalAmount,'交易总金额',0,'#e76b5f','#e76b5f');
+                        this.tradeEchart('disAmoun-echart',this.cumulative.canDisAmount,'可打折金额',this.cumulative.totalAmount-this.cumulative.canDisAmount,'#e76b5f','#f0f0f0');
+                        this.tradeEchart('pay-echart',this.cumulative.payAmount,'实付总金额',this.cumulative.totalAmount-this.cumulative.payAmount,'#e76b5f','#f0f0f0');
+                        this.tradeEchart('subsidy-echart',this.cumulative.subsidyAmount,'补贴总金额',this.cumulative.totalAmount-this.cumulative.subsidyAmount,'#e76b5f','#f0f0f0');
                     }
                 })
             },

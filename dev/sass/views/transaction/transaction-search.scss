@@ -1,4 +1,4 @@
-.transaction-search{
+.transaction-search,.transaction-detail,.latinos-search,.latinos-detail{
 	margin: 20px;
 	padding: 20px;
 	.search-div{
@@ -27,7 +27,7 @@
 			line-height: 40px;
 		}
 		& > select{
-			width: 150px;
+			width: 170px;
 			height: 36px;
 		border-radius:0;
 		}
@@ -69,12 +69,14 @@
 		}
 		
 	}
+
 	.flex-chart{
 		clear:both;
 		height:180px;
 		border-bottom:1px solid #f0f0f0;
 		border-top:1px solid #f0f0f0;
 		display:flex;
+		padding:20px 0;
 		& > div{
 			flex:1;
 		}
@@ -100,11 +102,19 @@
 			}
 		}
 	}
+	.text{
+		display: inherit;
+		text-align: center;
+		line-height: 180px;
+		font-size: 18px;
+	}
 	.table{
-		margin-top: 20px;
 		clear: both;
-		tr{
-			height:37px !important;
+		table{
+			border-width: 0px !important;
+			tr{
+				height:37px !important;
+			}
 		}
 	}
 	.showInfo{
@@ -125,7 +135,8 @@
 				flex:1;
 			}
 			.ks-col-auto{
-				width:153px;
+				flex: 1;
+				text-align: right;
 			}
 		}
 		span{

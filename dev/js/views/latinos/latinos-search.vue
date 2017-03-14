@@ -1,55 +1,50 @@
   <template>
-    <div class="page-title">权益查询</div>
-	  <div class="latinos-search">
+      <div class="page-title">权益查询</div>
+      <div class="latinos-search">
 		  <div class="search-div">
-              <span>权益名称</span>
-              <input class="input" type="text" v-model="searchData.favorName" placeholder="输入权益名称" @keypress.enter="getLatinosList"/>
+              <input class="input" type="text" v-model="searchData.favorName" placeholder="请输入权益名称" @keypress.enter="getLatinosList"/>
               <div class="showList" v-show="showList">
                 <ul>
                     <li v-for="n in activityList | filterBy searchData.activityList in 'couponName' " @click="getId(n)">{{n.couponName}}</li>
-                    <li v-if="!activityList.length">未查询到{{searchData.couponName}}活动</li>
+                    <li v-if="!activityList.length">未查询到{{searchData.couponName}}权益</li>
                 </ul>
             </div>
-              <span>结算方（银行）</span>
               <select class="select" v-model="bankUuidString" @change="getBankString">
-                  <option value="">全部银行</option>
+                  <option value="">请选择结算方（银行）</option>
                   <option v-for="n in bankFullName" :value="n.uuid">{{n.shortName}}</option>
               </select>
-              <span>开始时间</span>
               <ks-date-picker type="datetime" :value.sync="searchData.startTime"></ks-date-picker>
-              <span>到</span>
               <ks-date-picker type="datetime" :value.sync="searchData.endTime"></ks-date-picker>
-              <span>权益类型</span>
               <select class="select" v-model="searchData.favorTypesStr">
-                  <option value="cash,discount">请选择</option>
+                  <option value="cash,discount">请选择权益类型</option>
                   <option value="cash">优惠金额券</option>
                   <option value="discount">优惠折扣券</option>
               </select>
-              <a class="btn btn-primary searchBtn" @click="doSearch">搜索</a>
+              <input type="button" class="btn btn-primary searchBtn" @click="doSearch" value="搜 索">
           </div>
-           <div class="table">
-              <table>
-                  <tr>
-                      <th>权益总数量</th>
-                      <th>权益使用量</th>
-                      <th>权益未使用量</th>
-                      <th>权益逾期量</th>
-                  </tr>
-                  <tr v-show="!!searchTotal">
-                      <td>{{searchTotal.circulation}}</td>
-                      <td>{{searchTotal.usedAmount}}</td>
-                      <td>{{searchTotal.unusedAmount}}</td>
-                      <td>{{searchTotal.expiredAmount}}</td>
-                  </tr>
-                  <tr v-show="!searchTotal">
-                      <td colspan="12">未查询到数据</td>
-                  </tr>
-              </table>
+          <div class="flex-chart" v-show="searchTotal.length!=0">
+            <div class="flex">
+                <div class="echart-div" id="all-echart"></div>
+                <div class="flex-title">{{searchTotal.circulation}}</div>
+                <div class="border-right"></div>
+            </div>
+            <div class="flex">
+                <div class="echart-div" id="use-echart"></div>
+                <div class="flex-title">{{searchTotal.usedAmount}}</div>
+                <div class="border-right"></div>
+            </div>
+            <div class="flex">
+                <div class="echart-div" id="unuse-echart"></div>
+                <div class="flex-title">{{searchTotal.unusedAmount}}</div>
+                <div class="border-right"></div>
+            </div>
+            <div class="flex">
+                <div class="echart-div" id="expired-echart"></div>
+                <div class="flex-title">{{searchTotal.expiredAmount}}</div>
+                <div class="2"></div>
+            </div>
           </div>
-          <div class="showInfo">
-              <span class="infor-num">共{{searchData.total}}条数据</span>
-              <span class="out-excel" @click="getExcel"><i class="icon-file-excel"></i>导出excel表格</span>
-          </div>
+          <div class="flex-chart text" v-show="searchTotal.length==0">未查询到数据</div>
           <div class="table">
               <table>
                   <tr>
@@ -103,14 +98,15 @@
                   </tr>
               </table>
           </div>
-          <div class="pages" v-show="!!searchList">
-              <pagegroup
-                      :total="searchData.total"
-                      :page_size.sync="searchData.maxResult"
-                      :page_current.sync="searchData.page"
-                      v-on:current_change="getfirstResult"
-                      v-on:size_change="getfirstResult"
-              ></pagegroup>
+          <div class="showInfo">
+            <div class="outPDF" @click="getExcel"><a>导出excel表格</a></div>
+            <pagegroup class="pagegroup"
+                    :total="searchData.total"
+                    :page_size.sync="searchData.maxResult"
+                    :page_current.sync="searchData.page"
+                    v-on:current_change="getfirstResult"
+                    v-on:size_change="getfirstResult"
+            ></pagegroup>
           </div>
 	  </div>
   </template>
@@ -132,17 +128,57 @@
                        favorTypesStr:'cash,discount',
                        firstResult:0,
                        maxResult:10,
-                       sorts:'startTime|desc',
+                       sorts:'id|desc',
                        startTime:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
                        endTime:stringify(new Date())+' 23:59:59',//结束时间
                        uuidsStr:sessionStorage.getItem('uuids'),
                    },
                    searchTotal:'',
                    bankFullName:'',
-                   uuidsList:JSON.parse(sessionStorage.getItem('bankNames'))
+                   uuidsList:JSON.parse(sessionStorage.getItem('bankNames')),
                }
            },
            methods:{
+                latinosEchart(divID,data1,data_name,baseData,color_1,color_2){
+                    var myChart=echarts.init(document.getElementById(divID));
+                    var option = {
+                        series: [
+                            {
+                                type:'pie',
+                                radius: ['60%', '80%'],
+                                avoidLabelOverlap: false,
+                                hoverAnimation:false,
+                                label: {
+                                    normal: {
+                                        show: true,
+                                        position: 'center',
+                                    }
+                                },
+                                labelLine: {normal: {show: false}},
+                                data:[
+                                    {
+                                        value:data1, 
+                                        name:data_name,
+                                        label:{
+                                            normal: {
+                                                show: true,
+                                                textStyle:{
+                                                    color:'#444',
+                                                    fontSize: '12',
+                                                    fontWeight: 'bold'}
+                                            }
+                                        },
+                                        itemStyle:{normal:{color:color_1}   
+                                        },
+                                    },
+                                    {value:baseData,itemStyle:{normal:{color:color_2}},
+                                    },
+                                ],
+                            }
+                        ]
+                    };
+                    myChart.setOption(option);
+                },
                getBankList(){
                    this.model.getBankList().then((res)=>{
                        if (res.data.code==0) {
@@ -180,6 +216,10 @@
                        if (res.data.code==0 && !_.isEmpty(res.data.data)) {
                            this.$set('searchTotal',res.data.data);
                        }
+                           this.latinosEchart('all-echart',this.searchTotal.circulation,'权益总数量',0,'#e76b5f','#e76b5f');
+                           this.latinosEchart('use-echart',this.searchTotal.usedAmount,'权益使用量',this.searchTotal.circulation-this.searchTotal.usedAmount,'#e76b5f','#f0f0f0');
+                           this.latinosEchart('unuse-echart',this.searchTotal.unusedAmount,'权益未使用量',this.searchTotal.circulation-this.searchTotal.unusedAmount,'#e76b5f','#f0f0f0');
+                           this.latinosEchart('expired-echart',this.searchTotal.expiredAmount,'权益逾期量',this.searchTotal.circulation-this.searchTotal.expiredAmount,'#e76b5f','#f0f0f0');
                    })
                },
                getLatinosList(){
@@ -187,6 +227,8 @@
                   favorName:this.searchData.favorName,
                   maxResult:this.searchData.maxResult,
                   uuidsStr:this.searchData.uuidsStr,
+                  favorTypesStr:'cash,discount',
+                  sorts:'id|desc'
                 }
                     this.model.getLatinosCumulative(data).then((res)=>{
                          if (res.data.code==0) {
@@ -200,15 +242,30 @@
                   this.showList=false;
                   this.searchData.favorName=couponName;
                },
+               resetName(){
+                this.showList=false;
+               },
                getExcel(){
                 let data=getFormData(this.searchData);
+                data.sorts='id%7Cdesc';
                 data+='&methodName=couponDataExportExcel&mid='+JSON.parse(sessionStorage.getItem('loginList')).token;
                 window.open(origin+this.$API.latinosSearchExcel+data);
+
               },
+           },
+           ready(){
+            document.addEventListener('click', (e) => {
+                if (!e.target.classList.contains('showLi')) {
+                    this.resetName();
+                }
+            }, false);
+           },
+           beforeDestroy() {
+            document.removeEventListener('click', this.resetName, false);
            },
            created(){
                this.getBankList();
                this.getList();
-           }
+           },
       } 
   </script>
