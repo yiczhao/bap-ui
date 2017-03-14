@@ -63,7 +63,7 @@
                     <td>{{n.canDisAmount}}</td><!-- 可打折金额（元） -->
                     <td>{{n.payAmount}}</td><!-- 实付金额 -->
                     <td>{{n.settlementDiscount}}</td><!-- 结算折扣 -->
-                    <td>{{n.subsidyAmount}}</td><!-- 补贴金额 -->
+                    <td>{{n.bankMoney}}</td><!-- 补贴金额 -->
                 </tr>
             </table>
         </div>
