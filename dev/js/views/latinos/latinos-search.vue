@@ -21,7 +21,7 @@
               </select>
               <input type="button" class="btn btn-primary searchBtn" @click="doSearch" value="搜 索">
           </div>
-          <div class="flex-chart" v-show="searchTotal.length!=0">
+          <div class="flex-chart" v-show="latinos_echart==1">
             <div class="flex">
                 <div class="echart-div" id="all-echart"></div>
                 <div class="flex-title">{{searchTotal.circulation}}</div>
@@ -43,7 +43,7 @@
                 <div class="2"></div>
             </div>
           </div>
-          <div class="flex-chart text" v-show="searchTotal.length==0">未查询到数据</div>
+          <div class="flex-chart text" v-show="latinos_echart==0">未查询到数据</div>
           <div class="table">
               <table>
                   <tr>
@@ -135,6 +135,7 @@
                    searchTotal:'',
                    bankFullName:'',
                    uuidsList:JSON.parse(sessionStorage.getItem('bankNames')),
+                   latinos_echart:1,
                }
            },
            methods:{
@@ -214,11 +215,13 @@
                    this.model.getLationsTotal(this.searchData).then((res)=>{
                        if (res.data.code==0 && !_.isEmpty(res.data.data)) {
                            this.$set('searchTotal',res.data.data);
-                       }
                            this.latinosEchart('all-echart',this.searchTotal.circulation,'权益总数量',0,'#e76b5f','#e76b5f');
                            this.latinosEchart('use-echart',this.searchTotal.usedAmount,'权益使用量',this.searchTotal.circulation-this.searchTotal.usedAmount,'#e76b5f','#f0f0f0');
                            this.latinosEchart('unuse-echart',this.searchTotal.unusedAmount,'权益未使用量',this.searchTotal.circulation-this.searchTotal.unusedAmount,'#e76b5f','#f0f0f0');
                            this.latinosEchart('expired-echart',this.searchTotal.expiredAmount,'权益逾期量',this.searchTotal.circulation-this.searchTotal.expiredAmount,'#e76b5f','#f0f0f0');
+                       }else{
+                         this.latinos_echart=0;
+                       }
                    })
                },
                getLatinosList(){

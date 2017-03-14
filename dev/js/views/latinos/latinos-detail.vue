@@ -1,9 +1,16 @@
  <template>
 	 <div class="latinos-detail">
+         <div class="detailInfo">
+             <span class="activity-name">活动名称：<strong>{{showTitle.activityName}}</strong></span>
+             <span class="infor-num">权益名称：<strong>{{showTitle.couponName}}</strong></span>
+             <span class="infor-num">面额/折扣：
+                <strong v-if="showTitle.couponType=='cash'">{{showTitle.couponFaceValue}}元</strong>
+                <strong v-if="showTitle.couponType=='discount'">{{showTitle.couponFaceValue}}折</strong>
+            </span>
+             <span class="infor-num">活动时间：<strong>{{showTitle.startTime}}~{{showTitle.endTime}}</strong></span>
+         </div>
          <div class="search-div">
-             <span>手机号码</span>
              <input class="input" type="text" v-model="searchData.mobileNumber" placeholder="输入手机号码"/>
-             <span>状态</span>
              <select class="select" v-model="searchData.usedFlag">
                  <option value="">请选择状态</option>
                  <option value="true">已使用</option>
@@ -11,13 +18,7 @@
              </select>
              <input type="button" class="btn btn-primary searchBtn" @click="doSearch" value="搜 索">
          </div>
-         <!-- <div class="something">
-             <span>活动名称：<strong>{{showTitle.couponName}}</strong></span>
-             <span>权益名称：<strong>{{showTitle.activityName}}</strong></span>
-             <span>面额/折扣：<strong>{{showTitle.couponFaceValue}}</strong></span>
-             <span>活动时间：<strong>{{showTitle.startTime}}~{{showTitle.endTime}}</strong></span>
-         </div> -->
-         <div class="flex-chart" v-show="latinosDetailTotal.length!=0">
+         <div class="flex-chart" v-show="latinos_echart==1">
             <div class="flex">
                 <div class="echart-div" id="all-echart"></div>
                 <div class="flex-title">{{latinosDetailTotal.circulation}}</div>
@@ -39,35 +40,7 @@
                 <div class="2"></div>
             </div>
           </div>
-          <div class="flex-chart text" v-show="latinosDetailTotal.length==0">未查询到数据</div>
-         <div class="table">
-             <table>
-                 <tr>
-                     <th>权益总数量</th>
-                     <th>权益使用量</th>
-                     <th>权益未使用量</th>
-                     <th>权益逾期量</th>
-                 </tr>
-                 <tr>
-                     <td>{{latinosDetailTotal.circulation}}</td><!-- 权益总数量 -->
-                     <td>{{latinosDetailTotal.usedAmount}}</td><!-- 权益使用量 -->
-                     <td>{{latinosDetailTotal.unusedAmount}}</td><!-- 权益未使用量 -->
-                     <td>{{latinosDetailTotal.expiredAmount}}</td><!-- 权益逾期量 -->
-                 </tr>
-                 <tr v-show="!latinosDetailTotal">
-                      <td colspan="4">未查询到数据</td> 
-                  </tr>
-             </table>
-         </div>
-         <div class="showInfo">
-             <span class="activity-name">活动名称：<strong>{{showTitle.activityName}}</strong></span>
-             <span class="infor-num">权益名称：<strong>{{showTitle.couponName}}</strong></span>
-             <span class="infor-num">面额/折扣：
-                <strong v-if="showTitle.couponType=='cash'">{{showTitle.couponFaceValue}}元</strong>
-                <strong v-if="showTitle.couponType=='discount'">{{showTitle.couponFaceValue}}折</strong>
-            </span>
-             <span class="infor-num">活动时间：<strong>{{showTitle.startTime}}~{{showTitle.endTime}}</strong></span>
-         </div>
+          <div class="flex-chart text" v-show="latinos_echart==0">未查询到数据</div>
          <div class="table">
              <table>
                  <tr>
@@ -127,7 +100,8 @@
                     endTime:'',
                     couponFaceValue:'',
                     couponType:'',
-                 }
+                 },
+                 latinos_echart:1,
              }
          },
          methods:{
@@ -179,6 +153,8 @@
                        this.latinosEchart('use-echart',this.latinosDetailTotal.usedAmount,'权益使用量',this.latinosDetailTotal.circulation-this.latinosDetailTotal.usedAmount,'#e76b5f','#f0f0f0');
                        this.latinosEchart('unuse-echart',this.latinosDetailTotal.unusedAmount,'权益未使用量',this.latinosDetailTotal.circulation-this.latinosDetailTotal.unusedAmount,'#e76b5f','#f0f0f0');
                        this.latinosEchart('expired-echart',this.latinosDetailTotal.expiredAmount,'权益逾期量',this.latinosDetailTotal.circulation-this.latinosDetailTotal.expiredAmount,'#e76b5f','#f0f0f0');
+                   }else{
+                     this.latinos_echart=0;
                    }
                })
                this.model.getLatinosCumulative(this.searchData).then((res)=>{

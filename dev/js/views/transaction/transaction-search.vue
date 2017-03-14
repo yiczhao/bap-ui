@@ -21,7 +21,7 @@
             <ks-date-picker type="datetime" :value.sync="searchData.endDate"></ks-date-picker>
             <input type="button" class="btn btn-primary searchBtn" @click="getList" value="搜 索">
         </div>
-        <div class="flex-chart" v-show="cumulative.length!=0">
+        <div class="flex-chart" v-show="trade_echart==1">
             <div class="flex">
                 <div class="echart-div" id="num-echart"></div>
                 <div class="flex-title">{{cumulative.totalNumber}}笔</div>
@@ -48,7 +48,7 @@
                 <div class="2"></div>
             </div>
         </div>
-        <div class="flex-chart text" v-show="cumulative.length==0">未查询到数据</div>
+        <div class="flex-chart text" v-show="trade_echart==0">未查询到数据</div>
         <div class="table"> 
             <table>
                 <tr>
@@ -121,7 +121,8 @@
                 objectotalNumber:0,
                 activityName:'',
                 privilegeList:[],
-                bankUuidString:''
+                bankUuidString:'',
+                trade_echart:1,
             }
         },
         methods:{
@@ -184,16 +185,18 @@
                         this.objectotalNumber=res.data.objectotalNumber;
                     }
                 })
-                // this.model.getTradeStatisticsSumList(this.searchData).then((res)=>{
-                //     if(res.data.code===0){
-                //         this.$set('cumulative',res.data.data);
-                //         this.tradeEchart('num-echart',this.cumulative.totalNumber,'交易总笔数',0,'#e76b5f','#e76b5f');
-                //         this.tradeEchart('amount-echart',this.cumulative.totalAmount,'交易总金额',0,'#e76b5f','#e76b5f');
-                //         this.tradeEchart('disAmoun-echart',this.cumulative.canDisAmount,'可打折金额',this.cumulative.totalAmount-this.cumulative.canDisAmount,'#e76b5f','#f0f0f0');
-                //         this.tradeEchart('pay-echart',this.cumulative.payAmount,'实付总金额',this.cumulative.totalAmount-this.cumulative.payAmount,'#e76b5f','#f0f0f0');
-                //         this.tradeEchart('subsidy-echart',this.cumulative.subsidyAmount,'补贴总金额',this.cumulative.totalAmount-this.cumulative.subsidyAmount,'#e76b5f','#f0f0f0');
-                //     }
-                // });
+                this.model.getTradeStatisticsSumList(this.searchData).then((res)=>{
+                    if(res.data.code===0){
+                        this.$set('cumulative',res.data.data);
+                        this.tradeEchart('num-echart',this.cumulative.totalNumber,'交易总笔数',0,'#e76b5f','#e76b5f');
+                        // this.tradeEchart('amount-echart',this.cumulative.totalAmount,'交易总金额',0,'#e76b5f','#e76b5f');
+                        // this.tradeEchart('disAmoun-echart',this.cumulative.canDisAmount,'可打折金额',this.cumulative.totalAmount-this.cumulative.canDisAmount,'#e76b5f','#f0f0f0');
+                        // this.tradeEchart('pay-echart',this.cumulative.payAmount,'实付总金额',this.cumulative.totalAmount-this.cumulative.payAmount,'#e76b5f','#f0f0f0');
+                        // this.tradeEchart('subsidy-echart',this.cumulative.subsidyAmount,'补贴总金额',this.cumulative.totalAmount-this.cumulative.subsidyAmount,'#e76b5f','#f0f0f0');
+                    }else{
+                        this.trade_echart=0;
+                    }
+                });
             },
             getActivity(){
                 let data={

@@ -1,5 +1,8 @@
 <template>
     <div class="transaction-detail">
+        <div class="detailInfo">
+             <span class="activity-name">活动名称：<strong>{{activityName}}</strong></span>
+        </div>
         <div class="search-div">
             <input class="input" type="text" v-model="searchData.cardNumber" v-limitaddprice="searchData.cardNumber" placeholder="请输入银行卡号"/>
             <ks-date-picker time="00:00:00" type="datetime" :value.sync="searchData.startDate"></ks-date-picker>

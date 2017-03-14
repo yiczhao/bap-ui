@@ -1,5 +1,4 @@
 <template>
-    <div class="page-title">数据总览</div>
     <div class="include-area">
         <div class="search-div">
             <input class="input " type="text" v-model="searchDate.name" placeholder="输入活动名称" @keypress.enter="getActivity"/>
