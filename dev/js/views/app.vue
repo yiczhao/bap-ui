@@ -29,7 +29,7 @@
         vuex: {
             getters: {
                 hasPadding ({ titles }) {
-                    if(titles.titles=='数据总览'){
+                    if(titles.titles=='数据总览'||titles.titles=='创建活动'){
                         return false;
                     }
                     return true;
