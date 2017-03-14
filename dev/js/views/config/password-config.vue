@@ -1,5 +1,4 @@
 <template>
-    <div class="page-title">密码设置</div>
     <div class="password-config">
         <div class="bg">
             <div class="four-type">

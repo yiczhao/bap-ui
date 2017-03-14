@@ -1,5 +1,4 @@
  <template>
-    <div class="page-title">权益明细查询</div>
 	 <div class="latinos-detail">
          <div class="search-div">
              <span>手机号码</span>

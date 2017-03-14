@@ -1,5 +1,4 @@
 <template>
-    <div class="page-title">交易查询</div>
     <div class="transaction-search">
         <div class="search-div">
             <input class="input" type="text" placeholder="请输入活动名称" v-model="searchData.activityName" @keypress.enter="getActivity"/>

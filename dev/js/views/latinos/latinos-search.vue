@@ -1,5 +1,4 @@
   <template>
-      <div class="page-title">权益查询</div>
       <div class="latinos-search">
 		  <div class="search-div">
               <input class="input" type="text" v-model="searchData.favorName" placeholder="请输入权益名称" @keypress.enter="getLatinosList"/>
