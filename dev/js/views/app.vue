@@ -7,7 +7,7 @@
             </div>
             <div class="content-right">
                 <div v-show="!!title" class="page-title">{{title}}</div>
-                <div class="main-content"><router-view></router-view></div>
+                <div :class="{'main-content':hasPadding}"><router-view></router-view></div>
                 <loading></loading>
             </div>
         </div>
@@ -28,6 +28,12 @@
             getters: {
                 title ({ titles }) {
                     return titles.titles
+                },
+                hasPadding ({ titles }) {
+                    if(titles.titles=='数据总览'){
+                        return false;
+                    }
+                    return true;
                 }
             }
         },

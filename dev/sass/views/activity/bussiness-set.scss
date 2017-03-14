@@ -7,6 +7,8 @@
 	}
 	.table-row{
 		margin-bottom:20px;
+		max-height: 500px;
+		overflow: auto;
 	}
 	.add-table{
 		.add-search{
