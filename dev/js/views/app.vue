@@ -6,7 +6,7 @@
                 <menu-component></menu-component>
             </div>
             <div class="content-right">
-                <div v-show="!!title" class="page-title">{{title}}</div>
+                <title-component></title-component>
                 <div :class="{'main-content':hasPadding}"><router-view></router-view></div>
                 <loading></loading>
             </div>
@@ -19,16 +19,15 @@
     import MenuComponent from './base/menu.vue'
     import store from '../vuex/store'
     import FooterComponent from './base/footer.vue'
+    import TitleComponent from './base/titles.vue'
     export default{
         data(){
             return{
             }
         },
+        store,
         vuex: {
             getters: {
-                title ({ titles }) {
-                    return titles.titles
-                },
                 hasPadding ({ titles }) {
                     if(titles.titles=='数据总览'){
                         return false;
@@ -37,9 +36,8 @@
                 }
             }
         },
-        store,
         components:{
-            HeaderComponent,MenuComponent,FooterComponent
+            HeaderComponent,MenuComponent,FooterComponent,TitleComponent
         },
         created(){
         }
