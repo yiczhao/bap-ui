@@ -1,3 +1,5 @@
+import store from './vuex/store'
+import * as types from './vuex/title-types'
 export default function (Vue,router){
     router.map({
         /* 登录页面 */
@@ -30,6 +32,7 @@ export default function (Vue,router){
                 'home': {
                     name: 'home',
                     router_type:'home',
+                    router_tile:'数据总览',
                     component: (resolve) => {
                         require(['./views/home.vue'], resolve)
                     }
@@ -38,6 +41,7 @@ export default function (Vue,router){
                 'create-activity': {
                     name: 'create-acitvity',
                     router_type:'acitvity',
+                    router_tile:'创建活动',
                     component: (resolve) => {
                         require(['./views/activity/create-activity.vue'], resolve)
                     }
@@ -45,6 +49,7 @@ export default function (Vue,router){
                 'basic-rule/:activityId/:rulename':{
                     name:'basic-rule',
                     router_type:'activity',
+                    router_tile:'活动基本设置',
                     component:(resolve)=>{
                         require(['./views/activity/basic-rule.vue'],resolve)
                     }
@@ -52,6 +57,7 @@ export default function (Vue,router){
                 'activity-rule':{
                     name:'activity-rule',
                     router_type:'activity',
+                    router_tile:'活动规则设置',
                     component:(resolve)=>{
                         require(['./views/activity/activity-rule.vue'],resolve)
                     },
@@ -145,6 +151,7 @@ export default function (Vue,router){
                 'Custom':{
                     name:'Custom',
                     router_type:'Custom',
+                    router_tile:'活动自定义',
                     component:(resolve)=>{
                         require(['./views/rule-template/Custom.vue'],resolve)
                     }
@@ -152,6 +159,7 @@ export default function (Vue,router){
                 'bussiness-set/:bactivityId':{
                     name:'bussiness-set',
                     router_type:'activity',
+                    router_tile:'活动商户设置',
                     component:(resolve)=>{
                         require(['./views/activity/bussiness-set.vue'],resolve)
                     }
@@ -159,6 +167,7 @@ export default function (Vue,router){
                 'ticketbussiness-set/:tactivityId':{
                     name:'ticketbussiness-set',
                     router_type:'activity',
+                    router_tile:'活动商户设置',
                     component:(resolve)=>{
                         require(['./views/activity/ticketbussiness-set.vue'],resolve)
                     }
@@ -167,14 +176,16 @@ export default function (Vue,router){
                 'activity-manage': {
                     name: 'activity-manage',
                     router_type:'acitvity',
+                    router_tile:'活动管理',
                     component: (resolve) => {
                         require(['./views/activity/activity-manage.vue'], resolve)
                     }
                 },
-                /* 活动管理页面 */
+                /* 活动详情页面 */
                 'activity-info/:infoId': {
                     name: 'activity-info',
                     router_type:'acitvity',
+                    router_tile:'活动详情',
                     component: (resolve) => {
                         require(['./views/activity/activity-info.vue'], resolve)
                     }
@@ -183,6 +194,7 @@ export default function (Vue,router){
                 'activity-analysis': {
                     name: 'activity-analysis',
                     router_type:'activity',
+                    router_tile:'活动分析',
                     component: (resolve) => {
                         require(['./views/activity/activity-analysis.vue'], resolve)
                     }
@@ -191,6 +203,7 @@ export default function (Vue,router){
                 'activity-pdfout/:pdfoutId/:pdfActivityId': {
                     name: 'activity-pdfout',
                     router_type:'activity',
+                    router_tile:'导出PDF',
                     component: (resolve) => {
                         require(['./views/activity/activity-pdfout.vue'], resolve)
                     }
@@ -199,6 +212,7 @@ export default function (Vue,router){
                 'transaction-search':{
                     name:'transaction-search',
                     router_type:'transaction',
+                    router_tile:'交易查询',
                     component:(resolve)=>{
                         require(['./views/transaction/transaction-search.vue'], resolve)
                     }
@@ -207,6 +221,7 @@ export default function (Vue,router){
                 'transaction-detail/:transactionName/:transactionId':{
                     name:'transaction-detail',
                     router_type:'transaction',
+                    router_tile:'交易明细',
                     component:(resolve)=>{
                         require(['./views/transaction/transaction-detail.vue'], resolve)
                     }
@@ -215,6 +230,7 @@ export default function (Vue,router){
                 'latinos-search':{
                     name:'latinos-search',
                     router_type:'latinos',
+                    router_tile:'权益查询',
                     component:(resolve)=>{
                         require(['./views/latinos/latinos-search.vue'], resolve)
                     }
@@ -223,6 +239,7 @@ export default function (Vue,router){
                 'latinos-detail/:latinosID/:couponName/:activityName/:startTime/:endTime/:couponFaceValue/:couponType':{
                     name:'latinos-detail',
                     router_type:'latinos',
+                    router_tile:'权益明细',
                     component:(resolve)=>{
                         require(['./views/latinos/latinos-detail.vue'], resolve)
                     }
@@ -231,6 +248,7 @@ export default function (Vue,router){
                 'latinos-batch/:batchId/:batchUserId':{
                     name:'latinos-batch',
                     router_type:'latinos',
+                    router_tile:'批量送权益',
                     component:(resolve)=>{
                         require(['./views/latinos/latinos-batch.vue'], resolve)
                     }
@@ -239,6 +257,7 @@ export default function (Vue,router){
                 'latinos-user/:latinosUserId':{
                     name:'latinos-user',
                     router_type:'latinos',
+                    router_tile:'批量送权益',
                     component:(resolve)=>{
                         require(['./views/latinos/latinos-user.vue'], resolve)
                     }
@@ -247,6 +266,7 @@ export default function (Vue,router){
                 'bank-config': {
                     name: 'bank-config',
                     router_type:'config',
+                    router_tile:'银行基本设置',
                     component: (resolve) => {
                         require(['./views/config/bank-config.vue'], resolve)
                     }
@@ -255,6 +275,7 @@ export default function (Vue,router){
                 'password-config': {
                     name: 'password-config',
                     router_type:'config',
+                    router_tile:'密码设置',
                     component: (resolve) => {
                         require(['./views/config/password-config.vue'], resolve)
                     }
@@ -263,6 +284,7 @@ export default function (Vue,router){
                 'user-config': {
                     name: 'user-config',
                     router_type:'config',
+                    router_tile:'用户设置',
                     component: (resolve) => {
                         require(['./views/config/user-config.vue'], resolve)
                     }
@@ -270,6 +292,7 @@ export default function (Vue,router){
                 /* 分支行设置页面 */
 	            'branch-bank': {
 		            name: 'branch-bank',
+                    router_tile:'分支行设置',
 		            router_type:'config',
 		            component: (resolve) => {
 			            require(['./views/config/branch-bank.vue'], resolve)
@@ -294,6 +317,7 @@ export default function (Vue,router){
     })
     
     router.afterEach(transition =>{
+        store.dispatch(types.CHANGE_TITLE, transition.to.router_tile)
         if(back_json.num==0){
             back_json.isback=true;
         }

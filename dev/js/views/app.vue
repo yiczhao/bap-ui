@@ -6,7 +6,8 @@
                 <menu-component></menu-component>
             </div>
             <div class="content-right">
-                <router-view></router-view>
+                <div v-show="!!title" class="page-title">{{title}}</div>
+                <div class="main-content"><router-view></router-view></div>
                 <loading></loading>
             </div>
         </div>
@@ -17,10 +18,17 @@
     import HeaderComponent from './base/header.vue'
     import MenuComponent from './base/menu.vue'
     import store from '../vuex/store'
-   import FooterComponent from './base/footer.vue'
+    import FooterComponent from './base/footer.vue'
     export default{
         data(){
             return{
+            }
+        },
+        vuex: {
+            getters: {
+                title ({ titles }) {
+                    return titles.titles
+                }
             }
         },
         store,

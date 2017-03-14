@@ -149,12 +149,13 @@ html,body{
         }
       }
     }
+    .main-content{
+      background: #fff;
+      margin: 20px;
+      padding: 20px;
+    }
     .content-right{
-      & > div:nth-child(2){
-        background: #fff;
-        // margin: 20px;
-        // padding: 20px;
-      }
+      margin-bottom: 50px;
       table{
         width:100%;
         border:1px solid #E9E9E9;

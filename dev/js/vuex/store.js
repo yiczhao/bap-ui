@@ -8,12 +8,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import ajax from './modules/ajax'
+import titles from './modules/titles'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   strict: Vue.config.debug,
   modules: {
-    ajax
+    ajax,titles
   }
 })

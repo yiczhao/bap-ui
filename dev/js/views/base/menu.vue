@@ -15,7 +15,6 @@
                     <ul v-for="n in menuLists">
                         <li  v-if="n.type==2"><a v-link="{name:n.code}">{{n.name}}</a></li>
                     </ul>
-
                 </li>
                 <li>
                     <span><i class="icon icon-wrench"></i>设置</span>
