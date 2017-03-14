@@ -1,4 +1,5 @@
 <template>
+    <div class="page-title">用户设置</div>
     <div class="user-config">
         <div class="form-row">
             <a class="btn btn-info" @click="addUser">新增用户</a>
