@@ -7,7 +7,7 @@
             </div>
             <div class="content-right">
                 <title-component></title-component>
-                <div :class="{'main-content':hasPadding}"><router-view></router-view></div>
+                <div :class="hasPadding?'main-content':'has-crumbs'"><router-view></router-view></div>
                 <loading></loading>
             </div>
         </div>
@@ -29,7 +29,7 @@
         vuex: {
             getters: {
                 hasPadding ({ titles }) {
-                    if(titles.titles=='数据总览'||titles.titles=='创建活动'){
+                    if(titles.titles=='数据总览'||titles.titles=='创建活动'||titles.titles=='活动分析'){
                         return false;
                     }
                     return true;

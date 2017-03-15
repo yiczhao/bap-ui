@@ -74,7 +74,6 @@ window.dialog=((types,mes)=>{
     }
 })
 window.stringify = (dater , format)=>{
-
     var year = dater.getFullYear()
     var month = dater.getMonth() + 1
     var date = dater.getDate()
@@ -159,6 +158,27 @@ window.paramData = function( a, traditional ) {
     // Return the resulting serialization
     return s.join( "&" ).replace( r20, "+" );
 };
+window.getDates=function(){
+    var date = new Date(),
+        lyear = date.getFullYear(),
+        lmonth = date.getMonth() + 1,
+        agoMonth = lmonth-1,
+        lday = date.getDate(),
+        pdate = new Date(date.getTime() - 7 * 24 * 3600 * 1000),
+        pyear = pdate.getFullYear(),
+        pmonth = pdate.getMonth() + 1,
+        pday = pdate.getDate(),
+        locakDate=lyear + '-' + lmonth + '-' + lday,
+        pastDate=pyear + '-' + pmonth + '-' + pday,
+        agoMonthDate=lyear+'-'+agoMonth+'-'+lday,
+        data={
+            today:locakDate,
+            aweekAgo:pastDate,
+            amonthAgo:agoMonthDate
+        };
+    return data
+}
+
 var _i={};
 _i.fetchArray=(key)=>{
     if(localStorage.getItem(key)){
@@ -179,11 +199,8 @@ window.back_json=_i;
  */
 window.Event = {};
 var Event = {
-
     funcList: {}, //保存delegate所绑定的方法
     ieFuncList: {}, //由于保存在ie下绑定的方法
-
-
     on: function(obj, selector, type, fn) {
         if (!obj || !selector) return false;
         var fnNew = Event.delegateHandle(obj, selector, fn);
