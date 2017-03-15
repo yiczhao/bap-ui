@@ -4,7 +4,7 @@
             <input class="input " type="text" v-model="searchDate.name" placeholder="输入活动名称" @keypress.enter="getActivity"/>
             <div class="showList showLi" v-show="showList">
                 <ul class="showLi">
-                    <li class="showLi" v-for="n in activityList | filterBy searchDate.name in 'name'" @click="getId(n)">{{n.name}}</li>
+                    <li class="showLi" v-for="n in activityList | filterBy this.replaceName in 'name'" @click="getId(n)">{{n.name}}</li>
                     <li class="showLi" v-if="!activityList.length">未查询到{{searchDate.name}}活动</li>
                 </ul>
             </div>
@@ -80,7 +80,8 @@
                      startDate:'',
                      endDate:'',
                      bankUuidString:'',
-                }
+                },
+                replaceName:'',
             }
         },
         methods:{
@@ -121,12 +122,13 @@
                 this.getList();
             },
             getActivity(){
+                this.replaceName=(this.searchDate.name).replace(/(^\s+)|(\s+$)/g, "");
                 let data={
-                    name:this.searchDate.name,
+                    name:this.replaceName,
                     maxResult:100,
                     uuids:_.split(sessionStorage.getItem('uuids'), ',')
                 }
-                if(!this.searchDate.name){
+                if(!this.replaceName){
                     this.searchDate.activityID="";
                     this.showList=false;
                     this.getList();

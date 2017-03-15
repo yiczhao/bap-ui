@@ -216,9 +216,9 @@
                        if (res.data.code==0 && !_.isEmpty(res.data.data)) {
                            this.$set('searchTotal',res.data.data);
                            this.latinosEchart('all-echart',this.searchTotal.circulation,'权益总数量',0,'#e76b5f','#e76b5f');
-                           this.latinosEchart('use-echart',this.searchTotal.usedAmount,'权益使用量',this.searchTotal.circulation-this.searchTotal.usedAmount,'#e76b5f','#f0f0f0');
-                           this.latinosEchart('unuse-echart',this.searchTotal.unusedAmount,'权益未使用量',this.searchTotal.circulation-this.searchTotal.unusedAmount,'#e76b5f','#f0f0f0');
-                           this.latinosEchart('expired-echart',this.searchTotal.expiredAmount,'权益逾期量',this.searchTotal.circulation-this.searchTotal.expiredAmount,'#e76b5f','#f0f0f0');
+                           this.latinosEchart('use-echart',this.searchTotal.usedAmount,'权益使用量',this.searchTotal.circulation-this.searchTotal.usedAmount,'#15a4fa','#f0f0f0');
+                           this.latinosEchart('unuse-echart',this.searchTotal.unusedAmount,'权益未使用量',this.searchTotal.circulation-this.searchTotal.unusedAmount,'#62cca4','#f0f0f0');
+                           this.latinosEchart('expired-echart',this.searchTotal.expiredAmount,'权益逾期量',this.searchTotal.circulation-this.searchTotal.expiredAmount,'#1a1a1a','#e76b5f');
                        }else{
                          this.latinos_echart=0;
                        }
@@ -226,7 +226,7 @@
                },
                getLatinosList(){
                 let data={
-                  favorName:this.searchData.favorName,
+                  favorName:(this.searchData.favorName).replace(/(^\s+)|(\s+$)/g, ""),
                   maxResult:this.searchData.maxResult,
                   uuidsStr:this.searchData.uuidsStr,
                   favorTypesStr:'cash,discount',
@@ -252,7 +252,7 @@
                 let data=getFormData(this.searchData);
                 data+='&methodName=couponDataExportExcel&mid='+JSON.parse(sessionStorage.getItem('loginList')).token;
                 window.open(origin+this.$API.latinosSearchExcel+data);
-
+               this.searchData.sorts = 'id|desc';
               },
            },
            ready(){

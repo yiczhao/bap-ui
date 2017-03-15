@@ -1,7 +1,17 @@
 .latinos-detail,.transaction-detail{
 	.flex-chart{
 		padding:0;
-		height: 175px;
+		height: 160px;
+		.flex{
+			.flex-title{
+				height: 15px;
+				line-height: 15px;
+			}
+			.border-right{
+				height: 120px;
+				top: 20px;
+			}
+		}
 	}
 	.detailInfo{
 		background-color: #f0f0f0;

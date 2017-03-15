@@ -852,7 +852,7 @@
 			//搜索活动
 			getActivity(){
 				 let data={
-                    name:this.searchData.activityName,
+                    name:(this.searchData.activityName).replace(/(^\s+)|(\s+$)/g, ""),
                     maxResult:100,
                     uuids:_.split(sessionStorage.getItem('uuids'), ','),
                     activityID:this.searchData.activityID

@@ -150,9 +150,9 @@
                    if (res.data.code==0 && !_.isEmpty(res.data.data)) {
                        this.$set('latinosDetailTotal',res.data.data);
                        this.latinosEchart('all-echart',this.latinosDetailTotal.circulation,'权益总数量',0,'#e76b5f','#e76b5f');
-                       this.latinosEchart('use-echart',this.latinosDetailTotal.usedAmount,'权益使用量',this.latinosDetailTotal.circulation-this.latinosDetailTotal.usedAmount,'#e76b5f','#f0f0f0');
-                       this.latinosEchart('unuse-echart',this.latinosDetailTotal.unusedAmount,'权益未使用量',this.latinosDetailTotal.circulation-this.latinosDetailTotal.unusedAmount,'#e76b5f','#f0f0f0');
-                       this.latinosEchart('expired-echart',this.latinosDetailTotal.expiredAmount,'权益逾期量',this.latinosDetailTotal.circulation-this.latinosDetailTotal.expiredAmount,'#e76b5f','#f0f0f0');
+                       this.latinosEchart('use-echart',this.latinosDetailTotal.usedAmount,'权益使用量',this.latinosDetailTotal.circulation-this.latinosDetailTotal.usedAmount,'#15a4fa','#f0f0f0');
+                       this.latinosEchart('unuse-echart',this.latinosDetailTotal.unusedAmount,'权益未使用量',this.latinosDetailTotal.circulation-this.latinosDetailTotal.unusedAmount,'#62cca4','#f0f0f0');
+                       this.latinosEchart('expired-echart',this.latinosDetailTotal.expiredAmount,'权益逾期量',this.latinosDetailTotal.circulation-this.latinosDetailTotal.expiredAmount,'#1a1a1a','#e76b5f');
                    }else{
                      this.latinos_echart=0;
                    }

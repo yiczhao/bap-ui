@@ -113,6 +113,7 @@
                     activityID:'',
                     bankUuidString:'',
                     activityStatus:'',//活动状态
+                    sorts:'id|desc',
                     startDate:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
                     endDate:stringify(new Date())+' 23:59:59',//结束时间
                     pageIndex:1,//当前选中的分页值
@@ -189,10 +190,10 @@
                     if(res.data.code===0){
                         this.$set('cumulative',res.data.data);
                         this.tradeEchart('num-echart',this.cumulative.totalNumber,'交易总笔数',0,'#e76b5f','#e76b5f');
-                        // this.tradeEchart('amount-echart',this.cumulative.totalAmount,'交易总金额',0,'#e76b5f','#e76b5f');
-                        // this.tradeEchart('disAmoun-echart',this.cumulative.canDisAmount,'可打折金额',this.cumulative.totalAmount-this.cumulative.canDisAmount,'#e76b5f','#f0f0f0');
-                        // this.tradeEchart('pay-echart',this.cumulative.payAmount,'实付总金额',this.cumulative.totalAmount-this.cumulative.payAmount,'#e76b5f','#f0f0f0');
-                        // this.tradeEchart('subsidy-echart',this.cumulative.subsidyAmount,'补贴总金额',this.cumulative.totalAmount-this.cumulative.subsidyAmount,'#e76b5f','#f0f0f0');
+                        this.tradeEchart('amount-echart',this.cumulative.totalAmount,'交易总金额',0,'#ffcf7a','#ffcf7a');
+                        this.tradeEchart('disAmoun-echart',this.cumulative.canDisAmount,'可打折金额',this.cumulative.totalAmount-this.cumulative.canDisAmount,'#b6d15d','#ffcf7a');
+                        this.tradeEchart('pay-echart',this.cumulative.payAmount,'实付总金额',this.cumulative.totalAmount-this.cumulative.payAmount,'#3ba686','#f0f0f0');
+                        this.tradeEchart('subsidy-echart',this.cumulative.subsidyAmount,'补贴总金额',this.cumulative.totalAmount-this.cumulative.subsidyAmount,'#e76b5f','#163b7d');
                     }else{
                         this.trade_echart=0;
                     }
@@ -200,7 +201,7 @@
             },
             getActivity(){
                 let data={
-                    name:this.searchData.activityName,
+                    name:(this.searchData.activityName).replace(/(^\s+)|(\s+$)/g, ""),
                     maxResult:100,
                     uuids:_.split(sessionStorage.getItem('uuids'), ',')
                 };
@@ -235,9 +236,11 @@
                 })
             },
             getExcel(){
+                this.searchData.sorts='id%7Cdesc';
                 let data=getFormData(this.searchData);
                 data+='&methodName=statisticsDataExportExcel&mid='+JSON.parse(sessionStorage.getItem('loginList')).token;
                 window.open(origin+this.$API.tradeSearchExport+data);
+                this.searchData.sorts='id|desc';
             },
         },
         ready(){
