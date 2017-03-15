@@ -177,7 +177,7 @@
                 this.getList();
             },
             getExcel(){
-                console.log('success')
+                this.searchData.sorts = 'id%7Cdesc';
                 let data=getFormData(this.searchData);
                 data+='&methodName=couponDetailDataExportExcel&mid='+JSON.parse(sessionStorage.getItem('loginList')).token;
                 window.open(origin+this.$API.latinosDetailExcel+data);

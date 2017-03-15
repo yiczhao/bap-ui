@@ -248,8 +248,8 @@
                 this.showList=false;
                },
                getExcel(){
+               this.searchData.sorts = 'id%7Cdesc';
                 let data=getFormData(this.searchData);
-                data.sorts='id%7Cdesc';
                 data+='&methodName=couponDataExportExcel&mid='+JSON.parse(sessionStorage.getItem('loginList')).token;
                 window.open(origin+this.$API.latinosSearchExcel+data);
 
