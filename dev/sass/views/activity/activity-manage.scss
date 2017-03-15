@@ -16,17 +16,14 @@
 				width: 200px;
 			}
 			& > div,& > span,& > input,& > select,& > a{
-				float: left;
-				margin-right: 15px;
-				margin-bottom:10px;
+				float: left;margin-right: 15px;margin-bottom:10px;
 
 			}
 			& > span{
 				line-height: 40px;
 			}
 			& > select{
-				width: 150px;
-				height: 38px;
+				width: 150px;height: 38px;
 			}
 			.btn-primary{
 				float: right;

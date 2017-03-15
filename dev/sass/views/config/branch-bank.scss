@@ -9,8 +9,7 @@
 }
 
 @mixin width-lineheight($width,$lineh) {
-  width: $width;
-  line-height: $lineh;
+  width: $width;line-height: $lineh;
 }
 
 .branch-bank {
@@ -25,11 +24,9 @@
   }
   .form-group {
     margin: 0 auto 20px auto;
-    display: flex;
-    width: 650px;
+    display: flex;width: 650px;
     .name-left {
-      display: block;
-      height: 36px;
+      display: block;height: 36px;
       @include width-lineheight(100px, 36px);
       text-align: right;
       i {
@@ -87,8 +84,7 @@
         padding: 6px 5px;
       }
       .function-choose {
-        float: left;
-        margin-right: 15px;
+        float: left;margin-right: 15px;
         line-height: 36px;
         input {
           @include input-radio;
@@ -99,8 +95,7 @@
   .form-row {
     width: 600px;
     .btn-primary {
-      float:right;
-      margin: 20px 20px 20px 0;
+      float:right;margin: 20px 20px 20px 0;
     }
   }
   .close-center {

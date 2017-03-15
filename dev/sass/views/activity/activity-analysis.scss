@@ -54,36 +54,26 @@
 	}
 	.transaction-data{
 		margin-bottom: 20px;
-		border:1px solid rgba(233,233,233,1);
-		border-radius:3px;
+		border:1px solid rgba(233,233,233,1);border-radius:3px;
 		.data-title{
-			height:36px;
-			line-height:36px;
+			height:36px;line-height:36px;
 			background-color:rgba(242,242,242,1);
 			.title-left{
 				padding-left:20px;
 			}
 			.title-right{
-				float: right;
-				padding-right: 20px;
+				float: right;padding-right: 20px;display:inline;
 				cursor: pointer;
-				display:inline;
 			}
 		}
 		.data-today-table{
-			padding:0 20px;
-			margin-top: 20px;
+			padding:0 20px;margin-top: 20px;
 			.title{
 				display:inline-block;
-				height:36px;
-				line-height:36px;
+				height:36px;line-height:36px;
 				i{
-					display:inline-block;
-					float: left;
-					margin:8px 10px 0 0;
-					margin-top:8px;
-					width:5px;
-					height:16px;
+					display:inline-block;float: left;margin:8px 10px 0 0;margin-top:8px;
+					width:5px;height:16px;
 					background-color:#2196f3;
 				}
 			}
@@ -116,8 +106,8 @@
 				margin-top:20px;
 			}
 			.data-echart{
-				height:300px;
 				margin:20px 0;
+				height:300px;
 				border:1px solid rgba(233,233,233,1);
 			}
 		}

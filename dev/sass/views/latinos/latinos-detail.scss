@@ -4,20 +4,17 @@
 		height: 160px;
 		.flex{
 			.flex-title{
-				height: 15px;
-				line-height: 15px;
+				height: 15px;line-height: 15px;
 			}
 			.border-right{
-				height: 120px;
 				top: 20px;
+				height: 120px;
 			}
 		}
 	}
 	.detailInfo{
-		padding: 10px 0;
-		margin-bottom: 20px;
-		background-color: #f0f0f0;
-    	text-align: center;
+		padding: 10px 0;margin-bottom: 20px;
+		background-color: #f0f0f0;text-align: center;
     	.infor-num{
     		margin-left:20px;
     	}

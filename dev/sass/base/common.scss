@@ -26,47 +26,30 @@ html,body{
 }
 .header{
   height:50px;
-  background-color: #16191c;
-  border-color: #37474F;
-  border-width: 1px 0;
-  border-bottom-color: rgba(255, 255, 255, 0.1);
-  color: #fff;
+  background-color: #16191c;border-color: #37474F;border-width: 1px 0;border-bottom-color: rgba(255, 255, 255, 0.1);color: #fff;
   .header-logo{
-    float: left;
-    margin-top: 9px;
-    margin-left: 20px;
-    width: 135px;
-    height: 32px;
-    background-size: 100%;
-    background-image:url("../img/logo横版.png");
-    background-repeat:no-repeat;
+    float: left;margin-top: 9px;margin-left: 20px;
+    width: 135px;height: 32px;
+    background-size: 100%;background-image:url("../img/logo横版.png");background-repeat:no-repeat;
   }
   .header-title{
-    float:left;
-    width:130px;
-    height:24px;
+    float:left;margin: 13px 20px 0 20px;
+    width:130px;height:24px;line-height: 24px;
     font-size: 16px;
-    margin: 13px 20px 0 20px;
-    line-height: 24px;
   }
   .header-infor{
-    float: right;
-    margin-right: 10px;
+    float: right;margin-right: 10px;
     .img-area{
       float: left;
-      width: 40px;
-      height: 50px;
+      width: 40px;height: 50px;
       img{
-        width: 35px;
-        height: 35px;
-        border-radius:30px;
         margin-top: 8px;
+        width: 35px;height: 35px;
+        border-radius:30px;
       }
     }
     .information-show{
-      float:left;
-      margin:0 20px;
-      margin-top: 15px;
+      float:left;margin:0 20px;margin-top: 15px;
       font-size:12px;
       span:first-child{
       }
@@ -75,17 +58,9 @@ html,body{
       }
     }
     .function-click{
-      cursor:pointer;
-      width:30px;
-      height: 25px;
-      float:left;
-      margin-top:13px;
-      padding-left:20px;
-      border-left: 1px solid #fff;
-      background-size: 46%;
-      background-image:url("../img/logout.png");
-      background-repeat:no-repeat;
-      background-position: 20px 0px;
+      float:left;margin-top:13px;padding-left:20px;
+      width:30px;height: 25px;
+      cursor:pointer;border-left: 1px solid #fff;background-size: 46%;background-image:url("../img/logout.png");background-repeat:no-repeat;background-position: 20px 0px;
     }
     .function-click:hover{
       background-image:url("../img/logoutH.png");
@@ -93,20 +68,15 @@ html,body{
   }
 }
 .content{
-  position: relative;
-  width: 100%;
-  display: table;
-  min-height: 768px;
+  position: relative;display: table;
+  width: 100%;min-height: 768px;
   table-layout: fixed;
   .content-main{
-    display: table-row;
+     display: table-row;
     .content-left{
-      position: relative;
+      position: relative;display: table-cell;
       width: 260px;
-      display: table-cell;
-      background-color: #212528;
-      color: rgb(255, 255, 255);
-      vertical-align: top;
+      background-color: #212528;color: rgb(255, 255, 255);vertical-align: top;
       .menu{
         position: relative;
         list-style: none;
@@ -119,21 +89,17 @@ html,body{
           }
         }
         a,span{
-          box-sizing: border-box;
-          padding: 12px 20px;
-          min-height: 44px;
-          font-weight: 500;
-          display: block;
-          cursor: pointer;
-          color: #fff;
+          padding: 12px 20px;display: block;
+          box-sizing: border-box; min-height: 44px;font-weight: 500;
+          cursor: pointer;color: #fff;
           &:hover{
             background-color: rgba(0,0,0,.1);
             // color: #fff;
           }
         }
         .v-link-active {
-          color: #e76b5f;
           border-left: 3px solid #e76b5f;
+          color: #e76b5f;
           &:hover{
             // color: #fff;
             background-color: rgba(0,0,0,.1);
@@ -143,8 +109,7 @@ html,body{
       }
     }
     .main-content{
-      margin: 20px;
-      padding: 20px;
+      margin: 20px;padding: 20px;
       background: #fff;
     }
     .content-right{
@@ -160,18 +125,15 @@ html,body{
         border:1px solid #E9E9E9;
         tr{
           height:44px;
-          text-align:center;
-          background-color:#FFFFFF;
+          text-align:center;background-color:#FFFFFF;
           th{
             text-align:center;
-            border-bottom:1px solid #E9E9E9;
-            border-bottom-color:#999999;
+            border-bottom:1px solid #E9E9E9;border-bottom-color:#999999;
           }
           td{
             a{
               padding:0 5px;
-              color:#2196f3;
-              cursor: pointer;
+              color:#2196f3;cursor: pointer;
             }
             a:hover{
               color:#1e88e5;
@@ -187,15 +149,11 @@ html,body{
       }
       .page-title{
         padding-left: 20px;
-        height: 46px;
-        line-height: 46px;
-        background-color: #fff;
-        font-size: 22px;
+        height: 46px;line-height: 46px;
+        background-color: #fff;font-size: 22px;
       }
       .w265{
-          box-sizing: border-box;
-          height:50px;
-          line-height: 50px;
+          box-sizing: border-box;height:50px;line-height: 50px;
           // color:#999999;
       }
       .w265.active{
@@ -223,7 +181,5 @@ a:hover{
   background-color:#fff;
 }
 .input[type="text"]:disabled,.input[type="text"]:read-only{
-  cursor: not-allowed;
-  background: #f1f1f1;
-  color: #999;
+  cursor: not-allowed;background: #f1f1f1;color: #999;
 }
