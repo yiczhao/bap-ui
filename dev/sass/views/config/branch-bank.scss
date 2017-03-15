@@ -1,11 +1,11 @@
 @mixin input-radio() {
-  vertical-align: middle;
   margin-right: 5px;
+  vertical-align: middle;
 }
 
 @mixin width-margin($width,$left) {
-  width: $width;
   margin-left: $left;
+  width: $width;
 }
 
 @mixin width-lineheight($width,$lineh) {
@@ -24,17 +24,17 @@
     left:60%;
   }
   .form-group {
+    margin: 0 auto 20px auto;
     display: flex;
     width: 650px;
-    margin: 0 auto 20px auto;
     .name-left {
       display: block;
       height: 36px;
       @include width-lineheight(100px, 36px);
       text-align: right;
       i {
-        color: red;
         margin-right: 5px;
+        color: red;
       }
     }
     .KSNRCheckbox {
@@ -48,13 +48,13 @@
       // text-align:right;
       margin-left: 15px;
       input[type="checkbox"] {
-        vertical-align: middle;
         margin-right: 5px;
+        vertical-align: middle;
       }
     }
     .catch-infor {
-      line-height: 36px;
       margin-left: 15px;
+      line-height: 36px;
     }
     .v-select {
       @include width-margin(485px, 15px);
@@ -88,8 +88,8 @@
       }
       .function-choose {
         float: left;
-        line-height: 36px;
         margin-right: 15px;
+        line-height: 36px;
         input {
           @include input-radio;
         }

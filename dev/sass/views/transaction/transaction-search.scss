@@ -1,9 +1,9 @@
 .transaction-search,.transaction-detail,.latinos-search,.latinos-detail{
 	.search-div{
-		content:"";
-		display:table;
 		position: relative;
 		float: right;
+		display:table;
+		content:"";
 		.KsDatePicker{
 			display: inline-block;
 			width: 200px;
@@ -37,22 +37,22 @@
 		}
 		.searchBtn{
 			float:left;
-			width:80px;
 			padding: 9px 18px 10px 18px;
+			width:80px;
 		}
 		.input{
 			height:36px;
 		}
 		.showList{
 			position: absolute;
-			border: 1px solid #ddd;
-			background: #fff;
 			top: 38px;
 			left: 67px;
 			padding: 15px 15px 0 15px;
+			max-height: 175px;
 			min-width: 158px;
 			border-radius: 5px;
-			max-height: 175px;
+			border: 1px solid #ddd;
+			background: #fff;
 			overflow: auto;
 			z-index: 1;
 			ul{
@@ -69,12 +69,12 @@
 	}
 
 	.flex-chart{
-		clear:both;
+		padding:20px 0;
+		display:flex;
 		height:180px;
+		clear:both;
 		border-bottom:1px solid #f0f0f0;
 		border-top:1px solid #f0f0f0;
-		display:flex;
-		padding:20px 0;
 		& > div{
 			flex:1;
 		}
@@ -87,24 +87,24 @@
 				font-size: 16px;
 			}
 			.echart-div{
+				margin: auto;
 				height: 140px;
 				width: 140px;
-				margin: auto;
 			}
 			.border-right{
-				position: absolute;
-				height: 150px;
 				top: 15px;
 				right: -1px;
+				position: absolute;
+				height: 150px;
 				border-right: 1px solid #f0f0f0;
 			}
 		}
 	}
 	.text{
 		display: inherit;
-		text-align: center;
 		line-height: 180px;
 		font-size: 18px;
+		text-align: center;
 	}
 	.table{
 		clear: both;

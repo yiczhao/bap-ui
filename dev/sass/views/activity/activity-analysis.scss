@@ -3,10 +3,10 @@
 		border:1px solid red;
 	}
 	.activity-search{
+		position: relative;
 		margin-bottom: 20px;
 		display:flex;
 		width: 100%;
-		position: relative;
 		div{
 			flex:1;
 		}
@@ -20,25 +20,25 @@
 				line-height: 40px;
 			}
 		}.search-right{
-			text-align: right;
 			line-height: 36px;
+			text-align: right;
 			.search-time{
 			}
 			.view-report{
-				color: #00bcd4;
 				padding-left: 20px;
+				color: #00bcd4;
 			}
 		}
 		.showList{
 			position: absolute;
-			border: 1px solid #ddd;
-			background: #fff;
 			top: 38px;
 			left: 76px;
 			padding: 15px 15px 0 15px;
 			min-width: 158px;
-			border-radius: 5px;
 			max-height: 175px;
+			border-radius: 5px;
+			border: 1px solid #ddd;
+			background: #fff;
 			overflow: auto;
 			z-index: 1;
 			ul{
@@ -64,10 +64,10 @@
 				padding-left:20px;
 			}
 			.title-right{
-				cursor: pointer;
-				display:inline;
 				float: right;
 				padding-right: 20px;
+				cursor: pointer;
+				display:inline;
 			}
 		}
 		.data-today-table{
@@ -81,9 +81,9 @@
 					display:inline-block;
 					float: left;
 					margin:8px 10px 0 0;
+					margin-top:8px;
 					width:5px;
 					height:16px;
-					margin-top:8px; 
 					background-color:#2196f3;
 				}
 			}

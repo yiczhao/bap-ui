@@ -8,23 +8,23 @@
 	left:$left;
 }
 .bank-config{
-	background-color:#fff;
 	padding:35px 60px 10px 0;
+	background-color:#fff;
 	.form-row{
-		overflow:hidden;
-		width:550px;
 		padding: 15px 0;
 		margin:auto;
+		width:550px;
+		overflow:hidden;
 		.form-label{
-			font-size: 13px;
+			float:left;
 			line-height:42px;
 			width: 100px;
+			font-size: 13px;
 			text-align: right;
-			float:left;
 			i{
-				color:#FF0000;
-				line-height:43px;
 				padding-right: 13px;
+				line-height:43px;
+				color:#FF0000;
 			}
 		}
 		.form-input{
@@ -36,18 +36,18 @@
 				@include margin;
 			}
 			textarea{
-				float:left;
-				resize:none;
-				width:422px;
-				height:100px;
 				@include margin;
 				padding-top:5px;
+				float:left;
+				width:422px;
+				height:100px;
+				resize:none;
 			}
 		}
 		.about-uploader{
+			position:relative;
 			margin-left:15px;
 			width:430px;
-			position:relative;
 			.explain{
 				@include position-a(0px,115px);
 				span{
@@ -59,11 +59,11 @@
 				@include position-a(66px,115px);
 			}
 			.upload-img{
+				margin-right:0;
+				margin-top:0;
 				width:100px;
 				height:100px;
 				border: 1px solid #f5f5f5;
-				margin-right:0;
-				margin-top:0;
 			}
 		}
 		.btn-primary{

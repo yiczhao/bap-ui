@@ -25,18 +25,18 @@ html,body{
   text-align: center;
 }
 .header{
+  height:50px;
   background-color: #16191c;
   border-color: #37474F;
   border-width: 1px 0;
   border-bottom-color: rgba(255, 255, 255, 0.1);
   color: #fff;
-  height:50px;
   .header-logo{
     float: left;
+    margin-top: 9px;
+    margin-left: 20px;
     width: 135px;
     height: 32px;
-    margin-top: 9px; 
-    margin-left: 20px;
     background-size: 100%;
     background-image:url("../img/logo横版.png");
     background-repeat:no-repeat;
@@ -46,16 +46,16 @@ html,body{
     width:130px;
     height:24px;
     font-size: 16px;
-    line-height: 24px;
     margin: 13px 20px 0 20px;
+    line-height: 24px;
   }
   .header-infor{
     float: right;
     margin-right: 10px;
     .img-area{
+      float: left;
       width: 40px;
       height: 50px;
-      float: left;
       img{
         width: 35px;
         height: 35px;
@@ -100,23 +100,23 @@ html,body{
   }
 }
 .content{
+  position: relative;
   width: 100%;
   display: table;
-  table-layout: fixed;
-  position: relative;
   min-height: 768px;
+  table-layout: fixed;
   .content-main{
     display: table-row;
     .content-left{
-      display: table-cell;
+      position: relative;
       width: 260px;
+      display: table-cell;
       background-color: #212528;
       color: rgb(255, 255, 255);
-      position: relative;
       vertical-align: top;
       .menu{
-        list-style: none;
         position: relative;
+        list-style: none;
         .icon{
           margin: -5px 10px 0 0;
         }
@@ -150,9 +150,9 @@ html,body{
       }
     }
     .main-content{
-      background: #fff;
       margin: 20px;
       padding: 20px;
+      background: #fff;
     }
     .content-right{
       margin-bottom: 65px;
@@ -160,8 +160,8 @@ html,body{
         width:100%;
         border:1px solid #E9E9E9;
         tr{
-          text-align:center;
           height:44px;
+          text-align:center;
           background-color:#FFFFFF;
           th{
             text-align:center;
@@ -170,8 +170,8 @@ html,body{
           }
           td{
             a{
-              color:#2196f3;
               padding:0 5px;
+              color:#2196f3;
               cursor: pointer;
             }
             a:hover{
@@ -187,16 +187,16 @@ html,body{
         margin-top: 20px;
       }
       .page-title{
+        padding-left: 20px;
         height: 46px;
         line-height: 46px;
         background-color: #fff;
         font-size: 22px;
-        padding-left: 20px;
       }
       .w265{
+          box-sizing: border-box;
           height:50px;
           line-height: 50px;
-          box-sizing: border-box;
           // color:#999999;
       }
       .w265.active{
@@ -220,8 +220,8 @@ a:hover{
   color:#1e88e5;
 }
 .footer{
-  background-color:#fff;
   height: 45px;
+  background-color:#fff;
 }
 .input[type="text"]:disabled,.input[type="text"]:read-only{
   cursor: not-allowed;

@@ -9,9 +9,9 @@
 .activity-rule{
 	padding-top: 20px;
 	.dashed{
-		border-bottom: 1px dotted #c8c8c8;
 		margin: 25px;
 		width: 90%;
+		border-bottom: 1px dotted #c8c8c8;
 	}
 	.rule-row{
 		padding: 0 20px;
@@ -38,8 +38,8 @@
 			}
 			.db{
 				display: block;
-				width: 100%;
 				margin-top: 0px;
+				width: 100%;
 				.select{
 					width:195px;
 				}
@@ -53,11 +53,11 @@
 				margin-top: 0;
 			}
 			.icon-add,.icon-remove{
+				margin: 19px 0 4px 5px;
+				float: left;
 				font-size: 24px;
 				color: #2196F3;
-				margin: 19px 0 4px 5px;
 				cursor: pointer;
-				float: left;
 			}
 			.icon-remove{
 				color:#666;

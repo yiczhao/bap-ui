@@ -20,18 +20,18 @@
 		@extend .clearfix;
 		font-size: 15px;
 		.rule-label{
-			width: 135px;
 			float: left;
-			text-align:left;
 			margin-right: 15px;
+			width: 135px;
+			text-align:left;
 			i{
-				color:red;
 				margin: 2px 3px 0 0;
+				color:red;
 			}
 		}
 		.rule-input{
-			min-width: 500px;
 			float: left;
+			min-width: 500px;
 			& > div,& > span,& > input,& > select,& > a{
 				display: inline-block;
 			}
@@ -59,9 +59,9 @@
 				width:233px;
 			}
 			.icon-add,.icon-remove{
+				margin: 0 0 4px 5px;
 				font-size: 24px;
 				color: #2196F3;
-				margin: 0 0 4px 5px;
 				cursor: pointer;
 			}
 			.icon-remove{
@@ -81,15 +81,15 @@
 			line-height:36px;
 		}
 		div.bg-gray{
-			width: 500px;
 			margin-left: 150px;
-			overflow: hidden;
 			padding: 20px 20px 0 20px;
+			width: 500px;
+			overflow: hidden;
 			span{
 				position: relative;
+				margin-bottom: 9px;
 				top: -7px;
 				font-size: 13px;
-				margin-bottom: 9px;
 				color:#444;
 			}
 			.KSIosSwitch{
@@ -101,24 +101,24 @@
 		}
 	}
 	.pos-div{
+		padding: 10px 20px;
+		top: -10px;
+		position: relative;
 		width: 500px;
 		background: #f5f5f5;
-		padding: 10px 20px;
 		color: #444;
 		font-size: 13px;
-		position: relative;
-		top: -10px;
 		.pos-span{
 			span{
 				display: inline-block;
 				padding: 2px 15px;
-				background: #ccc;
+				margin-right: 10px;
 				height: 20px;
 				line-height: 22px;
-				margin-right: 10px;
 				text-align: center;
 				color: #fff;
 				cursor: pointer;
+				background: #ccc;
 				&:hover{
 					opacity:0.7;
 				}
