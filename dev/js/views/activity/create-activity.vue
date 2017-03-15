@@ -2,6 +2,11 @@
 	<div class="crumbs">
 		<span>信用卡部</span>
 	</div>
+	<div class="create-title">
+		<span class="title-1">活卡促刷</span>
+		<span class="title-2">Living card promotion brush</span>
+		<span class="title-3">提供银行信用卡部营销的解决方案 </span>
+	</div>
 	<div class="create-activity">
 		<div class="activity-list">
 			<template v-for="(index,value) in activityName">
