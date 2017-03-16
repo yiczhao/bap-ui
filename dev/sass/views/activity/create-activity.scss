@@ -11,10 +11,12 @@
 	}
 }
 .create-title{
+	padding:0 !important;
+	margin:0 !important;
 	height: 207px;
-	background-image:url("../img/cbg.png");
-	background-size:100% 100%;
-	background-repeat:no-repeat;
+	background-image:url("../img/cbg.png") !important;
+	background-size:100% 100% !important;
+	background-repeat:no-repeat !important;
 	color:#fff;
 	cursor: default;
 	user-select: none;

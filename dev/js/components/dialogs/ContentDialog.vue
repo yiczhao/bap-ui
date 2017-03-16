@@ -118,8 +118,7 @@
   }
 
   .kdialog__header--infos{
-    margin: 0 20px;
-    padding: 20px 0;
+    padding: 20px 20px;
     border-bottom: 1px solid #e0e0e0;
      .title,.kdialog__close{
       color:#444;
@@ -127,7 +126,7 @@
        &:active {background: #fff;color: #444}
      }
     .kdialog__close{
-      right: 0;
+      right: 20px;
     }
   }
     // 内容区样式

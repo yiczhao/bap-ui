@@ -6,7 +6,7 @@
 export default {
   props: {
     name: { type: String, default: '' },
-    color: { type: String, default: '#00A5E0' },
+    color: { type: String, default: '#e76b5f' },
     value: { default: '' },
     checked: { twoWay: true },
     defChecked: { type: Boolean, default: false },

@@ -17,7 +17,7 @@
 @import "../../styles/variables";
 @import "../../styles/sassMagic/_sassMagic";
 
-$primary-color: #00A5E0;                                        // 主色调
+$primary-color: #e76b5f;                                        // 主色调
 $skin-size: 18px;                                               // 选择框大小
 
 @include b(KSNRRadio) {
@@ -61,7 +61,6 @@ $skin-size: 18px;                                               // 选择框大�
       border-radius: 50%;
       background-color: $primary-color;
       opacity: 0;
-      transition: opacity .3s;
     }
   }
 }

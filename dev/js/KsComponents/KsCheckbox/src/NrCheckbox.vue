@@ -26,7 +26,7 @@
     props: {
       defChecked: { type: Boolean, default: false },
       name: { type: String, default: 'ZJCheckbox' },
-      color: { type: String, default: '#00A5E0' },
+      color: { type: String, default: '#e76b5f' },
       checked: { type: Boolean, twoWay: true },
       disable: { type: Boolean, default: false }
     },

@@ -25,6 +25,8 @@
   .form-group {
     margin: 0 auto 20px auto;
     display: flex;width: 650px;
+    display: flex;
+    width: 520px;
     .name-left {
       display: block;height: 36px;
       @include width-lineheight(100px, 36px);

@@ -45,7 +45,7 @@
                     v-on:size_change="getList"
             ></pagegroup>
         </div>
-        <content-dialog
+        <content-dialog :is-cancel="true"
                 :show.sync="show" :type.sync="'infos'"
                 :title.sync="title" :is-button="false"
         >
@@ -83,11 +83,15 @@
                     <ks-radio :checked.sync="addList.status" :value="'false'" name="TEST1">禁用</ks-radio>
                     <ks-radio :checked.sync="addList.status" :value="'true'" name="TEST1">启用</ks-radio>
                 </div>
-                <div class="form-row">
-                    <a class="btn-primary" @click="addSubmit" v-if="title=='新增分支行'">提交</a>
-                    <a class="btn-primary" @click="editSubmit" v-if="title=='编辑分支行'">提交</a>
-                    <a class="btn-primary" @click="cancel">取消</a>
-                </div>
+	            <div class="kdialog__btnwrap">
+			        <div class="kbutton kbutton-container r" style="width: 90px;margin-left: 5px;">
+						<button class="kbutton-entity primary input-size-xl" type="button" @click="addSubmit" v-if="title=='新增分支行'">提交</button>
+						<button class="kbutton-entity primary input-size-xl" type="button" @click="editSubmit" v-if="title=='编辑分支行'">提交</button>
+					</div>
+			        <div class="kbutton kbutton-container r" style="width: 90px;">
+						<button class="kbutton-entity dark-ghost input-size-xl" type="button" @click="cancel">取消</button>
+					</div>
+			    </div>
             </div>
         </content-dialog>
     </div>
