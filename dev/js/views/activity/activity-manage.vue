@@ -3,7 +3,7 @@
     <div class="activity-row activity-title">
         <div class="search-div">
             <span>活动名称</span>
-            <input class="input" type="text" v-model="searchData.name" placeholder="输入活动名称"/>
+            <input class="input" type="text" v-model="replaceName" placeholder="输入活动名称"/>
             <span>活动时间</span>
             <ks-date-picker placeholder="开始时间" type="datetime" :value.sync="searchData.startTime"></ks-date-picker>
             <span>到</span>
@@ -110,12 +110,14 @@
                     systemId:'yhhd',
                     total:0,
                 },
-                checkedBox:[true,true,true,true]
+                checkedBox:[true,true,true,true],
+                replaceName:'',
             }
         },
         methods:{
             doSearch(){
                 this.searchData.page=1;
+                this.searchData.name=(this.replaceName).replace(/(^\s+)|(\s+$)/g, "");
                 this.searchData.firstResult=(this.searchData.page-1)*this.searchData.maxResult;
                 this.getList();
             },

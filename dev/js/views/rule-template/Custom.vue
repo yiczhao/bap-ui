@@ -42,14 +42,10 @@
         },
         methods:{
             submit(){
-                if(!this.upCheck.textarea){
-                    dialog('info','请完善信息！');
+                if(!this.upCheck.textarea&&!this.upCheck.id){
+                   dialog('info','请完善信息或请上传文件！');
                     return
-                };
-                // if(!this.upCheck.id){
-                //     dialog('info','请上传文件！');
-                //     return
-                // };
+                }
                 let data={
                     description:this.upCheck.textarea,
                     id:this.upCheck.id
@@ -60,7 +56,10 @@
                     data: data
                 }).then((res)=>{
                     if(res.data.code===0){
-                        dialog('successTime','已保存！')
+                        dialog('successTime','已保存！');
+                        setTimeout(()=>{
+                            this.$router.go({'name':'create-acitvity'})
+                        },2000)
                     }
                 })
             }
