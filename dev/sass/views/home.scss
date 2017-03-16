@@ -70,7 +70,10 @@
 	}
 }
 .home{
-	padding-left: 60px!important;margin-top: -70px;
+	padding-left: 60px!important;
+	padding:0 0 0 60px !important;
+	margin:-72px 0 0 0 !important;
+	background:none !important;
 	.total-div{
 		width: 100%;box-sizing: border-box;
 		// @extend .clearfix;
