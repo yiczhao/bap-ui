@@ -11,8 +11,28 @@ function model(_this) {
          * @returns {*}
          */
          getTradeDataTotal(data){
-         	return formDataRequest('./transfer/data_analysis/das/api/v1/trade_data/total').get(data)
+             let datas={
+                 startDate:getDates().today,
+                 endDate:getDates().today,
+                 compareFlag:data.compareFlag,
+                 activityID:data.activityID,
+                 bankUuidString:data.bankUuidString,
+             }
+         	return formDataRequest('./transfer/data_analysis/das/api/v1/trade_data/total').get(datas)
          },
+        /**
+         * @description 交易数据分析获取某个时间段的累计关键数据信息
+         * @param id
+         * @returns {*}
+         */
+        getTradeDataTotalAll(data){
+            let datas={
+                compareFlag:data.compareFlag,
+                activityID:data.activityID,
+                bankUuidString:data.bankUuidString,
+            }
+            return formDataRequest('./transfer/data_analysis/das/api/v1/trade_data/total').get(datas)
+        },
          /**
          * @description 交易数据分析获取某个时间段的交易总金额集合
          * @param id
