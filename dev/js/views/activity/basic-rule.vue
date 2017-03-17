@@ -139,9 +139,9 @@
             <input class="input" type="text" v-model="addData.qrcodeUrl" placeholder="请输入POS小票上需要打印的二维码链接" />
         </div>
     </div>
-    <div class="rule-row tc">
-        <a class="btn btn-gray" @click="submitAdd(false)">保存草稿</a>
+    <div class="rule-row tc footer-btns">
         <a class="btn btn-primary" @click="submitAdd(true)">下一步</a>
+        <a @click="submitAdd(false)">保存为草稿</a>
     </div>
 </activity-main>
 </template>
