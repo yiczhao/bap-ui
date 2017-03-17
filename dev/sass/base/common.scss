@@ -125,12 +125,13 @@ html,body{
         border:1px solid #E9E9E9;
         tr{
           height:44px;
-          text-align:center;background-color:#FFFFFF;
+          text-align:left;background-color:#FFFFFF;
           th{
-            text-align:center;
-            border-bottom:1px solid #E9E9E9;border-bottom-color:#999999;
+            padding-left: 15px;
+            border-bottom:1px solid #E9E9E9;border-bottom-color:#999999;text-align:left;
           }
           td{
+            padding-left: 15px;
             a{
               padding:0 5px;
               color:#2196f3;cursor: pointer;
