@@ -36,7 +36,7 @@
                 <th>活动状态</th>
                 <th>活动详情</th>
                 <th>交易</th>
-                <!--<th>权益</th>-->
+                <th>权益</th>
                 <th>操作</th>
             </tr>
             <tr v-show="!!searchList" v-for="n in searchList">
@@ -62,7 +62,10 @@
                 </td>
                 <td><a v-link="{name:'activity-info',params:{'infoId':n.id}}">查看</a></td>
                 <td><a v-if="n.status!='draft_other'&&n.status!='draft'&&n.status!='wait_check'" v-link="{name:'transaction-detail',params:{'transactionName':n.name,'transactionId':n.uniqueId}}">查看</a></td>
-                <!--<td></td>-->
+                <td>
+                    <a v-if="n.propes=='online'" v-link="{name:'atl-search',params:{atlId:n.id}}">查看</a>
+                    <a v-else></a>
+                </td>
                 <td>
                     <a v-if="n.step==1&&n.status=='draft_other'" @click="setProp(n.propes,n.ruleType)" v-link="{name:'basic-rule',params:{'activityId':n.id,'rulename':n.ruleType}}">编辑</a>
                     <a v-if="n.step==2&&n.status=='draft_other'" @click="setProp(n.propes,n.ruleType)" v-link="{name:n.ruleType,params:{'ruleId':n.id}}">编辑</a>

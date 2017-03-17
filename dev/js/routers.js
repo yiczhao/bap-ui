@@ -226,6 +226,15 @@ export default function (Vue,router){
                         require(['./views/transaction/transaction-detail.vue'], resolve)
                     }
                 },
+                /* 活动穿透到权益查询*/
+                'atl-search/:atlId':{
+                    name:'atl-search',
+                    router_type:'latinos',
+                    router_tile:'权益查询',
+                    component:(resolve)=>{
+                        require(['./views/latinos/atl-search.vue'], resolve)
+                    }
+                },
                 /* 权益查询*/
                 'latinos-search':{
                     name:'latinos-search',
