@@ -6,7 +6,7 @@
 	<div class="activity-analysis">
 		<div class="analysis-title">
 			<h1>
-				<span>/活动分析数据总览</span>
+				<span><i>/</i>活动分析数据总览</span>
 				<a class="btn btn-primary">导出PDF报告</a>
 			</h1>
 			<h3>Activity analysis report</h3>
@@ -128,6 +128,20 @@
                         <span :class="{'active':areaIndex==1}" class="btn" @click="changeAreaIndex(1)">交易笔数</span>
                     </div>
                 </template>
+                <template v-if="mainStep==4">
+                    <h3>商户数据分析</h3>
+                    <div class="table-btns">
+                        <span :class="{'active':merchantIndex==0}" class="btn" @click="changeMerchantIndex(0)">交易金额</span>
+                        <span :class="{'active':merchantIndex==1}" class="btn" @click="changeMerchantIndex(1)">交易笔数</span>
+                    </div>
+                </template>
+                <template v-if="mainStep==5">
+                    <h3>卡BIN数据分析</h3>
+                    <div class="table-btns">
+                        <span :class="{'active':carBinIndex==0}" class="btn" @click="changeCardBinIndex(0)">交易金额</span>
+                        <span :class="{'active':carBinIndex==1}" class="btn" @click="changeCardBinIndex(1)">交易笔数</span>
+                    </div>
+                </template>
 				<div v-el:table-init  class="table-init">
 				</div>
 			</div>
@@ -145,6 +159,8 @@
                 tradeTotal:0,
                 tradeIndex:0,
                 areaIndex:0,
+                merchantIndex:0,
+                carBinIndex:0,
 				compareFlag:true,
 				times:{//时间初始化数据
                     today:getDates().today,
@@ -172,6 +188,14 @@
                 getArea:[
                     ['getTradeAreaTotalAmountList'],//交易区域获取交易金额排行
                     ['getTradeAreaNumList']//交易区域获取交易笔数排行
+                ],
+                getMerchant:[
+                    ['getMerchantTradeAmount'],//商户数据获取交易金额排行
+                    ['getMerchantTradeCount']//商户数据获取交易笔数排行
+                ],
+                getCardBIN:[
+                    ['getCardBINTradeAmountList'],//CardBIN获取交易金额排行
+                    ['getCardBINTradeNumList']//CardBIN获取交易笔数排行
                 ],
 				tableText:'交易金额（元）',
 				totalData:''
@@ -208,7 +232,7 @@
 				let data = yData;
 				let data2 = ydata2;
 				let option = {
-				    width:'90%',
+				    // width:'90%',
 					title: {text: this.tableText, textStyle:{color:'#666', fontSize:12}, right:35, top:15},
 					tooltip:{},
 					grid:{x:100},
@@ -227,6 +251,22 @@
 						data: data2
 					});
 				}
+				let myChart = echarts.init(this.$els.tableInit);
+				myChart.setOption(option);
+			},
+			initBar(xData,yData){
+				let axisData = xData;
+				let data = yData;
+				let option = {
+					title: {text: this.tableText, textStyle:{color:'#666', fontSize:12}, right:35, top:15},
+				    tooltip : {trigger: 'axis',axisPointer : {type : 'shadow'}},
+				    grid: {left: '3%',right: '4%',bottom: '3%',containLabel: true},
+				    xAxis : [{type : 'category',data : axisData,
+				    	// axisLabel:{  interval:0,rotate:2, margin:5,  textStyle:{ fontWeight:"bolder", color:"#000000"}},    
+					}],
+				    yAxis : [{type : 'value'}],
+				    series : [{name:'当前数据',type:'bar',data:data,barWidth:50}]
+				};
 				let myChart = echarts.init(this.$els.tableInit);
 				myChart.setOption(option);
 			},
@@ -284,9 +324,9 @@
                         this.mainStep=1;
 						break
 					case 2:
-						this.tableText='交易金额（元）'
+						this.tableText='刷卡金额（元）'
                         if(this.areaIndex==1){
-                            this.tableText='交易笔数（笔）'
+                            this.tableText='刷卡笔数（笔）'
                             this.initTable(data.category,data.series[0].dataLong);
                         }else{
                             this.initTable(data.category,data.series[0].dataDecimal);
@@ -294,23 +334,33 @@
                         this.mainStep=2;
 						break
 					case 3:
-						this.tableText='交易笔数（笔）'
+						this.tableText='累计交易笔数（笔）'
 						this.initChart(data.series);
                         this.mainStep=3;
 						break
 					case 4:
-						this.tableText='刷卡金额（元）'
-						this.initTable(data.series[0].storeAndMerchantName,data.series[0].dataDecimal);
+						this.tableText='商户刷卡金额（元）'
+                        if(this.merchantIndex==1){
+                            this.tableText='商户刷卡笔数（笔）'
+                            this.initBar(data.series[0].storeAndMerchantName,data.series[0].dataLong)
+                        }else{
+                            this.initBar(data.series[0].storeAndMerchantName,data.series[0].dataDecimal)
+                        }
                         this.mainStep=4;
 						break
 					case 5:
-						this.tableText='卡BIN刷卡金额（元）'
-						this.initTable(data.category,data.series[0].dataDecimal);
+						this.tableText='卡BIN刷卡金额（元）';
+                        if(this.carBinIndex==1){
+							this.tableText='卡BIN刷卡笔数（笔）';
+							this.initBar(data.category,data.series[0].dataDecimal);
+                        }else{
+							this.initBar(data.category,data.series[0].dataDecimal);
+                        }
                         this.mainStep=5;
 						break
 					case 6:
-						this.tableText='卡数量（张）'
-						this.initTable(data.series[0].data,data.series[0].dataLong);
+						this.tableText='卡数量（张）';
+						this.initBar(data.series[0].data,data.series[0].dataLong);
                         this.mainStep=6;
 						break
 				}
@@ -339,6 +389,14 @@
                 this.areaIndex=index;
                 this.changeStep(this.getArea[this.areaIndex],2)
             },
+            changeMerchantIndex(index){
+            	this.merchantIndex=index;
+            	this.changeStep(this.getMerchant[this.merchantIndex],4)
+            },
+            changeCardBinIndex(index){
+            	this.carBinIndex=index;
+            	this.changeStep(this.getCardBIN[this.carBinIndex],5)
+            }
 		},
 		ready(){
 			this.initStep(this.getTradeInit[this.mainStep].url,1)

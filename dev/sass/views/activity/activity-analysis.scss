@@ -6,6 +6,10 @@
 			position:relative;padding:75px 0 0 45px;
 			line-height: 100%;
 			color:#12966f;
+			i{
+				font-style: normal;
+				padding-right: 15px;
+			}
 			.btn{
 				position: absolute;right: 45px;top: 75px;padding: 0;
 				width: 145px;height:33px;line-height: 33px;
@@ -15,6 +19,7 @@
 		h3{
 			padding-left: 70px;
 			color:#fff;
+			opacity: 0.5;
 		}
 	}
 	.analysis-data{
@@ -25,7 +30,7 @@
 			span{
 				padding-bottom: 5px;
 				display: table-cell;
-				text-align: center;border-bottom: 1px solid #dadada;cursor: pointer;
+				text-align: center;border-bottom: 2px solid #dadada;cursor: pointer;
 			}
 			.active{
 				color:#e66a5e;border-color:#e66a5e;
