@@ -1,8 +1,4 @@
 <template>
-	<div class="crumbs">
-		<span>数据总览</span>
-		<span>活动分析-随机五折</span>
-	</div>
 	<div class="activity-analysis">
 		<div class="analysis-title">
 			<h1>

@@ -10,11 +10,11 @@
 	border-bottom:1px solid #eeeeee;
 }
 .include-area{
-	height:245px;
+	height:190px;
 	background-color: #fff;
 	.search-div{
 			@extend .clearfix;
-			margin-bottom:20px;position: relative;margin: auto;padding-top: 35px;
+			margin-bottom:20px;position: relative;margin: auto;padding-top: 15px;
 			width: 468px;
 			input::-webkit-input-placeholder {
 				color:#666666;
@@ -65,14 +65,14 @@
 			}
 	}
 	.right{
-		margin-top:20px;
+		margin-top:10px;
 		text-align: center;
 	}
 }
 .home{
 	padding-left: 60px!important;
 	padding:0 0 0 60px !important;
-	margin:-72px 0 0 0 !important;
+	margin:-90px 0 0 0 !important;
 	background:none !important;
 	.total-div{
 		width: 100%;box-sizing: border-box;
