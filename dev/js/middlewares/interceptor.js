@@ -5,13 +5,17 @@ export default function install(Vue,router_proto) {
     window.origin && (Vue.http.options.root = window.origin );
     Vue.http.interceptors.push({
         request (request) {
-            store.dispatch(types.AJAX_REQUEST)
+            if(request.url!='./transfer/activity_configure/api/v1/activity/list'&&request.url!='./transfer/activity_configure/api/v1/coupon/list'){
+                store.dispatch(types.AJAX_REQUEST)
+            };
             let bamtoken=(!!sessionStorage.getItem('loginList')) ? JSON.parse(sessionStorage.getItem('loginList')).token : null;
             request.headers['X-auth-Token'] =bamtoken;
             return request;
         },
         response (response) {
-            store.dispatch(types.AJAX_RESPONSE)
+            if(response.request.url!='./transfer/activity_configure/api/v1/activity/list'&&response.request.url!='./transfer/activity_configure/api/v1/coupon/list'){
+                store.dispatch(types.AJAX_RESPONSE)
+            };
             if(!response.data.code){
                 return response;
             }

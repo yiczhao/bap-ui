@@ -1,11 +1,14 @@
 <template>
     <div class="transaction-search">
         <div class="search-div">
-            <input class="input" type="text" placeholder="请输入活动名称" v-model="searchData.activityName" @keypress.enter="getActivity"/>
-            <div class="showList" v-show="showList">
-                <ul>
-                    <li v-for="n in activityList | filterBy searchData.activityName in 'name'" @click="getId(n)">{{n.name}}</li>
-                    <li v-if="!activityList.length">未查询到{{searchData.activityName}}活动</li>
+            <input class="input " type="text" v-model="searchData.activityName" placeholder="输入活动名称"
+                   @keyup="getActivity($event)" @keyup.enter="searchList"
+                   @keyup.up="changeLiIndex('up')" @keyup.down="changeLiIndex('down')"
+            />
+            <div class="showList showLi" v-show="showList">
+                <ul class="showLi">
+                    <li class="showLi" v-for="n in activityList" :class="{'checked':liIndex==$index}" @click="getId(n)">{{n.name}}</li>
+                    <li class="showLi" v-if="!activityList.length">未查询到{{searchData.activityName}}活动</li>
                 </ul>
             </div>
             <select class="select" v-model="bankUuidString" @change="setBank">
@@ -19,7 +22,7 @@
             </select>
             <ks-date-picker type="datetime" :value.sync="searchData.startDate"></ks-date-picker>
             <ks-date-picker type="datetime" :value.sync="searchData.endDate"></ks-date-picker>
-            <input type="button" class="btn btn-primary searchBtn" @click="getList" value="搜 索">
+            <input type="button" class="btn btn-primary searchBtn" @click="searchList" value="搜 索">
         </div>
         <div class="flex-chart" v-show="trade_echart==1">
             <div class="flex">
@@ -124,9 +127,63 @@
                 privilegeList:[],
                 bankUuidString:'',
                 trade_echart:1,
+                replaceName:'',
+                liIndex:0
             }
         },
         methods:{
+            searchList(){
+                if(!this.showList && this.liIndex==0)return;
+                this.showList=false;
+                this.searchData.activityName=this.activityList[this.liIndex].name;
+                this.searchData.activityID=this.activityList[this.liIndex].uniqueId;
+                this.getList();
+            },
+            getActivity: _.debounce(function(e){
+                if(e.keyCode == 38 || e.keyCode == 40|| e.keyCode == 13){  //向上向下
+                    console.log(e.keyCode);
+                    return ;
+                }
+                let vm=this;
+                vm.replaceName=(vm.searchData.activityName).replace(/(^\s+)|(\s+$)/g, "");
+                let data={
+                    name:vm.replaceName,
+                    maxResult:10,
+                    uuids:_.split(sessionStorage.getItem('uuids'), ',')
+                }
+                if(!vm.replaceName){
+                    vm.searchData.activityID="";
+                    vm.showList=false;
+                    return;
+                }else{
+                    vm.$common_model.getActivityList(data).then((res)=>{
+                        if(res.data.code===0&&res.data.data!=vm.searchData.activityName){
+                            this.liIndex=0;
+                            vm.$set('activityList',res.data.data);
+                            vm.showList=true;
+                        }
+                    })
+                }
+            },300),
+            changeLiIndex(type){
+                if(!this.activityList.length)return;
+                switch (type){
+                    case 'up':
+                        this.liIndex==0?this.liIndex=this.activityList.length-1:this.liIndex--;
+                        break;
+                    case 'down':
+                        this.liIndex==this.activityList.length-1?this.liIndex=0:this.liIndex++;
+                        break;
+                    default:
+                        break;
+                }
+            },
+            getId({uniqueId,name}){
+                this.showList=false;
+                this.searchData.activityName=name;
+                this.searchData.activityID=uniqueId;
+                this.getList();
+            },
             tradeEchart(divID,data1,data_name,baseData,color_1,color_2){
                 var myChart=echarts.init(document.getElementById(divID));
                 var option = {
@@ -198,24 +255,6 @@
                         this.trade_echart=0;
                     }
                 });
-            },
-            getActivity(){
-                let data={
-                    name:(this.searchData.activityName).replace(/(^\s+)|(\s+$)/g, ""),
-                    maxResult:100,
-                    uuids:_.split(sessionStorage.getItem('uuids'), ',')
-                };
-                this.$common_model.getActivityList(data).then((res)=>{
-                    if(res.data.code===0){
-                        this.$set('activityList',res.data.data);
-                        this.showList=true;
-                    }
-                })
-            },
-            getId({uniqueId,name}){
-                this.showList=false;
-                this.searchData.activityName=name;
-                this.searchData.activityID=uniqueId;
             },
             getBankList(){
                 let data={

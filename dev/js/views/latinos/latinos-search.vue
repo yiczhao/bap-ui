@@ -1,13 +1,16 @@
   <template>
       <div class="latinos-search">
 		  <div class="search-div">
-              <input class="input" type="text" v-model="searchData.favorName" placeholder="请输入权益名称" @keypress.enter="getLatinosList"/>
-              <div class="showList" v-show="showList">
-                <ul>
-                    <li v-for="n in activityList | filterBy searchData.activityList in 'couponName' " @click="getId(n)">{{n.couponName}}</li>
-                    <li v-if="!activityList.length">未查询到{{searchData.couponName}}权益</li>
-                </ul>
-            </div>
+              <input class="input " type="text" v-model="searchData.favorName" placeholder="输入活动名称"
+                     @keyup="getActivity($event)" @keyup.enter="searchList"
+                     @keyup.up="changeLiIndex('up')" @keyup.down="changeLiIndex('down')"
+              />
+              <div class="showList showLi" v-show="showList">
+                  <ul class="showLi">
+                      <li class="showLi" v-for="n in activityList" :class="{'checked':liIndex==$index}" @click="getId(n)">{{n.couponName}}</li>
+                      <li class="showLi" v-if="!activityList.length">未查询到{{searchData.favorName}}活动</li>
+                  </ul>
+              </div>
               <select class="select" v-model="bankUuidString" @change="getBankString">
                   <option value="">请选择结算方（银行）</option>
                   <option v-for="n in bankFullName" :value="n.uuid">{{n.shortName}}</option>
@@ -60,7 +63,7 @@
                       <th>结束时间</th>
                       <th>操作</th>
                   </tr>
-                  <tr v-for="n in searchList">
+                  <tr v-for="n in dataList">
                       <td>{{n.activityName}}</td><!-- 活动名称-->
                       <td>{{n.couponName}}</td><!-- 权益名称-->
                       <td>{{n.uuid | get_bank uuidsList}}</td>
@@ -92,7 +95,7 @@
                         <a v-link="{name:'latinos-detail',params:{'latinosID':n.couponID,'couponName':n.couponName,'activityName':n.activityName,'startTime':n.startTime,'endTime':n.endTime,'couponFaceValue':n.couponFaceValue,'couponType':n.couponType}}">查看明细</a>
                       </td><!--操作-->
                   </tr>
-                  <tr v-show="!searchList.length">
+                  <tr v-show="!dataList.length">
                       <td colspan="12">未查询到数据</td>
                   </tr>
               </table>
@@ -115,7 +118,7 @@
            data(){
                this.model=model(this);
                return{
-                   searchList:{
+                   dataList:{
                    },
                    activityList:[],
                    showList:false,
@@ -136,9 +139,60 @@
                    bankFullName:'',
                    uuidsList:JSON.parse(sessionStorage.getItem('bankNames')),
                    latinos_echart:1,
+                   replaceName:'',
+                   liIndex:0
                }
            },
            methods:{
+               searchList(){
+                   if(!this.showList && this.liIndex==0)return;
+                   this.showList=false;
+                   this.searchData.favorName=this.activityList[this.liIndex].couponName;
+                   this.searchData.activityID=this.activityList[this.liIndex].couponID;
+                   this.getList();
+               },
+               getActivity: _.debounce(function(e){
+                   if(e.keyCode == 38 || e.keyCode == 40|| e.keyCode == 13){  //向上向下
+                       console.log(e.keyCode);
+                       return ;
+                   }
+                   let vm=this;
+                   vm.replaceName=(vm.searchData.favorName).replace(/(^\s+)|(\s+$)/g, "");
+                   let data={
+                       favorName:vm.replaceName,
+                       maxResult:10,
+                       uuidsStr:vm.searchData.uuidsStr,
+                       favorTypesStr:'cash,discount',
+                       sorts:'id|desc'
+                   }
+                   this.model.getLatinosCumulative(data).then((res)=>{
+                       if (res.data.code==0&&res.data.data!=vm.searchData.favorName) {
+                           this.liIndex=0;
+                           vm.$set('activityList',res.data.data);
+                           vm.showList=true;
+                       }
+
+                   })
+               },300),
+               changeLiIndex(type){
+                   if(!this.activityList.length)return;
+                   switch (type){
+                       case 'up':
+                           this.liIndex==0?this.liIndex=this.activityList.length-1:this.liIndex--;
+                           break;
+                       case 'down':
+                           this.liIndex==this.activityList.length-1?this.liIndex=0:this.liIndex++;
+                           break;
+                       default:
+                           break;
+                   }
+               },
+               getId({couponID,couponName}){
+                   this.showList=false;
+                   this.searchData.activityName=couponName;
+                   this.searchData.activityID=couponID;
+                   this.getList();
+               },
                 latinosEchart(divID,data1,data_name,baseData,color_1,color_2){
                     var myChart=echarts.init(document.getElementById(divID));
                     var option = {
@@ -196,7 +250,7 @@
                doSearch(){
                    this.searchData.page=1;
                    this.searchData.firstResult=(this.searchData.page-1)*this.searchData.maxResult;
-                   this.getList();
+                   this.searchList();
                },
                getfirstResult(){
                    let page=this.searchData.page;
@@ -208,7 +262,7 @@
                getList(){
                    this.model.getLatinosCumulative(this.searchData).then((res)=>{
                        if (res.data.code==0) {
-                           this.$set('searchList',res.data.data);
+                           this.$set('dataList',res.data.data);
                            this.searchData.total=res.data.total;
                        }
                    })
@@ -224,46 +278,30 @@
                        }
                    })
                },
-               getLatinosList(){
-                let data={
-                  favorName:(this.searchData.favorName).replace(/(^\s+)|(\s+$)/g, ""),
-                  maxResult:this.searchData.maxResult,
-                  uuidsStr:this.searchData.uuidsStr,
-                  favorTypesStr:'cash,discount',
-                  sorts:'id|desc'
-                }
-                    this.model.getLatinosCumulative(data).then((res)=>{
-                         if (res.data.code==0) {
-                          this.$set('activityList',res.data.data);
-                          this.showList=true;
-                         }
-
-                  })
-               },
                getId({couponName}){
-                  this.showList=false;
-                  this.searchData.favorName=couponName;
+                    this.showList=false;
+                    this.searchData.favorName=couponName;
                },
                resetName(){
-                this.showList=false;
+                    this.showList=false;
                },
                getExcel(){
-               this.searchData.sorts = 'id%7Cdesc';
-                let data=getFormData(this.searchData);
-                data+='&methodName=couponDataExportExcel&mid='+JSON.parse(sessionStorage.getItem('loginList')).token;
-                window.open(origin+this.$API.latinosSearchExcel+data);
-               this.searchData.sorts = 'id|desc';
-              },
+                   this.searchData.sorts = 'id%7Cdesc';
+                   let data=getFormData(this.searchData);
+                   data+='&methodName=couponDataExportExcel&mid='+JSON.parse(sessionStorage.getItem('loginList')).token;
+                   window.open(origin+this.$API.latinosSearchExcel+data);
+                   this.searchData.sorts = 'id|desc';
+               },
            },
            ready(){
-            document.addEventListener('click', (e) => {
-                if (!e.target.classList.contains('showLi')) {
-                    this.resetName();
-                }
-            }, false);
+                document.addEventListener('click', (e) => {
+                    if (!e.target.classList.contains('showLi')) {
+                        this.resetName();
+                    }
+                }, false);
            },
            beforeDestroy() {
-            document.removeEventListener('click', this.resetName, false);
+                document.removeEventListener('click', this.resetName, false);
            },
            created(){
                this.getBankList();
