@@ -1,9 +1,7 @@
 <template>
-    <div class="rule-step">
+    <div class="rule-step"> 
         <div v-for="(index,n) in datas" class="pr" :class="{'active':showstep==index}">
             {{index+1}}.{{n}}
-            <div class="triangle-right" :class="{'active':showstep==index}"></div>
-            <div class="triangle-right-white" v-if="showstep!=index"></div>
         </div>
     </div>
 </template>
@@ -12,22 +10,20 @@
     overflow: hidden;
     display: table;
     width: 100%;
-    border-right: 1px solid #dadada;
     .pr{
         position: relative;
         width: 25%;
         display: table-cell;
-        border: 1px solid #ddd;
         height: 50px;
         line-height: 50px;
         box-sizing: border-box;
-        color: #000;
         text-align: center;
+        border-bottom: 3px solid #f0f0f0;
+        color: #999999;
     }
     .pr.active{
-        border: 1px solid #2196F3;
-        background: #2196F3;
-        color:#fff;
+        border-bottom: 3px solid #e76b5f;
+        color: #e76b5f;
     }
     .triangle-right {
         position: absolute;

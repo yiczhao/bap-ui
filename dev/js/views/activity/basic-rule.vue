@@ -44,7 +44,7 @@
     <div class="rule-row">
         <div class="rule-label">全天</div>
         <div class="rule-input">
-            <ks-switch :color="'#2196F3'" :checked.sync="switch" @change="addtimesList"></ks-switch>
+            <ks-switch :color="'#ea6953'" :checked.sync="switch" @change="addtimesList"></ks-switch>
         </div>
     </div>
     <div class="rule-row" v-show="!switch">
@@ -102,7 +102,7 @@
         <div class="bg-gray">
             <div class="rule-input">
                 <span>消费短信提醒</span>
-                <ks-switch :color="'#2196F3'" :checked.sync="smsContentswitch" @change="addtimesList"></ks-switch>
+                <ks-switch :color="'#ea6953'" :checked.sync="smsContentswitch" @change="addtimesList"></ks-switch>
             </div>
             <div class="rule-input">
                 <textarea v-show="smsContentswitch" class="input textarea" v-model="addData.smsContent"
