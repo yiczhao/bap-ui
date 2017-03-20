@@ -3,7 +3,7 @@
     <div class="activity-row activity-title">
         <div class="search-div">
             <span>活动名称</span>
-            <input class="input" type="text" v-model="replaceName" placeholder="输入活动名称"/>
+            <input class="input" type="text" v-model="replaceName" placeholder="输入活动名称" @keyup.enter="doSearch"/>
             <span>活动时间</span>
             <ks-date-picker placeholder="开始时间" type="datetime" :value.sync="searchData.startTime"></ks-date-picker>
             <span>到</span>

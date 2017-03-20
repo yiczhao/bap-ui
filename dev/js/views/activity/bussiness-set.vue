@@ -24,15 +24,6 @@
                 </td>
             </tr>
         </table>
-        <!--<div v-show="!!dataList">-->
-            <!--<pagegroup-->
-                    <!--:total="searchData.total"-->
-                    <!--:page_size.sync="searchData.maxResult"-->
-                    <!--:page_current.sync="searchData.page"-->
-                    <!--v-on:current_change="getList"-->
-                    <!--v-on:size_change="getList"-->
-            <!--&gt;</pagegroup>-->
-        <!--</div>-->
     </div>
     <div class="rule-row tc footer-btns">
         <a class="btn btn-gray" @click="backBasic">上一步</a>
@@ -46,7 +37,7 @@
         <div class="add-table">
             <div class="add-search">
                 <span>商户名称</span>
-                <input class="input" type="text" v-model="addsearchData.name"/>
+                <input class="input" type="text" v-model="addsearchData.name" @keyup.enter="getaddList"/>
                 <a class="btn btn-primary" @click="getaddList">搜索</a>
             </div>
             <div class="addtable-row">

@@ -2,8 +2,6 @@
 <activity-main :propclass="'bussiness-set'" :showstep.sync="showstep">
     <div class="rule-row rule-title">
         <a class="btn btn-primary" @click="addBtn">添加商户</a>
-        <a class="mr15" @click="">上传文件</a>
-        <a @click="">下载商户模板（excel）</a>
         <div class="search-div">
             <input class="input" type="text" v-model="storeName" placeholder="输入商户名称/商户ID筛选"/>
         </div>
@@ -29,10 +27,10 @@
             </tr>
         </table>
     </div>
-    <div class="rule-row tc">
-        <a class="btn btn-primary" @click="backBasic">上一步</a>
-        <a class="btn btn-gray" @click="submitAdd(false)">保存草稿</a>
+    <div class="rule-row tc footer-btns">
+        <a class="btn btn-gray" @click="backBasic">上一步</a>
         <a class="btn btn-primary" @click="submitAdd(true)">保存并提交审核</a>
+        <a @click="submitAdd(false)">保存为草稿</a>
     </div>
     <content-dialog
             :show.sync="addshow" :is-button="false" :type.sync="'infos'"
@@ -41,7 +39,7 @@
         <div class="add-table">
             <div class="add-search">
                 <span>商户名称</span>
-                <input class="input" type="text" v-model="addsearchData.name"/>
+                <input class="input" type="text" v-model="addsearchData.name" @keyup.enter="getaddList"/>
                 <a class="btn btn-primary" @click="getaddList">搜索</a>
             </div>
             <div class="add-search">
