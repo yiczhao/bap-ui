@@ -39,21 +39,24 @@ window.dialog=((types,mes)=>{
             swal({
                 title: mes,
                 type: "error",
-                confirmButtonColor: "#2196F3"
+                confirmButtonText: "确定",
+                confirmButtonColor:"#ededed"
             })
             break;
         case 'success':
             swal({
                 title: mes,
                 type:"success",
-                confirmButtonColor: "#2196F3"
+                confirmButtonText: "知道了",
+                confirmButtonColor:"#ededed"
             })
             break;
         case 'info':
             swal({
                 title: mes,
                 type:"info",
-                confirmButtonColor:"#00BCD4"
+                confirmButtonText: "知道了",
+                confirmButtonColor:"#ededed"
             })
             break;
         case 'successTime':
