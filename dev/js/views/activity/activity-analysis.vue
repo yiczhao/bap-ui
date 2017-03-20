@@ -198,37 +198,36 @@
 			}
 		},
 		methods:{
-		    initChart(data){
-                var hours = ["00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"];
-//                var data = [1,2,3,4,5,6,7,8,9,12,12,11,11,11,11,11,22,33,22,44,22,33,22,11]
-                let option ={
-                    tooltip: {
-                        position: 'top',
-                        formatter: function (params) {
-                            return  ' 交易笔数:' + params.value+'笔';
-                        }
-                    },
-                    height:300,
-                    grid:{y2:180},
-                    xAxis: {type: 'category', data: hours, boundaryGap: false, splitLine: {show: false}, axisLine: {show: false }},
-                    yAxis: {type: 'category', data: ["交易笔数（笔）"], splitLine: {show: false }, axisLine: {show: false}},
-                    series: [{
-                        type: 'scatter', itemStyle:{normal:{color:'#11b183', lineStyle:{color:'#11b183'}}},
-                        symbolSize: function (val) {
-                            return val * 2;
-                        },
-                        data: data
-                    }]
-                };
-                let myChart = echarts.init(this.$els.tableInit);
-                myChart.setOption(option);
-            },
+// 		    initChart(data){
+//                 var hours = ["00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"];
+// //                var data = [1,2,3,4,5,6,7,8,9,12,12,11,11,11,11,11,22,33,22,44,22,33,22,11]
+//                 let option ={
+//                     tooltip: {
+//                         position: 'top',
+//                         formatter: function (params) {
+//                             return  ' 交易笔数:' + params.value+'笔';
+//                         }
+//                     },
+//                     height:300,
+//                     grid:{y2:180},
+//                     xAxis: {type: 'category', data: hours, boundaryGap: false, splitLine: {show: false}, axisLine: {show: false }},
+//                     yAxis: {type: 'category', data: ["交易笔数（笔）"], splitLine: {show: false }, axisLine: {show: false}},
+//                     series: [{
+//                         type: 'scatter', itemStyle:{normal:{color:'#11b183', lineStyle:{color:'#11b183'}}},
+//                         symbolSize: function (val) {
+//                             return val * 2;
+//                         },
+//                         data: data
+//                     }]
+//                 };
+//                 let myChart = echarts.init(this.$els.tableInit);
+//                 myChart.setOption(option);
+//             },
 			initTable(xData,yData,ydata2){
 				let axisData = xData;
 				let data = yData;
 				let data2 = ydata2;
 				let option = {
-				    // width:'90%',
 					title: {text: this.tableText, textStyle:{color:'#666', fontSize:12}, right:35, top:15},
 					tooltip:{},
 					grid:{x:100},
@@ -247,12 +246,23 @@
 						data: data2
 					});
 				}
+				// let id=this.$els.tableInit;
+				// let resizeIdContainer = function () {
+				//     id.style.width = id.parentNode.style.width+'px';
+				//     id.style.height = id.parentNode.style.height+'px';
+				// };
+				// resizeIdContainer();
 				let myChart = echarts.init(this.$els.tableInit);
 				myChart.setOption(option);
+				// window.onresize = function () {
+				//     resizeIdContainer();
+				//     myChart.resize();
+				// };
 			},
-			initBar(xData,yData){
+			initBar(xData,yData,barColor){
 				let axisData = xData;
 				let data = yData;
+				let color = barColor;
 				let option = {
 					title: {text: this.tableText, textStyle:{color:'#666', fontSize:12}, right:35, top:15},
 				    tooltip : {trigger: 'axis',axisPointer : {type : 'shadow'}},
@@ -261,10 +271,20 @@
 				    	// axisLabel:{  interval:0,rotate:2, margin:5,  textStyle:{ fontWeight:"bolder", color:"#000000"}},    
 					}],
 				    yAxis : [{type : 'value'}],
-				    series : [{name:'当前数据',type:'bar',data:data,barWidth:50}]
+				    series : [{name:'当前数据',type:'bar',data:data,barWidth:50,itemStyle:{normal:{color:color}}}]
 				};
+				// let id=this.$els.tableInit;
+				// let resizeIdContainer = function () {
+				//     id.style.width = id.parentNode.style.width+'px';
+				//     id.style.height = id.parentNode.style.height+'px';
+				// };
+				// resizeIdContainer();
 				let myChart = echarts.init(this.$els.tableInit);
 				myChart.setOption(option);
+				// window.onresize = function () {
+				//     resizeIdContainer();
+				//     myChart.resize();
+				// };
 			},
             initStep(ajaxArr,steps){
 			    if(this.mainStep==steps)return;
@@ -330,17 +350,18 @@
                         this.mainStep=2;
 						break
 					case 3:
-						this.tableText='累计交易笔数（笔）'
-						this.initChart(data.series);
+						this.tableText='累计交易笔数（笔）';
+						let hours = ["00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"];
+						this.initTable(hours,data.series);
                         this.mainStep=3;
 						break
 					case 4:
 						this.tableText='商户刷卡金额（元）'
                         if(this.merchantIndex==1){
                             this.tableText='商户刷卡笔数（笔）'
-                            this.initBar(data.series[0].storeAndMerchantName,data.series[0].dataLong)
+                            this.initBar(data.series[0].storeAndMerchantName,data.series[0].dataLong,'#ffcf7a')
                         }else{
-                            this.initBar(data.series[0].storeAndMerchantName,data.series[0].dataDecimal)
+                            this.initBar(data.series[0].storeAndMerchantName,data.series[0].dataDecimal,'#b6d15d')
                         }
                         this.mainStep=4;
 						break
@@ -348,15 +369,15 @@
 						this.tableText='卡BIN刷卡金额（元）';
                         if(this.carBinIndex==1){
 							this.tableText='卡BIN刷卡笔数（笔）';
-							this.initBar(data.category,data.series[0].dataDecimal);
+							this.initBar(data.category,data.series[0].dataDecimal,'#b6d15d');
                         }else{
-							this.initBar(data.category,data.series[0].dataDecimal);
+							this.initBar(data.category,data.series[0].dataDecimal,'#163b7d');
                         }
                         this.mainStep=5;
 						break
 					case 6:
 						this.tableText='卡数量（张）';
-						this.initBar(data.series[0].data,data.series[0].dataLong);
+						this.initBar(data.series[0].data,data.series[0].dataLong,'#3ba686');
                         this.mainStep=6;
 						break
 				}
