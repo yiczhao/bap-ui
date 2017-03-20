@@ -3,23 +3,21 @@
 		width: 100%;height: 180px;
 		background: url("../img/analysis-title.png");border-radius: 5px;
 		h1{
-			position:relative;padding:75px 0 0 45px;
-			line-height: 100%;
+			position:relative;
+			padding:75px 0 0 45px;line-height: 100%;
 			color:#12966f;
 			i{
 				font-style: normal;
 				padding-right: 15px;
 			}
 			.btn{
-				position: absolute;right: 45px;top: 75px;padding: 0;
-				width: 145px;height:33px;line-height: 33px;
-				border-radius: 25px;
+				position: absolute;right: 45px;top: 75px;
+				padding: 0;width: 145px;height:33px;line-height: 33px;border-radius: 25px;
 			}
 		}
 		h3{
-			padding-left: 70px;
+			padding-left: 70px;opacity: 0.5;
 			color:#fff;
-			opacity: 0.5;
 		}
 	}
 	.analysis-data{
@@ -28,9 +26,9 @@
 			margin-bottom: 20px;
 			display: table;  width: 100%;
 			span{
-				padding-bottom: 5px;
 				display: table-cell;
-				text-align: center;border-bottom: 2px solid #dadada;cursor: pointer;
+				padding-bottom: 5px;border-bottom: 2px solid #dadada;
+				text-align: center;cursor: pointer;
 			}
 			.active{
 				color:#e66a5e;border-color:#e66a5e;
@@ -40,22 +38,19 @@
 			margin-bottom: 20px;
 			.labels-title{
 				span{
-					padding: 0 20px;margin-right: 15px;
-					height: 24px;line-height: 24px;
-					color: #fff;background: #999;border-radius: 15px;
+					padding: 0 20px;margin-right: 15px;height: 24px;line-height: 24px;border-radius: 15px;
+					color: #fff;background: #999;
 				}
 				.active{
 					background: #12966f;
 				}
 			}
 			.labels-lists{
-				padding-top: 20px;
-				display: table;width: 100%;
-				overflow: hidden;
+				display: table;overflow: hidden;
+				padding-top: 20px;width: 100%;
 				div{
-					padding-left: 10px;padding-top: 10px;margin-right: 80px;
-					display: table-cell;height: 45px;line-height: 100%;min-width: 140px;
-					border-left:2px solid #e66a5e;
+					display: table-cell;
+					padding-left: 10px;padding-top: 10px;margin-right: 80px;height: 45px;line-height: 100%;min-width: 140px;border-left:2px solid #e66a5e;
 					& > p:first-child{
 						margin-bottom: 10px;
 						font-size: 18px;color: #000;font-weight:600;
@@ -73,9 +68,8 @@
 			}
 			.table-btns{
 				& > span{
-					padding: 0 20px;margin-right: 15px;
-					height: 24px;line-height: 24px;
-					color: #fff;background: #999;border-radius: 15px;
+					padding: 0 20px;margin-right: 15px;height: 24px;line-height: 24px;border-radius: 15px;
+					color: #fff;background: #999;
 				}
 				& > span.active{
 					background: #12966f;
