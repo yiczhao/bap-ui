@@ -19,7 +19,7 @@
                 <td><a @click="searchList.splice($index,1)">移除</a></td>
             </tr>
             <tr v-show="!searchList.length">
-                <td colspan="3">
+                <td colspan="3" style="text-align:center">
                     请添加商户
                 </td>
             </tr>

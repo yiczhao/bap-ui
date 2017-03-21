@@ -5,13 +5,14 @@
         <router-view></router-view>
     </div>
     <div class="dashed"></div>
-    <div class="rule-row">
+    <div class="rule-row reset">
         <h3>活动条件设置</h3>
         <div class="rule-input">
-            <ks-checkbox v-for="n in ruleLists" :checked.sync="n.checked">{{n.name}}</ks-checkbox>
+            <!-- <ks-checkbox v-for="n in ruleLists" :checked.sync="n.checked">{{n.name}}</ks-checkbox> -->
+            <span v-for="n in ruleLists" class="span" :class="{checked:n.checked}" @click="n.checked=!n.checked">{{n.name}}</span>
         </div>
     </div>
-    <div class="rule-row" v-for="n in ruleLists.length" v-show="ruleLists[n].checked">
+    <div class="rule-row rechoose" v-for="n in ruleLists.length" v-show="ruleLists[n].checked">
         <h3><i>*</i>{{ruleLists[n].name}}</h3>
         <div class="rule-input" v-if="ruleLists[n].types=='CardBin'">
             <div class="db" v-for="(index,n) in ruleDatas.CardBin">
@@ -88,6 +89,35 @@
     </div>
 </activity-main>
 </template>
+<style type="text/css">
+    .activity-rule .KSNRCheckbox__skin{
+        opacity: 0;
+    }
+    .activity-rule .rule-row .rule-input .span{
+        padding: 0 20px;margin-top: 0;
+        color: #777777;background-color: #ededed;cursor: pointer;
+    }
+    .activity-rule .rule-row .rule-input .checked{
+        background-color: #ea6953;color: #fff;
+    }
+    .reset h3{
+        float: left;
+        width: 110px !important;
+    }
+    .reset .rule-input{
+        float: left;
+        line-height: 30px !important;font-size: 14px;
+    }
+    .rechoose{
+        padding-left: 160px !important;
+    }
+    .reset + .rechoose input{
+        width: 190px !important;
+    }
+    .rechoose:not(:first-child) input{
+        width: 90px ;
+    }
+</style>
 <script type="text/javascript">
     import activityMain from './activity-main.vue'
     import model from '../../ajax/activity/rule_model'
