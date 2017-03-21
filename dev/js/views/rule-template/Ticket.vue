@@ -1,20 +1,36 @@
 <template>
 <div class="rule-input" v-for="(index,n) in submitdata">
     <span>票务名称</span>
-    <input class="input" type="text" v-model="n.name"/>
+    <input class="input padding-input" type="text" v-model="n.name"/>
     <span>原价</span>
-    <input class="input" type="text" v-model="n.originalPrice" v-limitaddprice="n.originalPrice"/>
-    <span>元，</span>
+    <input class="input padding-input" type="text" v-model="n.originalPrice" v-limitaddprice="n.originalPrice"/>
+    <span class="margin-span">元</span><span>，</span>
     <span>实付</span>
-    <input class="input" type="text" v-model="n.actualPayment" v-limitaddprice="n.actualPayment"/>
-    <span>元，</span>
+    <input class="input padding-input" type="text" v-model="n.actualPayment" v-limitaddprice="n.actualPayment"/>
+    <span class="margin-span">元</span><span>，</span>
     <span>单卡每次可购</span>
-    <input class="input" type="text" v-model="n.numberLimit" v-limitaddprice="n.numberLimit"/>
-    <span>张。</span>
-    <i v-if="index===0" class="icon-add" @click="submitdata.push({'name':'','originalPrice':'','actualPayment':'','numberLimit':''})"></i>
-    <i v-if="index!==0" class="icon-remove" @click="submitdata.splice(index, 1)"></i>
+    <input class="input padding-input" type="text" v-model="n.numberLimit" v-limitaddprice="n.numberLimit"/>
+    <span class="margin-span">张</span>
+    <i v-if="index===0" class="icon-add" @click="submitdata.push({'name':'','originalPrice':'','actualPayment':'','numberLimit':''})">新增一条</i>
+    <i v-if="index!==0" class="icon-remove" @click="submitdata.splice(index, 1)">删除一条</i>
 </div>
 </template>
+<style type="text/css" scoped>
+    .padding-input{
+        width:90px !important ;
+        padding-right: 28px !important;
+    }
+    .margin-span{
+        margin-left: -35px !important;
+    }
+    .icon-add,.icon-remove{
+        font-size: 15px !important;
+        margin-top: 24px!important;
+    }
+    .icon-add:before,.icon-remove:before{
+        padding-right: 5px !important;
+    }
+</style>
 <script type="text/javascript">
     export default{
         data(){

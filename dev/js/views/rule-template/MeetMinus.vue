@@ -1,8 +1,9 @@
 <template>
 <div class="rule-input" v-for="(index,n) in submitdata">
     <span>满</span>
-    <input class="input" type="text" v-model="n.meetMoney" v-limitaddprice="n.meetMoney"/>
-    <span>元，立减</span>
+    <input class="input padding-input" type="text" v-model="n.meetMoney" v-limitaddprice="n.meetMoney"/>
+    <span class="margin-span">元</span>
+    <span>，立减</span>
     <input class="input padding-input" type="text" v-model="n.minusMoney" v-limitaddprice="n.minusMoney"/>
     <span class="margin-span">元</span>
     <i v-if="index===0" class="icon-add" @click="submitdata.push({'meetMoney':'','minusMoney':''})">新增一条</i>
@@ -10,8 +11,12 @@
 </div>
 </template>
 <style type="text/css" scoped>
+    input{
+        width: 90px!important;
+        padding-right: 28px!important;
+    }
     .margin-span{
-        margin-left: -35px!important;
+        margin-left: -35px !important;
     }
     .padding-input{
         padding-right: 30px !important;
@@ -24,6 +29,7 @@
     .icon-add:before,.icon-remove:before{
         padding-right: 5px!important;
     }
+
 </style>
 <script type="text/javascript">
     export default{

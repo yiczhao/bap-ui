@@ -1,12 +1,22 @@
 <template>
 <div class="rule-input">
     <span>每满</span>
-    <input class="input" type="text" v-model="submitdata.meetMoney" v-limitaddprice="submitdata.meetMoney"/>
-    <span>元，立减</span>
-    <input class="input" type="text" v-model="submitdata.minusMoney" v-limitaddprice="submitdata.minusMoney"/>
-    <span>元</span>
+    <input class="input padding-input" type="text" v-model="submitdata.meetMoney" v-limitaddprice="submitdata.meetMoney"/>
+    <span class="margin-span">元</span>
+    <span>，立减</span>
+    <input class="input padding-input" type="text" v-model="submitdata.minusMoney" v-limitaddprice="submitdata.minusMoney"/>
+    <span class="margin-span">元</span>
 </div>
 </template>
+<style type="text/css" scoped>
+    .margin-span{
+        margin-left: -35px !important;
+    }
+    .padding-input{
+        width: 90px !important;
+        padding-right: 28px !important;
+    }
+</style>
 <script type="text/javascript">
     export default{
         data(){

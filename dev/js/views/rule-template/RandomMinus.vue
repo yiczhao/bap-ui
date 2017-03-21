@@ -1,14 +1,23 @@
 <template>
     <div class="rule-input" v-for="(index,n) in submitdata">
         <span>随机立减</span>
-        <input class="input" type="text" v-model="n.amount" v-limitaddprice="n.amount"/>
-        <span>元</span>
-        <input class="input" type="text" v-model="n.number" v-limitnumber="n.number"/>
-        <span>名</span>
+        <input class="input padding-input" type="text" v-model="n.amount" v-limitaddprice="n.amount"/>
+        <span class="margin-span">元</span>
+        <input class="input padding-input" type="text" v-model="n.number" v-limitnumber="n.number"/>
+        <span class="margin-span">名</span>
         <i v-if="index===0" class="icon-add" @click="submitdata.push({'amount':'','number':''})"></i>
         <i v-if="index!==0" class="icon-remove" @click="submitdata.splice(index,1)"></i>
     </div>
 </template>
+<style type="text/css" scoped>
+    .padding-input{
+        width:90px !important ;
+        padding-right: 28px !important;
+    }
+    .margin-span{
+        margin-left: -35px !important;
+    }
+</style>
 <script type="text/javascript">
     export default{
         data(){
