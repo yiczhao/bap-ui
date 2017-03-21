@@ -1,7 +1,7 @@
 <template>
 <activity-main :propclass="'bussiness-set'" :showstep.sync="showstep">
     <div class="rule-row rule-title">
-        <a class="btn btn-primary" @click="addBtn">添加商户</a>
+        <a class="btn btn-info" @click="addBtn">添加商户</a>
         <div class="search-div">
             <input class="input" type="text" v-model="storeName" placeholder="输入商户名称/商户ID筛选"/>
         </div>
@@ -85,7 +85,7 @@
 <style type="text/css" scoped>
     .mr15{
         margin: 0 15px;
-    }
+    } 
     #all{
         display: none;
     }
@@ -102,6 +102,12 @@
         opacity: 0;
         -webkit-transition: opacity .3s;
         transition: opacity .3s;
+    }
+</style>
+<style type="text/css">
+    
+    .KsPage .active, .KsPageGroup .active{
+        background: #ea6953 !important;
     }
 </style>
 <script type="text/javascript">

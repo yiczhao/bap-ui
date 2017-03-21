@@ -42,7 +42,7 @@
         },
         methods:{
             submit(){
-                if(!this.upCheck.textarea&&!this.upCheck.id){
+                if(!this.upCheck.textarea || !this.upCheck.id){
                    dialog('info','请完善信息或请上传文件！');
                     return
                 }

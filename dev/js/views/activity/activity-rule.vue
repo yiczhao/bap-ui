@@ -1,8 +1,8 @@
 <template>
 <activity-main :propclass="'activity-rule'" :datas="datas" :showstep.sync="showstep">
-    <div class="rule-row">
+    <div class="rule-row rule-span">
         <h3><i>*</i>活动规则</h3>
-        <router-view></router-view>
+        <router-view></router-view> 
     </div>
     <div class="dashed"></div>
     <div class="rule-row reset">
