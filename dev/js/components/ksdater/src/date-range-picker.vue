@@ -1,6 +1,6 @@
 <template>
 <div class="KsDaterMultiPicker" :class="{'readonly':readonly}" cid="KsDaterMultiPicker">
-    <div class="_input" v-on:click="show=!show">
+    <div class="_input">
         <div class="ks-col-auto date-icon"><i class="icon">&#xe615;</i></div>
         <div class="ks-col">
             <div class="ks-row-auto">
@@ -42,12 +42,12 @@
         },
         data() {
             return {
-                show:false
+                show:true
             }
         },
         methods:{
             close(){
-                this.show = false
+//                this.show = false
             },
             change(range){
                 // console.log(range)

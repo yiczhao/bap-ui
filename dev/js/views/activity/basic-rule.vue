@@ -1,5 +1,8 @@
 <template>
 <activity-main :propclass="'basic-rule'" :showstep.sync="showstep">
+    <div class="rule-row m40">
+        活动基本信息
+    </div>
     <div class="rule-row">
         <div class="rule-label"><i>*</i>活动名称</div>
         <div class="rule-input">
@@ -20,7 +23,7 @@
         </div>
     </div> -->
     <div class="rule-row">
-        <div class="rule-label">活动预算</div>
+        <div class="rule-label"><i>&nbsp;</i>活动预算</div>
         <div class="rule-input">
             <input class="input" maxlength="8" type="text" v-model="addData.budget" v-limitaddprice="addData.budget" placeholder="请输入预算" />
             <span>元</span>
@@ -30,9 +33,11 @@
     <div class="rule-row">
         <div class="rule-label"><i>*</i>活动持续时间</div>
         <div class="rule-input">
-            <ks-date-picker @change="setincludeTimes" type="datetime" time="00:00:00" placeholder="活动时间" :value.sync="addData.startTime"></ks-date-picker>
-            <div class="m20">---</div>
-            <ks-date-picker @change="setincludeTimes" type="datetime" time="23:59:59" placeholder="活动时间" :value.sync="addData.endTime"></ks-date-picker>
+            <div class="inline">
+                <ks-date-picker @change="setincludeTimes" type="datetime" time="00:00:00" placeholder="活动时间" :value.sync="addData.startTime"></ks-date-picker>
+                <div class="m20">---</div>
+                <ks-date-picker @change="setincludeTimes" type="datetime" time="23:59:59" placeholder="活动时间" :value.sync="addData.endTime"></ks-date-picker>
+            </div>
         </div>
     </div>
     <div class="rule-row">
@@ -42,13 +47,13 @@
         </div>
     </div>
     <div class="rule-row">
-        <div class="rule-label">全天</div>
+        <div class="rule-label"><i>&nbsp;</i>全天</div>
         <div class="rule-input">
             <ks-switch :color="'#ea6953'" :checked.sync="switch" @change="addtimesList"></ks-switch>
         </div>
     </div>
     <div class="rule-row" v-show="!switch">
-        <div class="rule-label">可选时间段</div>
+        <div class="rule-label"><i>&nbsp;</i>可选时间段</div>
         <!-- 时间多段设定 -->
         <div class="rule-input">
             <div class="db" v-for="n in timesList.length">
@@ -99,15 +104,18 @@
         </div>
     </div>
     <div class="rule-row">
-        <div class="bg-gray">
-            <div class="rule-input">
-                <span>消费短信提醒</span>
-                <ks-switch :color="'#ea6953'" :checked.sync="smsContentswitch" @change="addtimesList"></ks-switch>
-            </div>
-            <div class="rule-input">
-                <textarea v-show="smsContentswitch" class="input textarea" v-model="addData.smsContent"
-                          maxlength="56"
-                          placeholder="请输入发送内容：含标点符号56个汉字加上签名括号，签名必须前置。如【建设银行】尽享5折活动,单笔消费最高可优惠200元"></textarea>
+        <div class="rule-label"></div>
+        <div class="rule-input">
+            <div class="bg-gray">
+                <div class="rule-input">
+                    <span><i>&nbsp;</i>消费短信提醒</span>
+                    <ks-switch :color="'#ea6953'" :checked.sync="smsContentswitch" @change="addtimesList"></ks-switch>
+                </div>
+                <div class="rule-input">
+                    <textarea v-show="smsContentswitch" class="input textarea" v-model="addData.smsContent"
+                              maxlength="56"
+                              placeholder="请输入发送内容：含标点符号56个汉字加上签名括号，签名必须前置。如【建设银行】尽享5折活动,单笔消费最高可优惠200元"></textarea>
+                </div>
             </div>
         </div>
     </div>
@@ -115,26 +123,31 @@
     <div class="rule-row">
         <div class="rule-label"><i>*</i>POS小票内容设置</div>
         <div class="rule-input pos-div">
-            <div class="pos-span">
-                <span @click="insertPosTicketWildcard('%DISRATE%')">用户折扣</span>
-                <span @click="insertPosTicketWildcard('%FAVORAMT%')">优惠金额</span>
-                <span @click="insertPosTicketWildcard('%DAYLEFT%')">当天剩余名额</span>
-                <span @click="insertPosTicketWildcard('%TOTALLEFT%')">总剩余名额</span>
-            </div>
             <div>
-                <textarea  v-el:pos-print  class="input textarea"
-                           v-model="addData.posPrint"
-                           :maxlength="77"
-                           placeholder="恭喜您，总共优惠了n（n=优惠金额）元"></textarea>
-            </div>
-            <div class="red">
-                注：插入“当天剩余名额”必须设置“限制条件：活动总次数中的“每天次数”。
-                插入“总剩余名额”必须设置“限制条件：活动总次数中的“总次数”。
+                <div class="pos-span">
+                    <span @click="insertPosTicketWildcard('%DISRATE%')">用户折扣</span>
+                    <span @click="insertPosTicketWildcard('%FAVORAMT%')">优惠金额</span>
+                    <span @click="insertPosTicketWildcard('%DAYLEFT%')">当天剩余名额</span>
+                    <span @click="insertPosTicketWildcard('%TOTALLEFT%')">总剩余名额</span>
+                </div>
+                <div>
+                    <div contentEditable="true"  v-el:pos-print  class="input textarea"
+                         :maxlength="77" @input="testDivChange($event)"
+                    >{{testDiv}}</div>
+                    <textarea  v-el:pos-print  class="input textarea"
+                               v-model="addData.posPrint"
+                               :maxlength="77"
+                               placeholder="恭喜您，总共优惠了n（n=优惠金额）元"></textarea>
+                </div>
+                <div class="red">
+                    注：插入“当天剩余名额”必须设置“限制条件：活动总次数中的“每天次数”。
+                    插入“总剩余名额”必须设置“限制条件：活动总次数中的“总次数”。
+                </div>
             </div>
         </div>
     </div>
     <div class="rule-row">
-        <div class="rule-label">二维码</div>
+        <div class="rule-label"><i>&nbsp;</i>二维码</div>
         <div class="rule-input">
             <input class="input" type="text" v-model="addData.qrcodeUrl" placeholder="请输入POS小票上需要打印的二维码链接" />
         </div>
@@ -163,6 +176,7 @@
         data(){
             this.model=model(this)
             return{
+                testDiv:'',
                 showstep:0,
                 // provinceList:[],
                 // cityList:[],
@@ -206,6 +220,9 @@
             }
         },
         methods:{
+            testDivChange(e){
+                this.testDiv=e.target.textContent;
+            },
             initIncludeTimes(val){
                 if(!val){
                     this.$nextTick(()=>{
@@ -230,9 +247,9 @@
                 })
                 return newIncludeTimes;
             },
-            setincludeTimes(){
+            setincludeTimes(val){
                 if(!this.addData.startTime||!this.addData.endTime){
-                    this.includeTimes=this.addData.startTime.split(' ')[0]||this.addData.endTime.split(' ')[0];
+                    this.includeTimes=this.addData.startTime||this.addData.endTime;
                     return;
                 }
                 if(this.addData.startTime>this.addData.endTime){
