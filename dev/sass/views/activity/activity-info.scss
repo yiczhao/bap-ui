@@ -1,0 +1,150 @@
+.activity-info {
+  padding-left: 16px;
+  .activity-name {
+    //font-family: 'helvetica neue',arial,'hiragino sans gb',stheiti,'wenquanyi micro hei',\5FAE\8F6F\96C5\9ED1,\5B8B\4F53,sans-serif;
+    font-size: 20px;
+    height: 60px;
+    line-height: 50px;
+    //padding-left: 16px;
+    //font-weight:bold;
+    //color: #444444;
+    border-bottom: 1px dashed #dbdbdb;
+  }
+  .activity-head {
+    width: 100%;
+    position: relative;
+  }
+  .activity-createtime {
+    float: right;
+    //margin-top: 18px;
+    //margin-top: 10px;
+    position: absolute;
+    right: 30px;
+    top: 15px;
+    .activity-type{
+      color: #a5a5a5;
+      font-size: 15px;
+    }
+  }
+  .activity-title {
+    //width: 100px;
+    height: 80px;
+    display: flex;
+    clear: both;
+    //padding-left: 16px;
+    margin-top: 20px;
+    .mian-row {
+      flex: 1;
+      & > div {
+        //clear: both;
+        //display:flex;
+        float: left;
+      }
+      .activity-type {
+        color: #a5a5a5;
+        font-size: 15px;
+      }
+      .activity-val {
+        padding-left: 10px;
+        font-size: 15px;
+        color: #444444;
+      }
+      .bias {
+        width: 17px;
+        height: 0px;
+        border: 1px solid #a5a5a5;
+        transform: rotate(-60deg);
+        position: absolute;
+      }
+    }
+  }
+  .info-title {
+    .tab-bor {
+      margin-left: 16px;
+      position: relative;
+      top: -20px;
+      left: -20px;
+      font-size: 16px;
+      li {
+        cursor: pointer;
+        text-align: left;
+        padding-left: 5px;
+      }
+      .active{
+        border: 0;
+        border-bottom: 3px solid #e76b5f;
+      }
+      //border-top: 3px solid #e76b5f;
+      //border-right: 1px solid #E9E9E9;
+      //border-left: 1px solid #E9E9E9;
+    }
+  }
+  .activity-info{
+    .info-title{
+      .tab-bor{
+        position: relative;
+        top: -20px;
+        left: -20px;
+        font-size: 16px;
+        li{
+          cursor: pointer;
+        }
+      }
+    }
+
+}
+  .info-main {
+    font-size: 15px;
+    .main-title {
+      margin: 20px;
+      span {
+        font-size: 17px;
+        margin-right: 40px;
+      }
+    }
+    .activity-type {
+      color: #a5a5a5;
+      font-size: 15px;
+    }
+    .activity-val {
+      padding-left: 5px;
+      font-size: 15px;
+      color: #444444;
+    }
+    .info-basic, .info-store, .info-rule {
+      padding-right: 20px;
+      .table-row {
+        span {
+          display: table-cell;
+        }
+        .w85 {
+          width: 70px;
+        }
+        .w140 {
+          //width: 133px;
+        }
+      }
+      .main-row {
+        border-bottom: 1px solid #e1e1e1;
+        display: flex;
+        clear: both;
+        padding: 20px 0;
+        span {
+          //min-width: 100px;
+          //margin-right: 20px;
+        }
+        .row-right{
+          //float: right;
+          flex: 1;
+        }
+        .rigth-two{
+          flex: 2;
+        }
+      }
+    }
+    .store-title {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+  }
+}
