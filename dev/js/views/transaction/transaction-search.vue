@@ -182,7 +182,6 @@
                 this.showList=false;
                 this.searchData.activityName=name;
                 this.searchData.activityID=uniqueId;
-                this.getList();
             },
             tradeEchart(divID,data1,data_name,baseData,color_1,color_2){
                 var myChart=echarts.init(document.getElementById(divID));

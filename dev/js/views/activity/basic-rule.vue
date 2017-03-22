@@ -125,15 +125,16 @@
         <div class="rule-input pos-div">
             <div>
                 <div class="pos-span">
-                    <span @click="insertPosTicketWildcard('%DISRATE%')">用户折扣</span>
-                    <span @click="insertPosTicketWildcard('%FAVORAMT%')">优惠金额</span>
-                    <span @click="insertPosTicketWildcard('%DAYLEFT%')">当天剩余名额</span>
-                    <span @click="insertPosTicketWildcard('%TOTALLEFT%')">总剩余名额</span>
+                    <!--<span @click="insertPosTicketWildcard('%DISRATE%')">用户折扣</span>-->
+                    <!--<span @click="insertPosTicketWildcard('%FAVORAMT%')">优惠金额</span>-->
+                    <!--<span @click="insertPosTicketWildcard('%DAYLEFT%')">当天剩余名额</span>-->
+                    <!--<span @click="insertPosTicketWildcard('%TOTALLEFT%')">总剩余名额</span>-->
+                    <span :class="{'tab-active':addData.posPrint.indexOf('%用户折扣%')>=0}" @click="insertPosTicketWildcard('%用户折扣%')">用户折扣<b v-show="(addData.posPrint.split('%用户折扣%').length-1) >0">*{{addData.posPrint.split('%用户折扣%').length-1}}</b></span>
+                    <span :class="{'tab-active':addData.posPrint.indexOf('%优惠金额%')>=0}" @click="insertPosTicketWildcard('%优惠金额%')">优惠金额<b v-show="addData.posPrint.split('%优惠金额%').length-1 >0">*{{addData.posPrint.split('%优惠金额%').length-1}}</b></span>
+                    <span :class="{'tab-active':addData.posPrint.indexOf('%当天剩余名额%')>=0}" @click="insertPosTicketWildcard('%当天剩余名额%')">当天剩余名额<b v-show="addData.posPrint.split('%当天剩余名额%').length-1 >0">*{{addData.posPrint.split('%当天剩余名额%').length-1}}</b></span>
+                    <span :class="{'tab-active':addData.posPrint.indexOf('%总剩余名额%')>=0}" @click="insertPosTicketWildcard('%总剩余名额%')">总剩余名额<b v-show="addData.posPrint.split('%总剩余名额%').length-1 >0">*{{addData.posPrint.split('%总剩余名额%').length-1}}</b></span>
                 </div>
                 <div>
-                    <div contentEditable="true"  v-el:pos-print  class="input textarea"
-                         :maxlength="77" @input="testDivChange($event)"
-                    >{{testDiv}}</div>
                     <textarea  v-el:pos-print  class="input textarea"
                                v-model="addData.posPrint"
                                :maxlength="77"
@@ -220,9 +221,6 @@
             }
         },
         methods:{
-            testDivChange(e){
-                this.testDiv=e.target.textContent;
-            },
             initIncludeTimes(val){
                 if(!val){
                     this.$nextTick(()=>{
@@ -419,6 +417,10 @@
                 data.timesList=this.gettimesList(this.timesList);
                 data.uuid =JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
                 data.organizer =JSON.parse(sessionStorage.getItem('loginList')).organizerID;
+                data.posPrint=data.posPrint.replace(new RegExp(/(用户折扣)/g),'DISRATE');
+                data.posPrint=data.posPrint.replace(new RegExp(/(优惠金额)/g),'FAVORAMT');
+                data.posPrint=data.posPrint.replace(new RegExp(/(当天剩余名额)/g),'DAYLEFT');
+                data.posPrint=data.posPrint.replace(new RegExp(/(总剩余名额)/g),'TOTALLEFT');
                 if (true) {
                     try {
                         this.verifyField(data)
@@ -453,9 +455,9 @@
                 this.dater.show=false;
             },
             insertPosTicketWildcard (wildcard) {
+                console.log(wildcard)
                 let posPrintTextarea = this.$els.posPrint
                 let ABM = this.addData
-
                 if (typeof posPrintTextarea.selectionStart === 'number' &&
                         typeof posPrintTextarea.selectionEnd === 'number') {
                     let startPos = posPrintTextarea.selectionStart
@@ -484,6 +486,10 @@
             if (activityId) {
                 // 获取活动信息
                 this.model.getAddList(activityId).then((res)=>{
+                    res.data.data.posPrint=res.data.data.posPrint.replace(new RegExp(/(DISRATE)/g),'用户折扣');
+                    res.data.data.posPrint=res.data.data.posPrint.replace(new RegExp(/(FAVORAMT)/g),'优惠金额');
+                    res.data.data.posPrint=res.data.data.posPrint.replace(new RegExp(/(DAYLEFT)/g),'当天剩余名额');
+                    res.data.data.posPrint=res.data.data.posPrint.replace(new RegExp(/(TOTALLEFT)/g),'总剩余名额');
                     this.$set('addData',res.data.data);
                     this.$set('weeksList',this.setweeks(res.data.data.weeksList,this.weeksList));
                     this.$set('timesList',this.settimesList(res.data.data.timesList));

@@ -16,7 +16,7 @@
                 <option value="all">累计</option>
                 <option value="now">今日</option>
             </select>
-            <input class="btn btn-primary" type="button" @click="searchList" value="搜 索">
+            <a class="btn btn-primary" @click="searchList">搜 索</a>
         </div>
         <div class="right">展示所有正在进行中的活动今日、累计的刷卡数据，以及活动中不同商户交易、不同卡bin交易的笔数排行。</div>
         <div class="right">当前数据截止到小时,{{now}} (每整点更新数据)</div>
@@ -90,10 +90,10 @@
         },
         methods:{
             searchList(){
-                if(!this.showList && this.liIndex==0)return;
-                this.showList=false;
-                this.searchData.name=this.activityList[this.liIndex].name;
-                this.searchData.activityID=this.activityList[this.liIndex].uniqueId;
+                if(this.showList){
+                    this.searchData.name=this.activityList[this.liIndex].name;
+                    this.searchData.activityID=this.activityList[this.liIndex].uniqueId;
+                }
                 if(this.searchData.type=='now'){
                     this.searchData.startDate=stringify(new Date());
                     this.searchData.endDate=stringify(new Date());
@@ -143,6 +143,7 @@
                 }
             },
             getList(){
+                this.showList=false;
                 this.searchData.bankUuidString=sessionStorage.getItem('uuids');
                 let data={
                     activityID:this.searchData.activityID,
@@ -173,7 +174,6 @@
                 this.showList=false;
                 this.searchData.name=name;
                 this.searchData.activityID=uniqueId;
-                this.getList();
             },
             resetName(){
                 this.showList=false;

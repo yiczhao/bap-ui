@@ -1,7 +1,7 @@
   <template>
       <div class="latinos-search">
 		  <div class="search-div">
-              <input class="input " type="text" v-model="searchData.favorName" placeholder="输入活动名称"
+              <input class="input " type="text" v-model="searchData.favorName" placeholder="输入权益名称"
                      @keyup="getActivity($event)" @keyup.enter="searchList"
                      @keyup.up="changeLiIndex('up')" @keyup.down="changeLiIndex('down')"
               />
@@ -191,7 +191,6 @@
                    this.showList=false;
                    this.searchData.activityName=couponName;
                    this.searchData.activityID=couponID;
-                   this.getList();
                },
                 latinosEchart(divID,data1,data_name,baseData,color_1,color_2){
                     var myChart=echarts.init(document.getElementById(divID));
@@ -277,10 +276,6 @@
                          this.latinos_echart=0;
                        }
                    })
-               },
-               getId({couponName}){
-                    this.showList=false;
-                    this.searchData.favorName=couponName;
                },
                resetName(){
                     this.showList=false;
