@@ -64,14 +64,15 @@ window.dialog=((types,mes)=>{
                 title: mes,
                 type:"success",
                 timer: 2000,
-                confirmButtonColor: "#2196F3"
+                confirmButtonText: "知道了",
+                confirmButtonColor: "#ededed"
             })
             break;
         default:
             swal({
                 title: '保存成功',
                 type:"success",
-                confirmButtonColor: "#2196F3"
+                confirmButtonColor: "#ededed"
             })
             break;
     }
