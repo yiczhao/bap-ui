@@ -63,17 +63,15 @@
                     <span class="activity-type">参与时间段 /</span>
                     <span class="activity-val">每天参与时间段<template v-for="n in basicData.timesList">【{{n}}】</template></span>
                     </div>
-                    <div class="row-right rigth-two">
+                    <div class="row-right">
                         <span class="activity-type">所属银行 /</span>
                         <span class="activity-val">{{basicData.uuid | get_bank uuidsList}}</span>
                     </div>
+                    <div class="row-right">
+                        <span class="activity-type">活动主办方 /</span>
+                        <span class="activity-val">{{basicData.uuid | get_bank uuidsList}}</span>
+                    </div>
                 </div>
-            <div class="main-row">
-                <div class="row-right">
-                <span class="activity-type">活动主办方 /</span>
-                <span class="activity-val">{{basicData.uuid | get_bank uuidsList}}</span>
-                </div>
-            </div>
         <!--<div class="main-row">-->
         <!--<span>活动预算： </span>-->
         <!--<span> {{basicData.budget | currency ''}}元</span>-->
