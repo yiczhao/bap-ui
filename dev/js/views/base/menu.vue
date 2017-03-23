@@ -16,7 +16,7 @@
             </li>
             <li class="color999">
                 <span @click.self="changeShow(1)">
-                    <i class="icon iconfont">&#xe647;</i>券码活动（开发中）
+                    <i class="icon iconfont">&#xe647;</i>券码活动
                     <i class="icon iconfont showbtn" v-show="!showUl[1].isshow">&#xe619;</i>
                     <i class="icon iconfont showbtn" v-show="showUl[1].isshow">&#xe620;</i>
                 </span>
@@ -40,7 +40,7 @@
             </li>
             <li class="color999">
                 <span @click.self="changeShow(3)">
-                    <i class="icon iconfont">&#xe64b;</i>终端管理（开发中）
+                    <i class="icon iconfont">&#xe64b;</i>终端管理
                     <i class="icon iconfont showbtn" v-show="!showUl[3].isshow">&#xe619;</i>
                     <i class="icon iconfont showbtn" v-show="showUl[3].isshow">&#xe620;</i>
                 </span>
@@ -52,7 +52,7 @@
             </li>
             <li class="color999">
                 <span  @click.self="changeShow(4)">
-                    <i class="icon iconfont">&#xe647;</i>商户管理（开发中）
+                    <i class="icon iconfont">&#xe647;</i>商户管理
                     <i class="icon iconfont showbtn" v-show="!showUl[4].isshow">&#xe619;</i>
                     <i class="icon iconfont showbtn" v-show="showUl[4].isshow">&#xe620;</i>
                 </span>
@@ -64,7 +64,7 @@
             </li>
             <li class="color999" @click="waiting">
                 <span>
-                    <i class="icon iconfont">&#xe64b;</i>应用商城（开发中）
+                    <i class="icon iconfont">&#xe64b;</i>应用商城
                 </span>
             </li>
             <li>
