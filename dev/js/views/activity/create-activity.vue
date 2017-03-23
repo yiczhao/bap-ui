@@ -1,4 +1,7 @@
 <template>
+	<div class="crumbs">
+		<span class="link-active">信用卡部</span>
+	</div>
 	<div class="create-title">
 		<span class="title-1">活卡促刷</span>
 		<span class="title-2">Living card promotion brush</span>
@@ -50,6 +53,14 @@
 		</div>
 	</div>
 </template>
+<style lang="scss" scope>
+	.crumbs{
+		padding: 5px 20px!important;margin: 0!important;
+		span.link-active{
+			background: #e76b5f;color:#fff;
+		}
+	}
+</style>
 <script>
 	export default{
 		data(){
