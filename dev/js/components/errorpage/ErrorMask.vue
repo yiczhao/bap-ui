@@ -1,10 +1,9 @@
 <template>
     <div class="error-mask" v-if="showFlag">
         <background-mask>
-            <div class="error-mask-content">
-                <img class="error-mask-imgtype" :src="imgType" alt="错误类型">
+            <div class="error-mask-content" :class="'error'+ imgType">
                 <div class="error-mask-box">
-                    <img :src="urlType" alt="" class="error-mask-img">
+                    <div class="error-mask-img"></div>
                     <div class="error-mask-txt">
                         <span>服务器出错，你可以<i @click="reload">刷新</i>页面</span>
                         <span>点击下面链接继续浏览页面</span>
@@ -23,18 +22,14 @@
         store,
         data () {
             return {
-                urlType:'/dev/img/error_sorry.gif'
+
             }
         },
         vuex: {
             getters: {
                 showFlag ({ ajax }) { return ajax.showFlag },
                 imgType ({ ajax }) {
-                    if(ajax.imgType === 500){
-                        return '/dev/img/error404.gif'
-                    }else if(ajax.imgType === 404){
-                        return '/dev/img/error404.gif1'
-                    }
+                   return ajax.imgType
                 },
             }
         },
@@ -57,10 +52,9 @@
     }
 </script>
 
-<style lang="sass">
+<style lang="scss">
     @import "../dialogs/style/bootstrap";
     .error-mask{
-
         .error-mask-content{
             box-sizing: border-box;
             width: 576px;
@@ -77,20 +71,17 @@
             overflow: hidden;
             z-index: 1060;
 
-            .error-mask-imgtype{
-                width:210px;
-                height:147px;
-                float: left;
-            }
             .error-mask-box{
                 float:right;
                 height: 132px;
                 width: 219px;
                 text-align: center;
                 padding-top: 10px;
+                text-align: left;
                 .error-mask-img{
                     height: 48px;
                     margin-bottom: 18px;
+                    background: url("../../../img/error_sorry.png")  left center no-repeat;
                 }
                 .error-mask-txt{
 
@@ -125,6 +116,14 @@
             }
 
         }
+
+    }
+
+    .error404{
+        background: url("../../../img/error404.png") 58px 48px  no-repeat;
+    }
+    .error500{
+        background: url("../../../img/error500.png") 58px 48px  no-repeat;
     }
 
 </style>
