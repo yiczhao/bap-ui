@@ -22,8 +22,8 @@
                     <option v-for="n in cardBinLists" :value="n.id">{{n.name}}</option>
                 </select>
                 <input class="input" type="text" v-model="n.extData" v-limitids="n.extData"/>
-                <i v-if="index===0" class="icon-add" @click="ruleDatas.CardBin.push({data :'',extData :''})"></i>
-                <i v-if="index!==0" class="icon-remove" @click="ruleDatas.CardBin.splice(index, 1)"></i>
+                <i v-if="index===0" class="icon-add" @click="ruleDatas.CardBin.push({data :'',extData :''})">新增一条</i>
+                <i v-if="index!==0" class="icon-remove" @click="ruleDatas.CardBin.splice(index, 1)">删除一条</i>
             </div>
         </div>
         <div class="rule-input" v-if="ruleLists[n].types=='act_total'">
@@ -116,6 +116,15 @@
     }
     .rechoose:not(:first-child) input{
         width: 90px ;
+    }
+    .icon-add,.icon-remove{
+        margin-top: 24px!important;
+        font-size: 15px!important;
+        color: #159ff7!important;
+    }
+    .icon-add:before,.icon-remove:before{
+        content:'';
+        padding-right: 5px!important;
     }
 </style>
 <script type="text/javascript">

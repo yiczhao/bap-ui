@@ -25,8 +25,10 @@
     .icon-add,.icon-remove{
         margin-top: 24px!important;
         font-size: 15px!important;
+        color: #159ff7!important;
     }
     .icon-add:before,.icon-remove:before{
+        content:'';
         padding-right: 5px!important;
     }
 
