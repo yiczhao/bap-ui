@@ -190,7 +190,7 @@
                },
                getId({couponID,couponName}){
                    this.showList=false;
-                   this.searchData.activityName=couponName;
+                   this.searchData.favorName=couponName;
                    this.searchData.activityID=couponID;
                },
                 latinosEchart(divID,data1,data_name,baseData,color_1,color_2){

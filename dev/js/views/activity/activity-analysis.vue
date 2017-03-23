@@ -4,9 +4,8 @@
 			<div class="search-show">
 				<input type="text" class="input" placeholder="请输入活动名称" v-model="searchData.activityName" 
 				@keyup="getActivity($event)" @keyup.enter="searchList"
-                @keyup.up="changeLiIndex('up')" @keyup.down="changeLiIndex('down')"
-				/>
-				<input type="button" class="btn btn-primary searchBtn" @click="getActivity($event)" value="搜 索">
+                @keyup.up="changeLiIndex('up')" @keyup.down="changeLiIndex('down')"/>
+				<input type="button" class="btn btn-primary searchBtn" @click="searchList" value="搜 索">
 				<div class="showList showLi" v-show="showList">
 	                <ul class="showLi">
 	                    <li class="showLi" v-for="n in activityList" :class="{'checked':liIndex==$index}" @click="getId(n)">{{n.name}}</li>
@@ -116,10 +115,12 @@
 		},
 		methods:{
 			searchList(){
-                if(!this.showList && this.liIndex==0)return;
+                if(this.showList){
+					this.searchData.activityName=this.activityList[this.liIndex].name;
+					this.searchData.activityID=this.activityList[this.liIndex].uniqueId;
+				}
                 this.showList=false;
-                this.searchData.activityName=this.activityList[this.liIndex].name;
-                this.searchData.activityID=this.activityList[this.liIndex].uniqueId;
+				this.initList();
             },
             getActivity: _.debounce(function(e){
                 if(e.keyCode == 38 || e.keyCode == 40|| e.keyCode == 13){  //向上向下
@@ -161,15 +162,19 @@
                 }
             },
             getId({id,name}){
+                debugger
                 this.showList=false;
                 this.searchData.activityName=name;
                 this.searchData.activityID=id;
                 this.searchData.bankUuidString='';
-                this.tradeAreaData();
-                this.tradeDataGet();
-				this.tradeTimeGet();
-				this.dataGet();
             },
+			initList(){
+				this.echartRadar();
+				this.tradeDataGet();
+				this.tradeTimeGet();
+				this.tradeAreaData();
+				this.dataGet();
+			},
 			tradeAreaData(){
 			(!this.searchData.activityID)?this.searchData.bankUuidString=this.searchData.bankUuidString : this.searchData.activityID=this.searchData.activityID;
 				this.model.getTradeAreaTotal(this.searchData).then((res)=>{
@@ -290,11 +295,7 @@
 		},
 		created(){},
 		ready(){
-			this.echartRadar();
-			this.tradeDataGet();
-			this.tradeTimeGet();
-			this.tradeAreaData();
-			this.dataGet();
+			this.initList();
 		},
 	}
 </script>
