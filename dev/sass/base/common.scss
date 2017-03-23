@@ -129,6 +129,10 @@ html,body{
             background-color: rgba(0,0,0,.1);
           }
         }
+        .showbtn{
+          float: right;
+          padding-top: 8px;
+        }
         .v-link-active,.link-active {
           border-left: 3px solid #e76b5f;  color: #e76b5f;
           &:hover{
