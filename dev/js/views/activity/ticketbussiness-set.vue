@@ -39,8 +39,8 @@
         <div class="add-table">
             <div class="add-search">
                 <span>商户名称</span>
-                <input class="input" type="text" v-model="addsearchData.name" @keyup.enter="getaddList"/>
-                <a class="btn btn-primary" @click="getaddList">搜索</a>
+                <input class="input" type="text" v-model="addsearchData.name" @keyup.enter="dosearch"/>
+                <a class="btn btn-primary" @click="dosearch">搜索</a>
             </div>
             <div class="add-search">
                 <ks-checkbox v-for="n in ticketData" :checked.sync="n.ischeck">{{n.ticketName}}</ks-checkbox>
@@ -153,6 +153,10 @@
             }
         },
         methods:{
+            dosearch(){
+                this.addsearchData.page=1;
+                this.getfirstResult();
+            },
             getfirstResult(){
                 this.addsearchData.firstResult=(this.addsearchData.page-1)*this.addsearchData.maxResult;
                 this.getaddList();

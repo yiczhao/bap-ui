@@ -145,10 +145,11 @@
            },
            methods:{
                searchList(){
-                   if(!this.showList && this.liIndex==0)return;
+                   if(this.showList){
+                       this.searchData.favorName=this.activityList[this.liIndex].couponName;
+                       this.searchData.activityID=this.activityList[this.liIndex].couponID;
+                   }
                    this.showList=false;
-                   this.searchData.favorName=this.activityList[this.liIndex].couponName;
-                   this.searchData.activityID=this.activityList[this.liIndex].couponID;
                    this.getList();
                },
                getActivity: _.debounce(function(e){

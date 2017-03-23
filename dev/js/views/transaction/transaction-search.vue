@@ -133,10 +133,11 @@
         },
         methods:{
             searchList(){
-                if(!this.showList && this.liIndex==0)return;
+                if(this.showList){
+                    this.searchData.activityName=this.activityList[this.liIndex].name;
+                    this.searchData.activityID=this.activityList[this.liIndex].uniqueId;
+                }
                 this.showList=false;
-                this.searchData.activityName=this.activityList[this.liIndex].name;
-                this.searchData.activityID=this.activityList[this.liIndex].uniqueId;
                 this.getList();
             },
             getActivity: _.debounce(function(e){

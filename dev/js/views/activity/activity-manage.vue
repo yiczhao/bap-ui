@@ -84,7 +84,7 @@
                     :page_size.sync="searchData.maxResult"
                     :page_current.sync="searchData.page"
                     v-on:current_change="getfirstResult"
-                    v-on:size_change="getList"
+                    v-on:size_change="getfirstResult"
             ></pagegroup>
         </div>
     </div>
@@ -127,7 +127,6 @@
             getfirstResult(){
                 let page=this.searchData.page;
                 let firstResult=(page-1)*this.searchData.maxResult;
-                back_json.fetchArray(this.$route.path)?this.getHistoryData():null;
                 this.searchData.page=page;
                 this.searchData.firstResult=firstResult;
                 this.getList();
