@@ -145,21 +145,12 @@ export default{
                 dialog('info','请输入短信内容！')
                 return
             }
-            let phones=_.cloneDeep(this.phoneList);
-            let userMobiles=[];
-            _.map(phones,(val)=>{
-                _.map(val,(value)=>{
-                    if(value.ischeck){
-                        userMobiles.push(value.phone);
-                    }
-                })
-            })
-            if(!userMobiles.length){
-                dialog('info','请选择手机号码！')
+            if(!this.phoneList.length){
+                dialog('info','请上传手机号码！')
                 return
             }
             let data={
-                userMobiles:userMobiles,
+                userMobiles:this.phoneList,
                 messageContent:this.userData.messageContent,
                 favorID:this.id
             }
