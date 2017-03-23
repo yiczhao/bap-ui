@@ -1,7 +1,7 @@
 {
   "name": "bams-ui",
   "version": "1.0.5",
-  "description": "银行后台管理系统",
+  "description": "全场景支付增值平台",
   "main": "index.js",
   "scripts": {
     "pro-windows": "set NODE_ENV=pro&&webpack -p",

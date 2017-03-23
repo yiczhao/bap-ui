@@ -8,9 +8,11 @@
             <div class="content-right">
                 <title-component></title-component>
                 <div :class="hasPadding?'main-content':'has-crumbs'">
-                    <div v-if="!hasPadding" class="crumbs">
-                        <span v-link="">数据总览</span>
-                        <span v-link="">活动分析-随机五折</span>
+                    <div v-show="crumbsList.length>1" class="crumbs">
+                        <span v-for="n in crumbsList"
+                           v-link="{name:n.link}"
+                           v-text="n.text"
+                        ></span>
                     </div>
                     <router-view></router-view>
                 </div>
@@ -34,11 +36,9 @@
         store,
         vuex: {
             getters: {
-                hasPadding ({ titles }) {
-                    if(titles.titles=='数据总览'||titles.titles=='创建活动'||titles.titles=='活动分析'){
-                        return false;
-                    }
-                    return true;
+                crumbsList ({ titles }) {
+                    console.log(titles)
+                    return titles.crumbsList;
                 }
             }
         },

@@ -1,7 +1,7 @@
 <template>
     <div class="header">
         <div class="header-logo"></div>
-        <div class="header-title">银行活动管理系统</div>
+        <div class="header-title">全场景支付增值平台</div>
         <div class="header-infor">
             <div class="img-area">
                 <img class="logo-img" :src="bankLogo" v-show="!!bankLogo" alt="">
