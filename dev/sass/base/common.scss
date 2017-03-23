@@ -108,8 +108,8 @@ html,body{
   .content-main{
     display: table-row;
     .content-left{
-      position: relative;display: table-cell;
-      width: 260px;
+      position: absolute; top: 0;
+      width: 260px; height: 100%;  overflow: auto;
       background-color: #212528;color: rgb(255, 255, 255);vertical-align: top;
       .menu{
         position: relative;
@@ -142,7 +142,7 @@ html,body{
       background: #fff;
     }
     .content-right{
-      margin-bottom: 65px;
+      margin-bottom: 65px;padding-left: 260px;
       .has-crumbs{
         & > div:nth-child(2){
           margin: 20px;  padding: 20px 0;
