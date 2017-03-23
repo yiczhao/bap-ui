@@ -17,6 +17,7 @@
                     <router-view></router-view>
                 </div>
                 <loading></loading>
+                <error-diloag></error-diloag>
             </div>
         </div>
     </div>

@@ -2,11 +2,11 @@
     <div class="error-mask" v-if="showFlag">
         <background-mask>
             <div class="error-mask-content">
-                <img class="error-mask-imgtype" :src="url" alt="错误类型">
+                <img class="error-mask-imgtype" :src="imgType" alt="错误类型">
                 <div class="error-mask-box">
                     <img :src="urlType" alt="" class="error-mask-img">
                     <div class="error-mask-txt">
-                        <span>服务器出错，你可以<i>刷新</i>页面</span>
+                        <span>服务器出错，你可以<i @click="reload">刷新</i>页面</span>
                         <span>点击下面链接继续浏览页面</span>
                     </div>
                 </div>
@@ -18,12 +18,24 @@
 
 <script>
     import backgroundMask from '../dialogs/BackgroundMask.vue'
+    import store from '../../vuex/store'
     export default{
+        store,
         data () {
             return {
-                showFlag:true,
-                url:'/dev/img/error404.gif',
                 urlType:'/dev/img/error_sorry.gif'
+            }
+        },
+        vuex: {
+            getters: {
+                showFlag ({ ajax }) { return ajax.showFlag },
+                imgType ({ ajax }) {
+                    if(ajax.imgType === 500){
+                        return '/dev/img/error404.gif'
+                    }else if(ajax.imgType === 404){
+                        return '/dev/img/error404.gif1'
+                    }
+                },
             }
         },
         components:{
@@ -31,9 +43,13 @@
         },
         methods:{
             shutPage(){
-                this.showFlag = false;
+                store.dispatch('AJAX_SUCCESS');
+            },
+            reload(){
+                location.reload()
             },
             backHome(){
+                store.dispatch('AJAX_SUCCESS');
                 this.$router.go({'name':'home'});
             }
         },

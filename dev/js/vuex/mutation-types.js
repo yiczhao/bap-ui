@@ -8,3 +8,5 @@
 // @description Ajax 部分
 export const AJAX_REQUEST = 'AJAX_REQUEST'
 export const AJAX_RESPONSE = 'AJAX_RESPONSE'
+export const AJAX_ERROR = 'AJAX_ERROR'
+export const AJAX_SUCCESS = 'AJAX_SUCCESS'

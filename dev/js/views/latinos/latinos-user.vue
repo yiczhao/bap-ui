@@ -64,11 +64,9 @@
                 margin: 0 10px;
             }
             .upload{
-                position: absolute;
-                right: 0px;
-                top: 0;
+                position: absolute;  right: 60px;  top: -10px;
                 width: 110px;
-                opacity: 0;
+                opacity: 0;  cursor: pointer;
             }
         }
         .table-row{
@@ -80,9 +78,7 @@
                 color:red;
             }
             textarea{
-                width: 100%;
-                height: 80px;
-                margin-top:10px;
+                width: 100%;  height: 80px;  margin-top:10px;
             }
         }
     }

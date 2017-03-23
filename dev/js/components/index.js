@@ -6,7 +6,8 @@ import uploader from './uploader.vue'
 import ContentDialog from './dialogs/ContentDialog.vue'
 import vSelect from './vue-select/vue-select.vue'
 import loading from './loading/LoadingMask.vue'
+import errorDiloag from './errorpage/ErrorMask.vue'
 import upload from './upload/'
 export default {
-    page,pagegroup,uploader,ContentDialog,vSelect,loading,KsDatePicker,KsDater,upload,ksDaterRange,ksDateRangePicker
+    page,pagegroup,uploader,ContentDialog,vSelect,loading,KsDatePicker,KsDater,upload,ksDaterRange,ksDateRangePicker,errorDiloag
 }

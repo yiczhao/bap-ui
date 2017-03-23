@@ -1,7 +1,7 @@
 <template>
 <div class="KsDaterMultiPicker" :class="{'readonly':readonly}" cid="KsDaterMultiPicker">
     <div class="_input">
-        <div class="ks-col-auto date-icon"><i class="icon">&#xe615;</i></div>
+        <div class="ks-col-auto date-icon"><i class="iconfont">&#xe615;</i></div>
         <div class="ks-col">
             <div class="ks-row-auto">
                 <div class="ks-col">
