@@ -1,8 +1,10 @@
 <template>
 	<div class="activity-pdfout" id="pdf-area"> 
-		<div class="pdf-title">
-			<span class="p-title">活动分析报告</span>
-			<span class="out-pdf"><a @click="outPDF">导出PDF报告</a></span>
+		<div class="analysis-title">
+			<h1>
+				<span><i>/</i>活动分析报告</span>
+				<a class="btn btn-primary" @click="outPDF">导出PDF报告</a>
+			</h1>
 		</div>
 		<span></span>
 		<div class="information-area basic-information" v-show="!!this.id.pdfMap.activityBaseInfo &&!!this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id">
@@ -42,126 +44,121 @@
 				</table>
 			</div>
 		</div>
-		<div class="information-area">
-			<div class="title">交易数据分析<a @click="choosePDFOut('tradeOut')">导出pdf</a></div>
-			<div class="data-table">
-				<span class="data-title"><i></i>今日关键数据</span>
-				<table>
-					<tr>
-						<td>
-							<span>交易总金额(元)</span>
-							<strong>{{transactionDataShow.tradeDataModelToday.tradeAmount}}</strong>
-						</td>
-						<td>
-							<span>补贴总金额(元)</span>
-							<strong>{{transactionDataShow.tradeDataModelToday.subsidyAmount}}</strong>
-						</td>
-						<td>
-							<span>交易总笔数(笔)</span>
-							<strong>{{transactionDataShow.tradeDataModelToday.tradeNum}}</strong>
-						</td>
-						<td>
-							<span>参与活动卡数量(个)</span>
-							<strong>{{transactionDataShow.tradeDataModelToday.tradeCardNum}}</strong>
-						</td>
-						<td>
-							<span>单笔平均交易金额(元)</span>
-							<strong>{{transactionDataShow.tradeDataModelToday.averageTradeAmount}}</strong>
-						</td>
-						<td>
-							<span>单笔平均补贴金额(元)</span>
-							<strong>{{transactionDataShow.tradeDataModelToday.averageSubsidyAmount}}</strong>
-						</td>
-					</tr>
-				</table>
+		<div class="analysis-data">
+			<div class="data-title">
+                <span class="active">交易数据分析</span>
+			</div>
+			<div class="data-labels">
+				<div class="labels-title">
+					<span class="btn active">今日关键数据</span>
+				</div>
+				<div class="labels-lists">
+					<div>
+						<p>{{transactionDataShow.tradeDataModelToday.tradeAmount}}</p>
+						<p>交易总金额（元）</p>
+					</div><div>
+						<p>{{transactionDataShow.tradeDataModelToday.subsidyAmount}}</p>
+						<p>补贴总金额（元）</p>
+					</div><div>
+						<p>{{transactionDataShow.tradeDataModelToday.tradeNum}}</p>
+						<p>交易总笔数（笔）</p>
+					</div><div>
+						<p>{{transactionDataShow.tradeDataModelToday.tradeCardNum}}</p>
+						<p>参与活动卡数量（个）</p>
+					</div><div>
+						<p>{{transactionDataShow.tradeDataModelToday.averageTradeAmount}}</p>
+						<p>单笔平均交易金额（元）</p>
+					</div><div>
+						<p>{{transactionDataShow.tradeDataModelToday.averageSubsidyAmount}}</p>
+						<p>单笔平均补贴金额（元）</p>
+					</div>
+				</div>
+			</div>
+			<div class="data-labels">
+				<div class="labels-title">
+					<span class="btn active">累计关键数据</span>
+				</div>
+				<div class="labels-lists">
+					<div>
+						<p>{{transactionDataShow.tradeDataModelTotail.tradeAmount}}</p>
+						<p>交易总金额（元）</p>
+					</div><div>
+						<p>{{transactionDataShow.tradeDataModelTotail.subsidyAmount}}</p>
+						<p>补贴总金额（元）</p>
+					</div><div>
+						<p>{{transactionDataShow.tradeDataModelTotail.tradeNum}}</p>
+						<p>交易总笔数（笔）</p>
+					</div><div>
+						<p>{{transactionDataShow.tradeDataModelTotail.tradeCardNum}}</p>
+						<p>参与活动卡数量（个）</p>
+					</div><div>
+						<p>{{transactionDataShow.tradeDataModelTotail.averageTradeAmount}}</p>
+						<p>单笔平均交易金额（元）</p>
+					</div><div>
+						<p>{{transactionDataShow.tradeDataModelTotail.averageSubsidyAmount}}</p>
+						<p>单笔平均补贴金额（元）</p>
+					</div>
+				</div>
 			</div>
 			<div class="data-table">
-				<span class="data-title"><i></i>累计关键数据</span>
-				<table>
-					<tr>
-						<td>
-							<span>交易总金额(元)</span>
-							<strong>{{transactionDataShow.tradeDataModelTotail.tradeAmount}}</strong>
-						</td>
-						<td>
-							<span>补贴总金额(元)</span>
-							<strong>{{transactionDataShow.tradeDataModelTotail.subsidyAmount}}</strong>
-						</td>
-						<td>
-							<span>交易总笔数(笔)</span>
-							<strong>{{transactionDataShow.tradeDataModelTotail.tradeNum}}</strong>
-						</td>
-						<td>
-							<span>参与活动卡数量(个)</span>
-							<strong>{{transactionDataShow.tradeDataModelTotail.tradeCardNum}}</strong>
-						</td>
-						<td>
-							<span>单笔平均交易金额(元)</span>
-							<strong>{{transactionDataShow.tradeDataModelTotail.averageTradeAmount}}</strong>
-						</td>
-						<td>
-							<span>单笔平均补贴金额(元)</span>
-							<strong>{{transactionDataShow.tradeDataModelTotail.averageSubsidyAmount}}</strong>
-						</td>
-					</tr>
-				</table>
-			</div>
-			<div class="data-table">
-				<span class="data-title"><i></i>7日/30日交易总金额数据详解对比图</span>
+				<h3>7日/30日交易总金额数据详解对比图</h3>
 				<div class="data-echart" id="trade-area-week"></div>
 				<div class="data-echart" id="trade-area-month"></div>
 			</div>
 			<div class="data-table">
-				<span class="data-title"><i></i>7日/30日补贴总金额数据详解对比图</span>·
+				<h3>7日/30日补贴总金额数据详解对比图</h3>
 				<div class="data-echart" id="subsidy-area-week"></div>
 				<div class="data-echart" id="subsidy-area-month"></div>
 			</div>
 			<div class="data-table">
-				<span class="data-title"><i></i>7日/30日交易总笔数数据详解对比图</span>
+				<h3>7日/30日交易总笔数数据详解对比图</h3>
 				<div class="data-echart" id="number-area-week"></div>
 				<div class="data-echart" id="number-area-month"></div>
 			</div>
 		</div>
-		<div class="information-area">
-			<div class="title">交易区域分析<a @click="choosePDFOut('tradeAreaOut')">导出pdf</a></div>
-			<div class="data-table">
-				<span class="data-title"><i></i>关键数据</span>
-				<table>
-					<tr>
-						<td>
-							<span>产生交易区域（个）</span>
-							<strong>{{transactionRegion.tradeAreaModel.tradeAreaNum}}</strong>
-						</td>
-						<td>
-							<span>区域平均交易笔数(笔)</span>
-							<strong>{{transactionRegion.tradeAreaModel.averageTradeNum}}</strong>
-						</td>
-						<td>
-							<span>最高交易区域</span>
-							<strong>{{transactionRegion.tradeAreaModel.maxTradeArea}}</strong>
-						</td>
-						<td>
-							<span>最高交易区域交易笔数(笔)</span>
-							<strong>{{transactionRegion.tradeAreaModel.maxTradeAreaTradeNum}}</strong>
-						</td>
-					 	<td>
-							<span>最高交易区域交易额（元）</span>
-							<strong>{{transactionRegion.tradeAreaModel.maxTradeAreaTradeAmount}}</strong>
-						</td>
-					</tr>
-				</table>
+		<div class="analysis-data">
+			<div class="data-title">
+                <span class="active">交易区域分析</span>
+			</div>
+			<div class="data-labels">
+				<div class="labels-title">
+					<span class="btn active">关键数据</span>
+				</div>
+				<div class="labels-lists">
+					<div>
+						<p>{{transactionDataShow.tradeDataModelToday.tradeAmount}}</p>
+						<p>交易总金额（元）</p>
+					</div><div>
+						<p>{{transactionDataShow.tradeDataModelToday.subsidyAmount}}</p>
+						<p>补贴总金额（元）</p>
+					</div><div>
+						<p>{{transactionDataShow.tradeDataModelToday.tradeNum}}</p>
+						<p>交易总笔数（笔）</p>
+					</div><div>
+						<p>{{transactionDataShow.tradeDataModelToday.tradeCardNum}}</p>
+						<p>参与活动卡数量（个）</p>
+					</div><div>
+						<p>{{transactionDataShow.tradeDataModelToday.averageTradeAmount}}</p>
+						<p>单笔平均交易金额（元）</p>
+					</div><div>
+						<p>{{transactionDataShow.tradeDataModelToday.averageSubsidyAmount}}</p>
+						<p>单笔平均补贴金额（元）</p>
+					</div>
+				</div>
 			</div>
 			<div class="data-table">
-				<span class="data-title"><i></i>交易区域交易金额排行</span>
-				<div class="data-echart region-echart" id="region-echart-amount"></div>
-				<span class="data-title"><i></i>交易区域交易笔数排行</span>
-				<div class="data-echart region-echart" id="region-echart-num"></div>
+				<h3>交易区域交易金额排行</h3>
+				<div class="data-echart region-echart" id=""></div>
+				<h3>交易区域交易笔数排行</h3>
+				<div class="data-echart region-echart" id=""></div>
 			</div>
 		</div>
-		<div class="information-area">
-			<div class="title">交易时段分析<a @click="choosePDFOut('tradeTimeOut')">导出pdf</a></div>
+		<div class="analysis-data">
+			<div class="data-title">
+                <span class="active">交易时段分析</span>
+			</div>
 			<div class="data-table">
-				<div class="data-echart time-echart" id="time-echart"></div>
+				<div class="data-echart region-echart" id="time-echart"></div>
 			</div>
 		</div>
 		<div class="information-area">
@@ -271,6 +268,14 @@
 	    </span>
 	</div>
 </template>
+<style type="text/css">
+	.main-content{
+		padding:0 !important;
+	}
+	.data-title>.active{
+		text-align: left !important;
+	}
+</style>
 <script type="text/javascript">
     import model from '../../ajax/activity/activity-analysis'
 	export default{
@@ -1110,18 +1115,18 @@
             }
 		},
 		ready(){
-            this.tradeAnalysis();
-            this.regionDetail();
-            this.transactionTimeReady();
-            this.merchantData();
-            this.cardBINData();
-            this.oneCard();
+            // this.tradeAnalysis();
+            // this.regionDetail();
+            // this.transactionTimeReady();
+            // this.merchantData();
+            // this.cardBINData();
+            // this.oneCard();
 		},
         created(){
 			this.dateGetShow();
 			(this.$route.params.pdfActivityId!=':pdfActivityId')? this.id.activityID=this.$route.params.pdfActivityId : this.id.activityID='';
-			if(this.$route.params.pdfoutId!=':pdfoutId'){
-				this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id=this.$route.params.pdfoutId;
+			if(this.$route.params.pdfActivityId!=':pdfActivityId'){
+				this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id=this.$route.params.pdfActivityId;
 				this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].uri= this.$API.getinfoList + this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id;
 				if(!!this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id){ 
 					this.model.getinfoList(this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id).then((res)=>{
