@@ -3,7 +3,7 @@
 		<div class="analysis-title">
 			<h1>
 				<span><i>/</i>活动分析数据总览</span>
-				<a class="btn btn-primary" v-link="{name:'activity-pdfout',params:{pdfActivityId:searchData.activityID}}">导出PDF报告</a>
+				<a class="btn btn-primary" v-link="{name:'activity-pdfout',params:{'pdfActivityId':!searchData.activityID?':pdfActivityId':searchData.activityID}}">导出PDF报告</a>
 			</h1>
 			<h3>Activity analysis report</h3>
 		</div>
@@ -144,6 +144,11 @@
 		</div>
 	</div>
 </template>
+<style type="text/css" scoped>
+	.content .content-main .content-right .has-crumbs > div:nth-child(2){
+		padding:0 !important;
+	}
+</style>
 <script type="text/javascript">
 	import model from '../../ajax/activity/activity-analysis';
 	export default{
@@ -418,7 +423,6 @@
 		ready(){
 			(this.$route.params.adoActivityId!=':adoActivityId')?this.searchData.activityID=this.$route.params.adoActivityId:null;
 			(this.$route.params.mainStepChance!=':mainStepChance')?this.mainStep=this.$route.params.mainStepChance>>0:null;
-			console.log(this.$route.params.mainStepChance);
 			this.initStep(this.getTradeInit[this.mainStep].url,this.mainStep+1);
 		}
 	}

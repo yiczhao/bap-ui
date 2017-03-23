@@ -17,21 +17,22 @@
 		</div>
 		<div class="chart-show">
 			<div class="flex border">
-				<div class="left" v-link="{name:'activity-data-overview',params:{'adoActivityId':!searchData.activityID?':activityID':searchData.activityID,'mainStepChance':1}}">
+
+				<div class="left" v-link="{name:'activity-data-overview',params:{'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':1}}">
 					<h4>交易区域</h4>
 					<div class="echart-div" id="trade-area"></div>
 				</div>
-				<div class="center" v-link="{name:'activity-data-overview',params:{'adoActivityId':!searchData.activityID?':activityID':searchData.activityID,'mainStepChance':0}}">
+				<div class="center" v-link="{name:'activity-data-overview',params:{'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':0}}">
 					<h4>交易数据</h4>
 					<div class="echart-div" id="trade-data"></div>
 				</div>
-				<div class="right" v-link="{name:'activity-data-overview',params:{'adoActivityId':!searchData.activityID?':activityID':searchData.activityID,'mainStepChance':2}}">
+				<div class="right" v-link="{name:'activity-data-overview',params:{'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':2}}">
 					<h4>交易时段</h4>
 					<div class="echart-div" id="trade-time"></div>
 				</div>
 			</div>
 			<div class="flex short">
-				<div class="left" v-link="{name:'activity-data-overview',params:{'adoActivityId':!searchData.activityID?':activityID':searchData.activityID,'mainStepChance':3}}">
+				<div class="left" v-link="{name:'activity-data-overview',params:{'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':3}}">
 					<h4>商户数据</h4>
 					<div class="echart-div">
 						<table>
@@ -46,7 +47,7 @@
 						</table>
 					</div>
 				</div>
-				<div class="center" v-link="{name:'activity-data-overview',params:{'adoActivityId':!searchData.activityID?':activityID':searchData.activityID,'mainStepChance':4}}">
+				<div class="center" v-link="{name:'activity-data-overview',params:{'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':4}}">
 					<h4>卡BIN数据</h4>
 					<div class="echart-div">
 						<table>
@@ -61,7 +62,7 @@
 						</table>
 					</div>
 				</div>
-				<div class="right" v-link="{name:'activity-data-overview',params:{'adoActivityId':!searchData.activityID?':activityID':searchData.activityID,'mainStepChance':5}}">
+				<div class="right" v-link="{name:'activity-data-overview',params:{'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':5}}">
 					<h4>单卡交易</h4>
 					<div class="echart-div">
 						<table>
@@ -80,6 +81,11 @@
 		</div>
 	</div>
 </template>
+<style type="text/css" scoped>
+	/*#trade-area{
+		width: 200px
+	}*/
+</style>
 <script>
 	import model from '../../ajax/activity/activity-analysis'
 	export default{
@@ -124,7 +130,6 @@
             },
             getActivity: _.debounce(function(e){
                 if(e.keyCode == 38 || e.keyCode == 40|| e.keyCode == 13){  //向上向下
-                    console.log(e.keyCode+"||");
                     return ;
                 }
                 let vm=this;
@@ -162,7 +167,6 @@
                 }
             },
             getId({id,name}){
-                debugger
                 this.showList=false;
                 this.searchData.activityName=name;
                 this.searchData.activityID=id;
@@ -179,33 +183,33 @@
 			(!this.searchData.activityID)?this.searchData.bankUuidString=this.searchData.bankUuidString : this.searchData.activityID=this.searchData.activityID;
 				this.model.getTradeAreaTotal(this.searchData).then((res)=>{
 					if(res.data.code===0){
-						this.echartRadar();
+						// this.echartRadar();
 					}
 				})
 			},
 			echartRadar(){
 				let option = {
-					title: {text: '最高交易区域 / 苏州',textStyle:{fontSize:12,color:"#fff"},},
-				    tooltip: {},
+					title: {text: '',textStyle:{fontSize:12,color:"#fff"},},
+					tooltip: {},
 				    radar: {
-				        indicator: [{ name: '产生交易区域', },{ name: '区域平均交易笔数', },{ name: '最高交易区域交易笔数', },{ name: '最高交易区域交易额'}],
+				        indicator: [{ name: '产生交易区域', },{ name: '区域平均交易笔数', },{ name: '最高交易区域', },{ name: '最高交易区域交易笔数', },{ name: '最高交易区域交易额'}],
 				        name:{textStyle:{color:'#fff'}},axisTick:{show:false},axisLabel:{show:false},splitArea:{show:false},splitLine:{show:false},axisLine:{show:false}},
 				    series: [{
 				        type: 'radar',
-				        data : [{value : [1, 51, 51, 7093.02], name : '交易区域'}],
+				        data : [{value : [1, 51,51,70,50], name : '交易区域'}],
 				        areaStyle: {normal: {color:'#10b283'}},lineStyle: {normal: {color:'#b9babd'}},itemStyle:{normal:{color:'#3ba686'}}
 				    }]
 				};
+				let id=document.getElementById('trade-area');
+				var resizeWorldMapContainer = function () {
+					    id.style.width = id.parentNode.style.width+'px';
+					    id.style.height = id.parentNode.style.height+'px';
+					};
+				resizeWorldMapContainer();
 				let myChart=echarts.init(document.getElementById('trade-area'))
 				myChart.setOption(option);
-				let id=document.getElementById('trade-area');
-				let resizeIdContainer = function () {
-				    id.style.width = id.parentNode.style.width+'px';
-				    id.style.height = id.parentNode.style.height+'px';
-				};
-				resizeIdContainer();
 				window.onresize = function () {
-				    resizeIdContainer();
+				    resizeWorldMapContainer();
 				    myChart.resize();
 				};
 			},
@@ -231,8 +235,6 @@
 				    yAxis : [{type : 'value',axisLine:{show:false},axisLabel:{show:false},splitLine:{show:false},axisTick:{lineStyle:{color:'#777778',width:2,}}}],
 				    series : [{name:'交易金额（元）',type:'bar',data:data,barWidth:80,itemStyle:{normal:{color:'#3ba686'}}}]
 				};
-				let myChart=echarts.init(document.getElementById('trade-data'))
-				myChart.setOption(option);
 				let id=document.getElementById('trade-data');
 				let resizeIdContainer = function () {
 				    id.style.width = id.parentNode.style.width+'px';
@@ -243,6 +245,8 @@
 				    resizeIdContainer();
 				    myChart.resize();
 				};
+				let myChart=echarts.init(document.getElementById('trade-data'))
+				myChart.setOption(option);
 			},
 			tradeTimeGet(){
 				let data={
@@ -296,6 +300,7 @@
 		created(){},
 		ready(){
 			this.initList();
+			this.echartRadar();
 		},
 	}
 </script>
