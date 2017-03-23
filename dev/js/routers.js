@@ -426,7 +426,7 @@ export default function (Vue,router){
     })
     
     router.afterEach(transition =>{
-        store.dispatch(types.CHANGE_TITLE, transition.to)
+        store.dispatch(types.CHANGE_TITLE, transition.to);
         if(back_json.num==0){
             back_json.isback=true;
         }
