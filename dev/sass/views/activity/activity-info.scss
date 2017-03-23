@@ -1,5 +1,5 @@
 .activity-info {
-  padding-left: 16px;
+  padding-left: 20px;
   .activity-name {
     //font-family: 'helvetica neue',arial,'hiragino sans gb',stheiti,'wenquanyi micro hei',\5FAE\8F6F\96C5\9ED1,\5B8B\4F53,sans-serif;
     font-size: 20px;
@@ -79,20 +79,20 @@
       //border-left: 1px solid #E9E9E9;
     }
   }
-  .activity-info{
-    .info-title{
-      .tab-bor{
-        position: relative;
-        top: -20px;
-        left: -20px;
-        font-size: 16px;
-        li{
-          cursor: pointer;
-        }
-      }
-    }
-
-}
+//  .activity-info{
+//    .info-title{
+//      .tab-bor{
+//        position: relative;
+//        top: -20px;
+//        left: -20px;
+//        font-size: 16px;
+//        li{
+//          cursor: pointer;
+//        }
+//      }
+//    }
+//
+//}
   .info-main {
     font-size: 15px;
     .main-title {
@@ -148,4 +148,9 @@
       margin-bottom: 10px;
     }
   }
+}
+.content .content-main .content-right .has-crumbs > div:nth-child(2) {
+  //margin: 20px;
+  padding: 20px 31px!important;
+  //background: #fff;
 }
