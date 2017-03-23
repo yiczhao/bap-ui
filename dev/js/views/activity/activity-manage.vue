@@ -84,7 +84,7 @@
                     :page_size.sync="searchData.maxResult"
                     :page_current.sync="searchData.page"
                     v-on:current_change="getfirstResult"
-                    v-on:size_change="getfirstResult"
+                    v-on:size_change="getList"
             ></pagegroup>
         </div>
     </div>
@@ -108,7 +108,7 @@
                     statuses:['online','draft_other','draft','wait_check','check_fail','early_offline','finish'],
                     page:1,
                     firstResult:0,
-                    maxResult:100,
+                    maxResult:10,
                     uuids:_.split(sessionStorage.getItem('uuids'), ','),
                     systemId:'yhhd',
                     total:0,
