@@ -23,7 +23,8 @@
                 </tr>
                 <tr v-if="!!phoneList.length" v-for="n in phoneList">
                     <td v-for="m in n">
-                        <ks-checkbox v-if="!!m.phone" :checked.sync="m.ischeck">{{m.phone}}</ks-checkbox>
+                        <!--<ks-checkbox v-if="!!m.phone" :checked.sync="m.ischeck">{{m.phone}}</ks-checkbox>-->
+                        <span v-if="!!m.phone">{{m.phone}}</span>
                         <span v-if="!m.phone"></span>
                     </td>
                 </tr>
@@ -48,8 +49,8 @@
     .latinos-user{
         .user-title{
             position: relative;
+            margin: 10px 0;padding: 0 60px;
             overflow: hidden;
-            margin: 10px 0;
             h5{
                 float: left;
                 i{
@@ -70,8 +71,11 @@
                 opacity: 0;
             }
         }
+        .table-row{
+            padding: 0 60px;
+        }
         .batch-upload{
-            margin: 10px 0;
+            margin: 10px 0;padding: 0 60px;
             label{
                 color:red;
             }

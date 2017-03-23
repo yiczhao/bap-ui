@@ -37,7 +37,6 @@
         vuex: {
             getters: {
                 crumbsList ({ titles }) {
-                    console.log(titles)
                     return titles.crumbsList;
                 }
             }
