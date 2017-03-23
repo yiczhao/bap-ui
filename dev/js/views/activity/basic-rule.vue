@@ -421,6 +421,7 @@
                 data.posPrint=data.posPrint.replace(new RegExp(/(优惠金额)/g),'FAVORAMT');
                 data.posPrint=data.posPrint.replace(new RegExp(/(当天剩余名额)/g),'DAYLEFT');
                 data.posPrint=data.posPrint.replace(new RegExp(/(总剩余名额)/g),'TOTALLEFT');
+                data.smsContent=!this.smsContentswitch?'':data.smsContent;
                 if (true) {
                     try {
                         this.verifyField(data)
@@ -490,6 +491,7 @@
                     res.data.data.posPrint=res.data.data.posPrint.replace(new RegExp(/(FAVORAMT)/g),'优惠金额');
                     res.data.data.posPrint=res.data.data.posPrint.replace(new RegExp(/(DAYLEFT)/g),'当天剩余名额');
                     res.data.data.posPrint=res.data.data.posPrint.replace(new RegExp(/(TOTALLEFT)/g),'总剩余名额');
+                    this.smsContentswitch=!res.data.data.smsContent?false:true;
                     this.$set('addData',res.data.data);
                     this.$set('weeksList',this.setweeks(res.data.data.weeksList,this.weeksList));
                     this.$set('timesList',this.settimesList(res.data.data.timesList));
