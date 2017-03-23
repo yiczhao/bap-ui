@@ -15,8 +15,10 @@
                   <option value="">请选择结算方（银行）</option>
                   <option v-for="n in bankFullName" :value="n.uuid">{{n.shortName}}</option>
               </select>
-              <ks-date-picker type="datetime" :value.sync="searchData.startTime"></ks-date-picker>
-              <ks-date-picker type="datetime" :value.sync="searchData.endTime"></ks-date-picker>
+              <ks-date-range-picker placeholder="开始时间,结束时间"
+                                    :range.sync="daterange"
+                                    :readonly="false"
+                                    v-on:change="date_multi_picker_change"></ks-date-range-picker>
               <select class="select" v-model="searchData.favorTypesStr">
                   <option value="cash,discount">请选择权益类型</option>
                   <option value="cash">优惠金额券</option>
@@ -115,6 +117,16 @@
   <script>
        import model from '../../ajax/latinos/latinos_search_model'
       export default{
+          watch:{
+              'daterange'(){
+                  if(this.daterange.length>1){
+                      this.searchData.endTime=this.daterange[1]
+                  }else{
+                      this.searchData.startTime=this.daterange[0]
+                      this.searchData.endTime=''
+                  }
+              }
+          },
            data(){
                this.model=model(this);
                return{
@@ -132,7 +144,7 @@
                        maxResult:10,
                        sorts:'id|desc',
                        startTime:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
-                       endTime:stringify(new Date())+' 23:59:59',//结束时间
+                       endTime:stringify(new Date()),//结束时间
                        uuidsStr:sessionStorage.getItem('uuids'),
                    },
                    searchTotal:'',
@@ -140,10 +152,15 @@
                    uuidsList:JSON.parse(sessionStorage.getItem('bankNames')),
                    latinos_echart:1,
                    replaceName:'',
-                   liIndex:0
+                   liIndex:0,
+                   daterange:[JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,stringify(new Date())]
                }
            },
            methods:{
+               date_multi_picker_change(val){
+                   this.searchData.startTime=val[0];
+                   this.searchData.endTime=val[1];
+               },
                searchList(){
                    if(this.showList){
                        this.searchData.favorName=this.activityList[this.liIndex].couponName;

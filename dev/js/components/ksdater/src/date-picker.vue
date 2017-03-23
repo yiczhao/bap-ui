@@ -1,7 +1,7 @@
 <template>
   <div class="KsDatePicker" cid="KsDatePicker"
        :class="{'readonly':readonly}">
-    <div class="_input" v-on:click="show=!show">
+    <div class="_input" v-on:mouseup="show=!show">
       <div class="ks-col-auto date-icon"><i class="iconfont"></i></div>
       <input type="text" class="ks-col" placeholder="{{placeholder}}" v-model="value" readonly>
     </div>
@@ -9,68 +9,60 @@
   </div>
 </template>
 <script>
-    import props from './mixins/props.js'
-    import { stringify , format_conver } from './util/lang'
-    import { one_page_date } from './util/apage'
-    import dater from './dater.vue'
-    export default {
-        components:{
-            'ks-dater':dater
-        },
-        mixins: [props],
-        props:{
-            placeholder: { type: String, default: '' }
-        },
-        data(){
+  import props from './mixins/props.js'
+  import { stringify , format_conver } from './util/lang'
+  import { one_page_date } from './util/apage'
+  import dater from './dater.vue'
+  export default {
+    components:{
+      'ks-dater':dater
+    },
+    mixins: [props],
+    props:{
+      placeholder: { type: String, default: '' }
+    },
+    data(){
 
-            return {
-                show:false,
-                input_value : ''
-            }
-        },
+      return {
+        show:false,
+        input_value : ''
+      }
+    },
 
-        methods:{
-            close(){
-                this.show = false
-            },
-            // dater callback
-            current_change(cur_date){
-                this.value = cur_date
-                this.$nextTick(()=>{
-                    this.$emit('change',cur_date)    
-                })
-                if(this.type != 'datemulti' && this.type != 'datetime' ){
-                    this.close()
-                }
-            }
-           
-        },
-        watch:{
-            value(val){
-                
-                // console.log(val)
-
-            }
-
-        },
-        created(){
-            // console.log(this.value)
-            // this.value = format_conver(this.value , this.type!='datetime' ? 'YYYY-MM-DD' : '')    
-        },
-        ready(){
-
-
-            document.addEventListener('click', (e) => {
-                if (this.$el && !this.$el.contains(e.target)) {
-                    this.close()
-                }
-            }, false)
-        },
-        beforeDestroy () {
-            document.removeEventListener('click', this.close, false)
+    methods:{
+      close(){
+        this.show = false
+      },
+      isContains(e){
+        if (this.$el && !this.$el.contains(e.target)) {
+          this.close()
         }
+      },
+
+      // dater callback
+      current_change(cur_date){
+        this.value = cur_date
+        this.$nextTick(()=>{
+          this.$emit('change',cur_date)
+        })
+        if(this.type != 'datemulti' && this.type != 'datetime' ){
+          this.close()
+        }
+      }
+
+    },
+    watch:{
+      value(val){}
+    },
+    created(){},
+    ready(){
+      document.addEventListener('click',this.isContains, false)
+    },
+    beforeDestroy () {
+      document.removeEventListener('click', this.isContains, false)
     }
+  }
 </script>
 <style lang="scss">
-    @import '../styles/date';
+  @import '../styles/date';
 </style>

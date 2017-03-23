@@ -1,7 +1,7 @@
 .transaction-search,.transaction-detail,.latinos-search,.latinos-detail{
 	.search-div{
-		position: relative;  float: right;
-		display:table;
+		position: relative;
+		display:table;width:100%;box-sizing: border-box;
 		content:"";
 		.KsDatePicker{
 			display: inline-block;
@@ -28,7 +28,7 @@
 			margin-top: 4px;
 		}
 		.searchBtn{
-			float:left;padding: 9px 18px 10px 18px;
+			float:right;padding: 9px 18px 10px 18px;
 			width:80px;
 		}
 		.input{

@@ -16,9 +16,9 @@
         <div class="_days"
              v-for="week in 6">
                 <span
-                  v-for="day in  7"
-                  :id="'dater'+_uid+'_'+(+week * 7 + day)"
-                  :class="{
+                        v-for="day in  7"
+                        :id="'dater'+_uid+'_'+(+week * 7 + day)"
+                        :class="{
                         'pass':dates[week * 7 + day] && dates[week * 7 + day].status=='disabled',
                         'active':dates[week * 7 + day] && dates[week * 7 + day].status=='active'}">
                         {{dates[week * 7 + day] && +dates[week * 7 + day].datetext}}</span>
@@ -44,152 +44,153 @@
 
 </template>
 <script type="text/javascript">
-    import mixins from './mixins/index'
-    import multi from './mixins/multi'
-    import { stringify , split_dt , parse,format_conver} from './util/lang'
-    import { one_page_date } from './util/apage'
-    export default {
-        mixins: [mixins,multi],
-        data(){
-            this.dater = ''
-            this.timer = ''
-            
-            return {
-                times:['00','00','00']
-            }
-        },
-        methods:{
-            // 今天
-            today() {
-                if(this.readonly) return
+  import mixins from './mixins/index'
+  import multi from './mixins/multi'
+  import { stringify , split_dt , parse,format_conver} from './util/lang'
+  import { one_page_date } from './util/apage'
+  export default {
+    mixins: [mixins,multi],
+    data(){
+      this.dater = ''
+      this.timer = ''
 
-                var _date = new Date()
-                var dater = stringify(_date)
-                if(this.dater == dater){
-                    this.now = _date    
-                    return 
-                }
-                
-                this.putout(dater)
-               
-            },
-            // 清除
-            clear() {
-                if(!this.value || this.readonly) return
-                this.value = ''
-                this.$emit('change','')
-            },
-            // 过滤选择
-            selectd(dater){
-                
-                var status = ''
-                
-                if(this.type == 'datemulti'){
-                    ~this.point_daters.indexOf(dater) && (status = 'active')
-                }else if(dater == this.dater ){
+      return {
+        times:['00','00','00']
+      }
+    },
+    methods:{
+      // 今天
+      today() {
+        if(this.readonly) return
 
-                    status = 'active'
-                }
-                return status
-
-            },
-            pick_date (event) {
-                var id = event.target.id.split('_');
-                var index = +id[1]
-
-                if(isNaN(index) || id[2]=='disabled' || this.readonly) return
-                
-                var dater = this.dates[index].dater
-                this.putout(dater)
-
-            },
-            // emit数据
-            putout(dater){
-                // console.log('putout(dater)',dater,this.type)
-                var value = ''
-                switch(this.type){
-                    case 'date':
-                        value = dater
-                    break;
-                    case 'datemulti':
-                        this.point_daters = this.non(this.point_daters,dater)
-                        // console.log(this.point_daters)
-                        value = this.point_daters.join(',')
-                    break;
-                    case 'datetime':
-                        // console.log(dater)
-                        dater = dater || stringify(new Date())
-                        console.log(this.times)
-                        value = dater+' '+this.times.join(':')
-                    break;
-                }
-                this.value = value
-                // console.log('change',value)
-                this.$nextTick(()=>{
-                    this.$emit('change',value)
-                })
-                
-            },
-            // 选择时间
-            pick_time(){
-                this.putout(this.dater)
-                // var dater = this.cur_value || stringify(new Date())
-                // this.no_exclude(dater,true)
-            },
-            
-            // 数组中数值，无则加，有则去除
-            non(point_daters,dater){
-                var index = point_daters.indexOf(dater)
-                if(~index){
-                    point_daters.splice(index,1)
-                }else{
-                    point_daters.push(dater)
-                }
-                // console.log(point_daters)
-                return point_daters
-            },
-            // 更新视图
-            update(val){
-
-                var dater = format_conver(val,'YYYY-MM-DD')
-                var timer = format_conver(val,'HH:mm:ss')
-                // console.log('dater',dater,this.dater);
-                if(this.dater != dater){
-                    this.dater = dater
-                    this.now = parse(dater)
-                }
-                if(this.timer != timer){
-                    this.timer = timer
-                    this.times = timer.split(':')
-                }
-
-            }
-        },
-        watch: {
-            value(val,oldval){
-
-                if(val){
-                    this.update(val)
-                }else{
-                    // clear
-                    this.dater = ''
-                    this.timer = ''
-                    this.now = parse(stringify(this.now))        
-                }
-                
-            },
-            // 重新绘制
-            now (val,oldval) {
-                this.dates = one_page_date(val.getFullYear(),val.getMonth(),this.selectd)
-            }
-
-        },
-        created () {
-            if(!this.value){this.now = parse(stringify(this.now))}
-            this.update(this.value)
+        var _date = new Date()
+        var dater = stringify(_date)
+        if(this.dater == dater){
+          this.now = _date
+          return
         }
+
+        this.putout(dater)
+
+      },
+      // 清除
+      clear() {
+        if(!this.value || this.readonly) return
+        this.value = ''
+        this.times = ['00','00','00']
+        this.$emit('change','')
+      },
+      // 过滤选择
+      selectd(dater){
+
+        var status = ''
+
+        if(this.type == 'datemulti'){
+          ~this.point_daters.indexOf(dater) && (status = 'active')
+        }else if(dater == this.dater ){
+
+          status = 'active'
+        }
+        return status
+
+      },
+      pick_date (event) {
+        var id = event.target.id.split('_');
+        var index = +id[1]
+
+        if(isNaN(index) || id[2]=='disabled' || this.readonly) return
+
+        var dater = this.dates[index].dater
+        this.putout(dater)
+
+      },
+      // emit数据
+      putout(dater){
+        // console.log('putout(dater)',dater,this.type)
+        var value = ''
+        switch(this.type){
+          case 'date':
+            value = dater
+            break;
+          case 'datemulti':
+            this.point_daters = this.non(this.point_daters,dater)
+            // console.log(this.point_daters)
+            value = this.point_daters.join(',')
+            break;
+          case 'datetime':
+            // console.log(dater)
+            dater = dater || stringify(new Date())
+            // console.log(this.times)
+            value = dater+' '+this.times.join(':')
+            break;
+        }
+        this.value = value
+        // console.log('change',value)
+        this.$nextTick(()=>{
+          this.$emit('change',value)
+        })
+
+      },
+      // 选择时间
+      pick_time(){
+        this.putout(this.dater)
+        // var dater = this.cur_value || stringify(new Date())
+        // this.no_exclude(dater,true)
+      },
+
+      // 数组中数值，无则加，有则去除
+      non(point_daters,dater){
+        var index = point_daters.indexOf(dater)
+        if(~index){
+          point_daters.splice(index,1)
+        }else{
+          point_daters.push(dater)
+        }
+        // console.log(point_daters)
+        return point_daters
+      },
+      // 更新视图
+      update(val){
+
+        var dater = format_conver(val,'YYYY-MM-DD')
+        var timer = format_conver(val,'HH:mm:ss')
+        // console.log('dater',dater,this.dater);
+        if(this.dater != dater){
+          this.dater = dater
+          this.now = parse(dater)
+        }
+        if(this.timer != timer){
+          this.timer = timer
+          this.times = timer.split(':')
+        }
+
+      }
+    },
+    watch: {
+      value(val,oldval){
+
+        if(val){
+          this.update(val)
+        }else{
+          // clear
+          this.dater = ''
+          this.timer = ''
+          this.now = parse(stringify(this.now))
+        }
+
+      },
+      // 重新绘制
+      now (val,oldval) {
+        this.dates = one_page_date(val.getFullYear(),val.getMonth(),this.selectd)
+      }
+
+    },
+    created () {
+      if(!this.value){this.now = parse(stringify(this.now))}
+      this.update(this.value)
     }
+  }
 </script>
 <style lang="scss">
-    @import '../styles/date';
+  @import '../styles/date';
 </style>

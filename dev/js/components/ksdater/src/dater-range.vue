@@ -11,12 +11,12 @@
             <div class="_week">
                 <span v-for="day in days" :class="{'week':day=='六'||day=='日'}">{{day}}</span>
             </div>
-            <div v-on:click="pick_date($event)">
+            <div v-on:mousedown="pick_date($event)">
                 <div class="_days" v-for="week in 6">
-                    <span 
-                        v-for="day in  7"
-                        :id="'dater'+_uid+'_'+(+week * 7 + day)+'_'+(dates[week * 7 + day] && dates[week * 7 + day].status)"
-                        :class="{
+                    <span
+                            v-for="day in  7"
+                            :id="'dater'+_uid+'_'+(+week * 7 + day)+'_'+(dates[week * 7 + day] && dates[week * 7 + day].status)"
+                            :class="{
                             'pass':dates[week * 7 + day] && dates[week * 7 + day].status=='disabled',
                             'scope-bg':dates[week * 7 + day] && dates[week * 7 + day].status=='scope-bg',
                             'active':dates[week * 7 + day] && dates[week * 7 + day].status=='active'}">
@@ -38,13 +38,13 @@
             <div class="_week">
                 <span v-for="day in days" :class="{'week':day=='六'||day=='日'}">{{day}}</span>
             </div>
-            <div v-on:click="pick_date($event)">
+            <div v-on:mousedown="pick_date($event)">
                 <div class="_days"
-                    v-for="week in 6">
-                    <span 
-                        v-for="day in  7"
-                        :id="'dater'+_uid+'_'+(42+week * 7 + day)+'_'+(next_dates[week * 7 + day] && next_dates[week * 7 + day].status)"
-                        :class="{
+                     v-for="week in 6">
+                    <span
+                            v-for="day in  7"
+                            :id="'dater'+_uid+'_'+(42+week * 7 + day)+'_'+(next_dates[week * 7 + day] && next_dates[week * 7 + day].status)"
+                            :class="{
                             'pass':next_dates[week * 7 + day] && next_dates[week * 7 + day].status=='disabled',
                             'scope-bg':next_dates[week * 7 + day] && next_dates[week * 7 + day].status=='scope-bg',
                             'active':next_dates[week * 7 + day] && next_dates[week * 7 + day].status=='active'}">
@@ -86,7 +86,7 @@
             redraw(show_range,range_daters) {
                 var show_start = show_range[0] , show_end = show_range[1]
                 this.value = ''
-                
+
                 this.range_daters = range_daters
                 // console.log(range_daters)
                 // this.point_daters = range_daters
@@ -95,8 +95,8 @@
                 // console.log(range_daters,this.range_daters)
                 // 视图中选中长度
                 this.range_daters_length = this.range_daters.length
-                if(this.range_daters.length == 2 
-                    && this.range_daters[0] == this.range_daters[this.range_daters.length-1]){
+                if(this.range_daters.length == 2
+                        && this.range_daters[0] == this.range_daters[this.range_daters.length-1]){
                     this.range_daters_length = 1
                 }
 
@@ -125,7 +125,7 @@
                     _date = this.next_dates[index-42]
 
                 }else{
-                    _date = this.dates[index] 
+                    _date = this.dates[index]
                 }
 
 
@@ -145,9 +145,9 @@
                 if(range_daters.length && this.compared(select_value , range_daters[0])){
                     range_daters.unshift(select_value)
                 }else{
-                    range_daters.push(select_value)    
+                    range_daters.push(select_value)
                 }
-                 
+
                 return range_daters
 
             },
@@ -180,7 +180,7 @@
             },
             next_month_dates(year = this.next_now.getFullYear(),month = this.next_now.getMonth()) {
                 this.next_data = cur_month( year , month )
-                
+
                 this.next_dates = one_page_date( this.next_data.year , this.next_data.month ,this.selectd)
             },
             selectd(dater){
@@ -191,10 +191,10 @@
                     }else{
                         return 'scope-bg'
                     }
-                    
+
                 }
             }
-            
+
         },
         watch: {
             now () {
@@ -206,19 +206,19 @@
             range_dater(val){
                 // console.log(val)
                 if(val.length == 2){
-                    this.redraw(val,val)    
+                    this.redraw(val,val)
                 }else{
-                    this.redraw([stringify(this.now),stringify(this.next_now)],val)    
+                    this.redraw([stringify(this.now),stringify(this.next_now)],val)
                 }
-                
+
             }
         },
         created(){
-           // console.log(this.range_dater)
+            // console.log(this.range_dater)
             if(!this.range_dater || !this.range_dater.length){
-                this.range_dater = [stringify(this.now),stringify(this.next_now)]    
+                this.range_dater = [stringify(this.now),stringify(this.next_now)]
             }
-            
+
 
 
             // this.next_month_dates()

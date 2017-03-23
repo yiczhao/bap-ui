@@ -5,6 +5,10 @@
         </div>
         <div class="search-div">
             <input class="input" type="text" v-model="searchData.cardNumber" @keyup.enter="getList" v-limitaddprice="searchData.cardNumber" placeholder="请输入银行卡号"/>
+            <ks-date-range-picker placeholder="开始时间,结束时间"
+                                  :range.sync="daterange"
+                                  :readonly="false"
+                                  v-on:change="date_multi_picker_change"></ks-date-range-picker>
             <ks-date-picker time="00:00:00" type="datetime" :value.sync="searchData.startDate"></ks-date-picker>
             <ks-date-picker time="23:59:59" type="datetime" :value.sync="searchData.endDate"></ks-date-picker>
             <input type="button" class="btn btn-primary searchBtn" @click="getList" value="搜 索">
@@ -78,11 +82,20 @@
                 ></pagegroup>
         </div>
     </div>
-    </template>
 </template>
 <script type="text/javascript">
     import model from '../../ajax/transaction/transaction_detail_model'
 	export default{
+        watch:{
+            'daterange'(){
+                if(this.daterange.length>1){
+                    this.searchData.endDate=this.daterange[1]
+                }else{
+                    this.searchData.startDate=this.daterange[0]
+                    this.searchData.endDate=''
+                }
+            }
+        },
         data(){
             this.model=model(this)
             return{
@@ -105,12 +118,17 @@
                     activityName:'',//活动名称 
                     cardNumber:'',//银行卡号
                     startDate:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
-                    endDate:stringify(new Date())+' 23:59:59',//结束时间
+                    endDate:stringify(new Date()),//结束时间
                     activityID:''
                 },
+                daterange:[JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,stringify(new Date())]
             }
         },
         methods:{
+            date_multi_picker_change(val){
+                this.searchData.startDate=val[0];
+                this.searchData.endDate=val[1];
+            },
             tradeEchart(divID,data1,data_name,baseData,color_1,color_2){
                 var myChart=echarts.init(document.getElementById(divID));
                 var option = {

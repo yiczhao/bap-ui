@@ -20,8 +20,10 @@
                 <option value="1">运行中</option>
                 <option value="0">已结束</option>
             </select>
-            <ks-date-picker type="datetime" :value.sync="searchData.startDate"></ks-date-picker>
-            <ks-date-picker type="datetime" :value.sync="searchData.endDate"></ks-date-picker>
+            <ks-date-range-picker placeholder="开始时间,结束时间"
+                                  :range.sync="daterange"
+                                  :readonly="false"
+                                  v-on:change="date_multi_picker_change"></ks-date-range-picker>
             <input type="button" class="btn btn-primary searchBtn" @click="searchList" value="搜 索">
         </div>
         <div class="flex-chart" v-show="trade_echart==1">
@@ -98,6 +100,16 @@
 <script type="text/javascript">
     import model from '../../ajax/transaction/transaction_search_model'
 	export default{
+        watch:{
+            'daterange'(){
+                if(this.daterange.length>1){
+                    this.searchData.endDate=this.daterange[1]
+                }else{
+                    this.searchData.startDate=this.daterange[0]
+                    this.searchData.endDate=''
+                }
+            }
+        },
         data(){
             this.model=model(this)
             return{
@@ -118,7 +130,7 @@
                     activityStatus:'',//活动状态
                     sorts:'id|desc',
                     startDate:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
-                    endDate:stringify(new Date())+' 23:59:59',//结束时间
+                    endDate:stringify(new Date()),//结束时间
                     pageIndex:1,//当前选中的分页值
                     pageSize:10,//每页展示多少条数
                 },
@@ -128,10 +140,15 @@
                 bankUuidString:'',
                 trade_echart:1,
                 replaceName:'',
-                liIndex:0
+                liIndex:0,
+                daterange:[JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,stringify(new Date())]
             }
         },
         methods:{
+            date_multi_picker_change(val){
+                this.searchData.startDate=val[0];
+                this.searchData.endDate=val[1];
+            },
             searchList(){
                 if(this.showList){
                     this.searchData.activityName=this.activityList[this.liIndex].name;

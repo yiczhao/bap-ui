@@ -5,9 +5,10 @@
             <span>活动名称</span>
             <input class="input" type="text" v-model="replaceName" placeholder="输入活动名称" @keyup.enter="doSearch"/>
             <span>活动时间</span>
-            <ks-date-picker placeholder="开始时间" type="datetime" :value.sync="searchData.startTime"></ks-date-picker>
-            <span>到</span>
-            <ks-date-picker placeholder="结束时间" type="datetime" :value.sync="searchData.endTime"></ks-date-picker>
+            <ks-date-range-picker placeholder="开始时间,结束时间"
+                                  :range.sync="daterange"
+                                  :readonly="false"
+                                  v-on:change="date_multi_picker_change"></ks-date-range-picker>
             <span>活动性质</span>
             <select class="select" v-model="actPropes" @change="getactPropes">
                 <option value="">全部性质</option>
@@ -93,6 +94,16 @@
 <script type="text/javascript">
     import model from '../../ajax/activity/activity_manage_model'
     export default{
+        watch:{
+            'daterange'(){
+                if(this.daterange.length>1){
+                    this.searchData.endTime=this.daterange[1]+' 23:59:59'
+                }else{
+                    this.searchData.startTime=this.daterange[0]+' 00:00:00'
+                    this.searchData.endTime=''
+                }
+            }
+        },
         data(){
             this.model=model(this)
             return{
@@ -115,9 +126,14 @@
                 },
                 checkedBox:[true,true,true,true],
                 replaceName:'',
+                daterange:[]
             }
         },
         methods:{
+            date_multi_picker_change(val){
+                this.searchData.startTime=val[0]+' 00:00:00';
+                this.searchData.endTime=val[1]+' 23:59:59';
+            },
             doSearch(){
                 this.searchData.page=1;
                 this.searchData.name=(this.replaceName).replace(/(^\s+)|(\s+$)/g, "");
