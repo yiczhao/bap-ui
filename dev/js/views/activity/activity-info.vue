@@ -3,9 +3,9 @@
         <!--<span class="activity-name"></span>-->
         <!--<i class="icon-border"></i>-->
         <div class="activity-head">
-            <div class="activity-name">美食美客随机1~5折</div>
+            <div class="activity-name">{{basicData.name}}</div>
             <div class="mian-row activity-createtime">
-                <div class="activity-type">创建时间 / 2017-01-01 00:00:00</div>
+                <div class="activity-type">创建时间 / {{basicData.createdAt}}</div>
                 <!--<div class="activity-val"></div>-->
             </div>
         </div>
