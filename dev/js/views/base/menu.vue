@@ -14,14 +14,16 @@
                     </template>
                 </ul>
             </li>
-            <li>
+            <li class="color999">
                 <span @click.self="changeShow(1)">
-                    <i class="icon iconfont">&#xe647;</i>券码活动
+                    <i class="icon iconfont">&#xe647;</i>券码活动（开发中）
                     <i class="icon iconfont showbtn" v-show="!showUl[1].isshow">&#xe619;</i>
                     <i class="icon iconfont showbtn" v-show="showUl[1].isshow">&#xe620;</i>
                 </span>
-                <ul v-show="showUl[1].isshow" v-for="n in menuLists">
-                    <li @click="waiting" v-if="n.type==2"><a :class="{'link-active':links==n.code&&!!n.code}" v-link="{name:n.code}">{{n.name}}</a></li>
+                <ul v-show="showUl[1].isshow">
+                    <template v-for="n in menuLists">
+                        <li @click="waiting" v-if="n.type==2"><a :class="{'link-active':links==n.code&&!!n.code}" v-link="{name:n.code}">{{n.name}}</a></li>
+                    </template>
                 </ul>
             </li>
             <li>
@@ -36,9 +38,9 @@
                     </template>
                 </ul>
             </li>
-            <li>
+            <li class="color999">
                 <span @click.self="changeShow(3)">
-                    <i class="icon iconfont">&#xe64b;</i>终端管理
+                    <i class="icon iconfont">&#xe64b;</i>终端管理（开发中）
                     <i class="icon iconfont showbtn" v-show="!showUl[3].isshow">&#xe619;</i>
                     <i class="icon iconfont showbtn" v-show="showUl[3].isshow">&#xe620;</i>
                 </span>
@@ -48,9 +50,9 @@
                     </template>
                 </ul>
             </li>
-            <li>
+            <li class="color999">
                 <span  @click.self="changeShow(4)">
-                    <i class="icon iconfont">&#xe647;</i>商户管理
+                    <i class="icon iconfont">&#xe647;</i>商户管理（开发中）
                     <i class="icon iconfont showbtn" v-show="!showUl[4].isshow">&#xe619;</i>
                     <i class="icon iconfont showbtn" v-show="showUl[4].isshow">&#xe620;</i>
                 </span>
@@ -60,9 +62,9 @@
                     </template>
                 </ul>
             </li>
-            <li @click="waiting">
+            <li class="color999" @click="waiting">
                 <span>
-                    <i class="icon iconfont">&#xe64b;</i>应用商城
+                    <i class="icon iconfont">&#xe64b;</i>应用商城（开发中）
                 </span>
             </li>
             <li>

@@ -2,13 +2,13 @@
 // initial state
 const state = {
   menuShow: [
+    {isshow:true},
+    {isshow:false},
+    {isshow:true},
     {isshow:false},
     {isshow:false},
     {isshow:false},
-    {isshow:false},
-    {isshow:false},
-    {isshow:false},
-    {isshow:false}
+    {isshow:true}
   ]
 }
 
