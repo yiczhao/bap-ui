@@ -3,7 +3,7 @@
         <div><span></span></div>
         <div class="custom-section">
             <div class="type-text">
-            <span class="title"><span>*</span>活动描述</span><!-- 旧版样式 -->
+            <span class="title">活动描述</span><!-- 旧版样式 -->
             <textarea class="textarea" v-model="upCheck.textarea" placeholder="如所给模板没有能满足您的活动需求时，请您将您的问题在此进行描述。尽量将您的需求描述完整，方便我们为您提供更好的服务。"></textarea>
             </div>
             <div class="upload-file">
@@ -29,6 +29,9 @@
     .upload-text{
             overflow: hidden;
     }
+    .custom-section{
+        padding:20px;
+    }
 </style>
 <script type="text/javascript">
     export default{
@@ -42,7 +45,7 @@
         },
         methods:{
             submit(){
-                if(!this.upCheck.textarea || !this.upCheck.id){
+                if(!this.upCheck.textarea && !this.upCheck.id){
                    dialog('info','请完善信息或请上传文件！');
                     return
                 }
