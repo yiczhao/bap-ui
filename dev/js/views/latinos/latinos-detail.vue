@@ -10,7 +10,7 @@
              <span class="infor-num">活动时间：<strong>{{showTitle.startTime}}~{{showTitle.endTime}}</strong></span>
          </div>
          <div class="search-div">
-             <input class="input" type="text" v-model="searchData.mobileNumber" placeholder="输入手机号码"/>
+             <input class="input" type="text" v-model="searchData.mobileNumber" @keyup.enter="doSearch" placeholder="输入手机号码"/>
              <select class="select" v-model="searchData.usedFlag">
                  <option value="">请选择状态</option>
                  <option value="true">已使用</option>

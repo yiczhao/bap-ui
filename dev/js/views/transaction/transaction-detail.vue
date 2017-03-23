@@ -4,7 +4,7 @@
              <span class="activity-name">活动名称：<strong>{{activityName}}</strong></span>
         </div>
         <div class="search-div">
-            <input class="input" type="text" v-model="searchData.cardNumber" v-limitaddprice="searchData.cardNumber" placeholder="请输入银行卡号"/>
+            <input class="input" type="text" v-model="searchData.cardNumber" @keyup.enter="getList" v-limitaddprice="searchData.cardNumber" placeholder="请输入银行卡号"/>
             <ks-date-picker time="00:00:00" type="datetime" :value.sync="searchData.startDate"></ks-date-picker>
             <ks-date-picker time="23:59:59" type="datetime" :value.sync="searchData.endDate"></ks-date-picker>
             <input type="button" class="btn btn-primary searchBtn" @click="getList" value="搜 索">
