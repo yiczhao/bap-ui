@@ -160,7 +160,11 @@
                 }else{
                     _.pullAll(this.searchData.statuses,type);
                 }
-                this.getList();
+                if(!this.searchData.statuses.length){
+                    this.$set('searchList',[]);
+                }else{
+                    this.getList();
+                }
             },
             getList(){
                 back_json.saveArray(this.$route.path,this.searchData);
