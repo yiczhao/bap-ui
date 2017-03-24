@@ -234,7 +234,7 @@
                 <a class="btn btn-primary bottom" @click="kok(this.id,'all')">全部导出</a>
                 <span v-show="!!this.id.pdfMap.activityBaseInfo &&!!this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id">
 		            <div class="analysis-data dialog_data">
-						<div class="data-title dialog_data_title"><span class="active">活动基本信息</span></div>
+						<div class="data-title dialog_data_title"><span class="active border">活动基本信息</span></div>
 					</div>
 					<div class="form-group">
 					    <div class="function-area">
@@ -245,7 +245,7 @@
 					</div>
 				</span>
 				<div class="analysis-data dialog_data">
-					<div class="data-title dialog_data_title"><span class="active">交易数据分析</span></div>
+					<div class="data-title dialog_data_title"><span class="active border">交易数据分析</span></div>
 				</div>
 				<div class="form-group">
 				    <div class="function-area">
@@ -260,7 +260,7 @@
 					</div>
 				</div>
 				<div class="analysis-data dialog_data">
-					<div class="data-title dialog_data_title"><span class="active">交易区域分析</span></div>
+					<div class="data-title dialog_data_title"><span class="active border">交易区域分析</span></div>
 				</div>
 				<div class="form-group">
 				    <div class="function-area">
@@ -270,7 +270,7 @@
 					</div>
 				</div>
 				<div class="analysis-data dialog_data">
-					<div class="data-title dialog_data_title"><span class="active">交易时段分析</span></div>
+					<div class="data-title dialog_data_title"><span class="active border">交易时段分析</span></div>
 				</div>
 				<div class="form-group">
 				    <div class="function-area">
@@ -280,7 +280,7 @@
 					</div>
 				</div>
 				<div class="analysis-data dialog_data">
-					<div class="data-title dialog_data_title"><span class="active">商户数据分析</span></div>
+					<div class="data-title dialog_data_title"><span class="active border">商户数据分析</span></div>
 				</div>
 				<div class="form-group">
 				    <div class="function-area">
@@ -290,7 +290,7 @@
 					</div>
 				</div>
 				<div class="analysis-data dialog_data">
-					<div class="data-title dialog_data_title"><span class="active">卡BIN数据分析</span></div>
+					<div class="data-title dialog_data_title"><span class="active border">卡BIN数据分析</span></div>
 				</div>
 				<div class="form-group">
 				    <div class="function-area">
@@ -300,7 +300,7 @@
 					</div>
 				</div>
 				<div class="analysis-data dialog_data">
-					<div class="data-title dialog_data_title"><span class="active">单卡交易分析</span></div>
+					<div class="data-title dialog_data_title"><span class="active border">单卡交易分析</span></div>
 				</div>
 				<div class="form-group">
 				    <div class="function-area">
@@ -343,6 +343,9 @@
 	}
 	.bottom{
 		margin-bottom: 15px !important;
+	}
+	.border{
+		border-color: #e0e0e0!important;
 	}
 </style>
 <script type="text/javascript">
