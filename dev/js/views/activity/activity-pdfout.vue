@@ -502,7 +502,6 @@
 				    backgroundColor:'#fff',
 				    grid: {left: '3%',right: '4%',bottom: '3%',containLabel: true},
 				    xAxis : [{type : 'category',data : axisData,
-				    	// axisLabel:{  interval:0,rotate:2, margin:5,  textStyle:{ fontWeight:"bolder", color:"#000000"}},    
 					}],
 				    yAxis : [{type : 'value'}],
 				    series : [{name:'',type:'bar',data:data,barWidth:50,itemStyle:{normal:{color:'#ffcf7a'}}}],
@@ -518,10 +517,6 @@
 				this.tradeDataModelTodayTotal();
 				this.tradeAmountEchart_week();
 				this.tradeAmountEchart_month();
-				this.subsidyAmountEchart_week();
-				this.subsidyAmountEchart_month();
-				this.tradeNumEchart_week();
-				this.tradeNumEchart_month();
 			},
 			tradeDataModelTodayTotal(){//获取今日\累计关键数据
 				this.searchData.activityID=this.id.activityID;
@@ -545,10 +540,25 @@
 					activityID:this.id.activityID
 				};
                 (!this.id.activityID)? data_7.bankUuidString=sessionStorage.getItem('uuids'):data_7.bankUuidString='';
+                //7日交易金额
 				this.model.getTradeAmount(data_7).then((res)=>{
 	        		if (res.data.code==0){
 	        			this.tableText='7日交易总金额（元）';
 	        			this.initTable('trade-data-week',res.data.data.category,res.data.data.series[0].dataDecimal,'trade_all_amount_7',res.data.data.series[1].dataDecimal)
+	        		};
+	        	});
+                //7日补贴金额
+				this.model.getSubsidyAmount(data_7).then((res)=>{
+	        		if (res.data.code==0){
+	        			this.tableText='7日补贴总金额（元）';
+	        			this.initTable('subsidy-data-week',res.data.data.category,res.data.data.series[0].dataDecimal,'subsidy_all_amount_7',res.data.data.series[1].dataDecimal)
+	        		};
+	        	});
+                //7日交易总笔数
+				this.model.getTradeNum(data_7).then((res)=>{
+	        		if (res.data.code==0){
+					this.tableText='7日交易总笔数（笔）';
+	        			this.initTable('number-data-week',res.data.data.category,res.data.data.series[0].dataLong,'trade_all_num_7',res.data.data.series[1].dataLong)
 	        		};
 	        	});
 			},
@@ -559,6 +569,7 @@
 					endDate:this.times.todayDate,
 					activityID:this.id.activityID
 				};
+				 //7日交易金额
                 (!this.id.activityID)? data_30.bankUuidString=sessionStorage.getItem('uuids'):data_30.bankUuidString='';
 				this.model.getTradeAmount(data_30).then((res)=>{
 	        		if (res.data.code==0){
@@ -566,61 +577,14 @@
 	        			this.initTable('trade-data-month',res.data.data.category,res.data.data.series[0].dataDecimal,'trade_all_amount_30',res.data.data.series[1].dataDecimal)
 	        			};
 	        		});
-
-			},
-			subsidyAmountEchart_week(){
-				let data_7={
-					compareFlag:true,
-					startDate:this.times.lastWeek,
-					endDate:this.times.todayDate,
-					activityID:this.id.activityID
-				};
-                (!this.id.activityID)? data_7.bankUuidString=sessionStorage.getItem('uuids'):data_7.bankUuidString='';
-				this.model.getSubsidyAmount(data_7).then((res)=>{
-	        		if (res.data.code==0){
-	        			this.tableText='7日补贴总金额（元）';
-	        			this.initTable('subsidy-data-week',res.data.data.category,res.data.data.series[0].dataDecimal,'subsidy_all_amount_7',res.data.data.series[1].dataDecimal)
-	        			};
-	        		});
-			},
-			subsidyAmountEchart_month(){
-				let data_30={
-					compareFlag:true,
-					startDate:this.times.monthAgo,
-					endDate:this.times.todayDate,
-					activityID:this.id.activityID,
-				};
-                (!this.id.activityID)? data_30.bankUuidString=sessionStorage.getItem('uuids'):data_30.bankUuidString='';
+				 //7日补贴金额
 				this.model.getSubsidyAmount(data_30).then((res)=>{
 	        		if (res.data.code==0){
 	        			this.tableText='30日补贴总金额（元）';
 	        			this.initTable('subsidy-data-month',res.data.data.category,res.data.data.series[0].dataDecimal,'subsidy_all_amount_30',res.data.data.series[1].dataDecimal)
 	        			};
 	        		});
-			},
-			tradeNumEchart_week(){
-				let data_7={
-					compareFlag:true,
-					startDate:this.times.lastWeek,
-					endDate:this.times.todayDate,
-					activityID:this.id.activityID
-				};
-                (!this.id.activityID)? data_7.bankUuidString=sessionStorage.getItem('uuids'):data_7.bankUuidString='';
-				this.model.getTradeNum(data_7).then((res)=>{
-	        		if (res.data.code==0){
-					this.tableText='7日交易总笔数（笔）';
-	        			this.initTable('number-data-week',res.data.data.category,res.data.data.series[0].dataLong,'trade_all_num_7',res.data.data.series[1].dataLong)
-	        			};
-	        		});
-			},
-			tradeNumEchart_month(){
-				let data_30={
-					compareFlag:true,
-					startDate:this.times.monthAgo,
-					endDate:this.times.todayDate,
-					activityID:this.id.activityID,
-				};
-                (!this.id.activityID)? data_30.bankUuidString=sessionStorage.getItem('uuids'):data_30.bankUuidString='';
+				 //7日交易总笔数
 				this.model.getTradeNum(data_30).then((res)=>{
 	        		if (res.data.code==0){
 						this.tableText='30日交易总笔数（笔）';
