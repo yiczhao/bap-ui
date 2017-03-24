@@ -23,4 +23,10 @@
 			}
 		}
 	}
+	.content_dialog{
+		.kdialog{
+			position: fixed !important;
+			max-width: 700px;
+		}
+	}
 }

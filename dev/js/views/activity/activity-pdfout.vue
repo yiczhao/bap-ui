@@ -3,7 +3,8 @@
 		<div class="analysis-title">
 			<h1>
 				<span><i>/</i>活动分析报告</span>
-				<a class="btn btn-primary" @click="outPDF">导出PDF报告</a>
+				<!-- <a class="btn btn-primary" @click="outPDF">导出PDF报告</a> -->
+				<a class="btn btn-primary" @click="choosePDFOut">导出PDF报告</a>
 			</h1>
 		</div>
 		<div class="activityBaseInfo" v-show="!!this.id.pdfMap.activityBaseInfo &&!!this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id">
@@ -226,17 +227,109 @@
 				<div class="data-echart one-echart echart-bar" id="one-echart-times"></div>
 			</div>
 		</div>
-		<!-- <span class="content_dialog">
+		<span class="content_dialog" id="content_dialog">
 		    <content-dialog
                 :show.sync="chooseShow" :is-cancel="true" :type.sync="'infos'"
                 :title.sync="chooseTitle" @kcancel="chooseShow=false" @kok="kok">
-                    <div class="form-group">
-	                    <div class="function-area">
-							<ks-checkbox v-for="n in privileges" @change="checked(n)" :checked.sync="n.select">{{n.name}}</ks-checkbox>
-	                    </div>
-                	</div>
+                <span v-show="!!this.id.pdfMap.activityBaseInfo &&!!this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id">
+		            <div class="analysis-data dialog_data">
+						<div class="data-title dialog_data_title"><span class="active">活动基本信息</span></div>
+					</div>
+					<div class="form-group">
+					    <div class="function-area">
+					    	<span class="checke-span" v-for="m in privileges" v-if="m.judge=='base_info'">
+								<ks-checkbox @change="checked(m)" :checked.sync="m.select">{{m.name}}</ks-checkbox>
+					    	</span>
+						</div>
+					</div>
+				</span>
+				<div class="analysis-data dialog_data">
+					<div class="data-title dialog_data_title"><span class="active">交易数据分析</span></div>
+				</div>
+				<div class="form-group">
+				    <div class="function-area">
+				    	<span class="checke-span" v-for="m in privileges" v-if="m.judge=='trade_1'">
+							<ks-checkbox @change="checked(m)" :checked.sync="m.select">{{m.name}}</ks-checkbox>
+				    	</span>
+					</div>
+					<div class="function-area">
+				    	<span class="checke-span" v-for="m in privileges" v-if="m.judge=='trade_2'">
+							<ks-checkbox @change="checked(m)" :checked.sync="m.select">{{m.name}}</ks-checkbox>
+				    	</span>
+					</div>
+				</div>
+				<div class="analysis-data dialog_data">
+					<div class="data-title dialog_data_title"><span class="active">交易区域分析</span></div>
+				</div>
+				<div class="form-group">
+				    <div class="function-area">
+				    	<span class="checke-span" v-for="m in privileges" v-if="m.judge=='area'">
+							<ks-checkbox @change="checked(m)" :checked.sync="m.select">{{m.name}}</ks-checkbox>
+				    	</span>
+					</div>
+				</div>
+				<div class="analysis-data dialog_data">
+					<div class="data-title dialog_data_title"><span class="active">交易时段分析</span></div>
+				</div>
+				<div class="form-group">
+				    <div class="function-area">
+				    	<span class="checke-span" v-for="m in privileges" v-if="m.judge=='time'">
+							<ks-checkbox @change="checked(m)" :checked.sync="m.select">{{m.name}}</ks-checkbox>
+				    	</span>
+					</div>
+				</div>
+				<div class="analysis-data dialog_data">
+					<div class="data-title dialog_data_title"><span class="active">商户数据分析</span></div>
+				</div>
+				<div class="form-group">
+				    <div class="function-area">
+				    	<span class="checke-span" v-for="m in privileges" v-if="m.judge=='merchant'">
+							<ks-checkbox @change="checked(m)" :checked.sync="m.select">{{m.name}}</ks-checkbox>
+				    	</span>
+					</div>
+				</div>
+				<div class="analysis-data dialog_data">
+					<div class="data-title dialog_data_title"><span class="active">卡BIN数据分析</span></div>
+				</div>
+				<div class="form-group">
+				    <div class="function-area">
+				    	<span class="checke-span" v-for="m in privileges" v-if="m.judge=='cardBIND'">
+							<ks-checkbox @change="checked(m)" :checked.sync="m.select">{{m.name}}</ks-checkbox>
+				    	</span>
+					</div>
+				</div>
+				<div class="analysis-data dialog_data">
+					<div class="data-title dialog_data_title"><span class="active">单卡交易分析</span></div>
+				</div>
+				<div class="form-group">
+				    <div class="function-area">
+				    	<span class="checke-span" v-for="m in privileges" v-if="m.judge=='oneCard'">
+							<ks-checkbox @change="checked(m)" :checked.sync="m.select">{{m.name}}</ks-checkbox>
+				    	</span>
+					</div>
+				</div>
+						<!-- <span class="checke-span" v-if="m.judge=='trade_1'">
+							<ks-checkbox @change="checked(m)" :checked.sync="m.select">{{m.}}</ks-checkbox>
+			                	</span>
+			                	<span class="checke-span" v-if="m.judge=='trade_2'">
+							<ks-checkbox @change="checked(m)" :checked.sync="m.select">{{m.name}}</ks-checkbox>
+			                	</span>
+			                	<span class="checke-span" v-if="m.judge=='area'">
+							<ks-checkbox @change="checked(m)" :checked.sync="m.select">{{m.name}}</ks-checkbox>
+			                	</span>
+			                	<span class="checke-span" v-if="m.judge=='merchant'">
+							<ks-checkbox @change="checked(m)" :checked.sync="m.select">{{m.name}}</ks-checkbox>
+			                	</span>
+			                	<span class="checke-span" v-if="m.judge=='cardBIND'">
+							<ks-checkbox @change="checked(m)" :checked.sync="m.select">{{m.name}}</ks-checkbox>
+			                	</span>
+			                	<span class="checke-span" v-if="m.judge=='oneCard'">
+							<ks-checkbox @change="checked(m)" :checked.sync="m.select">{{m.name}}</ks-checkbox>
+			                	</span>
+		                	</template>
+		                </div> -->
         	</content-dialog>
-	    </span> -->
+	    </span>
 	</div>
 </template>
 <style type="text/css" scoped>
@@ -257,6 +350,15 @@
 	}
 	.data-table>.echart-line{
 		margin-top: 20px;
+	}
+	.dialog_data{
+		padding:0 !important;
+	}
+	.dialog_data_title{
+		margin-bottom: 5px !important;
+	}
+	.form-group{
+		margin-bottom: 15px !important;
 	}
 </style>
 <script type="text/javascript">
@@ -430,6 +532,7 @@
 					oneCardOut:'单卡交易分析',
 				},
 				privileges:[],
+				dialogTitle:[{name:'活动基本信息'},{name:'交易数据分析'},{name:'交易区域分析'},{name:'交易时段分析'},{name:'商户数据分析'},{name:'卡BIN数据分析'},{name:'单卡交易分析'}],
 				saveID:{
 					statuses:[],
 				},
@@ -865,59 +968,26 @@
 				oneCard.participateNum[0].base64IMG=this.base64.oneCard_num;
 				oneCard.participateNum[0].uri=this.$API.getOneCardSwipedCount;
 			},
-			choosePDFOut(toggle){
+			choosePDFOut(){
           		this.upID();
-				switch(toggle){
-					case 'activity':
-						this.exportPdfData.pdfMap={
-							activityBaseInfo:this.id.pdfMap.activityBaseInfo
-						}
-						this.kok();
-						break;
-					case 'tradeOut':
-						this.privileges=[
-							{name:this.tableTitleChoose.sevenAmount,key:'tradeAmount_7',select:false,type:'tradeDataAnalysis'},
-							{name:this.tableTitleChoose.monthAmount,key:'tradeAmount_30',select:false,type:'tradeDataAnalysis'},
-							{name:this.tableTitleChoose.sevenSubsidy,key:'subsidyAmount_7',select:false,type:'tradeDataAnalysis'},
-							{name:this.tableTitleChoose.monthSubsidy,key:'subsidyAmount_30',select:false,type:'tradeDataAnalysis'},
-							{name:this.tableTitleChoose.sevenCount,key:'tradeNum_7',select:false,type:'tradeDataAnalysis'},
-							{name:this.tableTitleChoose.monthCount,key:'tradeNum_30',select:false,type:'tradeDataAnalysis'},
-						];
-						this.chooseShow=true;
-						break;
-					case 'tradeAreaOut':
-						this.privileges=[
-							{name:'交易区域交易金额排行',key:'tradeAmountTop',select:false,type:'tradeAreaAnalysis'},
-							{name:'交易区域交易笔数排行',key:'tradeNumTop',select:false,type:'tradeAreaAnalysis'}]
-						;
-						this.chooseShow=true;
-						break;
-					case 'tradeTimeOut':
-						this.exportPdfData.pdfMap={
-							tradePeriodAnalysis:this.id.pdfMap.tradePeriodAnalysis
-						}
-						this.kok();
-						break;
-					case 'merchantOut':
-						this.privileges=[
-							{name:'商户刷卡金额排行',key:'amountTop',select:false,type:'merchantDataAnalysis'},
-							{name:'商户刷卡笔数排行',key:'numTop',select:false,type:'merchantDataAnalysis'},]
-						this.chooseShow=true;
-						break;
-					case 'cardBINOut':
-						this.privileges=[
-							{name:'卡BIN刷卡金额排行',key:'amountTop',select:false,type:'cardBINDataAnalysis'},
-							{name:'卡BIN刷卡笔数排行',key:'numTop',select:false,type:'cardBINDataAnalysis'},
-						];
-						this.chooseShow=true;
-						break;
-					case 'oneCardOut':
-						this.exportPdfData.pdfMap={
-							oneCardTradeAnalysis:this.id.pdfMap.oneCardTradeAnalysis
-						}
-						this.kok();
-						break;
-				}
+				this.privileges=[
+					{name:'活动基本信息',key:'activityBaseInfo',select:false,type:'activityBaseInfo',judge:'base_info'},
+					{name:this.tableTitleChoose.sevenAmount,key:'tradeAmount_7',select:false,type:'tradeDataAnalysis',judge:'trade_1'},
+					{name:this.tableTitleChoose.monthAmount,key:'tradeAmount_30',select:false,type:'tradeDataAnalysis',judge:'trade_1'},
+					{name:this.tableTitleChoose.sevenSubsidy,key:'subsidyAmount_7',select:false,type:'tradeDataAnalysis',judge:'trade_1'},
+					{name:this.tableTitleChoose.monthSubsidy,key:'subsidyAmount_30',select:false,type:'tradeDataAnalysis',judge:'trade_2'},
+					{name:this.tableTitleChoose.sevenCount,key:'tradeNum_7',select:false,type:'tradeDataAnalysis',judge:'trade_2'},
+					{name:this.tableTitleChoose.monthCount,key:'tradeNum_30',select:false,type:'tradeDataAnalysis',judge:'trade_2'},
+					{name:'交易时段',key:'tradeNum',select:false,type:'tradePeriodAnalysis',judge:'time'},
+					{name:'交易区域交易金额排行',key:'tradeAmountTop',select:false,type:'tradeAreaAnalysis',judge:'area'},
+					{name:'交易区域交易笔数排行',key:'tradeNumTop',select:false,type:'tradeAreaAnalysis',judge:'area'},
+					{name:'商户刷卡金额排行',key:'amountTop',select:false,type:'merchantDataAnalysis',judge:'merchant'},
+					{name:'商户刷卡笔数排行',key:'numTop',select:false,type:'merchantDataAnalysis',judge:'merchant'},
+					{name:'卡BIN刷卡金额排行',key:'amountTop',select:false,type:'cardBINDataAnalysis',judge:'cardBIND'},
+					{name:'卡BIN刷卡笔数排行',key:'numTop',select:false,type:'cardBINDataAnalysis',judge:'cardBIND'},
+					{name:'单卡参与次数',key:'participateNum',select:false,type:'oneCardTradeAnalysis',judge:'oneCard'},
+				];
+				this.chooseShow=true;
 			},
 			kok(){
 				if(_.isEmpty(this.exportPdfData.pdfMap)){
@@ -949,6 +1019,9 @@
 	            if(select){
 	                if(!this.exportPdfData.pdfMap[type]){
 	                	this.exportPdfData.pdfMap[type]={};
+	                	if(type=='activityBaseInfo'){
+	                		this.exportPdfData.pdfMap[type]=this.id.pdfMap[type];
+	                	}
 	                	if(type=='tradeDataAnalysis'){
 	                		this.exportPdfData.pdfMap[type]['today']=this.id.pdfMap.tradeDataAnalysis.today;
 	                		this.exportPdfData.pdfMap[type]['total']=this.id.pdfMap.tradeDataAnalysis.total;
