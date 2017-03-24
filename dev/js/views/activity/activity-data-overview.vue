@@ -3,7 +3,7 @@
 		<div class="analysis-title">
 			<h1>
 				<span><i>/</i>活动分析数据总览</span>
-				<a class="btn btn-primary" v-link="{name:'activity-pdfout',params:{'pdfActivityId':!searchData.activityID?':pdfActivityId':searchData.activityID}}">导出PDF报告</a>
+				<a class="btn btn-primary" v-link="{name:'activity-pdfout',params:{'pdfActivityId':!searchData.activityID?':pdfActivityId':searchData.activityID}}">查看分析报告</a>
 			</h1>
 			<h3>Activity analysis report</h3>
 		</div>
