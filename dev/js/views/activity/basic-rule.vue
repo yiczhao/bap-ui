@@ -456,7 +456,6 @@
                 this.dater.show=false;
             },
             insertPosTicketWildcard (wildcard) {
-                console.log(wildcard)
                 let posPrintTextarea = this.$els.posPrint
                 let ABM = this.addData
                 if (typeof posPrintTextarea.selectionStart === 'number' &&
@@ -472,7 +471,7 @@
                     ABM.posPrint = resultStr
 
                     // 将光标移动到文本段末尾
-                    cursorPos += tStr.length
+                    cursorPos += resultStr.length
                     posPrintTextarea.selectionStart = posPrintTextarea.selectionEnd = cursorPos
                 } else {
                     ABM.posPrint += wildcard

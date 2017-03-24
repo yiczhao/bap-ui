@@ -103,9 +103,9 @@
         watch:{
             'daterange'(){
                 if(this.daterange.length>1){
-                    this.searchData.endDate=this.daterange[1]
+                    this.searchData.endDate=this.daterange[1]+' 23:59:59'
                 }else{
-                    this.searchData.startDate=this.daterange[0]
+                    this.searchData.startDate=this.daterange[0]+' 00:00:00'
                     this.searchData.endDate=''
                 }
             }
@@ -129,8 +129,8 @@
                     bankUuidString:'',
                     activityStatus:'',//活动状态
                     sorts:'id|desc',
-                    startDate:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
-                    endDate:stringify(new Date()),//结束时间
+                    startDate:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime+' 00:00:00',//开始时间
+                    endDate:stringify(new Date())+' 23:59:59',//结束时间
                     pageIndex:1,//当前选中的分页值
                     pageSize:10,//每页展示多少条数
                 },
@@ -146,8 +146,8 @@
         },
         methods:{
             date_multi_picker_change(val){
-                this.searchData.startDate=val[0];
-                this.searchData.endDate=val[1];
+                this.searchData.startDate=val[0]+' 00:00:00';
+                this.searchData.endDate=val[1]+' 23:59:59';
             },
             searchList(){
                 if(this.showList){
