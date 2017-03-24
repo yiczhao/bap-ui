@@ -230,7 +230,8 @@
 		<span class="content_dialog" id="content_dialog">
 		    <content-dialog
                 :show.sync="chooseShow" :is-cancel="true" :type.sync="'infos'"
-                :title.sync="chooseTitle" @kcancel="chooseShow=false" @kok="kok">
+                :title.sync="chooseTitle" @kcancel="chooseShow=false" @kok="kok(this.exportPdfData,'choose')">
+                <a class="btn btn-primary bottom" @click="kok(this.id,'all')">全部导出</a>
                 <span v-show="!!this.id.pdfMap.activityBaseInfo &&!!this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id">
 		            <div class="analysis-data dialog_data">
 						<div class="data-title dialog_data_title"><span class="active">活动基本信息</span></div>
@@ -308,26 +309,6 @@
 				    	</span>
 					</div>
 				</div>
-						<!-- <span class="checke-span" v-if="m.judge=='trade_1'">
-							<ks-checkbox @change="checked(m)" :checked.sync="m.select">{{m.}}</ks-checkbox>
-			                	</span>
-			                	<span class="checke-span" v-if="m.judge=='trade_2'">
-							<ks-checkbox @change="checked(m)" :checked.sync="m.select">{{m.name}}</ks-checkbox>
-			                	</span>
-			                	<span class="checke-span" v-if="m.judge=='area'">
-							<ks-checkbox @change="checked(m)" :checked.sync="m.select">{{m.name}}</ks-checkbox>
-			                	</span>
-			                	<span class="checke-span" v-if="m.judge=='merchant'">
-							<ks-checkbox @change="checked(m)" :checked.sync="m.select">{{m.name}}</ks-checkbox>
-			                	</span>
-			                	<span class="checke-span" v-if="m.judge=='cardBIND'">
-							<ks-checkbox @change="checked(m)" :checked.sync="m.select">{{m.name}}</ks-checkbox>
-			                	</span>
-			                	<span class="checke-span" v-if="m.judge=='oneCard'">
-							<ks-checkbox @change="checked(m)" :checked.sync="m.select">{{m.name}}</ks-checkbox>
-			                	</span>
-		                	</template>
-		                </div> -->
         	</content-dialog>
 	    </span>
 	</div>
@@ -358,6 +339,9 @@
 		margin-bottom: 5px !important;
 	}
 	.form-group{
+		margin-bottom: 15px !important;
+	}
+	.bottom{
 		margin-bottom: 15px !important;
 	}
 </style>
@@ -970,6 +954,7 @@
 			},
 			choosePDFOut(){
           		this.upID();
+          		this.exportPdfData.pdfMap={};
 				this.privileges=[
 					{name:'活动基本信息',key:'activityBaseInfo',select:false,type:'activityBaseInfo',judge:'base_info'},
 					{name:this.tableTitleChoose.sevenAmount,key:'tradeAmount_7',select:false,type:'tradeDataAnalysis',judge:'trade_1'},
@@ -989,22 +974,44 @@
 				];
 				this.chooseShow=true;
 			},
-			kok(){
-				if(_.isEmpty(this.exportPdfData.pdfMap)){
+			// kok(){
+			// 	if(_.isEmpty(this.exportPdfData.pdfMap)){
+			// 		this.chooseShow=false;				
+			// 		return;
+			// 	};
+			// 	this.exportPdfData.activityID=this.id.activityID;
+			// 	this.exportPdfData.bankUuidString=this.id.bankUuidString;
+			// 	let formdata = {};
+	  //           _.map(this.exportPdfData,(val,key)=>{
+	  //           	formdata[key]=val;
+	  //           });
+	  //           this.$http.post(origin+'/pdf/analysis',formdata).then((res)=>{
+	  //           		if(res.data.code==0){
+	  //           			window.open(origin+'/pdf/downLoad?fileName='+res.data.data)
+			// 				this.chooseShow=false;
+			// 				this.exportPdfData.pdfMap={}
+	  //           		}
+	  //           });
+			// },
+			kok(postData,type){
+				//
+				if(_.isEmpty(postData.pdfMap)){//
 					this.chooseShow=false;				
 					return;
 				};
-				this.exportPdfData.activityID=this.id.activityID;
-				this.exportPdfData.bankUuidString=this.id.bankUuidString;
+				if(type=="choose"){
+					postData.activityID=this.id.activityID;
+					postData.bankUuidString=this.id.bankUuidString;
+				}
 				let formdata = {};
-	            _.map(this.exportPdfData,(val,key)=>{
+	            _.map(postData,(val,key)=>{
 	            	formdata[key]=val;
 	            });
 	            this.$http.post(origin+'/pdf/analysis',formdata).then((res)=>{
 	            		if(res.data.code==0){
 	            			window.open(origin+'/pdf/downLoad?fileName='+res.data.data)
 							this.chooseShow=false;
-							this.exportPdfData.pdfMap={}
+							postData={}
 	            		}
 	            });
 			},
