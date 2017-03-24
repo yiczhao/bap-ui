@@ -157,6 +157,9 @@ export default{
             this.model.submitUser(data).then((res)=>{
                 if(res.data.code===0){
                     dialog('successTime','已保存！')
+                    setTimeout(()=>{
+                        this.$router.go({name:'latinos-search'});
+                    },2000)
                 }
             })
         }
