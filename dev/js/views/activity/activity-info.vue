@@ -13,15 +13,16 @@
             <div class="mian-row">
                 <div class="activity-type">活动种类 /</div>
                 <!--<div class="bias"></div>-->
-                <div class="activity-val">随机立减活动</div>
+
+                <div class="activity-val" v-if="!!basicData.ruleType">{{ruleTypes[basicData.ruleType][1]}}</div>
             </div>
             <div class="mian-row">
                 <div class="activity-type">活动形式 /</div>
-                <div class="activity-val">活动上线</div>
+                    <div class="activity-val">{{(basicData.actType=='common_act')?'线上活动':'线下活动'}}</div>
             </div>
             <div class="mian-row">
                 <div class="activity-type">所属银行 /</div>
-                <div class="activity-val">江西银行</div>
+                <div class="activity-val">{{basicData.uuid | get_bank uuidsList}}</div>
             </div>
             <!--<div class="mian-row">-->
                 <!--<div class="activity-type">创建时间</div>-->
@@ -91,7 +92,7 @@
         </div>
         <div class="main-row table-row">
         <span class="w140 activity-type">POS小票内容设置 /</span>
-        <span class="activity-val">{{basicData.posPrint}}</span>
+        <span class="activity-val">{{basicData.posPrint | pos_print}}</span>
         </div>
         </div>
         <div v-show="step===2" class="info-rule">
@@ -281,6 +282,12 @@
                     'RandomDiscount':['randomDiscounts','随机折扣'],// 随机折扣
                     'CouponDiscount':['couponDiscounts','权益打折'],//权益打折
                     'CouponMinus':['couponMinus','权益金额']//权益金额
+                },
+                posInvoice:{
+                    '%DISRATE%':'用户折扣',
+                    '%FAVORAMT%':'%优惠金额',
+                    '%DAYLEFT%':'当天剩余名额',
+                    '%TOTALLEFT%':'总剩余名额'
                 }
             }
         },
