@@ -2,13 +2,13 @@
   "name": "bams-ui",
   "version": "1.0.5",
   "description": "全场景支付增值平台",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "pro": "NODE_ENV=pro webpack -p",
     "pro-windows": "set NODE_ENV=pro&&webpack -p",
     "build-windows": "set NODE_ENV=dev&&webpack --watch",
     "dev-windows": "npm run build-windows & npm run proxy_mock --p",
-    "devolop": "npm run dev-windows"
+    "develop": "npm run dev-windows"
   },
   "repository": {
     "type": "git",
