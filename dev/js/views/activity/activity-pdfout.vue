@@ -1,12 +1,12 @@
 <template>
-	<div class="activity-pdfout" id="pdf-area">
+	<div class="activity-pdfout" id="pdf-area"> 
 		<div class="pdf-title">
 			<span class="p-title">活动分析报告</span>
 			<span class="out-pdf"><a @click="outPDF">导出PDF报告</a></span>
 		</div>
 		<span></span>
 		<div class="information-area basic-information" v-show="!!this.id.pdfMap.activityBaseInfo &&!!this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id">
-			<div class="title">活动基本信息</div>
+			<div class="title">活动基本信息<a @click="choosePDFOut('activity')">导出pdf</a></div>
 			<div class="something-about">
 				<table>
 					<tr>
@@ -43,7 +43,7 @@
 			</div>
 		</div>
 		<div class="information-area">
-			<div class="title">交易数据分析</div>
+			<div class="title">交易数据分析<a @click="choosePDFOut('tradeOut')">导出pdf</a></div>
 			<div class="data-table">
 				<span class="data-title"><i></i>今日关键数据</span>
 				<table>
@@ -123,7 +123,7 @@
 			</div>
 		</div>
 		<div class="information-area">
-			<div class="title">交易区域分析</div>
+			<div class="title">交易区域分析<a @click="choosePDFOut('tradeAreaOut')">导出pdf</a></div>
 			<div class="data-table">
 				<span class="data-title"><i></i>关键数据</span>
 				<table>
@@ -159,13 +159,13 @@
 			</div>
 		</div>
 		<div class="information-area">
-			<div class="title">交易时段分析</div>
+			<div class="title">交易时段分析<a @click="choosePDFOut('tradeTimeOut')">导出pdf</a></div>
 			<div class="data-table">
 				<div class="data-echart time-echart" id="time-echart"></div>
 			</div>
 		</div>
 		<div class="information-area">
-			<div class="title">商户数据分析</div>
+			<div class="title">商户数据分析<a @click="choosePDFOut('merchantOut')">导出pdf</a></div>
 			<div class="data-table">
 				<span class="data-title"><i></i>关键数据</span>
 				<table>
@@ -201,7 +201,7 @@
 			</div>
 		</div>
 		<div class="information-area">
-			<div class="title"><span>卡BIN数据分析</span></div>
+			<div class="title"><span>卡BIN数据分析<a @click="choosePDFOut('cardBINOut')">导出pdf</a></span></div>
 			<div class="data-table">
 				<span class="data-title"><i></i>关键数据</span>
 				<table>
@@ -233,7 +233,7 @@
 			</div>
 		</div>
 		<div class="information-area">
-			<div class="title">单卡交易分析</div>
+			<div class="title">单卡交易分析<a @click="choosePDFOut('oneCardOut')">导出pdf</a></div>
 			<div class="data-table">
 				<span class="data-title"><i></i>关键数据</span>
 				<table>
@@ -258,6 +258,17 @@
 				<div class="data-echart one-echart" id="one-echart-times"></div>
 			</div>
 		</div>
+		<span class="content_dialog">
+		    <content-dialog
+                :show.sync="chooseShow" :is-cancel="true" :type.sync="'infos'"
+                :title.sync="chooseTitle" @kcancel="chooseShow=false" @kok="kok">
+                    <div class="form-group">
+	                    <div class="function-area">
+							<ks-checkbox v-for="n in privileges" @change="checked(n)" :checked.sync="n.select">{{n.name}}</ks-checkbox>
+	                    </div>
+                	</div>
+        	</content-dialog>
+	    </span>
 	</div>
 </template>
 <script type="text/javascript">
@@ -267,6 +278,8 @@
 			this.model=model(this)
 			return{
 				origin:window.origin,
+				addTitle:'',
+				addshow:true,
 				base64:{
 					trade_all_amount_7:'',//交易总金额7日
 					trade_all_amount_30:'',//交易总金额30日
@@ -282,6 +295,7 @@
 					cardBIN_trade_amount:'',//卡bin交易金额
 					cardBIN_trade_num:'',//卡bin交易笔数
 					oneCard_num:'',//单卡参与次数
+					test64:'',
 				},
 				tableTitleChoose:{
 					title:'',
@@ -373,7 +387,7 @@
 					bankUuidString:'',
 					pdfMap:{
 						activityBaseInfo:{
-							'activityBaseInfo':[{'id':'','uri':''}],
+							"activityBaseInfo":[{'id':'','uri':''}],
 						},
 						tradeDataAnalysis:{
 							'today':[{'startDate':'','endDate':'','uri':''}],
@@ -410,6 +424,27 @@
 					},
 				},
 				fileName:'',
+				chooseShow:false,
+				chooseTitle:'选择导出',
+				title:{
+					activity:'活动分析报告',
+					tradeOut:'交易数据分析',
+					tradeAreaOut:'交易区域分析',
+					tradeTimeOut:'交易时段分析',
+					merchantOut:'商户数据分析',
+					cardBINOut:'卡BIN数据分析',
+					oneCardOut:'单卡交易分析',
+				},
+				privileges:[],
+				saveID:{
+					statuses:[],
+				},
+				saveArray:'',
+				exportPdfData:{
+					activityID:'',
+					bankUuidString:'',
+					pdfMap:{},
+				},
 			}
 		},
 		methods:{
@@ -896,7 +931,7 @@
 				})
 			},
 			outPDF(){
-				this.upID();
+          		this.upID();
 				let formdata = {};
 	            _.map(this.id,(val,key)=>{
 	            	formdata[key]=val;
@@ -973,6 +1008,106 @@
 				oneCard.participateNum[0].base64IMG=this.base64.oneCard_num;
 				oneCard.participateNum[0].uri=this.$API.getOneCardSwipedCount;
 			},
+			choosePDFOut(toggle){
+          		this.upID();
+				switch(toggle){
+					case 'activity':
+						this.exportPdfData.pdfMap={
+							activityBaseInfo:this.id.pdfMap.activityBaseInfo
+						}
+						this.kok();
+						break;
+					case 'tradeOut':
+						this.privileges=[
+							{name:this.tableTitleChoose.sevenAmount,key:'tradeAmount_7',select:false,type:'tradeDataAnalysis'},
+							{name:this.tableTitleChoose.monthAmount,key:'tradeAmount_30',select:false,type:'tradeDataAnalysis'},
+							{name:this.tableTitleChoose.sevenSubsidy,key:'subsidyAmount_7',select:false,type:'tradeDataAnalysis'},
+							{name:this.tableTitleChoose.monthSubsidy,key:'subsidyAmount_30',select:false,type:'tradeDataAnalysis'},
+							{name:this.tableTitleChoose.sevenCount,key:'tradeNum_7',select:false,type:'tradeDataAnalysis'},
+							{name:this.tableTitleChoose.monthCount,key:'tradeNum_30',select:false,type:'tradeDataAnalysis'},
+						];
+						this.chooseShow=true;
+						break;
+					case 'tradeAreaOut':
+						this.privileges=[
+							{name:'交易区域交易金额排行',key:'tradeAmountTop',select:false,type:'tradeAreaAnalysis'},
+							{name:'交易区域交易笔数排行',key:'tradeNumTop',select:false,type:'tradeAreaAnalysis'}]
+						;
+						this.chooseShow=true;
+						break;
+					case 'tradeTimeOut':
+						this.exportPdfData.pdfMap={
+							tradePeriodAnalysis:this.id.pdfMap.tradePeriodAnalysis
+						}
+						this.kok();
+						break;
+					case 'merchantOut':
+						this.privileges=[
+							{name:'商户刷卡金额排行',key:'amountTop',select:false,type:'merchantDataAnalysis'},
+							{name:'商户刷卡笔数排行',key:'numTop',select:false,type:'merchantDataAnalysis'},]
+						this.chooseShow=true;
+						break;
+					case 'cardBINOut':
+						this.privileges=[
+							{name:'卡BIN刷卡金额排行',key:'amountTop',select:false,type:'cardBINDataAnalysis'},
+							{name:'卡BIN刷卡笔数排行',key:'numTop',select:false,type:'cardBINDataAnalysis'},
+						];
+						this.chooseShow=true;
+						break;
+					case 'oneCardOut':
+						this.exportPdfData.pdfMap={
+							oneCardTradeAnalysis:this.id.pdfMap.oneCardTradeAnalysis
+						}
+						this.kok();
+						break;
+				}
+			},
+			kok(){
+				if(_.isEmpty(this.exportPdfData.pdfMap)){
+					this.chooseShow=false;				
+					return;
+				};
+				this.exportPdfData.activityID=this.id.activityID;
+				this.exportPdfData.bankUuidString=this.id.bankUuidString;
+				let formdata = {};
+	            _.map(this.exportPdfData,(val,key)=>{
+	            	formdata[key]=val;
+	            });
+	            this.$http.post(origin+'/pdf/analysis',formdata).then((res)=>{
+	            		if(res.data.code==0){
+	            			window.open(origin+'/pdf/downLoad?fileName='+res.data.data)
+							this.chooseShow=false;
+							this.exportPdfData.pdfMap={}
+	            		}
+	            });
+			},
+			changed(select,id){
+                if(select){
+                    this.saveID.statuses=_.concat(this.searchData.statuses,id);
+                }else{
+                    _.pullAll(this.saveID.statuses,id);
+                }
+            },
+             checked({select,type,key}){
+                if(select){
+                    if(!this.exportPdfData.pdfMap[type]){
+                    	this.exportPdfData.pdfMap[type]={};
+                    	if(type=='tradeDataAnalysis'){
+                    		this.exportPdfData.pdfMap[type]['today']=this.id.pdfMap.tradeDataAnalysis.today;
+                    		this.exportPdfData.pdfMap[type]['total']=this.id.pdfMap.tradeDataAnalysis.total;
+                    	};
+                    	if(type=='tradeAreaAnalysis' || type=='merchantDataAnalysis' || type=='cardBINDataAnalysis' || type=='oneCardTradeAnalysis'){
+                    		this.exportPdfData.pdfMap[type]['keyData']=this.id.pdfMap[type].keyData;
+                    	}
+                    }
+                    this.exportPdfData.pdfMap[type][key]=this.id.pdfMap[type][key];
+                }else{
+                    this.exportPdfData.pdfMap[type]=_.omit(this.exportPdfData.pdfMap[type], [key]);
+                    if(_.isEmpty(_.omit(this.exportPdfData.pdfMap[type], ['today','total','keyData']))){
+                    	this.exportPdfData.pdfMap=_.omit(this.exportPdfData.pdfMap, [type]);
+                    }
+                }
+            }
 		},
 		ready(){
             this.tradeAnalysis();

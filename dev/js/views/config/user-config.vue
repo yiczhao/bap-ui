@@ -52,7 +52,7 @@
         </div>
         <content-dialog
                 :show.sync="addshow" :is-cancel="true" :type.sync="'infos'"
-                :title.sync="addTitle" @kok="addBtn" @kcancel="addshow = false"
+                :title.sync="addTitle" @kok="addBtn" @kcancel="cancelAll"
         >
             <div>
                 <div class="form-group" v-if="addList.id!=loginUserID">
@@ -180,6 +180,10 @@
             }
         },
         methods:{
+            cancelAll(){
+                this.addshow=false;
+                this.checkAll=false;
+            },
             getCheckAll(){
                 let check=true;
                 _.map(this.privileges,(val)=>{

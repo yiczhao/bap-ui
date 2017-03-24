@@ -4,9 +4,9 @@
             <span>银行卡号</span>
             <input class="input" type="text" v-model="searchData.cardNumber" v-limitaddprice="searchData.cardNumber" placeholder="银行卡号"/>
             <span>交易时间</span>
-            <ks-date-picker time="00:00:00" :value.sync="searchData.startDate"></ks-date-picker>
+            <ks-date-picker time="00:00:00" type="datetime" :value.sync="searchData.startDate"></ks-date-picker>
             <span>到</span>
-            <ks-date-picker time="23:59:59" :value.sync="searchData.endDate"></ks-date-picker>
+            <ks-date-picker time="23:59:59" type="datetime" :value.sync="searchData.endDate"></ks-date-picker>
             <a class="btn btn-primary searchBtn" @click="getList">搜索</a>
         </div>
         <div class="table">

@@ -30,9 +30,9 @@
     <div class="rule-row">
         <div class="rule-label"><i>*</i>活动持续时间</div>
         <div class="rule-input">
-            <ks-date-picker @change="setincludeTimes" time="00:00:00" placeholder="活动时间" :value.sync="addData.startTime"></ks-date-picker>
+            <ks-date-picker @change="setincludeTimes" type="datetime" time="00:00:00" placeholder="活动时间" :value.sync="addData.startTime"></ks-date-picker>
             <div class="m20">---</div>
-            <ks-date-picker @change="setincludeTimes" time="23:59:59" placeholder="活动时间" :value.sync="addData.endTime"></ks-date-picker>
+            <ks-date-picker @change="setincludeTimes" type="datetime" time="23:59:59" placeholder="活动时间" :value.sync="addData.endTime"></ks-date-picker>
         </div>
     </div>
     <div class="rule-row">
@@ -73,7 +73,7 @@
         <div class="rule-input" style="position:relative;" v-ks-click-outside="close">
             <a @click="dater.show = true" class="btn btn-primary">删选时间</a>
             <div style="position:absolute;width: 233px;left: 0;top: 40px;">
-                <ks-dater style="position: relative; z-index: 9" v-show="dater.show" :exclude="true"
+                <ks-dater style="position: relative; z-index: 9" v-show="dater.show"  type="datemulti"
                           :value.sync="includeTimes" @change="removeDate"
                           placeholder="删选时间"></ks-dater>
             </div>

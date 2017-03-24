@@ -28,7 +28,7 @@
                     <div class="type-into password"><input class="input" type="password" placeholder="请输入您的密码" v-model="loginData.password" @keyup.enter="login"></div>
                     <div class="type-into check">
                         <span class="input-check"><input class="input" type="text" placeholder="请输入数字或字母" v-model="loginData.usrImgCode" @keyup.enter="login"></span>
-                        <span class="img"><img :src="sysCodeImg"></span>
+                        <span class="img"><img :src="sysCodeImg" @click="getusrImgCode"></span>
                         <span class="icon icon-spinner" @click="getusrImgCode"></span></div>
                     <div class="save-password">
                         <ks-switch :disable="false" @change="autoType" :def-checked="true" color="#2196F3" size="mini" :checked.sync="checked"></ks-switch><span>记住密码</span>
@@ -99,7 +99,11 @@ export default {
                         sessionStorage.setItem('loginList',JSON.stringify(data.data.data));
                         sessionStorage.setItem('menuList',JSON.stringify(data.data.data.privilegeList));
                         if (this.checked) {
-                            localStorage.setItem('userInfor',JSON.stringify(this.loginData));
+                            let data={
+                                name:this.loginData.name,
+                                password:this.loginData.password,
+                            }
+                            setCookie('userInfor',JSON.stringify(data),30);
                         }
                         this.$router.go({'name':'home'});
                     }
@@ -107,7 +111,7 @@ export default {
             },
             autoType(){
                 if (!this.checked) {
-                    localStorage.clear();
+                    clearCookie('userInfor');
                 }
             },
             getusrImgCode(){
@@ -121,8 +125,8 @@ export default {
             },
         },
         ready (){
-            if (!!localStorage.getItem('userInfor')) {
-                this.$set('loginData',JSON.parse(localStorage.getItem('userInfor')));
+            if (!!getCookie('userInfor')) {
+                this.$set('loginData',JSON.parse(getCookie('userInfor')));
                 this.checked=true;
             }
             sessionStorage.clear()

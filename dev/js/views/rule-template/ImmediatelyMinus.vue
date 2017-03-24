@@ -15,6 +15,7 @@
                     {name: '商户每卡参与次数', checked: false, types: 'store_card',keys:'quantities'},
                     {name: '每商户参与次数', checked: false, types: 'store',keys:'quantities'},
                     {name: '每卡参与次数', checked: false, types: 'card',keys:'quantities'},
+                    {name: '最低消费金额', checked: false, types: 'minimum_consume',keys:'moneys'},
                 ],
                 submitdata: {
                     money:''

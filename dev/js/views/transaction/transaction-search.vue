@@ -20,10 +20,10 @@
                 <option value="1">运行中</option>
                 <option value="0">已结束</option>
             </select>
-            <span>交易时间</span>
-            <ks-date-picker :value.sync="searchData.startDate"></ks-date-picker>
+            <span>活动时间</span>
+            <ks-date-picker type="datetime" :value.sync="searchData.startDate"></ks-date-picker>
             <span>到</span>
-            <ks-date-picker :value.sync="searchData.endDate"></ks-date-picker>
+            <ks-date-picker type="datetime" :value.sync="searchData.endDate"></ks-date-picker>
             <a class="btn btn-primary searchBtn" @click="getList">搜索</a>
         </div>
         <div class="table">

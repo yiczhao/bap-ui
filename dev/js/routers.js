@@ -220,7 +220,7 @@ export default function (Vue,router){
                     }
                 },
                 /* 权益明细查询*/
-                'latinos-detail/:latinosID/:couponName/:activityName/:startTime/:endTime/:couponFaceValue':{
+                'latinos-detail/:latinosID/:couponName/:activityName/:startTime/:endTime/:couponFaceValue/:couponType':{
                     name:'latinos-detail',
                     router_type:'latinos',
                     component:(resolve)=>{

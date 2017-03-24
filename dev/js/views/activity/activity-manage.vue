@@ -5,9 +5,9 @@
             <span>活动名称</span>
             <input class="input" type="text" v-model="searchData.name" placeholder="输入活动名称"/>
             <span>活动时间</span>
-            <ks-date-picker time="00:00:00" placeholder="开始时间" :value.sync="searchData.startTime"></ks-date-picker>
+            <ks-date-picker placeholder="开始时间" type="datetime" :value.sync="searchData.startTime"></ks-date-picker>
             <span>到</span>
-            <ks-date-picker time="23:59:59" placeholder="结束时间" :value.sync="searchData.endTime"></ks-date-picker>
+            <ks-date-picker placeholder="结束时间" type="datetime" :value.sync="searchData.endTime"></ks-date-picker>
             <span>活动性质</span>
             <select class="select" v-model="actPropes" @change="getactPropes">
                 <option value="">全部性质</option>
@@ -100,8 +100,8 @@
                     sorts:'createdAt|desc',
                     name:'',
                     actPropes:null,
-                    startTime:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,
-                    endTime:stringify(new Date())+' 23:59:59',
+                    startTime:'',
+                    endTime:'',
                     statuses:['online','draft_other','draft','wait_check','check_fail','early_offline','finish'],
                     page:1,
                     firstResult:0,
