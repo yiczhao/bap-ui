@@ -61,7 +61,7 @@
         </p>
         <div class="rol upload-style">
           &emsp;<span class="upload-text">上传需求文档</span>
-          <!-- {{src}} -->
+          {{src}}
           <input type="file" :accept="hasimg && 'image/gif, image/jpeg, image/png'" @change="change($event)">
         </div>
       </div>
