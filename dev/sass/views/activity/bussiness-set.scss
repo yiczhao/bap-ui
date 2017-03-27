@@ -13,7 +13,7 @@
 		.btn-primary{margin-left: 40px;}
 	}
 	.table-row{
-		margin-bottom:20px;max-height: 500px; margin-left: 30px;
+		margin-bottom:20px;max-height: 500px;
 		overflow: auto;
 		.table{
 			tr th:last-child{
@@ -23,6 +23,9 @@
 			.txt-right{
 				text-align: right !important;
 				padding-right: 20px !important;
+			}
+			tr td{
+				border-bottom:0px !important;
 			}
 		}
 	}
