@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="verify-3" v-show="passwordShow==3">
-                <div class="newpassword-title form-row f2">密码长度6-20位，建议字母、数字与标点的组合来提高帐号安全度</div>
+                <div class="newpassword-title form-row">密码长度6-20位，建议字母、数字与标点的组合来提高帐号安全度</div>
                 <div class="form-row">
                     <div class="form-input"><input type="password" maxlength="20" v-model="passwordData.newPassword" class="input" placeholder="请输入新密码"/></div>
                 </div>
