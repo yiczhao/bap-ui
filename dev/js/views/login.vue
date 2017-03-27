@@ -55,7 +55,7 @@
                         <span>南昌网安备案第3601010110</span>
                     </div>
                     <div>
-                        <span>©2010-2016 kashuo.com</span>
+                        <span>©2010-2017 kashuo.com</span>
                     </div>
                 </div>
             </div>

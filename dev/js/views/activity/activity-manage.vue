@@ -72,7 +72,7 @@
                     <a v-if="n.step==2&&n.status=='draft_other'" @click="setProp(n.propes,n.ruleType)" v-link="{name:n.ruleType,params:{'ruleId':n.id}}">编辑</a>
                     <a v-if="n.step==3&&n.status=='draft_other'&&n.ruleType!='Ticket'" @click="setProp(n.propes,n.ruleType)" v-link="{name:'bussiness-set',params:{'bactivityId':n.id}}">编辑</a>
                     <a v-if="n.step==3&&n.status=='draft_other'&&n.ruleType=='Ticket'" @click="setProp(n.propes,n.ruleType)" v-link="{name:'ticketbussiness-set',params:{'tactivityId':n.id}}">编辑</a>
-                    <a v-if="n.status=='draft_other'" @click="deleteActivity(n.id)">删除</a>
+                    <a v-if="n.status=='draft_other'" @click="deleteID(n.id)">删除</a>
                 </td>
             </tr>
             <tr v-show="!searchList.length">
@@ -88,9 +88,37 @@
                     v-on:size_change="getfirstResult"
             ></pagegroup>
         </div>
+        <content-dialog
+                :show.sync="chooseShow" :is-cancel="true" :type.sync="'infos'"
+                :title.sync="contentTitle" @kcancel="chooseShow=false" @kok="deleteActivity">
+        </content-dialog>
     </div>
 </div>
 </template>
+<style type="text/css">
+    .activity-manage .kdialog__header--infos{
+        border-width: 0;
+    }
+    .activity-manage .kdialog__header--infos .title{
+        padding-left: 100px;
+    }
+    .activity-manage .kdialog{
+        min-width: 400px;
+    }
+    .activity-manage .kdialog__btnwrap{
+        width: 260px;
+        margin: auto;
+    }
+    .activity-manage .kbutton:first-child{
+        width: 90px;
+        margin-left: 5px;
+        float: right;
+    }
+    .activity-manage .kbutton:last-child{
+        width: 90px;
+        float: left;
+    }
+</style>
 <script type="text/javascript">
     import model from '../../ajax/activity/activity_manage_model'
     export default{
@@ -126,7 +154,10 @@
                 },
                 checkedBox:[true,true,true,true],
                 replaceName:'',
-                daterange:[]
+                daterange:[],
+                chooseShow:false,
+                contentTitle:'删除此条活动？',
+                deleteId:'',
             }
         },
         methods:{
@@ -173,15 +204,20 @@
                         this.$set('searchList',res.data.data);
                         this.searchData.total=res.data.total;
                     }
-                })
+                });
+                this.chooseShow=false;
             },
-            deleteActivity(_id){
-                this.model.deleteActivity(_id).then((res)=>{
+            deleteActivity(){
+                this.model.deleteActivity(this.deleteId).then((res)=>{
                     if(res.data.code===0){
                         dialog('successTime','已删除')
                         this.getList();
                     }
                 })
+            },
+            deleteID(_id){
+                this.deleteId=_id;
+                this.chooseShow=true;
             },
             getHistoryData(){
                 this.$set('searchData',back_json.fetchArray(this.$route.path));
