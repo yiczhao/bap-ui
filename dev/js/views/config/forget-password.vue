@@ -197,7 +197,7 @@
                             dialog('info','两次密码输入不一致！');
                             return;
                         }
-                        if((this.passwordData.newPassword).replace('\s+', '')>0){}else{
+                        if(!this.passwordData.newPassword.replace(/\s/g, "")){
                             dialog('info','密码不能为全部空格！');
                             return;
                         }
