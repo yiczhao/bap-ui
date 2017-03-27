@@ -1,7 +1,7 @@
 <template>
     <div class="header">
         <div class="header-logo"></div>
-        <div class="header-title">银行活动管理系统</div>
+        <div class="header-title">场景全支付增值平台</div>
         <div class="header-infor">
             <div class="function-click" v-link="{name:'login'}"></div>
         </div>
