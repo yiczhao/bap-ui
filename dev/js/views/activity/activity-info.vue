@@ -287,8 +287,8 @@
         methods:{
             getRules(data){
                 let datas=_.cloneDeep(data);
-                datas.ruleTypes=this.ruleTypes[data.ruleType][0];
-                datas.ruleName=this.ruleTypes[data.ruleType][1];
+                datas.ruleTypes=!data.ruleType?[]:this.ruleTypes[data.ruleType][0];
+                datas.ruleName=!data.ruleType?[]:this.ruleTypes[data.ruleType][1];
                 this.$set('ruleList',datas);
             }
         },
