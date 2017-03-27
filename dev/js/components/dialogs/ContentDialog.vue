@@ -62,6 +62,7 @@
   .kdialog-mask {
     writing-mode: vertical-lr;
     text-align: center;
+    z-index: 1000005;
   }
   .kdialog-mask-shadow {
     writing-mode: horizontal-tb;
