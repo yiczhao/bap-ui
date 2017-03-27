@@ -135,7 +135,7 @@
                             type:'pie',
                             radius: ['60%', '80%'],
                             avoidLabelOverlap: false,
-                            hoverAnimation:false,
+                            // hoverAnimation:false,
                             label: {
                                 normal: {
                                     show: true,
