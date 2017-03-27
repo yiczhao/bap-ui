@@ -38,7 +38,7 @@
 						<table>
 							<tr>
 								<td>{{merchant.averageTradeNumbers}}</td>
-								<td>{{merchant.averageTradeAmount}}</td>
+								<td>{{merchant.averageTradeAmount[0]}}.<i class="float-num">{{merchant.averageTradeAmount[1]}}</i></td>
 							</tr>
 							<tr>
 								<td>店均交易笔数</td>
@@ -53,7 +53,7 @@
 						<table>
 							<tr>
 								<td>{{cardBin.averageTradeNum}}</td>
-								<td>{{cardBin.averageTradeAmount}}</td>
+								<td>{{cardBin.averageTradeAmount[0]}}.<i class="float-num">{{cardBin.averageTradeAmount[1]}}</i></td>
 							</tr>
 							<tr>
 								<td>卡BIN交易笔数</td>
@@ -82,9 +82,10 @@
 	</div>
 </template>
 <style type="text/css" scoped>
-	/*#trade-area{
-		width: 200px
-	}*/
+	.float-num{
+		font-style: normal;
+		font-size: 14px;
+	}
 </style>
 <script>
 	import model from '../../ajax/activity/activity-analysis'
@@ -111,9 +112,15 @@
 					total:'',
 				},
 				tradeTime:[],
-				merchant:'',
-				cardBin:'',
-				oneCard:'',
+				merchant:{
+					averageTradeNumbers:[],
+					averageTradeAmount:[],
+				},
+				cardBin:{
+					averageTradeNum:[],
+					averageTradeAmount:[],
+				},
+				oneCard:{},
                 activityList:[],
                 liIndex:0,
                 showList:false,
@@ -289,8 +296,16 @@
 				};
 			},
 			dataGet(){
-				this.model.getMerchantTradeTotal(this.searchData).then((res)=>{if(res.data.code===0){this.merchant=res.data.data;}})
-				this.model.getCardBINTotal(this.searchData).then((res)=>{if(res.data.code===0){this.cardBin=res.data.data;}})
+				this.model.getMerchantTradeTotal(this.searchData).then((res)=>{if(res.data.code===0){
+					let Amount=String(res.data.data.averageTradeAmount);
+					this.merchant.averageTradeAmount=Amount.split('.');
+					this.merchant.averageTradeNumbers=res.data.data.averageTradeNumbers;
+				}})
+				this.model.getCardBINTotal(this.searchData).then((res)=>{if(res.data.code===0){
+					this.cardBin.averageTradeNum=res.data.data.averageTradeNum;
+					let Amount=String(res.data.data.averageTradeAmount);
+					this.cardBin.averageTradeAmount=Amount.split('.');
+				}})
 				this.model.getOneCardTotal(this.searchData).then((res)=>{if(res.data.code===0){this.oneCard=res.data.data;}}) 
 			},
 		},
