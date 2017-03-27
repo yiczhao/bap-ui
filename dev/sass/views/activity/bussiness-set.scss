@@ -10,7 +10,9 @@
 		.btn-info{
 			margin-left: 40px;
 		}
-		.btn-primary{margin-left: 40px;}
+		.btn-primary{
+			margin-left: 40px;
+		}
 	}
 	.table-row{
 		margin-bottom:20px;max-height: 500px;
@@ -41,13 +43,23 @@
 			.KSNRCheckbox.KSNRCheckbox__UID--all{
 				margin-left: 4px;
 			}
+			tr td{
+				border-bottom:0px !important;
+			}
 		}
 		.tc{
 			padding: 20px 0;
+			.btn-primary{
+				margin-right: 20px;
+			}
 		}
 		.addtable-row{
 			max-height: 550px;
 			overflow: auto;
+		}
+		.KsPageGroup{
+			padding: 0px 0px !important;
+			padding-left: 20px !important;
 		}
 	}
 }
