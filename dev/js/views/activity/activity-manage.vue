@@ -193,6 +193,7 @@
                 }
                 if(!this.searchData.statuses.length){
                     this.$set('searchList',[]);
+                    this.searchData.total=0;
                 }else{
                     this.getList();
                 }
@@ -200,6 +201,7 @@
             getList(){
                 if(!this.searchData.statuses.length){
                     this.$set('searchList',[]);
+                    this.searchData.total=0;
                     return;
                 }
                 back_json.saveArray(this.$route.path,this.searchData);
