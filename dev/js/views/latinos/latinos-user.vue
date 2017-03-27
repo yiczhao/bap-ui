@@ -149,11 +149,18 @@ export default{
                 dialog('info','请上传手机号码！')
                 return
             }
+            let phone=[];
+            _.map(_.flattenDeep(this.phoneList),(n)=>{
+                if(!!n.phone){
+                    phone.push(n.phone)
+                }
+            })
             let data={
-                userMobiles:this.phoneList,
+                userMobiles:phone,
                 messageContent:this.userData.messageContent,
                 favorID:this.id
             }
+            console.log(phone);
             this.model.submitUser(data).then((res)=>{
                 if(res.data.code===0){
                     dialog('successTime','已保存！')
