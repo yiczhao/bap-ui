@@ -7,7 +7,7 @@
             <upload
                     :src.sync="upCheck.upload_src"
                     :size="1048576"
-                    :exts="['xlsx','doc','docx','xls']"
+                    :exts="['xlsx','xls']"
                     :url="'./upload/file'"></upload>
             <span>/</span>
             <a @click="downLoad">下载手机号Excel表</a>
