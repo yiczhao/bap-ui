@@ -89,10 +89,41 @@
                 <div class="form-group">
                     <label class="name-left"><i>*</i>功能级</label>
                     <div class="function-area">
-                        <div class="checkAll" :class="{'checked':checkAll}" @click.stop="checkedAll"><b></b><span>全选</span></div>
-                        <ks-checkbox v-for="n in privileges" @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
-                            <span v-if="n.type==1">卡类</span><span v-if="n.type==2">券码</span>{{n.name}}
-                        </ks-checkbox>
+                        <div class="checkAll" :class="{'checked':checkAll}" @click.stop="checkedAll"><b></b><span>全选</span></div><template v-for="n in privileges" v-if="n.type==1">
+                            <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                                <span>卡类{{n.name}}</span>
+                            </ks-checkbox>
+                        </template>
+                        <template v-for="n in privileges" v-if="n.type==2">
+                            <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                                <span>券码{{n.name}}</span>
+                            </ks-checkbox>
+                        </template>
+                        <template v-for="n in privileges" v-if="n.type==3">
+                            <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                                <span>{{n.name}}</span>
+                            </ks-checkbox>
+                        </template>
+                        <template v-for="n in privileges" v-if="n.type==4">
+                            <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                                <span>{{n.name}}</span>
+                            </ks-checkbox>
+                        </template>
+                        <template v-for="n in privileges" v-if="n.type==5">
+                            <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                                <span>{{n.name}}</span>
+                            </ks-checkbox>
+                        </template>
+                        <template v-for="n in privileges" v-if="n.type==6">
+                            <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                                <span>{{n.name}}</span>
+                            </ks-checkbox>
+                        </template>
+                        <template v-for="n in privileges" v-if="n.type==7">
+                            <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                                <span>{{n.name}}</span>
+                            </ks-checkbox>
+                        </template>
                     </div>
                 </div>
             </div>
