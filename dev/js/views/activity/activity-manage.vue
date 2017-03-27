@@ -198,6 +198,10 @@
                 }
             },
             getList(){
+                if(!this.searchData.statuses.length){
+                    this.$set('searchList',[]);
+                    return;
+                }
                 back_json.saveArray(this.$route.path,this.searchData);
                 this.model.getList(this.searchData).then((res)=>{
                     if(res.data.code===0){
