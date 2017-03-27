@@ -4,6 +4,7 @@
         <a class="btn btn-info" @click="addBtn">添加商户</a>
         <div class="search-div">
             <input class="input" type="text" v-model="storeName" placeholder="输入商户名称/商户ID筛选"/>
+            <!--<a class="btn btn-primary" @click="dosearch">搜索</a>-->
         </div>
     </div>
     <div class="table-row">
