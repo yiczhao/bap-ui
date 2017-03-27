@@ -118,9 +118,17 @@
                 })
             },
             settingPassword(){
+                if(!this.passwordData.newPassword || !this.passwordData.confirmPassword){
+                    dialog('info','请输入密码！');
+                    return;
+                }
                 if(this.passwordData.setPassword != this.passwordData.newSetPassword){
                     dialog('info','新密码与确认密码不一致！');
                     return
+                }
+                if(!this.passwordData.newPassword.replace(/\s/g, "")){
+                    dialog('info','密码不能为全部空格！');
+                    return;
                 }
                 let data={
                     id:this.passwordData.id,
