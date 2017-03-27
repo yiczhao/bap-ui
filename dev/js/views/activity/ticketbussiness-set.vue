@@ -18,7 +18,7 @@
                 <td>{{n.id}}</td>
                 <td>{{n.name}}</td>
                 <td>{{n.ticketName}}</td>
-                <td><a @click="searchList.splice($index,1)">移除</a></td>
+                <td class="txt-right"><a @click="searchList.splice($index,1)">移除</a></td>
             </tr>
             <tr v-show="!searchList.length">
                 <td colspan="4">

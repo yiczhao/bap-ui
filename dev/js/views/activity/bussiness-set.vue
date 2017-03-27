@@ -11,12 +11,12 @@
             <tr>
                 <th>商户ID</th>
                 <th>商户名称</th>
-                <th>操作</th>
+                <th class="txt-right">操作</th>
             </tr>
             <tr v-show="!!searchList" v-for="n in searchList | filterBy storeName in 'id' 'name'">
                 <td>{{n.id}}</td>
                 <td>{{n.name}}</td>
-                <td><a @click="searchList.splice($index,1)">移除</a></td>
+                <td class="txt-right"><a @click="searchList.splice($index,1)">移除</a></td>
             </tr>
             <tr v-show="!searchList.length">
                 <td colspan="3" style="text-align:center">

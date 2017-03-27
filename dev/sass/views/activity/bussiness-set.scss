@@ -4,10 +4,24 @@
 		.search-div{
 			float: right;
 		}
+		.btn-info{
+			margin-left: 20px;
+		}
+		.btn-primary{margin-left: 20px;}
 	}
 	.table-row{
-		margin-bottom:20px;max-height: 500px;
+		margin-bottom:20px;max-height: 500px; margin-left: 30px;
 		overflow: auto;
+		.table{
+			tr th:last-child{
+				text-align: right !important;
+				padding-right: 20px !important;
+			}
+			.txt-right{
+				text-align: right !important;
+				padding-right: 20px !important;
+			}
+		}
 	}
 	.add-table{
 		.add-search{
@@ -18,6 +32,9 @@
 		}
 		.table{
 			margin-bottom: 20px;
+			.KSNRCheckbox.KSNRCheckbox__UID--all{
+				margin-left: 4px;
+			}
 		}
 		.tc{
 			padding: 20px 0;
