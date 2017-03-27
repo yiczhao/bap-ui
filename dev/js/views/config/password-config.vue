@@ -33,7 +33,7 @@
                     <a class="btn btn-primary" @click="verifyPhone">下一步</a>
                 </div>
                 <div class="form-row f17">
-                        如无法接收验证码，请于客服联系。客服电话：400-0192-266
+                        如无法接收验证码，请与客服联系。客服电话：400-0192-266
                 </div>
             </div>
             <div class="verify-3" v-show="passwordShow==3">

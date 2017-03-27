@@ -57,7 +57,7 @@
                     <a class="btn btn-primary" @click="savePassword(3)">下一步</a>
                 </div>
                 <div class="form-row f17">
-                    如无法接收验证码，请于客服联系。客服电话：400-0192-266
+                    如无法接收验证码，请与客服联系。客服电话：400-0192-266
                 </div>
             </div>
             <div class="forget-4" v-show="forgetShow==4">
@@ -145,7 +145,7 @@
                         }
                         if(_.capitalize(this.usrImgCode)!=_.capitalize(this.passwordData.usrImgCode)){
                             this.getusrImgCode();
-                            dialog('info','验证码不正确请重新输入！');
+                            dialog('info','验证码不正确,请重新输入！');
                             return;
                         }
                         let data0={
