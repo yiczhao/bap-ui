@@ -229,6 +229,7 @@
                 dialog('info', err)
             },
             getList(){
+                this.addIDs=[];
                 this.model.getBussinessList(this.searchData).then((res)=>{
                     if(res.data.code===0){
                         let data=[];

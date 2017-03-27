@@ -217,6 +217,7 @@
                 })
             },
             getaddList(){
+                this.addIDs=[];
                 this.waring='未查询到商户数据';
                 this.model.getAddBussinessList(this.addsearchData).then((res)=>{
                     if(res.data.code===0){
