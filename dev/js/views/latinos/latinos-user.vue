@@ -70,7 +70,8 @@
             }
         }
         .table-row{
-            padding: 0 60px;
+            padding: 0 60px; max-height: 500px;
+            overflow: auto;
         }
         .batch-upload{
             margin: 10px 0;padding: 0 60px;
