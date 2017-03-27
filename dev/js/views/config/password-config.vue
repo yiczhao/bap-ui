@@ -129,7 +129,7 @@
                 }
                 this.model.updatePassword(data).then((res)=>{
                     if (res.data.code==0) {
-                        dialog('success','密码修改成功！');
+                        dialog('successTime','密码修改成功！');
                         setTimeout(()=>{
                             this.$router.go({'name':'login'});
                         },2000);
