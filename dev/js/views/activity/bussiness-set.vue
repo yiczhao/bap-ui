@@ -181,7 +181,7 @@
                     this.addIDs.push(_list);
                 }else{
                     _.remove(this.addIDs, function(n) {
-                        return n.storeId==_list.id;
+                        return n.id==_list.id;
                     })
                 }
             },
