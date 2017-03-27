@@ -173,10 +173,10 @@
                         break;
                 }
             },
-            getId({id,name}){
+            getId({uniqueId,name}){
                 this.showList=false;
                 this.searchData.activityName=name;
-                this.searchData.activityID=id;
+                this.searchData.activityID=uniqueId;id
                 this.searchData.bankUuidString='';
             },
 			initList(){
