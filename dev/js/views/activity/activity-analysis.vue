@@ -249,11 +249,8 @@
 				myChart.setOption(option);
 			},
 			tradeTimeGet(){
-				let data={
-					activityID:'',
-					bankUuidString:this.uuids,
-				}
-				this.model.getTradePeriodTotal(data).then((res)=>{
+				(!this.searchData.activityID)?this.searchData.bankUuidString=this.searchData.bankUuidString : this.searchData.activityID=this.searchData.activityID;
+				this.model.getTradePeriodTotal(this.searchData).then((res)=>{
 					if(res.data.code===0){
 						this.tradeTime=res.data.data.series
 						this.echartLine(this.tradeTime);
