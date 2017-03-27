@@ -81,10 +81,13 @@
 		</div>
 	</div>
 </template>
-<style type="text/css" scoped>
+<style type="text/css">
 	.float-num{
 		font-style: normal;
 		font-size: 14px;
+	}
+	.activity-data-overview td{
+		border-width: 0px !important;
 	}
 </style>
 <script>
