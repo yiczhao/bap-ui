@@ -186,7 +186,7 @@
                         this.tradeEchart('amount-echart',this.cumulative.totalAmount,'交易总金额',0,'#ffcf7a','#ffcf7a');
                         this.tradeEchart('disAmoun-echart',this.cumulative.canDisAmount,'可打折金额',this.cumulative.totalAmount-this.cumulative.canDisAmount,'#b6d15d','#ffcf7a');
                         this.tradeEchart('pay-echart',this.cumulative.payAmount,'实付总金额',this.cumulative.totalAmount-this.cumulative.payAmount,'#3ba686','#f0f0f0');
-                        this.tradeEchart('subsidy-echart',this.cumulative.subsidyAmount,'补贴总金额',this.cumulative.totalAmount-this.cumulative.subsidyAmount,'#e76b5f','#163b7d');
+                        this.tradeEchart('subsidy-echart',this.cumulative.subsidyAmount,'补贴总金额',this.cumulative.totalAmount,'#163b7d','#f0f0f0');
                     }
                 })
             },
