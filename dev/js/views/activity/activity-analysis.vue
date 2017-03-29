@@ -38,7 +38,9 @@
 						<table>
 							<tr>
 								<td>{{merchant.averageTradeNumbers}}</td>
-								<td>{{merchant.averageTradeAmount[0]}}.<i class="float-num">{{merchant.averageTradeAmount[1]}}</i></td>
+								<td>{{merchant.averageTradeAmount[0]}}
+									<i class="float-num" v-if="!merchant.averageTradeAmount[1]"><span>.</span>00</i>
+									<i class="float-num" v-else><span>.</span>{{merchant.averageTradeAmount[1]}}</i></td>
 							</tr>
 							<tr>
 								<td>店均交易笔数</td>
@@ -53,7 +55,10 @@
 						<table>
 							<tr>
 								<td>{{cardBin.averageTradeNum}}</td>
-								<td>{{cardBin.averageTradeAmount[0]}}.<i class="float-num">{{cardBin.averageTradeAmount[1]}}</i></td>
+								<td>{{cardBin.averageTradeAmount[0]}}
+									<i class="float-num" v-if="!cardBin.averageTradeAmount[1]"><span>.</span>00</i>
+									<i class="float-num" v-else><span>.</span>{{cardBin.averageTradeAmount[1]}}</i>
+								</td>
 							</tr>
 							<tr>
 								<td>卡BIN交易笔数</td>
@@ -85,6 +90,9 @@
 	.float-num{
 		font-style: normal;
 		font-size: 14px;
+	}
+	.float-num span{
+		font-size:22px;
 	}
 	.activity-data-overview td{
 		border-width: 0px !important;
