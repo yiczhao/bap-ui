@@ -18,7 +18,7 @@
                 <td>{{n.id}}</td>
                 <td>{{n.name}}</td>
                 <td>{{n.ticketName}}</td>
-                <td><a @click="searchList.splice($index,1)">移除</a></td>
+                <td class="txt-right"><a @click="searchList.splice($index,1)">移除</a></td>
             </tr>
             <tr v-show="!searchList.length">
                 <td colspan="4">
@@ -181,7 +181,7 @@
                     this.addIDs.push(_list);
                 }else{
                     _.remove(this.addIDs, function(n) {
-                        return n.storeId==_list.id;
+                        return n.id==_list.id;
                     })
                 }
             },
@@ -217,6 +217,7 @@
                 })
             },
             getaddList(){
+                this.addIDs=[];
                 this.waring='未查询到商户数据';
                 this.model.getAddBussinessList(this.addsearchData).then((res)=>{
                     if(res.data.code===0){

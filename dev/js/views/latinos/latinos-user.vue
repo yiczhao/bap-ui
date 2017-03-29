@@ -7,7 +7,7 @@
             <upload
                     :src.sync="upCheck.upload_src"
                     :size="1048576"
-                    :exts="['xlsx','doc','docx','xls']"
+                    :exts="['xlsx','xls']"
                     :url="'./upload/file'"></upload>
             <span>/</span>
             <a @click="downLoad">下载手机号Excel表</a>
@@ -70,7 +70,8 @@
             }
         }
         .table-row{
-            padding: 0 60px;
+            padding: 0 60px; max-height: 500px;
+            overflow: auto;
         }
         .batch-upload{
             margin: 10px 0;padding: 0 60px;
@@ -149,11 +150,18 @@ export default{
                 dialog('info','请上传手机号码！')
                 return
             }
+            let phone=[];
+            _.map(_.flattenDeep(this.phoneList),(n)=>{
+                if(!!n.phone){
+                    phone.push(n.phone)
+                }
+            })
             let data={
-                userMobiles:this.phoneList,
+                userMobiles:phone,
                 messageContent:this.userData.messageContent,
                 favorID:this.id
             }
+            console.log(phone);
             this.model.submitUser(data).then((res)=>{
                 if(res.data.code===0){
                     dialog('successTime','已保存！')

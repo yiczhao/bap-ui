@@ -8,6 +8,9 @@ export default function install(Vue,router_proto) {
             if(request.url!='./transfer/activity_configure/api/v1/activity/list'&&request.url!='./transfer/activity_configure/api/v1/coupon/list'){
                 store.dispatch(types.AJAX_REQUEST)
             };
+            if(store.state.titles.titles=='活动管理'){
+                store.dispatch(types.AJAX_REQUEST)
+            }
             let bamtoken=(!!sessionStorage.getItem('loginList')) ? JSON.parse(sessionStorage.getItem('loginList')).token : null;
             request.headers['X-auth-Token'] =bamtoken;
             return request;
@@ -16,6 +19,9 @@ export default function install(Vue,router_proto) {
             if(response.request.url!='./transfer/activity_configure/api/v1/activity/list'&&response.request.url!='./transfer/activity_configure/api/v1/coupon/list'){
                 store.dispatch(types.AJAX_RESPONSE);
             };
+            if(store.state.titles.titles=='活动管理'){
+                store.dispatch(types.AJAX_RESPONSE);
+            }
             if(response.status===403){
                 dialog('error',response.data.message);
             }
@@ -28,19 +34,18 @@ export default function install(Vue,router_proto) {
             else if(response.status===404){
                 store.dispatch(types.AJAX_ERROR,404);
             }
-            else if(!response.ok){
-                dialog('error','系统错误,请及时联系开发人员解决！');
-            }
-            else if(!response.data.code){
-                return response;
-            }
             else if(response.data.code===1){
                 dialog('info',response.data.message)
             }
             else if(response.data.code === 50000){
+                dialog('error','登录失效，请重新登录！');
                 setTimeout(()=>{
                     router_proto.go({'name':'login'});
-                })
+                },1000)
+                return response;
+            }
+            else if(!response.ok){
+                dialog('error','系统错误,请及时联系开发人员解决！');
             }
             else if(response.data.code !== 0&&response.data.code !== 10000){
                 dialog('error',response.data.message||response.data.msg||response.data.codeDesc);

@@ -4,6 +4,7 @@
         <a class="btn btn-info" @click="addBtn">添加商户</a>
         <div class="search-div">
             <input class="input" type="text" v-model="storeName" placeholder="输入商户名称/商户ID筛选"/>
+            <!--<a class="btn btn-primary" @click="dosearch">搜索</a>-->
         </div>
     </div>
     <div class="table-row">
@@ -11,12 +12,12 @@
             <tr>
                 <th>商户ID</th>
                 <th>商户名称</th>
-                <th>操作</th>
+                <th class="txt-right">操作</th>
             </tr>
             <tr v-show="!!searchList" v-for="n in searchList | filterBy storeName in 'id' 'name'">
                 <td>{{n.id}}</td>
                 <td>{{n.name}}</td>
-                <td><a @click="searchList.splice($index,1)">移除</a></td>
+                <td class="txt-right"><a @click="searchList.splice($index,1)">移除</a></td>
             </tr>
             <tr v-show="!searchList.length">
                 <td colspan="3" style="text-align:center">
@@ -181,7 +182,7 @@
                     this.addIDs.push(_list);
                 }else{
                     _.remove(this.addIDs, function(n) {
-                        return n.storeId==_list.id;
+                        return n.id==_list.id;
                     })
                 }
             },
@@ -228,6 +229,7 @@
                 dialog('info', err)
             },
             getList(){
+                this.addIDs=[];
                 this.model.getBussinessList(this.searchData).then((res)=>{
                     if(res.data.code===0){
                         let data=[];

@@ -15,15 +15,15 @@
                   <option value="">请选择结算方（银行）</option>
                   <option v-for="n in bankFullName" :value="n.uuid">{{n.shortName}}</option>
               </select>
-              <ks-date-range-picker placeholder="开始时间,结束时间"
-                                    :range.sync="daterange"
-                                    :readonly="false"
-                                    v-on:change="date_multi_picker_change"></ks-date-range-picker>
               <select class="select" v-model="searchData.favorTypesStr">
                   <option value="cash,discount">请选择权益类型</option>
                   <option value="cash">优惠金额券</option>
                   <option value="discount">优惠折扣券</option>
               </select>
+              <ks-date-range-picker placeholder="开始时间,结束时间"
+                                    :range.sync="daterange"
+                                    :readonly="false"
+                                    v-on:change="date_multi_picker_change"></ks-date-range-picker>
               <input type="button" class="btn btn-primary searchBtn" @click="doSearch" value="搜 索">
           </div>
           <div class="flex-chart" v-show="latinos_echart==1">

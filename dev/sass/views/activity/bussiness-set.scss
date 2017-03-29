@@ -3,11 +3,33 @@
 		margin: 20px 0;
 		.search-div{
 			float: right;
+			.input{
+				margin-right: 20px;
+			}
+		}
+		.btn-info{
+			margin-left: 40px;
+		}
+		.btn-primary{
+			margin-left: 40px;
 		}
 	}
 	.table-row{
 		margin-bottom:20px;max-height: 500px;
 		overflow: auto;
+		.table{
+			tr th:last-child{
+				text-align: right !important;
+				padding-right: 20px !important;
+			}
+			.txt-right{
+				text-align: right !important;
+				padding-right: 20px !important;
+			}
+			tr td{
+				border-bottom:0px !important;
+			}
+		}
 	}
 	.add-table{
 		.add-search{
@@ -18,13 +40,26 @@
 		}
 		.table{
 			margin-bottom: 20px;
+			.KSNRCheckbox.KSNRCheckbox__UID--all{
+				margin-left: 4px;
+			}
+			tr td{
+				border-bottom:0px !important;
+			}
 		}
 		.tc{
 			padding: 20px 0;
+			.btn-primary{
+				margin-right: 20px;
+			}
 		}
 		.addtable-row{
 			max-height: 550px;
 			overflow: auto;
+		}
+		.KsPageGroup{
+			padding: 0px 0px !important;
+			padding-left: 20px !important;
 		}
 	}
 }

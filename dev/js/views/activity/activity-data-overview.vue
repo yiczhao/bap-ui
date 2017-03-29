@@ -3,7 +3,7 @@
 		<div class="analysis-title">
 			<h1>
 				<span><i>/</i>活动分析数据总览</span>
-				<a class="btn btn-primary" v-link="{name:'activity-pdfout',params:{'pdfActivityId':!searchData.activityID?':pdfActivityId':searchData.activityID}}">导出PDF报告</a>
+				<a class="btn btn-primary" v-link="{name:'activity-pdfout',params:{'pdfActivityId':!searchData.activityID?':pdfActivityId':searchData.activityID}}">查看分析报告</a>
 			</h1>
 			<h3>Activity analysis report</h3>
 		</div>
@@ -364,9 +364,9 @@
 						this.tableText='商户刷卡金额（元）'
                         if(this.merchantIndex==1){
                             this.tableText='商户刷卡笔数（笔）'
-                            this.initBar(data.series[0].storeAndMerchantName,data.series[0].dataLong,'#ffcf7a')
+                            this.initBar(data.series[0].storeAndMerchantName,data.series[0].dataLong,'#3ba686')
                         }else{
-                            this.initBar(data.series[0].storeAndMerchantName,data.series[0].dataDecimal,'#b6d15d')
+                            this.initBar(data.series[0].storeAndMerchantName,data.series[0].dataDecimal,'#3ba686')
                         }
                         this.mainStep=4;
 						break
@@ -374,9 +374,9 @@
 						this.tableText='卡BIN刷卡金额（元）';
                         if(this.carBinIndex==1){
 							this.tableText='卡BIN刷卡笔数（笔）';
-							this.initBar(data.category,data.series[0].dataDecimal,'#b6d15d');
+							this.initBar(data.category,data.series[0].dataDecimal,'#3ba686');
                         }else{
-							this.initBar(data.category,data.series[0].dataDecimal,'#163b7d');
+							this.initBar(data.category,data.series[0].dataDecimal,'#3ba686');
                         }
                         this.mainStep=5;
 						break

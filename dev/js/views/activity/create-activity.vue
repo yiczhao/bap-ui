@@ -14,10 +14,8 @@
 					<div class="bg-show" :class="value.type" @mouseleave="value.show=false">
 						<div class="hover-div">
 							<div class="hover-bg"></div>
-							<a v-show="!value.show" class="btn btn-primary"  @click="value.show=true">银行卡活动</a>
-							<a v-show="!value.show" class="btn btn-danger">券码活动</a>
-							<a v-show="value.show" class="btn btn-primary"  @click="setProp('online')" v-link="{'name':'basic-rule',params:{'rulename':value.link}}">创建线上活动</a>
-							<a v-show="value.show" class="btn btn-danger" @click="setProp('offline')" v-link="{'name':'basic-rule',params:{'rulename':value.link}}">创建线下活动</a>
+							<a v-show="!value.show" class="btn btn-primary"  @click="setProp('online')" v-link="{'name':'basic-rule',params:{'rulename':value.link}}">创建线上活动</a>
+							<a v-show="!value.show" class="btn btn-danger" @click="setProp('offline')" v-link="{'name':'basic-rule',params:{'rulename':value.link}}">创建线下活动</a>
 						</div>
 						<div class="activity-name">
 							<h4><a>{{value.name}}</a></h4>
@@ -29,10 +27,8 @@
 					<div class="bg-show" :class="value.type">
 						<div class="hover-div">
 							<div class="hover-bg"></div>
-							<a v-show="!value.show" class="btn btn-primary"  @click="value.show=true">银行卡活动</a>
-							<a v-show="!value.show" class="btn btn-danger">券码活动</a>
-							<a v-show="value.show" class="btn btn-primary"  @click="setProp('online')" v-link="{'name':'basic-rule',params:{'rulename':'CouponMinus'}}">优惠金额券</a>
-							<a v-show="value.show" class="btn btn-danger" @click="setProp('online')" v-link="{'name':'basic-rule',params:{'rulename':'CouponDiscount'}}">优惠打折券</a>
+							<a v-show="!value.show" class="btn btn-primary"  @click="setProp('online')" v-link="{'name':'basic-rule',params:{'rulename':'CouponMinus'}}">优惠金额券</a>
+							<a v-show="!value.show" class="btn btn-danger" @click="setProp('online')" v-link="{'name':'basic-rule',params:{'rulename':'CouponDiscount'}}">优惠打折券</a>
 						</div>
 						<div class="activity-name">
 							<h4><a>权益</a></h4>

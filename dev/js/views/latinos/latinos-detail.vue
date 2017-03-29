@@ -181,6 +181,7 @@
                 let data=getFormData(this.searchData);
                 data+='&methodName=couponDetailDataExportExcel&mid='+JSON.parse(sessionStorage.getItem('loginList')).token;
                 window.open(origin+this.$API.latinosDetailExcel+data);
+                this.searchData.sorts = 'id|desc';
             },
         },
         ready(){

@@ -33,11 +33,11 @@
                     <a class="btn btn-primary" @click="verifyPhone">下一步</a>
                 </div>
                 <div class="form-row f17">
-                        如无法接收验证码，请于客服联系。客服电话：400-0192-266
+                        如无法接收验证码，请与客服联系。客服电话：400-0192-266
                 </div>
             </div>
             <div class="verify-3" v-show="passwordShow==3">
-                <div class="newpassword-title form-row f2">密码长度6-20位，建议字母、数字与标点的组合来提高帐号安全度</div>
+                <div class="newpassword-title form-row">密码长度6-20位，建议字母、数字与标点的组合来提高帐号安全度</div>
                 <div class="form-row">
                     <div class="form-input"><input type="password" maxlength="20" v-model="passwordData.newPassword" class="input" placeholder="请输入新密码"/></div>
                 </div>
@@ -118,9 +118,17 @@
                 })
             },
             settingPassword(){
+                if(!this.passwordData.newPassword || !this.passwordData.confirmPassword){
+                    dialog('info','请输入密码！');
+                    return;
+                }
                 if(this.passwordData.setPassword != this.passwordData.newSetPassword){
                     dialog('info','新密码与确认密码不一致！');
                     return
+                }
+                if(!this.passwordData.newPassword.replace(/\s/g, "")){
+                    dialog('info','密码不能为全部空格！');
+                    return;
                 }
                 let data={
                     id:this.passwordData.id,
@@ -129,7 +137,7 @@
                 }
                 this.model.updatePassword(data).then((res)=>{
                     if (res.data.code==0) {
-                        dialog('success','密码修改成功！');
+                        dialog('successTime','密码修改成功！');
                         setTimeout(()=>{
                             this.$router.go({'name':'login'});
                         },2000);

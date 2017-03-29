@@ -1,7 +1,7 @@
 <template>
     <div class="latinos-batch">
         <activity-step :datas="datas" :showstep.sync="showstep"></activity-step>
-        <h5>宣传页面预览</h5>
+        <h5 class="padding-40">宣传页面预览</h5>
         <div class="batch-upload">
             <div class="up-load">
                 <div class="file"><input type="file" name=""></div>
