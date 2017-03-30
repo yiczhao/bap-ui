@@ -1,6 +1,8 @@
   <template>
       <div class="latinos-search">
-		  <div class="search-div">
+		    <div class="search-div search-table">
+          <div class="conditions-list">
+            <span class="show-position">
               <input class="input " type="text" v-model="searchData.favorName" placeholder="输入权益名称"
                      @keyup="getActivity($event)" @keyup.enter="searchList"
                      @keyup.up="changeLiIndex('up')" @keyup.down="changeLiIndex('down')"
@@ -11,6 +13,7 @@
                       <li class="showLi" v-if="!activityList.length">未查询到{{searchData.favorName}}活动</li>
                   </ul>
               </div>
+            </span>
               <select class="select" v-model="bankUuidString" @change="getBankString">
                   <option value="">请选择结算方（银行）</option>
                   <option v-for="n in bankFullName" :value="n.uuid">{{n.shortName}}</option>
@@ -24,7 +27,10 @@
                                     :range.sync="daterange"
                                     :readonly="false"
                                     v-on:change="date_multi_picker_change"></ks-date-range-picker>
+          </div>
+          <div class="do-search">
               <input type="button" class="btn btn-primary searchBtn" @click="doSearch" value="搜 索">
+          </div>
           </div>
           <div class="flex-chart" v-show="latinos_echart==1">
             <div class="flex">
@@ -114,6 +120,11 @@
           </div>
 	  </div>
   </template>
+  <style type="text/css" scoped>
+    .latinos-search .search-div .conditions-list .KsDaterMulti{
+      left: -197px !important;
+    }
+  </style>
   <script>
        import model from '../../ajax/latinos/latinos_search_model'
       export default{

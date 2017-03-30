@@ -1,30 +1,36 @@
 <template>
     <div class="transaction-search">
-        <div class="search-div">
-            <input class="input " type="text" v-model="searchData.activityName" placeholder="输入活动名称"
-                   @keyup="getActivity($event)" @keyup.enter="searchList"
-                   @keyup.up="changeLiIndex('up')" @keyup.down="changeLiIndex('down')"
-            />
-            <div class="showList showLi" v-show="showList">
-                <ul class="showLi">
-                    <li class="showLi" v-for="n in activityList" :class="{'checked':liIndex==$index}" @click="getId(n)">{{n.name}}</li>
-                    <li class="showLi" v-if="!activityList.length">未查询到{{searchData.activityName}}活动</li>
-                </ul>
+        <div class="search-div search-table">
+            <div class="conditions-list">
+                <span class="show-position">
+                    <input class="input " type="text" v-model="searchData.activityName" placeholder="输入活动名称"
+                           @keyup="getActivity($event)" @keyup.enter="searchList"
+                           @keyup.up="changeLiIndex('up')" @keyup.down="changeLiIndex('down')"
+                    />
+                    <div class="showList showLi" v-show="showList">
+                        <ul class="showLi">
+                            <li class="showLi" v-for="n in activityList" :class="{'checked':liIndex==$index}" @click="getId(n)">{{n.name}}</li>
+                            <li class="showLi" v-if="!activityList.length">未查询到{{searchData.activityName}}活动</li>
+                        </ul>
+                    </div>
+                </span>
+                <select class="select" v-model="bankUuidString" @change="setBank">
+                    <option value="">请选择发起方</option>
+                    <option v-for="n in bankFullName" :value="n.uuid" @change="getBankString">{{n.shortName}}</option>
+                </select>
+                <select class="select" v-model="searchData.activityStatus">
+                    <option value="">请选择活动状态</option>
+                    <option value="1">运行中</option>
+                    <option value="0">已结束</option>
+                </select>
+                <ks-date-range-picker placeholder="开始时间,结束时间"
+                                      :range.sync="daterange"
+                                      :readonly="false"
+                                      v-on:change="date_multi_picker_change"></ks-date-range-picker>
             </div>
-            <select class="select" v-model="bankUuidString" @change="setBank">
-                <option value="">请选择发起方</option>
-                <option v-for="n in bankFullName" :value="n.uuid" @change="getBankString">{{n.shortName}}</option>
-            </select>
-            <select class="select" v-model="searchData.activityStatus">
-                <option value="">请选择活动状态</option>
-                <option value="1">运行中</option>
-                <option value="0">已结束</option>
-            </select>
-            <ks-date-range-picker placeholder="开始时间,结束时间"
-                                  :range.sync="daterange"
-                                  :readonly="false"
-                                  v-on:change="date_multi_picker_change"></ks-date-range-picker>
-            <input type="button" class="btn btn-primary searchBtn" @click="searchList" value="搜 索">
+            <div class="do-search">
+                <input type="button" class="btn btn-primary searchBtn" @click="searchList" value="搜 索">
+            </div>
         </div>
         <div class="flex-chart" v-show="trade_echart==1">
             <div class="flex">
@@ -54,36 +60,38 @@
             </div>
         </div>
         <div class="flex-chart text" v-show="trade_echart==0">未查询到数据</div>
-        <div class="table"> 
-            <table>
-                <tr>
-                    <th>活动名称</th>
-                    <th>发起方</th>
-                    <th>类型</th>
-                    <th>活动状态</th>
-                    <th>总笔数</th>
-                    <th>总金额</th>
-                    <th>单笔金额</th>
-                    <th>开始日期</th>
-                    <th>结束日期</th>
-                    <th>操作</th>
-                </tr>
-                <tr v-for="n in dataList">
-                    <td>{{n.activityName}}</td><!-- 活动名称 -->
-                    <td>{{n.bankUuidsName}}</td><!-- 发起方 -->
-                    <td><span v-if="n.subType==online">线上</span><span v-else>线下</span></td><!-- 子类型 -->
-                    <td>{{n.activitStatus}}</td><!-- 活动状态 -->
-                    <td>{{n.totalNumber}}</td><!-- 总笔数 -->
-                    <td>{{n.totalAmount}}</td><!-- 总金额 -->
-                    <td>{{n.avgAmount}}</td><!-- 单笔金额 -->
-                    <td>{{n.startDate}} </td><!-- 开始日期 -->
-                    <td>{{n.endDate}}</td><!-- 结束日期 -->
-                    <td><a v-link="{name:'transaction-detail',params:{'transactionName':n.activityName,'transactionId':n.activityId}}">交易明细</a></td><!-- 操作 -->
-                </tr>
-                 <tr v-if="!dataList.length">
-                    <td colspan="10">未查询到{{activityName}}活动</td>
-                </tr>
-            </table>
+        <div class="table-row">
+            <div class="overFlow">
+                <table class="table">
+                    <tr>
+                        <th>活动名称</th>
+                        <th>发起方</th>
+                        <th>类型</th>
+                        <th>活动状态</th>
+                        <th>总笔数</th>
+                        <th>总金额</th>
+                        <th>单笔金额</th>
+                        <th>开始日期</th>
+                        <th>结束日期</th>
+                        <th>操作</th>
+                    </tr>
+                    <tr v-for="n in dataList">
+                        <td>{{n.activityName}}</td><!-- 活动名称 -->
+                        <td>{{n.bankUuidsName}}</td><!-- 发起方 -->
+                        <td><span v-if="n.subType==online">线上</span><span v-else>线下</span></td><!-- 子类型 -->
+                        <td>{{n.activitStatus}}</td><!-- 活动状态 -->
+                        <td>{{n.totalNumber}}</td><!-- 总笔数 -->
+                        <td>{{n.totalAmount}}</td><!-- 总金额 -->
+                        <td>{{n.avgAmount}}</td><!-- 单笔金额 -->
+                        <td>{{n.startDate}} </td><!-- 开始日期 -->
+                        <td>{{n.endDate}}</td><!-- 结束日期 -->
+                        <td><a v-link="{name:'transaction-detail',params:{'transactionName':n.activityName,'transactionId':n.activityId}}">交易明细</a></td><!-- 操作 -->
+                    </tr>
+                     <tr v-if="!dataList.length">
+                        <td colspan="10">未查询到{{activityName}}活动</td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <div class="showInfo">
             <div class="outPDF" @click="getExcel"><a>导出excel表格</a></div>
@@ -97,6 +105,14 @@
         </div>
     </div>
 </template>
+<style type="text/css" scoped>
+    .transaction-search .search-div .conditions-list{
+        padding-right: 15px;
+    }
+    .transaction-search .search-div .conditions-list .input,.search-div .conditions-list .select{
+        vertical-align: top;height: 38px;margin-right: 10px;
+    }
+</style>
 <script type="text/javascript">
     import model from '../../ajax/transaction/transaction_search_model'
 	export default{

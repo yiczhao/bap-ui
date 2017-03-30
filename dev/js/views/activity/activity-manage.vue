@@ -1,21 +1,25 @@
 <template>
 <div class="activity-manage">
     <div class="activity-row activity-title">
-        <div class="search-div">
-            <span>活动名称</span>
-            <input class="input" type="text" v-model="replaceName" placeholder="输入活动名称" @keyup.enter="doSearch"/>
-            <span>活动时间</span>
-            <ks-date-range-picker placeholder="开始时间,结束时间"
-                                  :range.sync="daterange"
-                                  :readonly="false"
-                                  v-on:change="date_multi_picker_change"></ks-date-range-picker>
-            <span>活动性质</span>
-            <select class="select" v-model="actPropes" @change="getactPropes">
-                <option value="">全部性质</option>
-                <option value="online">线上活动</option>
-                <option value="offline">线下活动</option>
-            </select>
-            <a class="btn btn-primary" @click="doSearch">搜索</a>
+        <div class="search-div search-table">
+            <div class="conditions-list">
+                <span>活动名称</span>
+                <input class="input" type="text" v-model="replaceName" placeholder="输入活动名称" @keyup.enter="doSearch"/>
+                <span>活动时间</span>
+                <ks-date-range-picker placeholder="开始时间,结束时间"
+                                      :range.sync="daterange"
+                                      :readonly="false"
+                                      v-on:change="date_multi_picker_change"></ks-date-range-picker>
+                <span>活动性质</span>
+                <select class="select" v-model="actPropes" @change="getactPropes">
+                    <option value="">全部性质</option>
+                    <option value="online">线上活动</option>
+                    <option value="offline">线下活动</option>
+                </select>
+            </div>
+            <div class="do-search">
+                <a class="btn btn-primary" @click="doSearch">搜索</a>
+            </div>
         </div>
         <div class="search-div">
             <span>活动状态</span>
@@ -26,59 +30,61 @@
         </div>
     </div>
     <div class="table-row">
-        <table class="table">
-            <tr>
-                <th>活动名称</th>
-                <th>活动开始时间</th>
-                <th>活动结束时间</th>
-                <th>线上&线下</th>
-                <th>活动创建时间</th>
-                <th>所属银行</th>
-                <th>活动状态</th>
-                <th>活动详情</th>
-                <th>交易</th>
-                <th>权益</th>
-                <th>操作</th>
-            </tr>
-            <tr v-show="!!searchList" v-for="n in searchList">
-                <td>{{n.name}}</td>
-                <td>{{n.startTime | datetime}}</td>
-                <td>{{n.endTime | datetime}}</td>
-                <td>
-                    <template v-if="n.propes=='online'">线上</template>
-                    <template v-else>线下</template>
-                </td>
-                <td>{{n.createdAt | datetime}}</td>
-                <td>{{n.uuid | get_bank uuidsList}}</td>
-                <td>
-                    <template v-if="n.status=='draft_other'">草稿</template>
-                    <template v-if="n.status=='draft'">待审核</template>
-                    <template v-if="n.status=='check_fail'">审核失败</template>
-                    <template v-if="n.status=='early_offline'">已结束</template>
-                    <template v-if="n.status=='finish'">已结束</template>
-                    <template v-if="n.status=='online'">运行中</template>
-                    <template v-if="n.status=='wait_early_offline'">运行中</template>
-                    <template v-if="n.status=='wait_check'&&n.auditStatus=='wait_early_offline'">运行中</template>
-                    <template v-if="n.status=='wait_check'&&n.auditStatus!='wait_early_offline'">待审核</template>
-                </td>
-                <td><a v-link="{name:'activity-info',params:{'infoId':n.id}}">查看</a></td>
-                <td><a v-if="n.status!='draft_other'&&n.status!='draft'&&n.status!='wait_check'" v-link="{name:'transaction-detail',params:{'transactionName':n.name,'transactionId':n.uniqueId}}">查看</a></td>
-                <td>
-                    <a v-if="n.propes=='online'" v-link="{name:'atl-search',params:{atlId:n.id}}">查看</a>
-                    <a v-else></a>
-                </td>
-                <td>
-                    <a v-if="n.step==1&&n.status=='draft_other'" @click="setProp(n.propes,n.ruleType)" v-link="{name:'basic-rule',params:{'activityId':n.id,'rulename':n.ruleType}}">编辑</a>
-                    <a v-if="n.step==2&&n.status=='draft_other'" @click="setProp(n.propes,n.ruleType)" v-link="{name:n.ruleType,params:{'ruleId':n.id}}">编辑</a>
-                    <a v-if="n.step==3&&n.status=='draft_other'&&n.ruleType!='Ticket'" @click="setProp(n.propes,n.ruleType)" v-link="{name:'bussiness-set',params:{'bactivityId':n.id}}">编辑</a>
-                    <a v-if="n.step==3&&n.status=='draft_other'&&n.ruleType=='Ticket'" @click="setProp(n.propes,n.ruleType)" v-link="{name:'ticketbussiness-set',params:{'tactivityId':n.id}}">编辑</a>
-                    <a v-if="n.status=='draft_other'" @click="deleteID(n.id)">删除</a>
-                </td>
-            </tr>
-            <tr v-show="!searchList.length">
-                <td colspan="11">未查询到数据</td>
-            </tr>
-        </table>
+        <div class="overFlow">
+            <table class="table">
+                <tr>
+                    <th>活动名称</th>
+                    <th>活动开始时间</th>
+                    <th>活动结束时间</th>
+                    <th>线上&线下</th>
+                    <th>活动创建时间</th>
+                    <th>所属银行</th>
+                    <th>活动状态</th>
+                    <th>活动详情</th>
+                    <th>交易</th>
+                    <th>权益</th>
+                    <th>操作</th>
+                </tr>
+                <tr v-show="!!searchList" v-for="n in searchList">
+                    <td>{{n.name}}</td>
+                    <td>{{n.startTime | datetime}}</td>
+                    <td>{{n.endTime | datetime}}</td>
+                    <td>
+                        <template v-if="n.propes=='online'">线上</template>
+                        <template v-else>线下</template>
+                    </td>
+                    <td>{{n.createdAt | datetime}}</td>
+                    <td>{{n.uuid | get_bank uuidsList}}</td>
+                    <td>
+                        <template v-if="n.status=='draft_other'">草稿</template>
+                        <template v-if="n.status=='draft'">待审核</template>
+                        <template v-if="n.status=='check_fail'">审核失败</template>
+                        <template v-if="n.status=='early_offline'">已结束</template>
+                        <template v-if="n.status=='finish'">已结束</template>
+                        <template v-if="n.status=='online'">运行中</template>
+                        <template v-if="n.status=='wait_early_offline'">运行中</template>
+                        <template v-if="n.status=='wait_check'&&n.auditStatus=='wait_early_offline'">运行中</template>
+                        <template v-if="n.status=='wait_check'&&n.auditStatus!='wait_early_offline'">待审核</template>
+                    </td>
+                    <td><a v-link="{name:'activity-info',params:{'infoId':n.id}}">查看</a></td>
+                    <td><a v-if="n.status!='draft_other'&&n.status!='draft'&&n.status!='wait_check'" v-link="{name:'transaction-detail',params:{'transactionName':n.name,'transactionId':n.uniqueId}}">查看</a></td>
+                    <td>
+                        <a v-if="n.propes=='online'" v-link="{name:'atl-search',params:{atlId:n.id}}">查看</a>
+                        <a v-else></a>
+                    </td>
+                    <td>
+                        <a v-if="n.step==1&&n.status=='draft_other'" @click="setProp(n.propes,n.ruleType)" v-link="{name:'basic-rule',params:{'activityId':n.id,'rulename':n.ruleType}}">编辑</a>
+                        <a v-if="n.step==2&&n.status=='draft_other'" @click="setProp(n.propes,n.ruleType)" v-link="{name:n.ruleType,params:{'ruleId':n.id}}">编辑</a>
+                        <a v-if="n.step==3&&n.status=='draft_other'&&n.ruleType!='Ticket'" @click="setProp(n.propes,n.ruleType)" v-link="{name:'bussiness-set',params:{'bactivityId':n.id}}">编辑</a>
+                        <a v-if="n.step==3&&n.status=='draft_other'&&n.ruleType=='Ticket'" @click="setProp(n.propes,n.ruleType)" v-link="{name:'ticketbussiness-set',params:{'tactivityId':n.id}}">编辑</a>
+                        <a v-if="n.status=='draft_other'" @click="deleteID(n.id)">删除</a>
+                    </td>
+                </tr>
+                <tr v-show="!searchList.length">
+                    <td colspan="11">未查询到数据</td>
+                </tr>
+            </table>
+        </div>
         <div v-show="!!searchList">
             <pagegroup
                     :total="searchData.total"

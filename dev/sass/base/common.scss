@@ -169,7 +169,32 @@ html,body{
       }
       .search-div{
         padding: 0 20px;
+        .conditions-list{
+          min-width: 846px;
+          text-align: right;
+          float: none;
+          .show-position{
+            position:relative;
+          }
+          .showList{
+            text-align:left;
+          }
+        }
+        .do-search{
+          display: table-cell;
+          width: 88px;
+          text-align: right;
+          float: none;
+          margin-right:15px;
+          span{
+            margin: 0 10px;
+          }
+        }
+        .KsDaterMultiPicker{
+          display: inline-block !important;
+        }
       }
+      .overFlow{overflow-x:auto}
       table{
         width:100%;margin-bottom: 20px;
         tr{
@@ -177,10 +202,10 @@ html,body{
           text-align:left;background-color:#FFFFFF;
           th{
             padding-left: 20px;
-            border-bottom:1px solid #E9E9E9;border-bottom-color:#999999;text-align:left;
+            border-bottom:1px solid #E9E9E9;border-bottom-color:#999999;text-align:left;white-space: nowrap;
           }
           td{
-            padding-left: 20px;
+            padding-left: 20px;white-space: nowrap;
             //border-bottom: 1px solid #e9e9e9;
             a{
               padding-right:5px;

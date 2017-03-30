@@ -36,6 +36,7 @@
                 </div>
             </div>
             <div class="forget-2" v-show="forgetShow==2">
+                <div class="verify-title">您正在为账号{{passwordData.phone}}找回密码，为了保护账号安全，需要身份验证</div>
                 <div class="form-row f18">
                     <img src="../../../img/phone.png" alt="">
                     通过密保手机{{passwordData.phone | filter_phone}}验证

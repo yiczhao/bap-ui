@@ -17,7 +17,6 @@
 		</div>
 		<div class="chart-show">
 			<div class="flex border">
-
 				<div class="left" v-link="{name:'activity-data-overview',params:{'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':1}}">
 					<h4>交易区域</h4>
 					<div class="echart-div" id="trade-area"></div>

@@ -9,15 +9,19 @@
             </span>
              <span class="infor-num">活动时间：<strong>{{showTitle.startTime}}~{{showTitle.endTime}}</strong></span>
          </div>
-         <div class="search-div">
-             <input class="input" type="text" v-model="searchData.mobileNumber" @keyup.enter="doSearch" placeholder="输入手机号码"/>
-             <select class="select" v-model="searchData.usedFlag">
-                 <option value="">请选择状态</option>
-                 <option value="true">已使用</option>
-                 <option value="false">未使用</option>
-             </select>
-             <input type="button" class="btn btn-primary searchBtn" @click="doSearch" value="搜 索">
-         </div>
+         <div class="search-div search-table">
+            <div class="conditions-list">
+                <input class="input" type="text" v-model="searchData.mobileNumber" @keyup.enter="doSearch" placeholder="输入手机号码"/>
+                <select class="select" v-model="searchData.usedFlag">
+                     <option value="">请选择状态</option>
+                     <option value="true">已使用</option>
+                     <option value="false">未使用</option>
+                 </select>
+                </div>
+            <div class="do-search">
+                <input type="button" class="btn btn-primary searchBtn" @click="doSearch" value="搜 索">
+            </div>
+        </div>
          <div class="flex-chart" v-show="latinos_echart==1">
             <div class="flex">
                 <div class="echart-div" id="all-echart"></div>

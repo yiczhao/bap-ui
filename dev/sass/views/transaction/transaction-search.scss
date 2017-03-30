@@ -1,4 +1,11 @@
 .transaction-search,.transaction-detail,.latinos-search,.latinos-detail{
+	padding:20px !important;
+	.detailInfo{
+		text-align: center;
+		background-color: #f0f0f0;
+		padding: 10px 0;
+		margin-bottom: 20px;
+	}
 	.search-div{
 		position: relative;
 		display:table;width:100%;box-sizing: border-box;
@@ -35,7 +42,7 @@
 			height:36px;
 		}
 		.showList{
-			position: absolute;top: 36px;left: 20px;padding: 15px 15px 0 15px;
+			position: absolute;top: 14px;left: 0px;padding: 15px 15px 0 15px;
 			min-width: 158px;max-height: 400px;
 			background: #fff;border: 1px solid #ddd;border-radius: 5px;overflow: auto;z-index: 999;
 			ul{
@@ -51,8 +58,24 @@
 				}
 			}
 		}
+		.KsDaterMultiPicker{
+			height: 36px;
+			.KsDaterMulti{
+				left: -195px;
+			}
+		}
 	}
-
+	.search-table{
+		padding:0 !important;
+		.conditions-list{
+			padding-right: 15px;
+			.input,.select{
+	            vertical-align: top;
+				height:38px;
+				margin-right: 10px
+			}
+		}
+	}
 	.flex-chart{
 		display:flex;clear:both;
 		border-top:1px solid #f0f0f0;border-bottom:1px solid #f0f0f0;padding:20px 0;height:180px;
@@ -80,21 +103,8 @@
 		font-size: 18px;
 		text-align: center;
 	}
-	.table{
-		clear: both;
-		table{
-			border-width: 0px !important;
-			tr{
-				height:37px !important;
-				td a{
-					padding: 0 0px !important;
-					padding-right: 5px !important;
-				}
-			}
-		}
-	}
 	.showInfo{
-		padding-top:5px;height: 36px;
+		margin-top: 15px;height: 36px;
 		display:flex;
 		.outPDF{
 			width: 95px;line-height: 36px;

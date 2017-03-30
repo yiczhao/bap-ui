@@ -1,24 +1,15 @@
-.latinos-detail,.transaction-detail{
-	.flex-chart{
-		// padding:0;height: 160px;
-		.flex{
-			.flex-title{
-				height: 15px;line-height: 15px;
+.latinos-detail{
+	.search-table{
+		.conditions-list{
+			.input,.select{
+				vertical-align:text-bottom;
 			}
-			.border-right{
-				top: 20px;
-				height: 120px;
+			.input{
+				margin-right: 10px;
+			}
+			.select{
+				margin-right:0 !important;
 			}
 		}
-	}
-	.detailInfo{
-		padding: 10px 0;margin-bottom: 20px;
-		background-color: #f0f0f0;text-align: center;
-    	.infor-num{
-    		margin-left:20px;
-    	}
-	}
-	.showInfo{
-		padding-top: 5px;
 	}
 }

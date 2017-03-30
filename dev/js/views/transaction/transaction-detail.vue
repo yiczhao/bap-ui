@@ -3,13 +3,17 @@
         <div class="detailInfo">
              <span class="activity-name">活动名称：<strong>{{activityName}}</strong></span>
         </div>
-        <div class="search-div">
-            <input class="input" type="text" v-model="searchData.cardNumber" @keyup.enter="getList" v-limitaddprice="searchData.cardNumber" placeholder="请输入银行卡号"/>
-            <ks-date-range-picker placeholder="开始时间,结束时间"
-                                  :range.sync="daterange"
-                                  :readonly="false"
-                                  v-on:change="date_multi_picker_change"></ks-date-range-picker>
-            <input type="button" class="btn btn-primary searchBtn" @click="getList" value="搜 索">
+        <div class="search-div search-table">
+            <div class="conditions-list">
+                <input class="input" type="text" v-model="searchData.cardNumber" @keyup.enter="getList" v-limitaddprice="searchData.cardNumber" placeholder="请输入银行卡号"/>
+                <ks-date-range-picker placeholder="开始时间,结束时间"
+                                      :range.sync="daterange"
+                                      :readonly="false"
+                                      v-on:change="date_multi_picker_change"></ks-date-range-picker>
+                </div>
+            <div class="do-search">
+                <input type="button" class="btn btn-primary searchBtn" @click="getList" value="搜 索">
+            </div>
         </div>
         <div class="flex-chart" v-show="cumulative.length!=0">
             <div class="flex">
