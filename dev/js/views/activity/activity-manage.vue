@@ -21,7 +21,7 @@
                 <a class="btn btn-primary" @click="doSearch">搜索</a>
             </div>
         </div>
-        <div class="search-div">
+        <div class="search-div search-float">
             <span>活动状态</span>
             <ks-checkbox @change="checked(['draft_other'],checkedBox[0])" :checked.sync="checkedBox[0]">草稿</ks-checkbox>
             <ks-checkbox @change="checked(['draft','check_fail','wait_check'],checkedBox[1])" :checked.sync="checkedBox[1]">待审核</ks-checkbox>
