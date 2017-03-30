@@ -67,17 +67,22 @@
                         <template v-if="n.status=='wait_check'&&n.auditStatus!='wait_early_offline'">待审核</template>
                     </td>
                     <td><a v-link="{name:'activity-info',params:{'infoId':n.id}}">查看</a></td>
-                    <td><a v-if="n.status!='draft_other'&&n.status!='draft'&&n.status!='wait_check'" v-link="{name:'transaction-detail',params:{'transactionName':n.name,'transactionId':n.uniqueId}}">查看</a></td>
+                    <td>
+                        <a v-if="n.status!='draft_other'&&n.status!='draft'&&n.status!='wait_check'" v-link="{name:'transaction-detail',params:{'transactionName':n.name,'transactionId':n.uniqueId}}">查看</a>
+                        <span class="color999" v-else>查看</span>
+                    </td>
                     <td>
                         <a v-if="n.propes=='online'" v-link="{name:'atl-search',params:{atlId:n.id}}">查看</a>
-                        <a v-else></a>
+                        <span class="color999" v-else>查看</span>
                     </td>
                     <td>
                         <a v-if="n.step==1&&n.status=='draft_other'" @click="setProp(n.propes,n.ruleType)" v-link="{name:'basic-rule',params:{'activityId':n.id,'rulename':n.ruleType}}">编辑</a>
                         <a v-if="n.step==2&&n.status=='draft_other'" @click="setProp(n.propes,n.ruleType)" v-link="{name:n.ruleType,params:{'ruleId':n.id}}">编辑</a>
                         <a v-if="n.step==3&&n.status=='draft_other'&&n.ruleType!='Ticket'" @click="setProp(n.propes,n.ruleType)" v-link="{name:'bussiness-set',params:{'bactivityId':n.id}}">编辑</a>
                         <a v-if="n.step==3&&n.status=='draft_other'&&n.ruleType=='Ticket'" @click="setProp(n.propes,n.ruleType)" v-link="{name:'ticketbussiness-set',params:{'tactivityId':n.id}}">编辑</a>
+                        <span class="color999" v-if="n.status!='draft_other'">编辑</span>
                         <a v-if="n.status=='draft_other'" @click="deleteID(n.id)">删除</a>
+                        <span class="color999" v-else>删除</span>
                     </td>
                 </tr>
                 <tr v-show="!searchList.length">
