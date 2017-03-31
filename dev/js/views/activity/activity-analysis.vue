@@ -186,7 +186,7 @@
             getId({uniqueId,name}){
                 this.showList=false;
                 this.searchData.activityName=name;
-                this.searchData.activityID=uniqueId;id
+                this.searchData.activityID=uniqueId;
                 this.searchData.bankUuidString='';
             },
 			initList(){

@@ -121,7 +121,7 @@
                 submitRemarks:'',
                 waring:'请搜索商户',
                 addshow:false,
-                showstep:2,
+                showstep:3,
                 storeName: "",
                 searchData:{
                     total:0,
