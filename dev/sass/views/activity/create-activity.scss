@@ -30,7 +30,7 @@
 		.show-activity{
 			position: relative; float: left;display: block;
 			margin-bottom: 20px;  padding-right: 30px;box-sizing: border-box;width: 25%;  height: 125px;
-			text-align: center;  cursor: pointer;
+			text-align: center;  //cursor: pointer;
 			.hover-div{
 				display: none;
 				.hover-bg{
@@ -43,9 +43,9 @@
 				position: absolute;  top:25px;  left: 20%;
 				padding: 0;width: 60%;height: 30px;line-height: 30px;border-radius: 15px;
 				background: #e76b5f;color: #fff;opacity: 0.9;
-				&:hover{
-					opacity: 1;
-				}
+				//&:hover{
+				//	opacity: 1;
+				//}
 			}
 			.btn-danger{
 				top:70px;

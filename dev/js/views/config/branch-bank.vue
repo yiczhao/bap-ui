@@ -34,6 +34,9 @@
                         <template v-if="n.editable">
                             <a @click="editBank(n)">编辑</a>
                         </template>
+                        <template v-else>
+                            <span class="color999">编辑</span>
+                        </template>
                     </td>
                 </tr>
             </table>

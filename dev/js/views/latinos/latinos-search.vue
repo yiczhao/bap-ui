@@ -100,6 +100,7 @@
                       <td>{{n.endTime}}</td><!-- 结束时间-->
                       <td>
                         <a v-show="n.activityStatus=='online'" v-link="{name:'latinos-batch',params:{'batchId':n.activityID,'batchUserId':n.couponID}}">批量赠送</a>
+                          <span v-show="n.activityStatus!='online'" class="color999">批量赠送</span>
                         <a v-link="{name:'latinos-detail',params:{'latinosID':n.couponID,'couponName':n.couponName,'activityName':n.activityName,'startTime':n.startTime,'endTime':n.endTime,'couponFaceValue':n.couponFaceValue,'couponType':n.couponType}}">查看明细</a>
                       </td><!--操作-->
                   </tr>
