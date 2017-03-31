@@ -17,13 +17,23 @@
     </div>
     <div class="rule-row">
         <div class="rule-label"></div>
-        <div class="rule-input" style="width:506px;height:230px;border:1px solid #f0f0f0;">
+        <div class="rule-input">
+            <div class="setting-time"></div>
         </div>
     </div>
     <div class="rule-row">
         <div class="rule-label"><i>*</i>使用有效期</div>
         <div class="rule-input">
-            <input class="input" type="text" v-model="" placeholder="与活动时间同步" />
+            <select class="select">
+                <option value="与活动时间同步">与活动时间同步</option>
+                <option value="用户得到权益1天内">用户得到权益1天内</option>
+                <option value="用户得到权益2天内">用户得到权益2天内</option>
+                <option value="用户得到权益3天内">用户得到权益3天内</option>
+                <option value="用户得到权益5天内">用户得到权益5天内</option>
+                <option value="用户得到权益10天内">用户得到权益10天内</option>
+                <option value="用户得到权益15天内">用户得到权益15天内</option>
+                <option value="用户得到权益30天内">用户得到权益30天内</option>
+            </select>
         </div>
     </div>
     <div class="rule-row">
@@ -50,6 +60,17 @@
     </div>
 </activity-main>
 </template>
+<style type="text/css" scoped>
+    .rule-input textarea{
+        resize: none;padding: 15px;width: 476px;height: 250px;border: 1px solid #c8c8c8;
+    }
+    .setting-time{
+        height: 200px;width: 506px;display: table-cell;background-color: #F5F5F5;
+    }
+    .latinos-receive .select{
+        width: 506px !important;
+    }
+</style>
 <script type="text/javascript">
     import activityMain from './activity-main.vue'
     export default{
