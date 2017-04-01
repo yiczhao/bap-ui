@@ -206,7 +206,7 @@
                     this.$set('searchList',[]);
                     this.searchData.total=0;
                 }else{
-                    this.getList();
+                    this.doSearch();
                 }
             },
             getList(){
