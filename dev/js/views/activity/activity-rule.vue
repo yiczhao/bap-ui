@@ -384,8 +384,8 @@
                               sessionStorage.setItem('ticketData',JSON.stringify(ticketData))
                               this.$router.go({'name':'ticketbussiness-set','params':{"tactivityId":submitData.id }});
                           }else{
-                              // this.$router.go({'name':'bussiness-set','params':{"bactivityId":submitData.id }});
-                              this.$router.go({'name':'latinos-receive'});
+                              this.$router.go({'name':'bussiness-set','params':{"bactivityId":submitData.id }});
+                              // this.$router.go({'name':'latinos-receive'});
                           }
                       }else{
                           dialog('successTime','草稿保存成功！')
