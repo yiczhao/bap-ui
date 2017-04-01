@@ -155,12 +155,12 @@
             window.onbeforeunload=()=>{
                 sessionStorage.setItem('forgettime',this.time);
             }
-            !!sessionStorage.getItem('forgetShow')?this.passwordShow=sessionStorage.getItem('forgetShow')>>0:null;
-            !!sessionStorage.getItem('forgetid')?this.passwordData.id=sessionStorage.getItem('forgetid'):null;
-            if(this.passwordShow==2){
-                this.time=sessionStorage.getItem('forgettime')<=0?0:sessionStorage.getItem('forgettime');
-                this.time>0?this.times():null;
-            }
+            // !!sessionStorage.getItem('forgetShow')?this.passwordShow=sessionStorage.getItem('forgetShow')>>0:null;
+            // !!sessionStorage.getItem('forgetid')?this.passwordData.id=sessionStorage.getItem('forgetid'):null;
+            // if(this.passwordShow==2){
+            //     this.time=sessionStorage.getItem('forgettime')<=0?0:sessionStorage.getItem('forgettime');
+            //     this.time>0?this.times():null;
+            // }
             (!!JSON.parse(sessionStorage.getItem('loginList')).phone)?this.phone=JSON.parse(sessionStorage.getItem('loginList')).phone:null;
         }
     }
