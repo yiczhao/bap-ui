@@ -185,12 +185,12 @@
                         </template>
                         <template v-for="n in privileges" v-if="n.type==4">
                             <ks-checkbox :disable="true" @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
-                                <span>{{n.name}}</span>
+                                <span>终端{{n.name}}</span>
                             </ks-checkbox>
                         </template>
                         <template v-for="n in privileges" v-if="n.type==5">
                             <ks-checkbox :disable="true" @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
-                                <span>{{n.name}}</span>
+                                <span>商户{{n.name}}</span>
                             </ks-checkbox>
                         </template>
                         <template v-for="n in privileges" v-if="n.type==6">
