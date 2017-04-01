@@ -27,6 +27,12 @@
 		.kdialog{
 			position: fixed !important;
 			max-width: 700px;
+			.btn-primary:hover{
+				background-color: #e74c39!important;
+			}
+			.primary:hover{
+				background-color: #e74c39!important;
+			}
 		}
 	}
 }
