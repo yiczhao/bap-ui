@@ -96,6 +96,9 @@
 	.activity-data-overview td{
 		border-width: 0px !important;
 	}
+	.searchBtn:hover{
+		background-color: #e74c39!important;
+	}
 </style>
 <script>
 	import model from '../../ajax/activity/activity-analysis'
