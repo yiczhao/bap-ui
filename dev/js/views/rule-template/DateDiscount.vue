@@ -5,7 +5,7 @@
         <div class="days" v-show="n.show">
             <div v-for="n in days" :class="{checked:n.select}" @click="setDate(n,index)">{{n.date}}</div>
         </div>
-    </span>
+    </span> 
     <span>号</span>
     <input class="input padding-input" type="text" v-model="n.discount" v-limitaddprice="n.discount" @blur="checkDiscount(index)"/>
     <span class="margin-span">折</span>

@@ -1,7 +1,7 @@
 <template>
 <div class="rule-input" v-for="(index,n) in submitdata">
     <span>随机</span>
-    <input class="input padding-input" type="text" v-model="n.discount" v-limitaddprice="n.discount"/>
+    <input class="input padding-input" type="text" v-model="n.discount" v-limitaddprice="n.discount"  @blur="checkDiscount(index)"/>
     <span class="margin-span">折</span>
     <span>，</span>
     <input class="input padding-input" type="text" v-model="n.number" v-limitnumber="n.number"/>
@@ -47,6 +47,9 @@
             }
         },
         methods:{
+            checkDiscount(index){
+                if(this.submitdata[index].discount>10){dialog('info','折扣不能大于10！')};
+            },
         },
         events:{
             getData(){
