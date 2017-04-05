@@ -3,7 +3,7 @@
     <span>满</span>
     <input class="input padding-input" type="text" v-model="n.meetMoney" v-limitaddprice="n.meetMoney"/>
     <span class="margin-span">元</span><span>，打</span>
-    <input class="input padding-input" type="text" v-model="n.discount" v-limitaddprice="n.discount" @blur="checkDiscount(index)"/>
+    <input class="input padding-input" type="text" v-model="n.discount" v-limitdiscount="n.discount"/>
     <span class="margin-span">折</span>
     <i v-if="index===0" class="icon-add" @click="submitdata.push({'meetMoney':'','discount':''})">新增一条</i>
     <i v-if="index!==0" class="icon-remove" @click="submitdata.splice(index, 1)">删除一条</i>
@@ -45,11 +45,7 @@
                 }]
             }
         },
-        methods:{
-            checkDiscount(index){
-                if(this.submitdata[index].discount>10){dialog('info','折扣不能大于10！')};
-            },
-        },
+        methods:{},
         events:{
             getData(){
                 this.$dispatch('getDatas',  this.submitdata);
