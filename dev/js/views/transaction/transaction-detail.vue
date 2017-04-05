@@ -131,7 +131,7 @@
                 this.searchData.startDate=val[0]+' 00:00:00';
                 this.searchData.endDate=val[1]+' 23:59:59';
             },
-            tradeEchart(divID,data1,data_name,baseData,color_1,color_2){
+            tradeEchart(divID,data1,data_name,color_1,baseData,color_2){
                 var myChart=echarts.init(document.getElementById(divID));
                 var option = {
                     series: [
@@ -163,12 +163,13 @@
                                     itemStyle:{normal:{color:color_1}   
                                     },
                                 },
-                                {value:baseData,itemStyle:{normal:{color:color_2}},
-                                },
                             ],
                         }
                     ]
                 };
+                if(!!baseData){
+                    option.series[0].data.push({value:baseData,itemStyle:{normal:{color:color_2}}});
+                }
                 myChart.setOption(option);
             },
             getList(){
@@ -186,11 +187,11 @@
                 this.model.getTradeStatisticsSumList(this.searchData).then((res)=>{
                     if(res.data.code===0){
                         this.$set('cumulative',res.data.data);
-                        this.tradeEchart('num-echart',this.cumulative.totalNumber,'交易总笔数',0,'#e76b5f','#e76b5f');
-                        this.tradeEchart('amount-echart',this.cumulative.totalAmount,'交易总金额',0,'#ffcf7a','#ffcf7a');
-                        this.tradeEchart('disAmoun-echart',this.cumulative.canDisAmount,'可打折金额',this.cumulative.totalAmount-this.cumulative.canDisAmount,'#b6d15d','#ffcf7a');
-                        this.tradeEchart('pay-echart',this.cumulative.payAmount,'实付总金额',this.cumulative.totalAmount-this.cumulative.payAmount,'#3ba686','#f0f0f0');
-                        this.tradeEchart('subsidy-echart',this.cumulative.subsidyAmount,'补贴总金额',this.cumulative.totalAmount,'#163b7d','#f0f0f0');
+                        this.tradeEchart('num-echart',this.cumulative.totalNumber,'交易总笔数','#e76b5f');
+                        this.tradeEchart('amount-echart',this.cumulative.totalAmount,'交易总金额','#ffcf7a');
+                        this.tradeEchart('disAmoun-echart',this.cumulative.canDisAmount,'可打折金额','#b6d15d',this.cumulative.totalAmount-this.cumulative.canDisAmount,'#ffcf7a');
+                        this.tradeEchart('pay-echart',this.cumulative.payAmount,'实付总金额','#3ba686',this.cumulative.totalAmount-this.cumulative.payAmount,'#f0f0f0');
+                        this.tradeEchart('subsidy-echart',this.cumulative.subsidyAmount,'补贴总金额','#163b7d',this.cumulative.totalAmount,'#f0f0f0');
                     }
                 })
             },

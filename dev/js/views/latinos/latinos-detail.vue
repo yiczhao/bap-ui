@@ -109,7 +109,7 @@
              }
          },
          methods:{
-            latinosEchart(divID,data1,data_name,baseData,color_1,color_2){
+            latinosEchart(divID,data1,data_name,color_1,baseData,color_2){
                     var myChart=echarts.init(document.getElementById(divID));
                     var option = {
                         series: [
@@ -127,7 +127,7 @@
                                 labelLine: {normal: {show: false}},
                                 data:[
                                     {
-                                        value:data1, 
+                                        value:data1,
                                         name:data_name,
                                         label:{
                                             normal: {
@@ -138,25 +138,26 @@
                                                     fontWeight: 'bold'}
                                             }
                                         },
-                                        itemStyle:{normal:{color:color_1}   
+                                        itemStyle:{normal:{color:color_1}
                                         },
-                                    },
-                                    {value:baseData,itemStyle:{normal:{color:color_2}},
                                     },
                                 ],
                             }
                         ]
                     };
+                    if(!!baseData){
+                      option.series[0].data.push({value:baseData,itemStyle:{normal:{color:color_2}}});
+                    }
                     myChart.setOption(option);
                 },
             getList(){
                this.model.getLationsTotal(this.searchData).then((res)=>{
                    if (res.data.code==0 && !_.isEmpty(res.data.data)) {
                        this.$set('latinosDetailTotal',res.data.data);
-                       this.latinosEchart('all-echart',this.latinosDetailTotal.circulation,'权益总数量',0,'#e76b5f','#e76b5f');
-                       this.latinosEchart('use-echart',this.latinosDetailTotal.usedAmount,'权益使用量',this.latinosDetailTotal.circulation-this.latinosDetailTotal.usedAmount,'#15a4fa','#f0f0f0');
-                       this.latinosEchart('unuse-echart',this.latinosDetailTotal.unusedAmount,'权益未使用量',this.latinosDetailTotal.circulation-this.latinosDetailTotal.unusedAmount,'#62cca4','#f0f0f0');
-                       this.latinosEchart('expired-echart',this.latinosDetailTotal.expiredAmount,'权益逾期量',this.latinosDetailTotal.circulation-this.latinosDetailTotal.expiredAmount,'#1a1a1a','#e76b5f');
+                       this.latinosEchart('all-echart',this.latinosDetailTotal.circulation,'权益总数量','#e76b5f');
+                       this.latinosEchart('use-echart',this.latinosDetailTotal.usedAmount,'权益使用量','#15a4fa',this.latinosDetailTotal.circulation-this.latinosDetailTotal.usedAmount,'#f0f0f0');
+                       this.latinosEchart('unuse-echart',this.latinosDetailTotal.unusedAmount,'权益未使用量','#62cca4',this.latinosDetailTotal.circulation-this.latinosDetailTotal.unusedAmount,'#f0f0f0');
+                       this.latinosEchart('expired-echart',this.latinosDetailTotal.expiredAmount,'权益逾期量','#1a1a1a',this.latinosDetailTotal.circulation-this.latinosDetailTotal.expiredAmount,'#e76b5f');
                    }else{
                      this.latinos_echart=0;
                    }
