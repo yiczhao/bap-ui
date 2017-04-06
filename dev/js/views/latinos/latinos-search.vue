@@ -84,14 +84,8 @@
                           <template v-if="n.couponType=='discount'">{{n.couponFaceValue}}折</template>
                       </td><!-- 面值/折扣-->
                       <td>
-                          <template v-if="n.activityStatus=='draft_other'">草稿</template>
-                          <template v-if="n.activityStatus=='wait_early_offline'">运行中</template>
-                          <template v-if="n.activityStatus=='draft'">待审核</template>
-                          <template v-if="n.activityStatus=='wait_check'">待审核</template>
-                          <template v-if="n.activityStatus=='check_fail'">审核失败</template>
-                          <template v-if="n.activityStatus=='online'">运行中</template>
-                          <template v-if="n.activityStatus=='early_offline'">已结束</template>
-                          <template v-if="n.activityStatus=='finish'">已结束</template>
+                          <template v-if="n.status==='OFF'">已结束</template>
+                          <template v-if="n.status=='ON'">运行中</template>
                       </td><!-- 状态-->
                       <td>{{n.circulation }}</td><!-- 发行量-->
                       <td>{{n.usedAmount}} </td><!-- 使用量-->
@@ -99,10 +93,9 @@
                       <td>{{n.startTime }}</td><!-- 开始时间-->
                       <td>{{n.endTime}}</td><!-- 结束时间-->
                       <td>
-                          <a v-if="n.activityStatus=='online'&&n.status==='OFF'" v-link="{name:'set-receive',params:{'setReceiveId':n.id,'setReceiveActivityId':n.activityID}}">配置权益</a>
-                          <span v-else class="color999">配置权益</span>
-                          <a v-if="n.activityStatus=='online'&&n.status==='ON'" @click="latinosOff(n.id)">权益下线</a>
-                          <span v-else class="color999">权益下线</span>
+                          <a v-if="n.status==='OFF'&&n.activityStatus==='online'" v-link="{name:'set-receive',params:{'setReceiveId':n.id,'setReceiveActivityId':n.activityID}}">配置权益</a>
+                          <a v-if="n.status==='ON'&&n.activityStatus==='online'" @click="latinosOff(n.id)">权益下线</a>
+                          <span v-if="n.activityStatus!=='online'" class="color999">配置权益</span>
                           <a v-if="n.activityStatus=='online'" v-link="{name:'latinos-batch',params:{'batchId':n.activityID,'batchUserId':n.couponID}}">批量赠送</a>
                           <span v-else class="color999">批量赠送</span>
                           <a v-link="{name:'latinos-detail',params:{'latinosID':n.couponID,'couponName':n.couponName,'activityName':n.activityName,'startTime':n.startTime,'endTime':n.endTime,'couponFaceValue':n.couponFaceValue,'couponType':n.couponType}}">查看明细</a>
