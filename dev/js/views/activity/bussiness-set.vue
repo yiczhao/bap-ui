@@ -219,7 +219,7 @@
             backBasic(){
                 let ruleId='';
                 !!sessionStorage.getItem('activityId')?ruleId=sessionStorage.getItem('activityId') << 0:ruleId=this.$route.params.bactivityId;
-                this.$router.go({'name':sessionStorage.getItem('rulename'),params:{'ruleId':ruleId}});
+                (sessionStorage.getItem('props')=='online')?this.$router.go({'name':'latinos-receive',params:{'receiveId':ruleId}}):this.$router.go({'name':sessionStorage.getItem('rulename'),params:{'ruleId':ruleId}});
             },
             /**
              * @description 错误处理

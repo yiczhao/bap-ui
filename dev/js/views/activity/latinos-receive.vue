@@ -18,10 +18,10 @@
     <div class="rule-row">
         <div class="rule-label"><i>&nbsp;</i>设置定时抢</div>
         <div class="rule-input">
-            <ks-switch :color="'#ea6953'" :checked.sync="hasWeeksAndTimes" @change="addtimesList"></ks-switch>
+            <ks-switch :color="'#ea6953'" :checked.sync="latinosData.hasWeeksAndTimes" @change="addtimesList"></ks-switch>
         </div>
     </div>
-    <div class="rule-row caption" v-show="hasWeeksAndTimes">
+    <div class="rule-row" v-show="latinosData.hasWeeksAndTimes">
         <div class="rule-input">
             <ks-checkbox v-for="n in weeksList" :checked.sync="n.checked">{{n.name}}</ks-checkbox>
         </div>
@@ -29,18 +29,23 @@
         <!-- 时间多段设定 -->
         <div class="rule-input">
             <div class="db" v-for="n in timesList.length">
-                <select class="select" v-model="timesList[n].start" @change="timesList[n].end==''">
+                <select class="select" v-model="timesList[n].start"
+                        change="timesList[n].end==null"
+                >
+                    <option :value="null">请选择时间段</option>
                     <option v-for="i in 24" :value="i + ':' + '00'" v-text="i + ':' + '00'">时间</option>
                 </select>
                 <span class="mr15">至</span>
                 <select class="select" v-model="timesList[n].end">
-                    <option v-for="i in 23 - timesListShadow[n]"
+                    <option :value="null">请选择时间段</option>
+                    <option v-for="i in 24 - timesListShadow[n]"
                             :value="i + timesListShadow[n] + 1 + ':' + '00'"
                             v-text="i + timesListShadow[n] + 1 + ':' + '00'"
+                            v-if="i + timesListShadow[n] + 1 !== 24"
                     >时间</option>
-                    <option :value="'23:59'" v-text="'23:59'">时间</option>
+                    <option v-if="timesList[n]" :value="'23:59'" v-text="'23:59'">时间</option>
                 </select>
-                <i v-if="n===0" class="icon-add" @click="timesList.push({'start':'0:00','end':'23:59'})"></i>
+                <i v-if="n===0" class="icon-add" @click="timesListAdd"></i>
                 <i v-if="n!==0" class="icon-remove" @click="timesList.splice(n, 1)"></i>
             </div>
         </div>
@@ -63,13 +68,13 @@
     <div class="rule-row">
         <div class="rule-label"><i>*</i>权益总数量</div>
         <div class="rule-input">
-            <input class="input" type="text" v-model="latinosData.total"/>
+            <input class="input" type="text" v-limitaddprice="latinosData.total" v-model="latinosData.total"/>
         </div>
     </div>
     <div class="rule-row">
         <div class="rule-label"><i>*</i>权益每天数量</div>
         <div class="rule-input">
-            <input class="input" type="text" v-model="latinosData.totalOneDay"/>
+            <input class="input" type="text" v-limitaddprice="latinosData.totalOneDay" v-model="latinosData.totalOneDay"/>
         </div>
     </div>
     <div class="rule-row">
@@ -119,13 +124,8 @@
     import model from '../../ajax/activity/basic_model'
     export default{
         computed: {
-            /**
-             * @description 可选时间段的映射
-             * @summary 用来实现可选时间段后者大于前者
-             */
             timesListShadow () {
                 let timesList = this.timesList
-
                 return timesList.map(m => m && m.start && m.start.split(':')[0] << 0)
             },
         },
@@ -143,7 +143,7 @@
             this.model=model(this)
             return{
                 timesList:[
-                    {start:'0:00',end:'23:59'}
+                    {start:null,end:null}
                 ],
                 weeksList:[
                     {name:'周日',checked:true,id:0},
@@ -154,10 +154,10 @@
                     {name:'周五',checked:true,id:5},
                     {name:'周六',checked:true,id:6}
                 ],
-                hasWeeksAndTimes:false,
                 daterange:[],
                 showstep:2,
                 receiveEndTime:'',
+                favorList:[],
                 latinosData:{
                     favorId:'',
                     step:3,
@@ -170,14 +170,30 @@
                     totalOneDay:'',
                     description:'',
                     smsContent:' ',
-                    uniqueId:'',
-                }
-                // textareaVal:'1、活动名称：满50减25 2、消费满50刷卡立减25 3、活动时间：2017-01-20 17:00-32:00 至 2017-08-20 17:00-32:00 仅限活动期间星期一至星期五使用。（根据所设置的时间条件动态改变） 4、该活动每卡金科参与1次（根据活动条件动态改变） 5、该权益不兑现、不找零。 6、请在权益有效期内到店刷卡使用，并在刷卡前向收银员提供本手机号码。 7、权益发布银行对本权益的最终解释权。',
+                    hasWeeksAndTimes:false,
+                },
+                addFirst:true
             }
         },
         methods:{
             addtimesList(){
-                !this.hasWeeksAndTimes? this.timesList=[{start:'0:00',end:'23:59'}]:null;
+                if(!this.latinosData.hasWeeksAndTimes){
+                    this.weeksList=[
+                        {name:'周日',checked:true,id:0},
+                        {name:'周一',checked:true,id:1},
+                        {name:'周二',checked:true,id:2},
+                        {name:'周三',checked:true,id:3},
+                        {name:'周四',checked:true,id:4},
+                        {name:'周五',checked:true,id:5},
+                        {name:'周六',checked:true,id:6}
+                    ]
+                    this.timesList=[{start:null,end:null}]
+                }
+            },
+            timesListAdd(){
+                if (this.timesList.length < 9) {
+                    this.timesList.push({start: null, end: null})
+                }
             },
             gettimesList(data){
                 let arr=[];
@@ -203,8 +219,11 @@
                 return arr;
             },
             settimesList(data){
-                // 解析 req 数据
                 let times=[];
+                if(_.isEmpty(data)){
+                    times.push({start:null,end:null})
+                    return times;
+                }
                 data.forEach(m => {
                     let splitedTime = m.split(' ~ ')
                     let time = {
@@ -232,26 +251,25 @@
                 for (let k in data) {
                     let m = data[k]
                     let err = errMapper[k] && new Error(`请检查 ${errMapper[k]} 字段!`)
-
                     /*global _*/
                     if ((!m && err) || (_.isArray(m) && !m.length && err)) {
                         throw err
                     }
                 }
-
                 // 活动时间检查
                 if (data.endTime <= data.startTime) {
                     throw new Error('活动开始时间不能大于等于活动结束时间!')
                 }
-
-                // 活动时间段检查
-                let timesList = data.timesList
-                timesList && timesList.forEach(m => {
-                    let timesList = m.split(' ~ ')
-                    if (timesList[0] === 'null' || timesList[1] === 'null') {
-                        throw new Error('可选时间段中的两个选择框都要是必填项!')
-                    }
-                })
+                if(this.latinosData.hasWeeksAndTimes){
+                    // 活动时间段检查
+                    let timesList = data.timesList
+                    timesList && timesList.forEach(m => {
+                        let timesList = m.split(' ~ ')
+                        if (timesList[0] === 'null' || timesList[1] === 'null') {
+                            throw new Error('可选时间段中的两个选择框都要是必填项!')
+                        }
+                    })
+                }
             },
             date_multi_picker_change(val){
                 if(val[0] > this.receiveEndTime){
@@ -271,6 +289,7 @@
                 let data=_.cloneDeep(this.latinosData);
                 data.weeksList=this.getweeks(this.weeksList);
                 data.timesList=this.gettimesList(this.timesList);
+                data.smsContent=' ';
                 data.uuid =JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
                 data.organizer =JSON.parse(sessionStorage.getItem('loginList')).organizerID;
                 if (true) {
@@ -281,34 +300,27 @@
                         return
                     }
                 }
-                this.model.addReceive(data).then((res)=>{
-                    if(res.data.code===0){
-                        if (bool) {
-                            if(sessionStorage.getItem('rulename')=='Ticket'){
-                                this.$router.go({'name':'ticketbussiness-set','params':{"tactivityId":this.latinosData.activityId}});
+                _.map(this.favorList,(val)=>{
+                    this.addFirst?data.favorId=val.id:data.favorId=data.id=val.id
+                    this.model.addReceive(data).then((res)=>{
+                        if(res.data.code===0){
+                            if (bool) {
+                                if(sessionStorage.getItem('rulename')=='Ticket'){
+                                    this.$router.go({'name':'ticketbussiness-set','params':{"tactivityId":this.latinosData.activityId}});
+                                }else{
+                                    this.$router.go({'name':'bussiness-set','params':{"bactivityId":this.latinosData.activityId}});
+                                }
                             }else{
-                                this.$router.go({'name':'bussiness-set','params':{"bactivityId":this.latinosData.activityId}});
+                                dialog('successTime','草稿保存成功！')
                             }
-                        }else{
-                            dialog('successTime','草稿保存成功！')
                         }
-                    }
+                    })
                 })
+
             },
             getRuleData(data){
                 let  ruleTypes={
-                    'MeetMinus':['meetMinuses','满多少减多少'],// 满多少减多少
-                    'EveryMeetMinus':['everyMeetMinus','每满多少减多少'],// 满多少减多少
-                    'ImmediatelyMinus':['immediatelyMinus','立减'],// 立减
-                    'RandomMinus':['randomMinuses','随机立减'],// 随机立减
-                    'MeetDiscount':['meetDiscounts','折扣'],// 折扣
-                    'Ticket':['tickets','票务规则'],// 票务规则
-                    'SerialDiscount':['serialDiscounts','连环折扣'],// 连环折扣
-                    'WeekdayDiscount':['weekdayDiscounts','周几几折'],// 周几几折
-                    'DateDiscount':['dateDiscounts','几号几折'],// 几号几折
-                    'RandomDiscount':['randomDiscounts','随机折扣'],// 随机折扣
-                    'CouponDiscount':['couponDiscounts','权益打折'],//权益打折
-                    'CouponMinus':['couponMinus','权益金额']//权益金额
+                    'MeetMinus':['meetMinuses','满多少减多少'],'EveryMeetMinus':['everyMeetMinus','每满多少减多少'],'ImmediatelyMinus':['immediatelyMinus','立减'],'RandomMinus':['randomMinuses','随机立减'],'MeetDiscount':['meetDiscounts','折扣'],'Ticket':['tickets','票务规则'],'SerialDiscount':['serialDiscounts','连环折扣'],'WeekdayDiscount':['weekdayDiscounts','周几几折'],'DateDiscount':['dateDiscounts','几号几折'],'RandomDiscount':['randomDiscounts','随机折扣'],'CouponDiscount':['couponDiscounts','权益打折'],'CouponMinus':['couponMinus','权益金额']
                 };
                 let datas=_.cloneDeep(data);
                 datas.ruleTypes=!data.ruleType?[]:ruleTypes[data.ruleType][0];
@@ -319,7 +331,8 @@
                 }
                 return datas;
             },
-            getRuleString(ruleString,ruleList,index){
+            getRuleString(ruleList,index){
+                let ruleString='';
                 switch (ruleList.ruleType){
                     case 'MeetMinus':
                         ruleString+=index+'、';
@@ -378,32 +391,83 @@
                     case 'CouponDiscount':
                         ruleString+=index+'、';
                         _.map(ruleList[ruleList.ruleTypes],(val)=>{
-                            ruleString+=val.belowMoney+'元以内, 打'+val.number+'折优惠.';
+                            ruleString+=val.belowMoney+'元以内, 打'+val.discount+'折优惠.';
                         })
                         break;
                     case 'CouponMinus':
                         ruleString+=index+'、';
                         _.map(ruleList[ruleList.ruleTypes],(val)=>{
-                            ruleString+='优惠劵名称:'+val.name+'，抵扣'+val.deductibleMoney+'元， 每次可使用'+val.number+'张.';
+                            ruleString+=val.name+':抵扣'+val.deductibleMoney+'元， 每次可使用'+val.number+'张.';
                         })
                         break;
                 }
-                ruleString+='\n';
+                return ruleString;
+            },
+            getMoneyString(data){
+                let ruleString='';
+                _.map(data,(val)=>{
+                    if(val.type =='minimum_consume'){
+                        ruleString+='最低消费金额:'+val.amount+'元.';
+                    }
+                    if(val.type =='max_preferential'){
+                        ruleString+='最高优惠金额:'+val.amount+'元.';
+                    }
+                    if(val.type =='less_than'){
+                        ruleString+=val.amount+'元内参与打折.';
+                    }
+                })
+                return ruleString;
+            },
+            getQuantitiesString(data){
+                let ruleString='';
+                _.map(data,(val)=>{
+                    if(val.type =='act_total'){
+                        ruleString+='活动总数限制:共'+val.total+'次，每天'+val.totalDay+'次，每周'+val.totalWeek+'次，每月'+val.totalMonth+'次.\n';
+                    }
+                    if(val.type =='store_card'){
+                        ruleString+='商户每卡参与次数:共'+val.total+'次，每天'+val.totalDay+'次，每周'+val.totalWeek+'次，每月'+val.totalMonth+'次.\n';
+                    }
+                    if(val.type =='store'){
+                        ruleString+='每商户参与次数:共'+val.total+'次，每天'+val.totalDay+'次，每周'+val.totalWeek+'次，每月'+val.totalMonth+'次.\n';
+                    }
+                    if(val.type =='card'){
+                        ruleString+='每卡参与次数:共'+val.total+'次，每天'+val.totalDay+'次，每周'+val.totalWeek+'次，每月'+val.totalMonth+'次.\n';
+                    }
+                    if(val.type =='user'){
+                        ruleString+='用户参与次数:共'+val.total+'次，每天'+val.totalDay+'次，每周'+val.totalWeek+'次，每月'+val.totalMonth+'次.\n';
+                    }
+                })
                 return ruleString;
             },
             getRules(data){
                 let ruleString,index=1;
-                ruleString = index+'、活动名称：'+data.base.name+'\n';
-                index++;
+                ruleString = index+'、活动名称：'+data.base.name+'\n';index++;
+                //活动规则拼接
                 let ruleList= this.getRuleData(data.ruleAndLimit);
                 if(!_.isEmpty(ruleList)){
-                    ruleString=this.getRuleString(ruleString,ruleList,index);
-                    index++;
+                    ruleString+=this.getRuleString(ruleList,index)+'\n';index++;
                 }
-                ruleString+= index+'、该权益不兑现、不找零。\n';
-                index++;
-                ruleString+= index+'、请在权益有效期内到店刷卡使用，并在刷卡前向收银员提供本手机号码。\n';
-                index++;
+                //活动时间拼接
+                ruleString+= index+'、活动时间：'+data.base.startTime+'至'+data.base.endTime;index++;
+                if(!_.isEmpty(data.base.weeksList)){
+                    ruleString+=',活动期间:';
+                    let weeks=['星期日','星期一','星期二','星期三','星期四','星期五','星期六']
+                    _.map(data.base.weeksList,(val,index)=>{
+                        index===data.base.weeksList.length-1?ruleString+=weeks[val<<0]:ruleString+=weeks[val<<0]+'、';
+                    })
+                    ruleString+='使用.\n';
+                }
+                //金额限制拼接
+                if(!_.isEmpty(data.ruleAndLimit.moneys)){
+                    ruleString+=index+'、'+this.getMoneyString(data.ruleAndLimit.moneys)+'\n';index++;
+                }
+                //参与次数限制拼接
+                if(!_.isEmpty(data.ruleAndLimit.quantities)){
+                    ruleString+=index+'、'+this.getQuantitiesString(data.ruleAndLimit.quantities);index++;
+                }
+                //活动声明拼接
+                ruleString+= index+'、该权益不兑现、不找零。\n';index++;
+                ruleString+= index+'、请在权益有效期内到店刷卡使用，并在刷卡前向收银员提供本手机号码。\n';index++;
                 ruleString+= index+'、权益发布银行对本权益的最终解释权。'
                 return ruleString;
             }
@@ -415,23 +479,25 @@
                 // 获取活动信息
                 this.model.geteditList(activityId).then((res)=>{
                     this.latinosData.activityId=activityId;
-                    this.latinosData.favorId=res.data.data.favors[0].id;
+                    this.$set('favorList',res.data.data.favors);
                     this.latinosData.receiveStartTime=res.data.data.base.startTime;
                     this.latinosData.receiveEndTime=res.data.data.base.endTime;
                     this.receiveEndTime=this.latinosData.receiveEndTime.split(' ')[0];
                     this.daterange=[this.latinosData.receiveStartTime.split(' ')[0],this.latinosData.receiveEndTime.split(' ')[0]]
                     this.latinosData.description=this.getRules(res.data.data);
                     if(!_.isEmpty(res.data.data.favorConfigs)){
-                        this.latinosData.id=this.latinosData.favorId;
-                        this.model.searchReceive(this.latinosData.favorId).then((res)=>{
-                            console.log(res.data.data);
+                        this.addFirst=false;
+                        this.model.searchReceive(this.favorList[this.favorList.length-1].id).then((res)=>{
                             this.$set('latinosData',res.data.data);
+                            this.$set('weeksList',this.setweeks(this.latinosData.weeksList,this.weeksList));
+                            this.$set('timesList',this.settimesList(this.latinosData.timesList));
                         })
+                    }else{
+                        this.addFirst=true;
                     }
                 })
             };
             (this.$route.params.latinosName!=':latinosName')?this.latinosData.favorName=this.$route.params.latinosName:null;
-            (this.$route.params.latinosId!=':latinosId')?this.latinosData.uniqueId=this.$route.params.latinosId:null;
         },
         components: { activityMain }
     }
