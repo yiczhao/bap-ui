@@ -337,7 +337,7 @@
                     case 'MeetMinus':
                         ruleString+=index+'、';
                         _.map(ruleList[ruleList.ruleTypes],(val)=>{
-                            ruleString+= index+'、满'+val.meetMoney+'元，减'+val.minusMoney+'元.';
+                            ruleString+= '满'+val.meetMoney+'元，减'+val.minusMoney+'元.';
                         })
                         break;
                     case 'EveryMeetMinus':
