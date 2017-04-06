@@ -306,7 +306,6 @@
 //                    dialog('info','请添加商户或输入备注信息！');
 //                    return;
 //                }
-                debugger
                 data.activityId=sessionStorage.getItem('activityId') << 0||this.$route.params.bactivityId << 0;
                 this.model.saveStore(data).then((res)=>{
                     if(res.data.code===0){

@@ -65,6 +65,9 @@
                         <option v-for="(index,n) in bankLists" :value="n.id">{{n.shortName}}</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label class="name-left">请选择银行</label>
+                </div>
                 <div class="form-group" v-if="addList.id==loginUserID">
                     <label class="name-left"><i>*</i>银行名称</label>
                     <span class="catch-infor">{{addList.bankName}}</span>
