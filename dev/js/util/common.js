@@ -335,6 +335,8 @@ Event.on(outer,"a","click",()=>{
     if(back_json.num==0){
         back_json.num++;
     }
+    sessionStorage.removeItem('forgetid');
+    sessionStorage.removeItem('forgetShow');
 });
 window.onbeforeunload=()=>{
     localStorage.clear();
