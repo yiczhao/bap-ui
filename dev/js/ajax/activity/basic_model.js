@@ -60,6 +60,14 @@ function model(_this) {
             return formDataRequest('./transfer/activity_configure/api/v1/activity/view/'+_id).get()
         },
         /**
+         * @description 活动上下线
+         * @param data
+         * @returns {*}
+         */
+        getOnOff(_id,_onoff){
+            return formDataRequest('./transfer/activity_configure/api/v1/coupon/on-off/'+_id+'/'+_onoff).get();
+        },
+        /**
          * @description 查询活动下的商户基本数据
          * @param data
          * @returns {*}

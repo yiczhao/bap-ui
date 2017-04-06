@@ -338,6 +338,17 @@ export default function (Vue,router){
                         require(['./views/latinos/latinos-search.vue'], resolve)
                     }
                 },
+                'set-receive/:setReceiveId/:setReceiveActivityId':{
+                    name:'set-receive',
+                    router_type:[
+                        {link:'latinos-search',text:'权益查询'},
+                        {link:'set-receive',text:'权益配置'}
+                    ],
+                    router_tile:'权益配置',
+                    component:(resolve)=>{
+                        require(['./views/latinos/latinos-receive.vue'],resolve)
+                    }
+                },
                 /* 权益明细查询*/
                 'latinos-detail/:latinosID/:couponName/:activityName/:startTime/:endTime/:couponFaceValue/:couponType':{
                     name:'latinos-detail',

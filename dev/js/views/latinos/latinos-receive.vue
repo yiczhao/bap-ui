@@ -1,94 +1,90 @@
 <template>
-<activity-main :propclass="'latinos-receive'" :showstep.sync="showstep">
-    <div class="rule-row">
-        <div class="rule-label"><i>*</i>权益名称</div>
-        <div class="rule-input">
-            <input class="input" type="text" v-model="latinosData.favorName" placeholder="请输入权益名称" />
-        </div>
+<div class="rule-row">
+    <div class="rule-label"><i>*</i>权益名称</div>
+    <div class="rule-input">
+        <input class="input" type="text" v-model="latinosData.favorName" placeholder="请输入权益名称" readonly/>
     </div>
-    <div class="rule-row">
-        <div class="rule-label"><i>*</i>领取时间</div>
-        <div class="rule-input">
-            <ks-date-range-picker placeholder="开始时间,结束时间"
-                :range.sync="daterange"
-                :readonly="false"
-                v-on:change="date_multi_picker_change"></ks-date-range-picker>
-        </div>
+</div>
+<div class="rule-row">
+    <div class="rule-label"><i>*</i>领取时间</div>
+    <div class="rule-input">
+        <ks-date-range-picker placeholder="开始时间,结束时间"
+            :range.sync="daterange"
+            :readonly="false"
+            v-on:change="date_multi_picker_change"></ks-date-range-picker>
     </div>
-    <div class="rule-row">
-        <div class="rule-label"><i>&nbsp;</i>设置定时抢</div>
-        <div class="rule-input">
-            <ks-switch :color="'#ea6953'" :checked.sync="latinosData.hasWeeksAndTimes" @change="addtimesList"></ks-switch>
-        </div>
+</div>
+<div class="rule-row">
+    <div class="rule-label"><i>&nbsp;</i>设置定时抢</div>
+    <div class="rule-input">
+        <ks-switch :color="'#ea6953'" :checked.sync="latinosData.hasWeeksAndTimes" @change="addtimesList"></ks-switch>
     </div>
-    <div class="rule-row" v-show="latinosData.hasWeeksAndTimes">
-        <div class="rule-input">
-            <ks-checkbox v-for="n in weeksList" :checked.sync="n.checked">{{n.name}}</ks-checkbox>
-        </div>
-        <div class="rule-label"><i>&nbsp;</i>时间段</div>
-        <!-- 时间多段设定 -->
-        <div class="rule-input">
-            <div class="db" v-for="n in timesList.length">
-                <select class="select" v-model="timesList[n].start"
-                        change="timesList[n].end==null"
-                >
-                    <option :value="null">请选择时间段</option>
-                    <option v-for="i in 24" :value="i + ':' + '00'" v-text="i + ':' + '00'">时间</option>
-                </select>
-                <span class="mr15">至</span>
-                <select class="select" v-model="timesList[n].end">
-                    <option :value="null">请选择时间段</option>
-                    <option v-for="i in 24 - timesListShadow[n]"
-                            :value="i + timesListShadow[n] + 1 + ':' + '00'"
-                            v-text="i + timesListShadow[n] + 1 + ':' + '00'"
-                            v-if="i + timesListShadow[n] + 1 !== 24"
-                    >时间</option>
-                    <option v-if="timesList[n]" :value="'23:59'" v-text="'23:59'">时间</option>
-                </select>
-                <i v-if="n===0" class="icon-add" @click="timesListAdd"></i>
-                <i v-if="n!==0" class="icon-remove" @click="timesList.splice(n, 1)"></i>
-            </div>
-        </div>
+</div>
+<div class="rule-row" v-show="latinosData.hasWeeksAndTimes">
+    <div class="rule-input">
+        <ks-checkbox v-for="n in weeksList" :checked.sync="n.checked">{{n.name}}</ks-checkbox>
     </div>
-    <div class="rule-row">
-        <div class="rule-label"><i>*</i>使用有效期</div>
-        <div class="rule-input">
-            <select class="select" v-model="latinosData.validPeriod">
-                <option :value="-1">与活动时间同步</option>
-                <option :value="1">用户得到权益1天内</option>
-                <option :value="2">用户得到权益2天内</option>
-                <option :value="3">用户得到权益3天内</option>
-                <option :value="5">用户得到权益5天内</option>
-                <option :value="10">用户得到权益10天内</option>
-                <option :value="15">用户得到权益15天内</option>
-                <option :value="30">用户得到权益30天内</option>
+    <div class="rule-label"><i>&nbsp;</i>时间段</div>
+    <!-- 时间多段设定 -->
+    <div class="rule-input">
+        <div class="db" v-for="n in timesList.length">
+            <select class="select" v-model="timesList[n].start"
+                    change="timesList[n].end==null"
+            >
+                <option :value="null">请选择时间段</option>
+                <option v-for="i in 24" :value="i + ':' + '00'" v-text="i + ':' + '00'">时间</option>
             </select>
+            <span class="mr15">至</span>
+            <select class="select" v-model="timesList[n].end">
+                <option :value="null">请选择时间段</option>
+                <option v-for="i in 24 - timesListShadow[n]"
+                        :value="i + timesListShadow[n] + 1 + ':' + '00'"
+                        v-text="i + timesListShadow[n] + 1 + ':' + '00'"
+                        v-if="i + timesListShadow[n] + 1 !== 24"
+                >时间</option>
+                <option v-if="timesList[n]" :value="'23:59'" v-text="'23:59'">时间</option>
+            </select>
+            <i v-if="n===0" class="icon-add" @click="timesListAdd"></i>
+            <i v-if="n!==0" class="icon-remove" @click="timesList.splice(n, 1)"></i>
         </div>
     </div>
-    <div class="rule-row">
-        <div class="rule-label"><i>*</i>权益总数量</div>
-        <div class="rule-input">
-            <input class="input" type="text" v-limitaddprice="latinosData.total" v-model="latinosData.total"/>
-        </div>
+</div>
+<div class="rule-row">
+    <div class="rule-label"><i>*</i>使用有效期</div>
+    <div class="rule-input">
+        <select class="select" v-model="latinosData.validPeriod">
+            <option :value="-1">与活动时间同步</option>
+            <option :value="1">用户得到权益1天内</option>
+            <option :value="2">用户得到权益2天内</option>
+            <option :value="3">用户得到权益3天内</option>
+            <option :value="5">用户得到权益5天内</option>
+            <option :value="10">用户得到权益10天内</option>
+            <option :value="15">用户得到权益15天内</option>
+            <option :value="30">用户得到权益30天内</option>
+        </select>
     </div>
-    <div class="rule-row">
-        <div class="rule-label"><i>*</i>权益每天数量</div>
-        <div class="rule-input">
-            <input class="input" type="text" v-limitaddprice="latinosData.totalOneDay" v-model="latinosData.totalOneDay"/>
-        </div>
+</div>
+<div class="rule-row">
+    <div class="rule-label"><i>*</i>权益总数量</div>
+    <div class="rule-input">
+        <input class="input" type="text" v-limitaddprice="latinosData.total" v-model="latinosData.total"/>
     </div>
-    <div class="rule-row">
-        <div class="rule-label"><i>*</i>规则描述</div>
-        <div class="rule-input">
-            <textarea class="textarea" v-model="latinosData.description"></textarea>
-        </div>
+</div>
+<div class="rule-row">
+    <div class="rule-label"><i>*</i>权益每天数量</div>
+    <div class="rule-input">
+        <input class="input" type="text" v-limitaddprice="latinosData.totalOneDay" v-model="latinosData.totalOneDay"/>
     </div>
-    <div class="rule-row tc footer-btns">
-        <a class="btn btn-gray" @click="backBasic">上一步</a>
-        <a class="btn btn-primary" @click="submitAdd(true)">下一步</a>
-        <a @click="submitAdd(false)">保存为草稿</a>
+</div>
+<div class="rule-row">
+    <div class="rule-label"><i>*</i>规则描述</div>
+    <div class="rule-input">
+        <textarea class="textarea" v-model="latinosData.description"></textarea>
     </div>
-</activity-main>
+</div>
+<div class="rule-row tc footer-btns">
+    <a @click="submitAdd">保存</a>
+</div>
 </template>
 <style type="text/css" scoped>
     .rule-input textarea{
@@ -120,7 +116,6 @@
     }
 </style>
 <script type="text/javascript">
-    import activityMain from './activity-main.vue'
     import model from '../../ajax/activity/basic_model'
     export default{
         computed: {
@@ -155,12 +150,10 @@
                     {name:'周六',checked:true,id:6}
                 ],
                 daterange:[],
-                showstep:2,
                 receiveEndTime:'',
                 favorList:[],
                 latinosData:{
                     favorId:'',
-                    step:3,
                     activityId:'',
                     receiveEndTime:'',
                     receiveStartTime:'',
@@ -171,8 +164,7 @@
                     description:'',
                     smsContent:' ',
                     hasWeeksAndTimes:false,
-                },
-                addFirst:true
+                }
             }
         },
         methods:{
@@ -282,10 +274,7 @@
                 this.latinosData.receiveStartTime=val[0]+' 00:00:00';
                 this.latinosData.receiveEndTime=val[1]+' 23:59:59';
             },
-            backBasic(){
-                this.$router.go({'name':sessionStorage.getItem('rulename'),params:{'ruleId':this.latinosData.activityId}});
-            },
-            submitAdd(bool){
+            submitAdd(){
                 let data=_.cloneDeep(this.latinosData);
                 data.weeksList=this.getweeks(this.weeksList);
                 data.timesList=this.gettimesList(this.timesList);
@@ -299,24 +288,16 @@
                         this.errHandle(e.message)
                         return
                     }
-                }
-                _.map(this.favorList,(val)=>{
-                    this.addFirst?data.favorId=val.id:data.favorId=data.id=val.id
-                    this.model.addReceive(data).then((res)=>{
-                        if(res.data.code===0){
-                            if (bool) {
-                                if(sessionStorage.getItem('rulename')=='Ticket'){
-                                    this.$router.go({'name':'ticketbussiness-set','params':{"tactivityId":this.latinosData.activityId}});
-                                }else{
-                                    this.$router.go({'name':'bussiness-set','params':{"bactivityId":this.latinosData.activityId}});
-                                }
-                            }else{
-                                dialog('successTime','草稿保存成功！')
+                };
+                this.model.addReceive(data).then((res)=>{
+                    if(res.data.code===0){
+                        this.model.getOnOff(data.favorId,'ON').then((res)=>{
+                            if(res.data.code===0){
+                                dialog('successTime','保存成功！');
                             }
-                        }
-                    })
-                })
-
+                        })
+                    }
+                });
             },
             getRuleData(data){
                 let  ruleTypes={
@@ -473,32 +454,22 @@
             }
         },
         created(){
-            let activityId='';
-            !!sessionStorage.getItem('activityId')?activityId=sessionStorage.getItem('activityId'):(activityId=this.$route.params.receiveId << 0 ===0?'':this.$route.params.receiveId << 0 );
+            let activityId=this.$route.params.setReceiveActivityId << 0 ===0?'':this.$route.params.setReceiveActivityId << 0;
+            this.latinosData.id=this.$route.params.setReceiveId << 0 ===0?'':this.$route.params.setReceiveId << 0;
             if (activityId) {
                 // 获取活动信息
                 this.model.geteditList(activityId).then((res)=>{
-                    this.latinosData.activityId=activityId;
-                    this.$set('favorList',res.data.data.favors);
                     this.latinosData.receiveStartTime=res.data.data.base.startTime;
                     this.latinosData.receiveEndTime=res.data.data.base.endTime;
                     this.receiveEndTime=this.latinosData.receiveEndTime.split(' ')[0];
                     this.daterange=[this.latinosData.receiveStartTime.split(' ')[0],this.latinosData.receiveEndTime.split(' ')[0]]
-                    this.latinosData.description=this.getRules(res.data.data);
-                    if(!_.isEmpty(res.data.data.favorConfigs)){
-                        this.addFirst=false;
-                        this.model.searchReceive(this.favorList[this.favorList.length-1].id).then((res)=>{
-                            this.$set('latinosData',res.data.data);
-                            this.$set('weeksList',this.setweeks(this.latinosData.weeksList,this.weeksList));
-                            this.$set('timesList',this.settimesList(this.latinosData.timesList));
-                        })
-                    }else{
-                        this.addFirst=true;
-                    }
+                    this.model.searchReceive(this.latinosData.id).then((res)=>{
+                        this.$set('latinosData',res.data.data);
+                        this.$set('weeksList',this.setweeks(this.latinosData.weeksList,this.weeksList));
+                        this.$set('timesList',this.settimesList(this.latinosData.timesList));
+                    })
                 })
             };
-            (this.$route.params.latinosName!=':latinosName')?this.latinosData.favorName=this.$route.params.latinosName:null;
-        },
-        components: { activityMain }
+        }
     }
 </script>
