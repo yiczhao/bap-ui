@@ -1,17 +1,8 @@
-.clearfix:before,.clearfix:after{
-	content:"";
-	display:table;
-}
-.clearfix:after{clear:both;}
-.clearfix{
-	*zoom:1;/*IE/7/6*/
-}
 .activity-manage{
 	padding:20px !important;
 	.activity-title{
 		.search-div{
 			margin-bottom:20px;
-			@extend .clearfix;
 			.KsDatePicker{
 				display: inline-block;
 				width: 200px;
@@ -41,6 +32,9 @@
 					left:0;
 				}
 			}
+		}
+		.search-div::after{
+			display: table-row !important;
 		}
 		.search-table{
 			display: table;

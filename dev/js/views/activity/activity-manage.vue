@@ -130,6 +130,9 @@
         width: 90px;
         float: left;
     }
+    .activity-manage .activity-title .search-div .do-search .btn-primary{
+        float: none !important;
+    }
 </style>
 <script type="text/javascript">
     import model from '../../ajax/activity/activity_manage_model'
