@@ -96,7 +96,7 @@
         width: 506px !important;
     }
     .latinos-receive .caption{
-        display: table-caption;margin-left: 189px;padding: 20px 20px !important;background: #F5F5F5;
+        display: table-caption;margin-left: 189px;padding: 20px 20px !important;width: 506px;background: #F5F5F5;
     }
     .latinos-receive .caption>.rule-input:first-child{
         display: inline-block;min-width: 416px;
