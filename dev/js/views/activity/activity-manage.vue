@@ -78,8 +78,9 @@
                     <td>
                         <a v-if="n.step==1&&n.status=='draft_other'" @click="setProp(n.propes,n.ruleType)" v-link="{name:'basic-rule',params:{'activityId':n.id,'rulename':n.ruleType}}">编辑</a>
                         <a v-if="n.step==2&&n.status=='draft_other'" @click="setProp(n.propes,n.ruleType)" v-link="{name:n.ruleType,params:{'ruleId':n.id}}">编辑</a>
-                        <a v-if="n.step==3&&n.status=='draft_other'&&n.ruleType!='Ticket'" @click="setProp(n.propes,n.ruleType)" v-link="{name:'bussiness-set',params:{'bactivityId':n.id}}">编辑</a>
-                        <a v-if="n.step==3&&n.status=='draft_other'&&n.ruleType=='Ticket'" @click="setProp(n.propes,n.ruleType)" v-link="{name:'ticketbussiness-set',params:{'tactivityId':n.id}}">编辑</a>
+                        <a v-if="n.step==3&&n.status=='draft_other'" @click="setProp(n.propes,n.ruleType)" v-link="{name:'latinos-receive',params:{'receiveId':n.id}}">编辑</a>
+                        <a v-if="n.step==4&&n.status=='draft_other'&&n.ruleType!='Ticket'" @click="setProp(n.propes,n.ruleType)" v-link="{name:'bussiness-set',params:{'bactivityId':n.id}}">编辑</a>
+                        <a v-if="n.step==4&&n.status=='draft_other'&&n.ruleType=='Ticket'" @click="setProp(n.propes,n.ruleType)" v-link="{name:'ticketbussiness-set',params:{'tactivityId':n.id}}">编辑</a>
                         <span class="color999" v-if="n.status!='draft_other'">编辑</span>
                         <a v-if="n.status=='draft_other'" @click="deleteID(n.id)">删除</a>
                         <span class="color999" v-else>删除</span>

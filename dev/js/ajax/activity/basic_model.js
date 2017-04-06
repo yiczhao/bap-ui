@@ -37,6 +37,12 @@ function model(_this) {
         getBussinessList (data) {
             return _this.$http.post('./transfer/activity_configure/api/v1/activity/list-store',data)
         },
+        addReceive (data){
+            return _this.$http.post('./transfer/activity_configure/api/v1/favorconfig/config',data)
+        },
+        searchReceive (_id){
+            return formDataRequest('./transfer/activity_configure/api/v1/favorconfig/'+_id).get()
+        },
         /**
          * @description 查询活动下的商户基本数据
          * @param data

@@ -109,7 +109,7 @@
             <div class="bg-gray">
                 <div class="rule-input">
                     <span><i>&nbsp;</i>消费短信提醒</span>
-                    <ks-switch :color="'#ea6953'" :checked.sync="smsContentswitch" @change="addtimesList"></ks-switch>
+                    <ks-switch :color="'#ea6953'" :checked.sync="smsContentswitch"></ks-switch>
                 </div>
                 <div class="rule-input">
                     <textarea v-show="smsContentswitch" class="input textarea" v-model="addData.smsContent"
@@ -177,7 +177,6 @@
         data(){
             this.model=model(this)
             return{
-                testDiv:'',
                 showstep:0,
                 // provinceList:[],
                 // cityList:[],
@@ -322,36 +321,6 @@
                 })
                 return arr;
             },
-            // getProvince(){
-            //     this.$common_model.getProvince().then((res)=>{
-            //         if(res.data.code===0){
-            //             this.$set('provinceList',res.data.data);
-            //         }
-            //     })
-            // },
-            // initCity(){
-            //     if(!this.addData.province)return;
-            //     let data={
-            //         province:this.addData.province
-            //     }
-            //     this.$common_model.getCity(data).then((res)=>{
-            //         if(res.data.code===0){
-            //             this.$set('cityList',res.data.data);
-            //         }
-            //     })
-            // },
-            // getCity(){
-            //     this.addData.city='';
-            //     if(!this.addData.province)return;
-            //     let data={
-            //         province:this.addData.province
-            //     }
-            //     this.$common_model.getCity(data).then((res)=>{
-            //         if(res.data.code===0){
-            //             this.$set('cityList',res.data.data);
-            //         }
-            //     })
-            // },
             settimesList(data){
                 // 解析 req 数据
                 let times=[];

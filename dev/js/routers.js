@@ -212,7 +212,7 @@ export default function (Vue,router){
                         require(['./views/activity/bussiness-set.vue'],resolve)
                     }
                 },
-                'latinos-receive':{
+                'latinos-receive/:receiveId':{
                     name:'latinos-receive',
                     router_type:[
                         {link:'create-acitvity',text:'创建活动'},
