@@ -118,6 +118,10 @@
           line-height:25px;
           box-sizing:border-box;
           border: 0px;
+          &:focus{
+            //border: 0px;
+            outline: 0px;
+          }
         }
       }
     }
