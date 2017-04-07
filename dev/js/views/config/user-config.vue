@@ -108,49 +108,49 @@
                     <div class="function-area">
                         <!-- <div class="checkAll" :class="{'checked':checkAll}" @click.stop="checkedAll"><b></b><span>全选</span></div> -->
                         <div class="choose-checkbox">
-                            <div class="checkAll" :class="{'checked':checkAll}" @click.stop="checkedAll"><b></b><span>卡类活动</span></div>
+                            <div class="checkAll" :class="{'checked':checkAll[0]}" @click.stop="checkedAll(1)"><b></b><span>卡类活动</span></div>
                             <template v-for="n in privileges" v-if="n.type==1">
-                                <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                                <ks-checkbox  @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
                                     <span>卡类{{n.name}}</span>
                                 </ks-checkbox>
                             </template>
                         </div>
                         <div class="choose-checkbox">
-                            <div class="checkAll" :class="{'checked':checkAll}" @click.stop="checkedAll"><b></b><span>券码活动</span></div>
+                            <div class="checkAll" :class="{'checked':checkAll[1]}" @click.stop="checkedAll(2)"><b></b><span>券码活动</span></div>
                             <template v-for="n in privileges" v-if="n.type==2">
-                                <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                                <ks-checkbox  @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
                                     <span>券码{{n.name}}</span>
                                 </ks-checkbox>
                             </template>
                         </div>
                         <div class="choose-checkbox">
-                            <div class="checkAll" :class="{'checked':checkAll}" @click.stop="checkedAll"><b></b><span>查询</span></div>
+                            <div class="checkAll" :class="{'checked':checkAll[2]}" @click.stop="checkedAll(3)"><b></b><span>查询</span></div>
                             <template v-for="n in privileges" v-if="n.type==3">
-                                <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                                <ks-checkbox  @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
                                     <span>{{n.name}}</span>
                                 </ks-checkbox>
                             </template>
                         </div>
                         <div class="choose-checkbox">
-                            <div class="checkAll" :class="{'checked':checkAll}" @click.stop="checkedAll"><b></b><span>终端</span></div>
+                            <div class="checkAll" :class="{'checked':checkAll[3]}" @click.stop="checkedAll(4)"><b></b><span>终端</span></div>
                             <template v-for="n in privileges" v-if="n.type==4">
-                                <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                                <ks-checkbox  @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
                                     <span>终端{{n.name}}</span>
                                 </ks-checkbox>
                             </template>
                         </div>
                         <div class="choose-checkbox">
-                            <div class="checkAll" :class="{'checked':checkAll}" @click.stop="checkedAll"><b></b><span>商户管理</span></div>
+                            <div class="checkAll" :class="{'checked':checkAll[4]}" @click.stop="checkedAll(5)"><b></b><span>商户管理</span></div>
                             <template v-for="n in privileges" v-if="n.type==5">
-                                <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                                <ks-checkbox  @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
                                     <span>商户{{n.name}}</span>
                                 </ks-checkbox>
                             </template>
                         </div>
                         <div class="choose-checkbox">
-                            <div class="checkAll" :class="{'checked':checkAll}" @click.stop="checkedAll"><b></b><span>设置</span></div>
+                            <div class="checkAll" :class="{'checked':checkAll[6]}" @click.stop="checkedAll(7)"><b></b><span>设置</span></div>
                             <template v-for="n in privileges" v-if="n.type==7">
-                                <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                                <ks-checkbox  @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
                                     <span>{{n.name}}</span>
                                 </ks-checkbox>
                             </template>
@@ -206,37 +206,37 @@
                     <label class="name-left"><i>*</i>功能级</label>
                     <div class="function-area">
                         <template v-for="n in privileges" v-if="n.type==1">
-                            <ks-checkbox :disable="true" @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                            <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
                                 <span>卡类{{n.name}}</span>
                             </ks-checkbox>
                         </template>
                         <template v-for="n in privileges" v-if="n.type==2">
-                            <ks-checkbox :disable="true" @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                            <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
                                 <span>券码{{n.name}}</span>
                             </ks-checkbox>
                         </template>
                         <template v-for="n in privileges" v-if="n.type==3">
-                            <ks-checkbox :disable="true" @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                            <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
                                 <span>{{n.name}}</span>
                             </ks-checkbox>
                         </template>
                         <template v-for="n in privileges" v-if="n.type==4">
-                            <ks-checkbox :disable="true" @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                            <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
                                 <span>终端{{n.name}}</span>
                             </ks-checkbox>
                         </template>
                         <template v-for="n in privileges" v-if="n.type==5">
-                            <ks-checkbox :disable="true" @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                            <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
                                 <span>商户{{n.name}}</span>
                             </ks-checkbox>
                         </template>
                         <template v-for="n in privileges" v-if="n.type==6">
-                            <ks-checkbox :disable="true" @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                            <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
                                 <span>{{n.name}}</span>
                             </ks-checkbox>
                         </template>
                         <template v-for="n in privileges" v-if="n.type==7">
-                            <ks-checkbox :disable="true" @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                            <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
                                 <span>{{n.name}}</span>
                             </ks-checkbox>
                         </template>
@@ -270,10 +270,9 @@
                 loginAccountType2:true,
                 passWordCheck:false,
                 userList:[],
-                checkAll:false,
+                checkAll:[false,false,false,false,false,false,false],
                 bankLists:[],
                 privileges:[],
-                gnprivilegeIDs:[],
                 addList:{
                     bankID:'',
                     bankLevel:'',
@@ -297,35 +296,37 @@
         methods:{
             cancelAll(){
                 this.addshow=false;
-                this.checkAll=false;
+                this.checkAll=[false,false,false,false,false,false,false];
             },
             getCheckAll(){
-                let check=true;
+                let check=[true,true,true,true,true,true,true];
                 _.map(this.privileges,(val)=>{
                     if(!val.selected){
-                        check=false;
+                        check[val.type-1]=false;
                     }
                 })
                 this.checkAll=check;
             },
-            checkedAll(){
+            checkedAll(type){
                 let data=_.cloneDeep(this.privileges);
-                this.addList.privilegeIDs=[];
-                this.gnprivilegeIDs=[];
-                if(!this.checkAll){
+                let checks=_.cloneDeep(this.checkAll);
+                if(!this.checkAll[type-1]){
                     _.map(data,(val)=>{
-                        val.selected=true;
-                        this.addList.privilegeIDs.push(val.id);
-                        this.gnprivilegeIDs.push(val.name);
+                        if(val.type===type){
+                            val.selected=true;
+                        }
                     })
-                    this.checkAll=true;
+                    checks[type-1]=true;
                 }else{
                     _.map(data,(val)=>{
-                        val.selected=false;
+                        if(val.type===type){
+                            val.selected=false;
+                        }
                     })
-                    this.checkAll=false;
+                    checks[type-1]=false;
                 }
                 this.$set('privileges',data);
+                this.$set('checkAll',checks);
             },
             getList(){
                 this.model.getUserList(this.defaultData).then((res)=>{
@@ -336,7 +337,7 @@
                 })
             },
             initList(){
-                this.addshow=false;
+                this.cancelAll();
                 this.getList();
             },
             getBankList(){ 
@@ -375,11 +376,10 @@
                     loginAccountType:'3',
                     privilegeIDs:[]
                 }
-                this.gnprivilegeIDs=[];
                 this.loginAccountType1=true;
                 this.loginAccountType2=true;
-                this.getBankList();
                 this.addTitle='新增用户';
+                this.getBankList();
                 this.addshow=true;
             },
             showInfo(_id){
@@ -397,16 +397,16 @@
                 this.getBankList();
                 this.model.getUserInfo(_id).then((res)=>{
                     if(res.data.code===0){
+                        console.log(res.data.data);
                         this.$set('addList',res.data.data);
                         this.$set('privileges',res.data.data.privilegeList);
                         this.addList.status=''+this.addList.status;
                         this.addList.curPassword='::::::';
                         this.addList.privilegeIDs=[];
                         _.map(this.privileges,(val)=>{
-                                if(val.selected){
-                                    this.addList.privilegeIDs.push(val.id);
-                                    this.gnprivilegeIDs.push(val.name);
-                                }
+                            if(val.selected){
+                                this.addList.privilegeIDs.push(val.id);
+                            }
                         })
                         if(!this.addList.loginAccountType){
                             this.loginAccountType1=false;
@@ -437,41 +437,39 @@
                 this.checkText.curPassword=false
                 this.checkText.privilegeIDs=false
             },
-            addUserTrue(){
-                if(!this.addList.bankID){this.checkText.bankName=true;return}else{this.checkText.bankName=false};
-                if(!this.addList.name){this.checkText.name=true;return}else{this.checkText.name=false};
-                if(!this.addList.phone){this.checkText.phone=true;return}else{this.checkText.phone=false};
-                if(!this.addList.curPassword){this.checkText.curPassword=true;return}else{this.checkText.curPassword=false};
-                if(!this.addList.privilegeIDs.length){this.checkText.privilegeIDs=true;return}else{this.checkText.privilegeIDs=false};
-                this.model.addUser(this.addList).then((res)=>{
-                    if(res.data.code===0){
-                        dialog('success',res.data.message)
-                        this.initList();
+            checkedData(){
+                this.addList.privilegeIDs=[];
+                _.map(this.privileges,(val)=>{
+                    if(val.selected){
+                        this.addList.privilegeIDs.push(val.id);
                     }
                 })
+                if(!this.addList.bankID){this.checkText.bankName=true;return false}else{this.checkText.bankName=false};
+                if(!this.addList.name){this.checkText.name=true;return false}else{this.checkText.name=false};
+                if(!this.addList.phone){this.checkText.phone=true;return false}else{this.checkText.phone=false};
+                if(!this.addList.curPassword){this.checkText.curPassword=true;return false}else{this.checkText.curPassword=false};
+                if(!this.addList.privilegeIDs.length){this.checkText.privilegeIDs=true;return false}else{this.checkText.privilegeIDs=false};
+                return true;
+            },
+            addUserTrue(){
+                if(this.checkedData()){
+                    this.model.addUser(this.addList).then((res)=>{
+                        if(res.data.code===0){
+                            dialog('success',res.data.message)
+                            this.initList();
+                        }
+                    })
+                }
             },
             editUserTrue(){
-                if(!this.addList.bankID){this.checkText.bankName=true;return}else{this.checkText.bankName=false};
-                if(!this.addList.name){this.checkText.name=true;return}else{this.checkText.name=false};
-                if(!this.addList.phone){this.checkText.phone=true;return}else{this.checkText.phone=false};
-                if(!this.addList.curPassword){this.checkText.curPassword=true;return}else{this.checkText.curPassword=false};
-                if(!this.addList.privilegeIDs.length){this.checkText.privilegeIDs=true;return}else{this.checkText.privilegeIDs=false};
-                this.model.editUser(this.addList).then((res)=>{
-                    if(res.data.code===0){
-                        dialog('success',res.data.message)
-                        this.initList();
-                    }
-                })
-            },
-            checked(_checked,_id){
-                if(_checked){
-                    _.remove(this.addList.privilegeIDs,(val)=>{
-                        return val==_id;
+                if(this.checkedData()){
+                    this.model.editUser(this.addList).then((res)=>{
+                        if(res.data.code===0){
+                            dialog('success',res.data.message)
+                            this.initList();
+                        }
                     })
-                }else{
-                    this.addList.privilegeIDs.push(_id);
                 }
-                this.getCheckAll();
             },
             getloginAccountType(bool1,bool2){
                 if(bool1){
