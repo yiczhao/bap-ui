@@ -340,19 +340,23 @@
                     return;
                 }
                 this.$set('ruleList',datas);
-                if(this.equityData!=null&&this.equityData.times!=null&&this.equityData.weeks!=null)
+                if(this.equityData!=null)
                 {
-                    let equityTimeStr='';
-                    let weeks=['星期日','星期一','星期二','星期三','星期四','星期五','星期六']
-                    var weekList=this.equityData.weeks.split(',');
-                    _.map(weekList,(val,index)=>{
-                        index===weekList.length-1?equityTimeStr+=weeks[val<<0]:equityTimeStr+=weeks[val<<0]+'、';
-                    })
-                    equityTimeStr+=this.equityData.times;
-                    this.equityTimeStr=equityTimeStr;
-                    this.isFlex=false;
+                    let favorId=this.equityData.favorId;
+                    this.getActInfo(favorId);
+                    if(this.equityData.times!=null&&this.equityData.weeks!=null)
+                    {
+                        let equityTimeStr='';
+                        let weeks=['星期日','星期一','星期二','星期三','星期四','星期五','星期六']
+                        var weekList=this.equityData.weeks.split(',');
+                        _.map(weekList,(val,index)=>{
+                            index===weekList.length-1?equityTimeStr+=weeks[val<<0]:equityTimeStr+=weeks[val<<0]+'、';
+                        })
+                        equityTimeStr+=this.equityData.times;
+                        this.equityTimeStr=equityTimeStr;
+                        this.isFlex=false;
+                    }
                 }
-                //this.equityData.description=this.equityData.description.replace('\n','<br/>');
             },
             getActInfo(favorId){
                 this.model.searchReceive(favorId).then((res)=>{
@@ -371,11 +375,6 @@
                     this.$set('storeList',res.data.data.store.bankMarketingStores);
                     this.$set('equityData',res.data.data.favorConfigs[res.data.data.favorConfigs.length-1]);
                     this.getRules(res.data.data.ruleAndLimit);
-                    if(this.equityData!=null)
-                    {
-                        let favorId=this.equityData.favorId;
-                        this.getActInfo(favorId);
-                    }
                 }
             });
         },
