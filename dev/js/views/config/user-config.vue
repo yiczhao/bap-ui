@@ -345,9 +345,10 @@
                 this.cancelAll();
                 this.getList();
             },
-            getBankList(){ 
+            getBankList(){
                 this.model.getBanklevelList().then((res)=>{
                     if(res.data.code===0){
+                        this.bankLevelList=res.data.dataList;
                         this.addList.bankLevel=''+this.bankLevelList[0];
                     }
                 })
