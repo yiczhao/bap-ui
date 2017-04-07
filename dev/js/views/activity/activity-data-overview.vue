@@ -304,22 +304,22 @@
                             startDate:this.times.aweekAgo,
                             endDate:this.times.today,
                             compareFlag:true,
-                            activityID:'',
+                            activityID:this.searchData.activityID,
                         }
                     }else{
                         data={
                             startDate:this.times.amonthAgo,
                             endDate:this.times.today,
                             compareFlag:true,
-                            activityID:'',
+                            activityID:this.searchData.activityID,
                         }
                     }
                 }else{
                     data={
-                        activityID:'',
+                        activityID:this.searchData.activityID,
                     }
                 }
-                (!this.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.searchData.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
                 _.map(ajaxArr,(val)=>{
                     this.model[val](data).then((res)=>{
                         if(res.data.code===0){
@@ -422,6 +422,7 @@
 		},
 		ready(){
 			(this.$route.params.adoActivityId!=':adoActivityId')?this.searchData.activityID=this.$route.params.adoActivityId:null;
+			console.log(this.$route.params.adoActivityId);
 			(this.$route.params.mainStepChance!=':mainStepChance')?this.mainStep=this.$route.params.mainStepChance>>0:null;
 			this.initStep(this.getTradeInit[this.mainStep].url,this.mainStep+1);
 		}

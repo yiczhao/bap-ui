@@ -89,43 +89,45 @@
     </div>
 </activity-main>
 </template>
-<style type="text/css">
-    .activity-rule .KSNRCheckbox__skin{
-        opacity: 0;
-    }
-    .activity-rule .rule-row .rule-input .span{
-        padding: 0 20px;margin-top: 0;
-        color: #777777;background-color: #ededed;cursor: pointer;
-    }
-    .activity-rule .rule-row .rule-input .checked{
-        background-color: #ea6953;color: #fff;
-    }
-    .reset h3{
-        float: left;
-        width: 110px !important;
-    }
-    .reset .rule-input{
-        float: left;
-        line-height: 30px !important;font-size: 14px;
-    }
-    .rechoose{
-        padding-left: 160px !important;
-    }
-    .reset + .rechoose input{
-        width: 190px !important;
-    }
-    .rechoose:not(:first-child) input{
-        width: 90px ;
-    }
-    .icon-add,.icon-remove{
-        margin-top: 24px!important;
-        font-size: 15px!important;
-        color: #159ff7!important;
-    }
-    .icon-add:before,.icon-remove:before{
-        content:'';
-        padding-right: 5px!important;
-    }
+<style lang="scss">
+.activity-rule{
+    .KSNRCheckbox__skin{
+            opacity: 0;
+        }
+        .activity-rule .rule-row .rule-input .span{
+            padding: 0 20px;margin-top: 0;
+            color: #777777;background-color: #ededed;cursor: pointer;
+        }
+        .activity-rule .rule-row .rule-input .checked{
+            background-color: #ea6953;color: #fff;
+        }
+        .reset h3{
+            float: left;
+            width: 110px !important;
+        }
+        .reset .rule-input{
+            float: left;
+            line-height: 30px !important;font-size: 14px;
+        }
+        .rechoose{
+            padding-left: 160px !important;
+        }
+        .reset + .rechoose input{
+            width: 190px !important;
+        }
+        .rechoose:not(:first-child) input{
+            width: 90px ;
+        }
+        .icon-add,.icon-remove{
+            margin-top: 24px!important;
+            font-size: 15px!important;
+            color: #159ff7!important;
+        }
+        .icon-add:before,.icon-remove:before{
+            content:'';
+            padding-right: 5px!important;
+        }
+}
 </style>
 <script type="text/javascript">
     import activityMain from './activity-main.vue'

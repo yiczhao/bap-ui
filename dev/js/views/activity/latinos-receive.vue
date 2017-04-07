@@ -21,7 +21,7 @@
             <ks-switch :color="'#ea6953'" :checked.sync="latinosData.hasWeeksAndTimes" @change="addtimesList"></ks-switch>
         </div>
     </div>
-    <div class="rule-row caption" v-show="latinosData.hasWeeksAndTimes">
+    <div class="rule-row caption" v-show="latinosData.hasWeeksAndTimes"> 
         <div class="rule-input">
             <ks-checkbox v-for="n in weeksList" :checked.sync="n.checked">{{n.name}}</ks-checkbox>
         </div>

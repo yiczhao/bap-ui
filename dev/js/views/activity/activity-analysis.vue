@@ -16,7 +16,7 @@
 			<span>展示活动的交易数据、微信关注量数据、现金红包发放量等数据<i>/</i>活动进行中，数据截止到16:00，2016-06-16</span>
 		</div>
 		<div class="chart-show">
-			<div class="flex border">
+			<div class="flex border"> 
 				<div class="left" v-link="{name:'activity-data-overview',params:{'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':1}}">
 					<h4>交易区域</h4>
 					<div class="echart-div" id="trade-area"></div>
