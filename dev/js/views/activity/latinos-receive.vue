@@ -21,7 +21,7 @@
             <ks-switch :color="'#ea6953'" :checked.sync="latinosData.hasWeeksAndTimes" @change="addtimesList"></ks-switch>
         </div>
     </div>
-    <div class="rule-row" v-show="latinosData.hasWeeksAndTimes">
+    <div class="rule-row caption" v-show="latinosData.hasWeeksAndTimes">
         <div class="rule-input">
             <ks-checkbox v-for="n in weeksList" :checked.sync="n.checked">{{n.name}}</ks-checkbox>
         </div>
@@ -90,33 +90,9 @@
     </div>
 </activity-main>
 </template>
-<style type="text/css" scoped>
-    .rule-input textarea{
-        resize: none;padding: 15px;width: 506px !important;min-height: 250px;border: 1px solid #c8c8c8;
-    }
-    .setting-time{
-        height: 200px;width: 506px;display: table-cell;background-color: #F5F5F5;
-    }
-    .latinos-receive .select{
-        width: 506px !important;
-    }
-    .latinos-receive .caption{
-        display: table-caption;margin-left: 189px;padding: 20px 20px !important;width: 506px;background: #F5F5F5;
-    }
-    .latinos-receive .caption>.rule-input:first-child{
-        display: inline-block;min-width: 416px;
-    }
-    .latinos-receive .caption>.rule-input:last-child{
-        display: block !important;
-    }
-    .latinos-receive .caption>.rule-input:last-child .db{
-        margin-left: 6px !important;
-    }
-    .latinos-receive .caption>.rule-input:last-child .db>.select{
-        width: 150px !important;
-    }
-    .latinos-receive .caption>.rule-input:last-child .db>.mr15{
-            margin: 0px 10px !important;
+<style type="text/css">
+    .latinos-receive .rule-row .rule-input .KsDaterMultiPicker-input{
+        width: 585px !important;
     }
 </style>
 <script type="text/javascript">

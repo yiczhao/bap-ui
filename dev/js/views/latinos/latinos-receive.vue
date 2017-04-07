@@ -1,118 +1,96 @@
 <template>
-<div class="rule-row">
-    <div class="rule-label"><i>*</i>权益名称</div>
-    <div class="rule-input">
-        <input class="input" type="text" v-model="latinosData.favorName" placeholder="请输入权益名称" readonly/>
-    </div>
-</div>
-<div class="rule-row">
-    <div class="rule-label"><i>*</i>领取时间</div>
-    <div class="rule-input">
-        <ks-date-range-picker placeholder="开始时间,结束时间"
-            :range.sync="daterange"
-            :readonly="false"
-            v-on:change="date_multi_picker_change"></ks-date-range-picker>
-    </div>
-</div>
-<div class="rule-row">
-    <div class="rule-label"><i>&nbsp;</i>设置定时抢</div>
-    <div class="rule-input">
-        <ks-switch :color="'#ea6953'" :checked.sync="latinosData.hasWeeksAndTimes" @change="addtimesList"></ks-switch>
-    </div>
-</div>
-<div class="rule-row" v-show="latinosData.hasWeeksAndTimes">
-    <div class="rule-input">
-        <ks-checkbox v-for="n in weeksList" :checked.sync="n.checked">{{n.name}}</ks-checkbox>
-    </div>
-    <div class="rule-label"><i>&nbsp;</i>时间段</div>
-    <!-- 时间多段设定 -->
-    <div class="rule-input">
-        <div class="db" v-for="n in timesList.length">
-            <select class="select" v-model="timesList[n].start"
-                    change="timesList[n].end==null"
-            >
-                <option :value="null">请选择时间段</option>
-                <option v-for="i in 24" :value="i + ':' + '00'" v-text="i + ':' + '00'">时间</option>
-            </select>
-            <span class="mr15">至</span>
-            <select class="select" v-model="timesList[n].end">
-                <option :value="null">请选择时间段</option>
-                <option v-for="i in 24 - timesListShadow[n]"
-                        :value="i + timesListShadow[n] + 1 + ':' + '00'"
-                        v-text="i + timesListShadow[n] + 1 + ':' + '00'"
-                        v-if="i + timesListShadow[n] + 1 !== 24"
-                >时间</option>
-                <option v-if="timesList[n]" :value="'23:59'" v-text="'23:59'">时间</option>
-            </select>
-            <i v-if="n===0" class="icon-add" @click="timesListAdd"></i>
-            <i v-if="n!==0" class="icon-remove" @click="timesList.splice(n, 1)"></i>
+    <div class="set-receive">
+        <div class="rule-row">
+            <div class="rule-label"><i>*</i>权益名称</div>
+            <div class="rule-input">
+                <input class="input" type="text" v-model="latinosData.favorName" placeholder="请输入权益名称" readonly/>
+            </div>
+        </div>
+        <div class="rule-row">
+            <div class="rule-label"><i>*</i>领取时间</div>
+            <div class="rule-input">
+                <ks-date-range-picker placeholder="开始时间,结束时间"
+                    :range.sync="daterange"
+                    :readonly="false"
+                    v-on:change="date_multi_picker_change"></ks-date-range-picker>
+            </div>
+        </div>
+        <div class="rule-row">
+            <div class="rule-label"><i>&nbsp;</i>设置定时抢</div>
+            <div class="rule-input">
+                <ks-switch :color="'#ea6953'" :checked.sync="latinosData.hasWeeksAndTimes" @change="addtimesList"></ks-switch>
+            </div>
+        </div>
+        <div class="rule-row caption" v-show="latinosData.hasWeeksAndTimes">
+            <div class="rule-input">
+                <ks-checkbox v-for="n in weeksList" :checked.sync="n.checked">{{n.name}}</ks-checkbox>
+            </div>
+            <div class="rule-label"><i>&nbsp;</i>时间段</div>
+            <!-- 时间多段设定 -->
+            <div class="rule-input">
+                <div class="db" v-for="n in timesList.length">
+                    <select class="select" v-model="timesList[n].start"
+                            change="timesList[n].end==null"
+                    >
+                        <option :value="null">请选择时间段</option>
+                        <option v-for="i in 24" :value="i + ':' + '00'" v-text="i + ':' + '00'">时间</option>
+                    </select>
+                    <span class="mr15">至</span>
+                    <select class="select" v-model="timesList[n].end">
+                        <option :value="null">请选择时间段</option>
+                        <option v-for="i in 24 - timesListShadow[n]"
+                                :value="i + timesListShadow[n] + 1 + ':' + '00'"
+                                v-text="i + timesListShadow[n] + 1 + ':' + '00'"
+                                v-if="i + timesListShadow[n] + 1 !== 24"
+                        >时间</option>
+                        <option v-if="timesList[n]" :value="'23:59'" v-text="'23:59'">时间</option>
+                    </select>
+                    <i v-if="n===0" class="icon-add" @click="timesListAdd"></i>
+                    <i v-if="n!==0" class="icon-remove" @click="timesList.splice(n, 1)"></i>
+                </div>
+            </div>
+        </div>
+        <div class="rule-row">
+            <div class="rule-label"><i>*</i>使用有效期</div>
+            <div class="rule-input">
+                <select class="select" v-model="latinosData.validPeriod">
+                    <option :value="-1">与活动时间同步</option>
+                    <option :value="1">用户得到权益1天内</option>
+                    <option :value="2">用户得到权益2天内</option>
+                    <option :value="3">用户得到权益3天内</option>
+                    <option :value="5">用户得到权益5天内</option>
+                    <option :value="10">用户得到权益10天内</option>
+                    <option :value="15">用户得到权益15天内</option>
+                    <option :value="30">用户得到权益30天内</option>
+                </select>
+            </div>
+        </div>
+        <div class="rule-row">
+            <div class="rule-label"><i>*</i>权益总数量</div>
+            <div class="rule-input">
+                <input class="input" type="text" v-limitaddprice="latinosData.total" v-model="latinosData.total"/>
+            </div>
+        </div>
+        <div class="rule-row">
+            <div class="rule-label"><i>*</i>权益每天数量</div>
+            <div class="rule-input">
+                <input class="input" type="text" v-limitaddprice="latinosData.totalOneDay" v-model="latinosData.totalOneDay"/>
+            </div>
+        </div>
+        <div class="rule-row">
+            <div class="rule-label"><i>*</i>规则描述</div>
+            <div class="rule-input">
+                <textarea class="textarea" v-model="latinosData.description"></textarea>
+            </div>
+        </div>
+        <div class="rule-row tc footer-btns">
+            <a class="btn btn-primary" @click="submitAdd">保存</a>
         </div>
     </div>
-</div>
-<div class="rule-row">
-    <div class="rule-label"><i>*</i>使用有效期</div>
-    <div class="rule-input">
-        <select class="select" v-model="latinosData.validPeriod">
-            <option :value="-1">与活动时间同步</option>
-            <option :value="1">用户得到权益1天内</option>
-            <option :value="2">用户得到权益2天内</option>
-            <option :value="3">用户得到权益3天内</option>
-            <option :value="5">用户得到权益5天内</option>
-            <option :value="10">用户得到权益10天内</option>
-            <option :value="15">用户得到权益15天内</option>
-            <option :value="30">用户得到权益30天内</option>
-        </select>
-    </div>
-</div>
-<div class="rule-row">
-    <div class="rule-label"><i>*</i>权益总数量</div>
-    <div class="rule-input">
-        <input class="input" type="text" v-limitaddprice="latinosData.total" v-model="latinosData.total"/>
-    </div>
-</div>
-<div class="rule-row">
-    <div class="rule-label"><i>*</i>权益每天数量</div>
-    <div class="rule-input">
-        <input class="input" type="text" v-limitaddprice="latinosData.totalOneDay" v-model="latinosData.totalOneDay"/>
-    </div>
-</div>
-<div class="rule-row">
-    <div class="rule-label"><i>*</i>规则描述</div>
-    <div class="rule-input">
-        <textarea class="textarea" v-model="latinosData.description"></textarea>
-    </div>
-</div>
-<div class="rule-row tc footer-btns">
-    <a @click="submitAdd">保存</a>
-</div>
 </template>
-<style type="text/css" scoped>
-    .rule-input textarea{
-        resize: none;padding: 15px;width: 506px !important;min-height: 250px;border: 1px solid #c8c8c8;
-    }
-    .setting-time{
-        height: 200px;width: 506px;display: table-cell;background-color: #F5F5F5;
-    }
-    .latinos-receive .select{
-        width: 506px !important;
-    }
-    .latinos-receive .caption{
-        display: table-caption;margin-left: 189px;padding: 20px 20px !important;width: 506px;background: #F5F5F5;
-    }
-    .latinos-receive .caption>.rule-input:first-child{
-        display: inline-block;min-width: 416px;
-    }
-    .latinos-receive .caption>.rule-input:last-child{
-        display: block !important;
-    }
-    .latinos-receive .caption>.rule-input:last-child .db{
-        margin-left: 6px !important;
-    }
-    .latinos-receive .caption>.rule-input:last-child .db>.select{
-        width: 150px !important;
-    }
-    .latinos-receive .caption>.rule-input:last-child .db>.mr15{
-            margin: 0px 10px !important;
+<style type="text/css">
+    .set-receive .rule-row .rule-input .KsDaterMultiPicker-input{
+        width: 585px !important;
     }
 </style>
 <script type="text/javascript">
