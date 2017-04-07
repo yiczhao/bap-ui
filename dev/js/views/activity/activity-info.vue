@@ -200,10 +200,10 @@
                 <div class="main-row">
                     <div class="row-right">
                         <span class="activity-type">权益名称 /</span>
-                        <span class="activity-val" v-if="!!equityData">{{equityData.name}}</span>
+                        <span class="activity-val" v-if="!!equityName">{{equityName}}</span>
                     </div>
                     <div class="row-right">
-                        <span class="activity-type">活动时间 /</span>
+                        <span class="activity-type">权益时间 /</span>
                         <span class="activity-val" v-if="!!equityData"> {{equityData.receiveStartTime|datetime}} ~ {{equityData.receiveEndTime|datetime}}</span>
                     </div>
                     <div class="row-right">
@@ -327,7 +327,8 @@
                 equityData:{},
                 equityTimeStr:'',
                 ruleStr:'',
-                isFlex:true
+                isFlex:true,
+                equityName:''
             }
         },
         methods:{
@@ -352,6 +353,13 @@
                     this.isFlex=false;
                 }
                 //this.equityData.description=this.equityData.description.replace('\n','<br/>');
+            },
+            getActInfo(favorId){
+                this.model.searchReceive(favorId).then((res)=>{
+                    if(res.data.code===0){
+                        this.equityName=res.data.data.favorName;
+                    }
+                })
             }
         },
         created(){
@@ -363,8 +371,13 @@
                     this.$set('storeList',res.data.data.store.bankMarketingStores);
                     this.$set('equityData',res.data.data.favorConfigs[res.data.data.favorConfigs.length-1]);
                     this.getRules(res.data.data.ruleAndLimit);
+                    if(this.equityData!=null)
+                    {
+                        let favorId=this.equityData.favorId;
+                        this.getActInfo(favorId);
+                    }
                 }
-            })
+            });
         },
     }
 </script>
