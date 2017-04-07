@@ -132,10 +132,10 @@
                             </template>
                         </div>
                         <div class="choose-checkbox">
-                            <div class="checkAll" :class="{'checked':checkAll[3]}" @click.stop="checkedAll(4)"><b></b><span>终端</span></div>
+                            <div class="checkAll" :class="{'checked':checkAll[3]}" @click.stop="checkedAll(4)"><b></b><span>终端管理</span></div>
                             <template v-for="n in privileges" v-if="n.type==4">
                                 <ks-checkbox  @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
-                                    <span>终端{{n.name}}</span>
+                                    <span>{{n.name}}</span>
                                 </ks-checkbox>
                             </template>
                         </div>
@@ -143,7 +143,7 @@
                             <div class="checkAll" :class="{'checked':checkAll[4]}" @click.stop="checkedAll(5)"><b></b><span>商户管理</span></div>
                             <template v-for="n in privileges" v-if="n.type==5">
                                 <ks-checkbox  @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
-                                    <span>商户{{n.name}}</span>
+                                    <span>{{n.name}}</span>
                                 </ks-checkbox>
                             </template>
                         </div>
