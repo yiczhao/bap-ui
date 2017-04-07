@@ -31,7 +31,7 @@
 							<a v-show="!value.show" class="btn btn-danger" @click="setProp('online')" v-link="{'name':'basic-rule',params:{'rulename':'CouponDiscount'}}">优惠打折券</a>
 						</div>
 						<div class="activity-name">
-							<h4><a>权益</a></h4>
+							<h4><a>优惠券</a></h4>
 						</div>
 						<div class="activity-intru">创建优惠券或优惠金额优惠。</div>
 					</div>
