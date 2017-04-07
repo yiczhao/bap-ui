@@ -32,8 +32,8 @@
             <ul class="tab-bor">
                 <li @click="step=1" :class="{'active':step===1}">活动基本信息</li>
                 <li v-show="!!ruleList.ruleType" @click="step=2" :class="{'active':step===2}">规则设置</li>
+                <li @click="step=4" :class="{'active':step===4}">权益信息</li>
                 <li v-show="!!storeList.length" @click="step=3" :class="{'active':step===3}">商户信息</li>
-                <!--<li @click="step=4" :class="{'active':step===4}">权益信息</li>-->
             </ul>
         </div>
         <div class="info-main">
@@ -197,7 +197,43 @@
                 </table>
             </div>
             <div v-show="step===4" class="info-quanyi">
-                权益信息
+                <div class="main-row">
+                    <div class="row-right">
+                        <span class="activity-type">权益名称 /</span>
+                        <span class="activity-val">{{equityData.name}}</span>
+                    </div>
+                    <div class="row-right">
+                        <span class="activity-type">活动时间 /</span>
+                        <span class="activity-val"> {{equityData.receiveStartTime|datetime}} ~ {{equityData.receiveEndTime|datetime}}</span>
+                    </div>
+                    <div class="row-right">
+                        <span class="activity-type">使用时间 /</span>
+                        <span class="activity-val"> {{validPeriod[equityData.validPeriod]}}</span>
+                    </div>
+                </div>
+                <div class="main-row">
+                    <div class="row-right">
+                        <span class="activity-type">权益总数量 /</span>
+                        <span class="activity-val"> {{equityData.total}}</span>
+                    </div>
+                    <div :class="['row-right',isFlex ? 'divFlex' : '']">
+                        <span class="activity-type">权益每天数量 /</span>
+                        <span class="activity-val"> {{equityData.totalOneDay}}</span>
+                    </div>
+                    <template v-if="equityData.times">
+                        <div class="row-right">
+                            <span class="activity-type">活动定时抢 /</span>
+                            <span class="activity-val">{{equityTimeStr}}</span>
+                        </div>
+                    </template>
+                </div>
+                <div class="main-row table-row">
+                    <div class="row-right">
+                        <span class="activity-type">规则描述 /</span>
+                        <textarea class="textarea-val" readonly="readonly" v-model="equityData.description">
+                        </textarea>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -259,7 +295,7 @@
                 },
                 storeList:[],
                 ruleTypes: {
-                    'MeetMinus':['meetMinuses','满多少减多少'],// 满多少减多少
+                    'MeetMinus':['meetMinuses','满多少减多少'],// 满多少减多少与活动时间同步
                     'EveryMeetMinus':['everyMeetMinus','每满多少减多少'],// 满多少减多少
                     'ImmediatelyMinus':['immediatelyMinus','立减'],// 立减
                     'RandomMinus':['randomMinuses','随机立减'],// 随机立减
@@ -277,7 +313,21 @@
                     '%FAVORAMT%':'%优惠金额',
                     '%DAYLEFT%':'当天剩余名额',
                     '%TOTALLEFT%':'总剩余名额'
-                }
+                },
+                validPeriod:{
+                        '-1':'与活动时间同步',
+                        '0':'用户得到权益1天内',
+                        '1':'用户得到权益2天内',
+                        '2':'用户得到权益3天内',
+                        '3':'用户得到权益5天内',
+                        '4':'用户得到权益10天内',
+                        '5':'用户得到权益15天内',
+                        '6':'用户得到权益30天内'
+                },
+                equityData:{},
+                equityTimeStr:'',
+                ruleStr:'',
+                isFlex:true
             }
         },
         methods:{
@@ -289,6 +339,19 @@
                     return;
                 }
                 this.$set('ruleList',datas);
+                if(this.equityData.times!=null&&this.equityData.weeks!=null)
+                {
+                    let equityTimeStr='';
+                    let weeks=['星期日','星期一','星期二','星期三','星期四','星期五','星期六']
+                    var weekList=this.equityData.weeks.split(',');
+                    _.map(weekList,(val,index)=>{
+                        index===weekList.length-1?equityTimeStr+=weeks[val<<0]:equityTimeStr+=weeks[val<<0]+'、';
+                    })
+                    equityTimeStr+=this.equityData.times;
+                    this.equityTimeStr=equityTimeStr;
+                    this.isFlex=false;
+                }
+                //this.equityData.description=this.equityData.description.replace('\n','<br/>');
             }
         },
         created(){
@@ -298,6 +361,7 @@
                     console.log(res.data.data);
                     this.$set('basicData',res.data.data.base);
                     this.$set('storeList',res.data.data.store.bankMarketingStores);
+                    this.$set('equityData',res.data.data.favorConfigs[res.data.data.favorConfigs.length-1]);
                     this.getRules(res.data.data.ruleAndLimit);
                 }
             })
