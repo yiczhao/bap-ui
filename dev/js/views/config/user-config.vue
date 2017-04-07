@@ -340,11 +340,11 @@
                 this.getList();
             },
             getBankList(){ 
-                // this.model.getBanklevelList().then((res)=>{
-                //     if(res.data.code===0){
-                //         // this.addList.bankLevel=''+this.bankLevelList[0];
-                //     }
-                // })
+                this.model.getBanklevelList().then((res)=>{
+                    if(res.data.code===0){
+                        this.addList.bankLevel=''+this.bankLevelList[0];
+                    }
+                })
                 this.model.getPrivilegesList().then((res)=>{
                     if(res.data.code===0){
                         this.$set('privileges',res.data.dataList);
