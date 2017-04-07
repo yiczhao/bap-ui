@@ -165,7 +165,7 @@
                     </div>
                 </div>
                 <div class="form-group confirm-text">
-                    <label class="name-left" v-show="checkText.privileges==true">请至少选择一项功能级</label>
+                    <label class="name-left" v-show="checkText.privilegeIDs==true">请至少选择一项功能级</label>
                 </div>
             </div>
         </content-dialog>
@@ -249,6 +249,11 @@
         </content-dialog>
     </div>
 </template>
+<style type="text/css">
+    .user-config .kdialog__btnwrap{
+        padding-top:0;padding-bottom:0;height:65px;
+    }
+</style>
 <script type="text/javascript">
     import model from '../../ajax/config/user_model'
     export default{
@@ -397,7 +402,7 @@
                 this.getBankList();
                 this.model.getUserInfo(_id).then((res)=>{
                     if(res.data.code===0){
-                        console.log(res.data.data);
+                        // console.log(res.data.data);
                         this.$set('addList',res.data.data);
                         this.$set('privileges',res.data.data.privilegeList);
                         this.addList.status=''+this.addList.status;
@@ -411,7 +416,7 @@
                         if(!this.addList.loginAccountType){
                             this.loginAccountType1=false;
                             this.loginAccountType2=false;
-                        }
+                        } 
                         if(this.addList.loginAccountType=='1'){
                             this.loginAccountType1=true;
                             this.loginAccountType2=false;
@@ -430,12 +435,12 @@
                 })
             },
             addBtn(){
+                this.checkText.bankName=false;
+                this.checkText.name=false;
+                this.checkText.phone=false;
+                this.checkText.curPassword=false;
+                this.checkText.privilegeIDs=false;
                 (this.addTitle=='新增用户')?this.addUserTrue():this.editUserTrue();
-                this.checkText.bankName=false
-                this.checkText.name=false
-                this.checkText.phone=false
-                this.checkText.curPassword=false
-                this.checkText.privilegeIDs=false
             },
             checkedData(){
                 this.addList.privilegeIDs=[];
@@ -448,7 +453,7 @@
                 if(!this.addList.name){this.checkText.name=true;return false}else{this.checkText.name=false};
                 if(!this.addList.phone){this.checkText.phone=true;return false}else{this.checkText.phone=false};
                 if(!this.addList.curPassword){this.checkText.curPassword=true;return false}else{this.checkText.curPassword=false};
-                if(!this.addList.privilegeIDs.length){this.checkText.privilegeIDs=true;return false}else{this.checkText.privilegeIDs=false};
+                if(this.addList.privilegeIDs.length==0){this.checkText.privilegeIDs=true;return false}else{this.checkText.privilegeIDs=false};
                 return true;
             },
             addUserTrue(){
