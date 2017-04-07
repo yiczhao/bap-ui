@@ -57,7 +57,7 @@
                 :show.sync="addshow" :is-cancel="true" :type.sync="'infos'"
                 :title.sync="addTitle" @kok="addBtn" @kcancel="cancelAll"
         >
-            <div>
+            <div class="create-user">
                 <div class="form-group" v-if="addList.id!=loginUserID">
                     <label class="name-left"><i>*</i>银行名称</label>
                     <select v-model="addList.bankID" class="select">
@@ -65,8 +65,8 @@
                         <option v-for="(index,n) in bankLists" :value="n.id">{{n.shortName}}</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label class="name-left">请选择银行</label>
+                <div class="form-group confirm-text">
+                    <label class="name-left" v-show="checkText.bankName==true">请选择银行</label>
                 </div>
                 <div class="form-group" v-if="addList.id==loginUserID">
                     <label class="name-left"><i>*</i>银行名称</label>
@@ -77,61 +77,95 @@
                     <input type="text" class="input" v-model="addList.name" placeholder=" 请输入用户名">
                     <ks-checkbox :checked.sync="loginAccountType1"  @change="getloginAccountType(loginAccountType1,loginAccountType2)">可作为登录账号</ks-checkbox>
                 </div>
+                <div class="form-group confirm-text">
+                    <label class="name-left" v-show="checkText.name==true">请输入用户名</label>
+                </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>手机号码</label>
                     <input type="text" class="input" v-model="addList.phone" @change="changePassword(false)" v-limitnumber="addList.phone" placeholder="请输入真实手机号码">
                     <ks-checkbox :checked.sync="loginAccountType2"  @change="getloginAccountType(loginAccountType1,loginAccountType2)">可作为登录账号</ks-checkbox>
+                </div>
+                <div class="form-group confirm-text">
+                    <label class="name-left" v-show="checkText.phone==true">请输入真实的手机号码</label>
                 </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>密码</label>
                     <input type="password" class="input" v-model="addList.curPassword" @focus="changecurPassword"  placeholder="填写密码或勾选">
                     <ks-checkbox :checked.sync="passWordCheck" v-show="!!addList.phone" @change="changePassword(passWordCheck)">默认 手机号作为密码</ks-checkbox>
                 </div>
+                <div class="form-group confirm-text">
+                    <label class="name-left" v-show="checkText.curPassword==true">请填写密码或者勾选</label>
+                </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>状态</label>
                         <ks-radio :checked.sync="addList.status" :value="'false'" name="TEST1">禁用</ks-radio>
                         <ks-radio :checked.sync="addList.status" :value="'true'" name="TEST1">启用</ks-radio>
                 </div>
+                <div class="form-group confirm-text">
+                </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>功能级</label>
                     <div class="function-area">
-                        <div class="checkAll" :class="{'checked':checkAll}" @click.stop="checkedAll"><b></b><span>全选</span></div>
-                        <template v-for="n in privileges" v-if="n.type==1">
-                            <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
-                                <span>卡类{{n.name}}</span>
-                            </ks-checkbox>
-                        </template>
-                        <template v-for="n in privileges" v-if="n.type==2">
-                            <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
-                                <span>券码{{n.name}}</span>
-                            </ks-checkbox>
-                        </template>
-                        <template v-for="n in privileges" v-if="n.type==3">
-                            <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
-                                <span>{{n.name}}</span>
-                            </ks-checkbox>
-                        </template>
-                        <template v-for="n in privileges" v-if="n.type==4">
-                            <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
-                                <span>终端{{n.name}}</span>
-                            </ks-checkbox>
-                        </template>
-                        <template v-for="n in privileges" v-if="n.type==5">
-                            <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
-                                <span>商户{{n.name}}</span>
-                            </ks-checkbox>
-                        </template>
-                        <template v-for="n in privileges" v-if="n.type==6">
-                            <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
-                                <span>{{n.name}}</span>
-                            </ks-checkbox>
-                        </template>
-                        <template v-for="n in privileges" v-if="n.type==7">
-                            <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
-                                <span>{{n.name}}</span>
-                            </ks-checkbox>
-                        </template>
+                        <!-- <div class="checkAll" :class="{'checked':checkAll}" @click.stop="checkedAll"><b></b><span>全选</span></div> -->
+                        <div class="choose-checkbox">
+                            <div class="checkAll" :class="{'checked':checkAll}" @click.stop="checkedAll"><b></b><span>卡类活动</span></div>
+                            <template v-for="n in privileges" v-if="n.type==1">
+                                <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                                    <span>卡类{{n.name}}</span>
+                                </ks-checkbox>
+                            </template>
+                        </div>
+                        <div class="choose-checkbox">
+                            <div class="checkAll" :class="{'checked':checkAll}" @click.stop="checkedAll"><b></b><span>券码活动</span></div>
+                            <template v-for="n in privileges" v-if="n.type==2">
+                                <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                                    <span>券码{{n.name}}</span>
+                                </ks-checkbox>
+                            </template>
+                        </div>
+                        <div class="choose-checkbox">
+                            <div class="checkAll" :class="{'checked':checkAll}" @click.stop="checkedAll"><b></b><span>查询</span></div>
+                            <template v-for="n in privileges" v-if="n.type==3">
+                                <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                                    <span>{{n.name}}</span>
+                                </ks-checkbox>
+                            </template>
+                        </div>
+                        <div class="choose-checkbox">
+                            <div class="checkAll" :class="{'checked':checkAll}" @click.stop="checkedAll"><b></b><span>终端</span></div>
+                            <template v-for="n in privileges" v-if="n.type==4">
+                                <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                                    <span>终端{{n.name}}</span>
+                                </ks-checkbox>
+                            </template>
+                        </div>
+                        <div class="choose-checkbox">
+                            <div class="checkAll" :class="{'checked':checkAll}" @click.stop="checkedAll"><b></b><span>商户管理</span></div>
+                            <template v-for="n in privileges" v-if="n.type==5">
+                                <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                                    <span>商户{{n.name}}</span>
+                                </ks-checkbox>
+                            </template>
+                        </div>
+                        <div class="choose-checkbox">
+                            <div class="checkAll" :class="{'checked':checkAll}" @click.stop="checkedAll"><b></b><span>设置</span></div>
+                            <template v-for="n in privileges" v-if="n.type==7">
+                                <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                                    <span>{{n.name}}</span>
+                                </ks-checkbox>
+                            </template>
+                        </div>
+                        <!-- <div class="choose-checkbox">
+                            <template v-for="n in privileges" v-if="n.type==6">
+                                <ks-checkbox  @change="checked(!n.selected,n.id)" :checked.sync="n.selected" :name="n.name">
+                                    <span>{{n.name}}</span>
+                                </ks-checkbox>
+                            </template>
+                        </div> -->
                     </div>
+                </div>
+                <div class="form-group confirm-text">
+                    <label class="name-left" v-show="checkText.privileges==true">请至少选择一项功能级</label>
                 </div>
             </div>
         </content-dialog>
@@ -139,7 +173,7 @@
                 :show.sync="infoshow" :is-button="false" :type.sync="'infos'"
                 :title.sync="'查看详情'"
         >
-            <div>
+            <div class="infor-user">
                 <div class="form-group">
                     <label class="name-left"><i>*</i>银行名称</label>
                     <span class="catch-infor">{{addList.bankName}}</span>
@@ -250,7 +284,14 @@
                     status:'true',
                     loginAccountType:'3',
                     privilegeIDs:[]
-                }
+                },
+                checkText:{
+                    bankName:false,
+                    name:false,
+                    phone:false,
+                    curPassword :false,
+                    privilegeIDs:false,
+                },
             }
         },
         methods:{
@@ -389,9 +430,19 @@
                 })
             },
             addBtn(){
-                (this.addTitle=='新增用户')?this.addUserTrue():this.editUserTrue()
+                (this.addTitle=='新增用户')?this.addUserTrue():this.editUserTrue();
+                this.checkText.bankName=false
+                this.checkText.name=false
+                this.checkText.phone=false
+                this.checkText.curPassword=false
+                this.checkText.privilegeIDs=false
             },
             addUserTrue(){
+                if(!this.addList.bankID){this.checkText.bankName=true;return}else{this.checkText.bankName=false};
+                if(!this.addList.name){this.checkText.name=true;return}else{this.checkText.name=false};
+                if(!this.addList.phone){this.checkText.phone=true;return}else{this.checkText.phone=false};
+                if(!this.addList.curPassword){this.checkText.curPassword=true;return}else{this.checkText.curPassword=false};
+                if(!this.addList.privilegeIDs.length){this.checkText.privilegeIDs=true;return}else{this.checkText.privilegeIDs=false};
                 this.model.addUser(this.addList).then((res)=>{
                     if(res.data.code===0){
                         dialog('success',res.data.message)
@@ -400,6 +451,11 @@
                 })
             },
             editUserTrue(){
+                if(!this.addList.bankID){this.checkText.bankName=true;return}else{this.checkText.bankName=false};
+                if(!this.addList.name){this.checkText.name=true;return}else{this.checkText.name=false};
+                if(!this.addList.phone){this.checkText.phone=true;return}else{this.checkText.phone=false};
+                if(!this.addList.curPassword){this.checkText.curPassword=true;return}else{this.checkText.curPassword=false};
+                if(!this.addList.privilegeIDs.length){this.checkText.privilegeIDs=true;return}else{this.checkText.privilegeIDs=false};
                 this.model.editUser(this.addList).then((res)=>{
                     if(res.data.code===0){
                         dialog('success',res.data.message)

@@ -92,7 +92,7 @@
 			text-align:center;
 		}
 		.choose-radio{
-			@include width-lineheight(95px,36px);		
+			@include width-lineheight(95px,36px);
 			margin-left:5px;
 			input{
 				@include input-radio;
@@ -101,6 +101,7 @@
 		.function-area{
 			@include width-margin(530px,15px);
 			margin-left:5px;
+			border: 1px solid #C8C8C8;
 			.KSNRCheckbox{
 				float: left;
 				padding: 6px 5px;min-width: 120px;
@@ -112,6 +113,28 @@
 					@include input-radio;
 				}
 			}
+			.choose-checkbox{
+				border-bottom: 1px dashed;
+			}
+			.choose-checkbox:last-child{
+				border:none !important;
+			}
+		}
+		.choose-checkbox{
+			height:36px;
+		}
+	}
+	.create-user{
+		.form-group{
+			margin:0;
+		}
+	}
+	.confirm-text{
+		height: 26px;
+		.name-left{
+			margin-left: 115px; min-width: 150px;
+			height: 26px; width: auto;
+			font-size: 12px; line-height: 20px; text-align: left; color: #ea6953;
 		}
 	}
 	.close-center{
