@@ -200,37 +200,37 @@
                 <div class="main-row">
                     <div class="row-right">
                         <span class="activity-type">权益名称 /</span>
-                        <span class="activity-val">{{equityData.name}}</span>
+                        <span class="activity-val" v-if="!!equityData">{{equityData.name}}</span>
                     </div>
                     <div class="row-right">
                         <span class="activity-type">活动时间 /</span>
-                        <span class="activity-val"> {{equityData.receiveStartTime|datetime}} ~ {{equityData.receiveEndTime|datetime}}</span>
+                        <span class="activity-val" v-if="!!equityData"> {{equityData.receiveStartTime|datetime}} ~ {{equityData.receiveEndTime|datetime}}</span>
                     </div>
                     <div class="row-right">
                         <span class="activity-type">使用时间 /</span>
-                        <span class="activity-val"> {{validPeriod[equityData.validPeriod]}}</span>
+                        <span class="activity-val" v-if="!!equityData"> {{validPeriod[equityData.validPeriod]}}</span>
                     </div>
                 </div>
                 <div class="main-row">
                     <div class="row-right">
                         <span class="activity-type">权益总数量 /</span>
-                        <span class="activity-val"> {{equityData.total}}</span>
+                        <span class="activity-val" v-if="!!equityData"> {{equityData.total}}</span>
                     </div>
                     <div :class="['row-right',isFlex ? 'divFlex' : '']">
                         <span class="activity-type">权益每天数量 /</span>
-                        <span class="activity-val"> {{equityData.totalOneDay}}</span>
+                        <span class="activity-val" v-if="!!equityData"> {{equityData.totalOneDay}}</span>
                     </div>
-                    <template v-if="equityData.times">
-                        <div class="row-right">
+                        <div class="row-right" v-if="!!equityData">
+                            <template v-if="!!equityData.times">
                             <span class="activity-type">活动定时抢 /</span>
-                            <span class="activity-val">{{equityTimeStr}}</span>
+                            <span class="activity-val" v-if="!!equityData">{{equityTimeStr}}</span>
+                            </template>
                         </div>
-                    </template>
                 </div>
                 <div class="main-row table-row">
                     <div class="row-right">
                         <span class="activity-type">规则描述 /</span>
-                        <textarea class="textarea-val" readonly="readonly" v-model="equityData.description">
+                        <textarea v-if="!!equityData" class="textarea-val" readonly="readonly" v-model="equityData.description">
                         </textarea>
                     </div>
                 </div>
