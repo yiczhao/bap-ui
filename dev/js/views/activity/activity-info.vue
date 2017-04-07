@@ -32,7 +32,7 @@
             <ul class="tab-bor">
                 <li @click="step=1" :class="{'active':step===1}">活动基本信息</li>
                 <li v-show="!!ruleList.ruleType" @click="step=2" :class="{'active':step===2}">规则设置</li>
-                <li @click="step=4" :class="{'active':step===4}">权益信息</li>
+                <li @click="step=4" :class="{'active':step===4}" v-show="!!equityData">权益信息</li>
                 <li v-show="!!storeList.length" @click="step=3" :class="{'active':step===3}">商户信息</li>
             </ul>
         </div>
@@ -339,7 +339,7 @@
                     return;
                 }
                 this.$set('ruleList',datas);
-                if(this.equityData.times!=null&&this.equityData.weeks!=null)
+                if(this.equityData!=null&&this.equityData.times!=null&&this.equityData.weeks!=null)
                 {
                     let equityTimeStr='';
                     let weeks=['星期日','星期一','星期二','星期三','星期四','星期五','星期六']
