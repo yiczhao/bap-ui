@@ -235,7 +235,7 @@
                 if (data.endTime <= data.startTime) {
                     throw new Error('活动开始时间不能大于等于活动结束时间!')
                 }
-                if (data.total<<0 < data.totalOneDay<<0) {
+                if (+data.total < +data.totalOneDay) {
                     throw new Error('权益每天数量不能大于权益总数量!')
                 }
                 if(this.latinosData.hasWeeksAndTimes){
