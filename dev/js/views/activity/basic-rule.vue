@@ -88,8 +88,8 @@
     <div class="dashed"></div>
     <div class="rule-row">
         <div class="rule-label"><i>*</i>活动主题</div>
-        <div class="rule-input">
-            <textarea class="input textarea"
+        <div class="rule-input"> 
+            <textarea class="input textarea theme"
                       placeholder="最多可输入200个字符"
                       maxlength="200"
                       v-model="addData.subject" ></textarea>
@@ -98,7 +98,7 @@
     <div class="rule-row">
         <div class="rule-label"><i>*</i>活动细则</div>
         <div class="rule-input">
-            <textarea class="input textarea"
+            <textarea class="input textarea rule"
                       placeholder="最多可输入500个字符"
                       maxlength="500"
                       v-model="addData.detail"></textarea>

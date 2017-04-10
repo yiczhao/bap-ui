@@ -139,6 +139,18 @@
 		}
 	}
 }
+.basic-rule{
+	.rule-row{
+		.rule-input{
+			.theme{
+				min-height:87px;
+			}
+			.rule{
+				min-height:210px;
+			}
+		}
+	}
+}
 .latinos-receive,.set-receive{
 	.rule-row{
 		padding: 0 65px !important;
