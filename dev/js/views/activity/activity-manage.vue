@@ -73,7 +73,7 @@
                         <span class="color999" v-else>查看</span>
                     </td>
                     <td>
-                        <a v-if="n.propes==='online'&&(n.status!=='draft_other'&&n.status!=='draft'&&n.status!=='check_fail')&&(n.status==='wait_check'&&n.auditStatus==='wait_early_offline')"
+                        <a v-if="n.propes==='online'&&(n.status!=='draft_other'&&n.status!=='draft'&&n.status!=='check_fail')&&(n.status!=='wait_check'&&n.auditStatus!=='wait_early_offline')"
                            v-link="{name:'atl-search',params:{atlId:n.id}}">查看</a>
                         <span class="color999" v-else>查看</span>
                     </td>
