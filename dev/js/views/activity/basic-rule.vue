@@ -37,7 +37,7 @@
                 <ks-date-picker @change="setincludeTimes" type="datetime" time="00:00:00" placeholder="活动时间" :value.sync="addData.startTime"></ks-date-picker>
                 <div class="m20">---</div>
                 <ks-date-picker @change="setincludeTimes" type="datetime" time="23:59:59" placeholder="活动时间" :value.sync="addData.endTime"></ks-date-picker>
-                <span class="all-time">活动持续<i>{{includeTimes.split(',').length}}</i>天/<i>{{includeTimes.split(',').length%7}}</i>周</span>
+                <span class="all-time">活动持续<i>{{includeTimes.split(',').length}}</i>天/<i>{{Math.ceil(includeTimes.split(',').length / 7)}}</i>周</span>
             </div>
         </div>
     </div>
