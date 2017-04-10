@@ -95,8 +95,10 @@ export default{
     data(){
         this.model=model(this);
         return{
-            datas:['生成宣传页','选择用户'],
-            showstep:1,
+            // datas:['生成宣传页','选择用户'],
+            datas:['选择用户'],
+            // showstep:1,
+            showstep:0,
             id:'',
             upCheck:{
                 upload_src:'',
