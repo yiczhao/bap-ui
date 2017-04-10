@@ -244,7 +244,7 @@
             },
             getHistoryData(){
                 this.$set('searchData',back_json.fetchArray(this.$route.path));
-                this.statuses=['online','draft_other','draft','wait_check','check_fail','early_offline','finish'];
+                this.searchData.statuses=['online','draft_other','draft','wait_check','check_fail','early_offline','finish'];
                 (!this.searchData.actPropes)?this.actPropes='':this.actPropes= this.searchData.actPropes;
             }
         },
