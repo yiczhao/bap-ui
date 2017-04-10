@@ -74,7 +74,7 @@
         </div>
     </div>
     <div class="rule-row">
-        <div class="rule-label"><i>*</i>删选时间</div>
+        <div class="rule-label"><i>&nbsp;</i>删选时间</div>
         <div class="rule-input" style="position:relative;" v-ks-click-outside="close">
             <a @click="dater.show = true" class="btn btn-primary">删选时间</a>
             <div style="position:absolute;width: 233px;left: 0;top: 40px;">
