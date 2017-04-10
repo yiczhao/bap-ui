@@ -384,12 +384,9 @@
                                   ticketData.push({'ticketId':val.id,'ticketName':val.name});
                               })
                               sessionStorage.setItem('ticketData',JSON.stringify(ticketData))
-                              this.$router.go({'name':'latinos-receive',params:{'receiveId':submitData.id}});
+                              (sessionStorage.getItem('props')==='online')?this.$router.go({'name':'latinos-receive',params:{'receiveId':submitData.id}}):this.$router.go({'name':'ticketbussiness-set','params':{"bactivityId":submitData.id }});
                           }else{
-//                              this.$router.go({'name':'bussiness-set','params':{"bactivityId":submitData.id }});
-                              // this.$router.go({'name':'latinos-receive'});
-                              // this.$router.go({'name':'bussiness-set','params':{"bactivityId":submitData.id }});
-                              this.$router.go({'name':'latinos-receive',params:{'receiveId':submitData.id}});
+                              (sessionStorage.getItem('props')==='online')?this.$router.go({'name':'latinos-receive',params:{'receiveId':submitData.id}}):this.$router.go({'name':'bussiness-set','params':{"bactivityId":submitData.id }});
                           }
                       }else{
                           dialog('successTime','草稿保存成功！')

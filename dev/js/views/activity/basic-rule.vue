@@ -37,6 +37,7 @@
                 <ks-date-picker @change="setincludeTimes" type="datetime" time="00:00:00" placeholder="活动时间" :value.sync="addData.startTime"></ks-date-picker>
                 <div class="m20">---</div>
                 <ks-date-picker @change="setincludeTimes" type="datetime" time="23:59:59" placeholder="活动时间" :value.sync="addData.endTime"></ks-date-picker>
+                <span>活动持续{{includeTimes.split(',').length}}天/{{includeTimes.split(',').length%7}}周</span>
             </div>
         </div>
     </div>
@@ -74,7 +75,7 @@
         </div>
     </div>
     <div class="rule-row">
-        <div class="rule-label"><i>*</i>删选时间</div>
+        <div class="rule-label">    删选时间</div>
         <div class="rule-input" style="position:relative;" v-ks-click-outside="close">
             <a @click="dater.show = true" class="btn btn-primary">删选时间</a>
             <div style="position:absolute;width: 233px;left: 0;top: 40px;">

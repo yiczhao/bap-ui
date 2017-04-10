@@ -59,12 +59,13 @@
                         <template v-if="n.status=='draft_other'">草稿</template>
                         <template v-if="n.status=='draft'">待审核</template>
                         <template v-if="n.status=='check_fail'">审核失败</template>
+                        <template v-if="n.status=='wait_check'&&n.auditStatus!='wait_early_offline'">待审核</template>
+
                         <template v-if="n.status=='early_offline'">已结束</template>
                         <template v-if="n.status=='finish'">已结束</template>
                         <template v-if="n.status=='online'">运行中</template>
                         <template v-if="n.status=='wait_early_offline'">运行中</template>
                         <template v-if="n.status=='wait_check'&&n.auditStatus=='wait_early_offline'">运行中</template>
-                        <template v-if="n.status=='wait_check'&&n.auditStatus!='wait_early_offline'">待审核</template>
                     </td>
                     <td><a v-link="{name:'activity-info',params:{'infoId':n.id}}">查看</a></td>
                     <td>
@@ -72,7 +73,8 @@
                         <span class="color999" v-else>查看</span>
                     </td>
                     <td>
-                        <a v-if="n.propes=='online'&&n.status!='draft_other'&&n.status!='draft'" v-link="{name:'atl-search',params:{atlId:n.id}}">查看</a>
+                        <a v-if="n.propes==='online'&&(n.status!=='draft_other'&&n.status!=='draft'&&n.status!=='check_fail')&&(n.status==='wait_check'&&n.auditStatus==='wait_early_offline')"
+                           v-link="{name:'atl-search',params:{atlId:n.id}}">查看</a>
                         <span class="color999" v-else>查看</span>
                     </td>
                     <td>
@@ -242,6 +244,7 @@
             },
             getHistoryData(){
                 this.$set('searchData',back_json.fetchArray(this.$route.path));
+                this.statuses=['online','draft_other','draft','wait_check','check_fail','early_offline','finish'];
                 (!this.searchData.actPropes)?this.actPropes='':this.actPropes= this.searchData.actPropes;
             }
         },
