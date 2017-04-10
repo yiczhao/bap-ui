@@ -90,16 +90,17 @@
 </activity-main>
 </template>
 <style lang="scss">
+.activity-rule .rule-row .rule-input .checked{
+    background-color: #ea6953!important;color: #fff!important;
+    border:1px solid red;
+}
+.activity-rule .rule-row .rule-input .span{
+    padding: 0 20px;margin-top: 0;
+    color: #777777;background-color: #ededed;cursor: pointer;
+}
 .activity-rule{
     .KSNRCheckbox__skin{
             opacity: 0;
-        }
-        .activity-rule .rule-row .rule-input .span{
-            padding: 0 20px;margin-top: 0;
-            color: #777777;background-color: #ededed;cursor: pointer;
-        }
-        .activity-rule .rule-row .rule-input .checked{
-            background-color: #ea6953;color: #fff;
         }
         .reset h3{
             float: left;

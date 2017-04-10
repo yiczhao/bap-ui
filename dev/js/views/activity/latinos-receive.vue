@@ -66,13 +66,13 @@
         </div>
     </div>
     <div class="rule-row">
-        <div class="rule-label"><i>*</i>权益总数量</div>
+        <div class="rule-label">权益总数量</div>
         <div class="rule-input">
             <input class="input" type="text" v-limitaddprice="latinosData.total" v-model="latinosData.total"/>
         </div>
     </div>
     <div class="rule-row">
-        <div class="rule-label"><i>*</i>权益每天数量</div>
+        <div class="rule-label">权益每天数量</div>
         <div class="rule-input">
             <input class="input" type="text" v-limitaddprice="latinosData.totalOneDay" v-model="latinosData.totalOneDay"/>
         </div>

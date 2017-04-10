@@ -2,7 +2,7 @@
 	<div class="activity-data-overview">
 		<div class="search-bg">
 			<div class="search-show">
-				<input type="text" class="input" placeholder="请输入活动名称" v-model="searchData.activityName" 
+				<input type="text" class="input" placeholder="请输入活动名称" v-model="searchData.activityName"
 				@keyup="getActivity($event)" @keyup.enter="searchList"
                 @keyup.up="changeLiIndex('up')" @keyup.down="changeLiIndex('down')"/>
 				<input type="button" class="btn btn-primary searchBtn" @click="searchList" value="搜 索">
@@ -16,7 +16,7 @@
 			<span>展示活动的交易数据、微信关注量数据、现金红包发放量等数据<i>/</i>活动进行中，数据截止到16:00，2016-06-16</span>
 		</div>
 		<div class="chart-show">
-			<div class="flex border"> 
+			<div class="flex border">
 				<div class="left" v-link="{name:'activity-data-overview',params:{'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':1}}">
 					<h4>交易区域</h4>
 					<div class="echart-div" id="trade-area"></div>
@@ -104,7 +104,7 @@
 	import model from '../../ajax/activity/activity-analysis'
 	export default{
 		data(){
-			this.model=model(this) 
+			this.model=model(this)
 			return{
 				mainStep:0,
 				searchData:{
@@ -283,7 +283,7 @@
 					    tooltip : {trigger: 'axis'},
 					    grid: {left: '0px',right: '4%',top:'20px',bottom: '3%',containLabel: true},
 					    xAxis : [{type:'category',boundaryGap:false,data:hours,axisLabel:{textStyle:{color:'#fff'}},}],
-					    yAxis : [{type : 'value', axisLine:{show:false}, axisLabel:{show:false}, splitLine:{show:false}, axisTick:{lineStyle:{color:'#777778',width:2,}}} ], 
+					    yAxis : [{type : 'value', axisLine:{show:false}, axisLabel:{show:false}, splitLine:{show:false}, axisTick:{lineStyle:{color:'#777778',width:2,}}} ],
 					    series : [
 					        {
 					            name:'交易笔数',
@@ -293,7 +293,7 @@
 					            itemStyle:{normal:{color:'#10b283'}},
 					            data:data
 					        },
-					    ], 
+					    ],
 					};
 				let myChart = echarts.init(document.getElementById('trade-time'));
 				myChart.setOption(option);
@@ -319,7 +319,7 @@
 					let Amount=String(res.data.data.averageTradeAmount);
 					this.cardBin.averageTradeAmount=Amount.split('.');
 				}})
-				this.model.getOneCardTotal(this.searchData).then((res)=>{if(res.data.code===0){this.oneCard=res.data.data;}}) 
+				this.model.getOneCardTotal(this.searchData).then((res)=>{if(res.data.code===0){this.oneCard=res.data.data;}})
 			},
 		},
 		created(){},
