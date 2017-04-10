@@ -17,7 +17,7 @@
             </div>
             <div class="mian-row">
                 <div class="activity-type">活动形式 /</div>
-                <div class="activity-val">{{(basicData.actType=='common_act')?'线上活动':'线下活动'}}</div>
+                <div class="activity-val">{{(basicData.propes=='online')?'线上活动':'线下活动'}}</div>
             </div>
             <div class="mian-row">
                 <div class="activity-type">所属银行 /</div>

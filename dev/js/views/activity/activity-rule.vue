@@ -92,7 +92,6 @@
 <style lang="scss">
 .activity-rule .rule-row .rule-input .checked{
     background-color: #ea6953!important;color: #fff!important;
-    border:1px solid red;
 }
 .activity-rule .rule-row .rule-input .span{
     padding: 0 20px;margin-top: 0;

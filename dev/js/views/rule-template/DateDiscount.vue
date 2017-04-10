@@ -14,6 +14,7 @@
 </div>
 </template>
 <style lang="scss">
+.DateDiscount{
     .DateDiscount{
         .KsDatePicker{
             position: absolute;
@@ -59,6 +60,7 @@
     .icon-add:before,.icon-remove:before{
         padding-right: 5px !important;
     }
+}
 </style>
 <script type="text/javascript">
     export default{
