@@ -374,7 +374,7 @@
 						this.tableText='卡BIN刷卡金额（元）';
                         if(this.carBinIndex==1){
 							this.tableText='卡BIN刷卡笔数（笔）';
-							this.initBar(data.category,data.series[0].dataDecimal,'#3ba686');
+							this.initBar(data.category,data.series[0].dataLong,'#3ba686');
                         }else{
 							this.initBar(data.category,data.series[0].dataDecimal,'#3ba686');
                         }

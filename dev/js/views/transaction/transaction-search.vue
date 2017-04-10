@@ -281,7 +281,7 @@
                     if(res.data.code===0){
                         this.$set('cumulative',res.data.data);
                         this.tradeEchart('num-echart',this.cumulative.totalNumber,'交易总笔数','#e76b5f');
-                        this.tradeEchart('amount-echart',this.cumulative.totalAmount,'交易总金额','#ffcf7a','#ffcf7a');
+                        this.tradeEchart('amount-echart',this.cumulative.totalAmount,'交易总金额','#ffcf7a');
                         this.tradeEchart('disAmoun-echart',this.cumulative.canDisAmount,'可打折金额','#b6d15d',this.cumulative.totalAmount-this.cumulative.canDisAmount,'#ffcf7a');
                         this.tradeEchart('pay-echart',this.cumulative.payAmount,'实付总金额','#3ba686',this.cumulative.totalAmount-this.cumulative.payAmount,'#f0f0f0');
                         this.tradeEchart('subsidy-echart',this.cumulative.subsidyAmount,'补贴总金额','#163b7d',this.cumulative.totalAmount,'#f0f0f0');
