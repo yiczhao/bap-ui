@@ -208,7 +208,7 @@
                     </div>
                     <div class="row-right">
                         <span class="activity-type">使用时间 /</span>
-                        <span class="activity-val" v-if="!!equityData"> {{validPeriod[equityData.validPeriod]}}</span>
+                        <span class="activity-val" v-if="!!validPeriod"> {{validPeriod}}</span>
                     </div>
                 </div>
                 <div class="main-row">
@@ -314,16 +314,7 @@
                     '%DAYLEFT%':'当天剩余名额',
                     '%TOTALLEFT%':'总剩余名额'
                 },
-                validPeriod:{
-                        '-1':'与活动时间同步',
-                        '0':'用户得到权益1天内',
-                        '1':'用户得到权益2天内',
-                        '2':'用户得到权益3天内',
-                        '3':'用户得到权益5天内',
-                        '4':'用户得到权益10天内',
-                        '5':'用户得到权益15天内',
-                        '6':'用户得到权益30天内'
-                },
+                validPeriod:'',
                 equityData:{},
                 equityTimeStr:'',
                 ruleStr:'',
@@ -344,6 +335,19 @@
                 {
                     let favorId=this.equityData.favorId;
                     this.getActInfo(favorId);
+                    let validPeriod='';
+                    if(this.equityData.validPeriod!=null)
+                    {
+                        validPeriod=this.equityData.validPeriod;
+                        if(validPeriod==-1)
+                        {
+                            this.validPeriod='与活动时间同步';
+                        }
+                        else
+                        {
+                            this.validPeriod='用户得到权益'+validPeriod+'天内';
+                        }
+                    }
                     if(this.equityData.times!=null&&this.equityData.weeks!=null)
                     {
                         let equityTimeStr='';
