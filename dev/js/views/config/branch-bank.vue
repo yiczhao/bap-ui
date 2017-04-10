@@ -31,7 +31,7 @@
                         <template v-else>禁用</template>
                     </td>
                     <td>
-                        <template v-if="n.editable">
+                        <template v-if="n.editable && currentLevel != n.level">
                             <a @click="editBank(n)">编辑</a>
                         </template>
                         <template v-else>
