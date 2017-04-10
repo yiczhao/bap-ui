@@ -66,13 +66,13 @@
         </div>
     </div>
     <div class="rule-row">
-        <div class="rule-label">权益总数量</div>
+        <div class="rule-label"><i>*</i>权益总数量</div>
         <div class="rule-input">
             <input class="input" type="text" v-limitaddprice="latinosData.total" v-model="latinosData.total"/>
         </div>
     </div>
     <div class="rule-row">
-        <div class="rule-label">权益每天数量</div>
+        <div class="rule-label"><i>*</i>权益每天数量</div>
         <div class="rule-input">
             <input class="input" type="text" v-limitaddprice="latinosData.totalOneDay" v-model="latinosData.totalOneDay"/>
         </div>
@@ -219,6 +219,7 @@
                     receiveEndTime:'权益领取开始时间',
                     receiveStartTime:'权益领取结束时间',
                     total:'权益总数量',
+                    totalOneDay:'权益每天数量',
                     name:'权益名称'
                 }
                 // 检测是否存在未填写项
@@ -233,6 +234,9 @@
                 // 活动时间检查
                 if (data.endTime <= data.startTime) {
                     throw new Error('活动开始时间不能大于等于活动结束时间!')
+                }
+                if (data.total <= data.totalOneDay) {
+                    throw new Error('权益每天数量不能大于权益总数量!')
                 }
                 if(this.latinosData.hasWeeksAndTimes){
                     // 活动时间段检查
