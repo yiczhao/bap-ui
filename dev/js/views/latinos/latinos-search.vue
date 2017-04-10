@@ -94,7 +94,7 @@
                       <td>{{n.endTime}}</td><!-- 结束时间-->
                       <td>
                           <a v-if="n.status==='OFF'&&n.activityStatus==='online'" v-link="{name:'set-receive',params:{'setReceiveId':n.id,'setReceiveActivityId':n.activityID}}">权益设置</a>
-                          <a v-if="n.status==='ON'&&n.activityStatus==='online'" style="color: red" @click="latinosOff(n.id)">权益下线</a>
+                          <span v-if="n.status==='ON'&&n.activityStatus==='online'" class="colorRed" @click="latinosOff(n.id)">权益下线</span>
                           <span v-if="n.activityStatus!=='online'" class="color999">权益设置</span>
                           <a v-if="n.activityStatus=='online'" v-link="{name:'latinos-user',params:{'latinosUserId':n.couponID}}">批量赠送</a>
                           <span v-else class="color999">批量赠送</span>
