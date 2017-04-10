@@ -274,6 +274,9 @@
                         this.model.getOnOff(data.favorId,'ON').then((res)=>{
                             if(res.data.code===0){
                                 dialog('successTime','保存成功！');
+                                setTimeout(()=>{
+                                    this.$router.go({'name':'latinos-search'});
+                                },1500)
                             }
                         })
                     }
