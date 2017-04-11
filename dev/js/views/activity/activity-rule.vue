@@ -383,7 +383,7 @@
                               _.map(res.data.data.tickets,(val)=>{
                                   ticketData.push({'ticketId':val.id,'ticketName':val.name});
                               })
-                              sessionStorage.setItem('ticketData',JSON.stringify(ticketData))
+                              sessionStorage.setItem('ticketData',JSON.stringify(ticketData));
                               (sessionStorage.getItem('props')==='online')?this.$router.go({'name':'latinos-receive',params:{'receiveId':submitData.id}}):this.$router.go({'name':'ticketbussiness-set','params':{"bactivityId":submitData.id }});
                           }else{
                               (sessionStorage.getItem('props')==='online')?this.$router.go({'name':'latinos-receive',params:{'receiveId':submitData.id}}):this.$router.go({'name':'bussiness-set','params':{"bactivityId":submitData.id }});
