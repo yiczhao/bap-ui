@@ -87,8 +87,8 @@
                           <template v-if="n.couponType=='zero'">{{n.couponFaceValue}}元</template>
                       </td><!-- 面值/折扣-->
                       <td>
-                          <template v-if="n.status!=='OFF'&&(n.activityStatus==='early_offline'||n.activityStatus==='finish')">活动已结束</template>
-                          <template v-if="n.status==='OFF'">权益已结束</template>
+                          <template v-if="n.status!=='OFF'&&(n.activityStatus==='early_offline'||n.activityStatus==='finish')">已结束</template>
+                          <template v-if="n.status==='OFF'">已结束</template>
                           <template v-if="n.status=='ON'&&n.activityStatus!=='finish'&&n.activityStatus!=='early_offline'">运行中</template>
                       </td><!-- 状态-->
                       <td>{{n.circulation }}</td><!-- 发行量-->
