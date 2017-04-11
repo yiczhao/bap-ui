@@ -19,9 +19,10 @@
                   <option v-for="n in bankFullName" :value="n.uuid">{{n.shortName}}</option>
               </select>
               <select class="select" v-model="searchData.favorTypesStr">
-                  <option value="cash,discount">请选择权益类型</option>
+                  <option value="">请选择权益类型</option>
                   <option value="cash">优惠金额券</option>
                   <option value="discount">优惠折扣券</option>
+                  <option value="zero">零元券</option>
               </select>
               <ks-date-range-picker placeholder="开始时间,结束时间"
                                     :range.sync="daterange"
@@ -78,10 +79,12 @@
                       <td>
                           <template v-if="n.couponType=='cash'">优惠金额券</template>
                           <template v-if="n.couponType=='discount'">优惠折扣券</template>
+                          <template v-if="n.couponType=='zero'">零元券</template>
                       </td><!-- 权益类型-->
                       <td>
                           <template v-if="n.couponType=='cash'">{{n.couponFaceValue}}元</template>
                           <template v-if="n.couponType=='discount'">{{n.couponFaceValue}}折</template>
+                          <template v-if="n.couponType=='zero'">{{n.couponFaceValue}}元</template>
                       </td><!-- 面值/折扣-->
                       <td>
                           <template v-if="n.status==='OFF'">已结束</template>
@@ -148,7 +151,7 @@
                        page:1,
                        total:0,
                        favorName:'',
-                       favorTypesStr:'cash,discount',
+                       favorTypesStr:'',
                        firstResult:0,
                        maxResult:10,
                        sorts:'id|desc',

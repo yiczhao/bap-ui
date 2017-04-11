@@ -78,7 +78,10 @@
                     <tr v-for="n in dataList">
                         <td>{{n.activityName}}</td><!-- 活动名称 -->
                         <td>{{n.bankUuidsName}}</td><!-- 发起方 -->
-                        <td><span v-if="n.subType=='online'">线上</span><span v-else>线下</span></td><!-- 子类型 -->
+                        <td>
+                            <template v-if="n.subType=='online'">线上</template><!-- 子类型 -->
+                            <template v-else>线下</template>
+                        </td>
                         <td>{{n.activitStatus}}</td><!-- 活动状态 -->
                         <td>{{n.totalNumber}}</td><!-- 总笔数 -->
                         <td>{{n.totalAmount}}</td><!-- 总金额 -->
