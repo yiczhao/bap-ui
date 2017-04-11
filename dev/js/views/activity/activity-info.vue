@@ -200,7 +200,7 @@
                 <div class="main-row">
                     <div class="row-right">
                         <span class="activity-type">权益名称 /</span>
-                        <span class="activity-val" v-if="!!equityName">{{equityName}}</span>
+                        <span class="activity-val" v-if="!!equityData">{{equityData.name}}</span>
                     </div>
                     <div class="row-right">
                         <span class="activity-type">权益时间 /</span>
@@ -334,7 +334,7 @@
                 if(this.equityData!=null)
                 {
                     let favorId=this.equityData.favorId;
-                    this.getActInfo(favorId);
+                    //this.getActInfo(favorId);
                     let validPeriod='';
                     if(this.equityData.validPeriod!=null)
                     {
