@@ -60,7 +60,6 @@
                         <template v-if="n.status=='draft'">待审核</template>
                         <template v-if="n.status=='check_fail'">审核失败</template>
                         <template v-if="n.status=='wait_check'&&n.auditStatus!='wait_early_offline'">待审核</template>
-
                         <template v-if="n.status=='early_offline'">已结束</template>
                         <template v-if="n.status=='finish'">已结束</template>
                         <template v-if="n.status=='online'">运行中</template>
@@ -70,7 +69,7 @@
                     <td><a v-link="{name:'activity-info',params:{'infoId':n.id}}">查看</a></td>
                     <td>
                         <!-- <a v-if="n.status!='draft_other'&&n.status!='draft'&&n.status!='wait_check'" v-link="{name:'transaction-detail',params:{'transactionName':n.name,'transactionId':n.uniqueId}}">查看</a> -->
-                        <a v-if="n.status!='draft_other'&&n.status!='draft'" v-link="{name:'transaction-detail',params:{'transactionName':n.name,'transactionId':n.uniqueId}}">查看</a>
+                        <a v-if="n.status!='draft_other'&&n.status!='draft'&&n.status!='check_fail'" v-link="{name:'transaction-detail',params:{'transactionName':n.name,'transactionId':n.uniqueId}}">查看</a>
                         <span class="color999" v-else>查看</span>
                     </td>
                     <td>

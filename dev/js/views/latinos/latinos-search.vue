@@ -56,7 +56,7 @@
             </div>
           </div>
           <div class="flex-chart text" v-show="latinos_echart==0">未查询到数据</div>
-          <div class="table">
+          <div class="table overflow">
               <table>
                   <tr>
                       <th>活动名称</th>

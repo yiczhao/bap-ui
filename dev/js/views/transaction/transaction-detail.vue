@@ -79,7 +79,7 @@
                 :page_current.sync="searchData.pageIndex"
                 :total="searchData.total"
                 :page_size.sync="searchData.pageSize"
-                v-on:current_change="sizeChange"
+                v-on:current_change="getList"
                 v-on:size_change="sizeChange"
                 ></pagegroup>
         </div>
@@ -210,7 +210,7 @@
             },
         },
         ready(){
-            // this.getList();
+            this.getList();
             // this.searchData.startDate='';
             // this.searchData.endDate='';
         },
