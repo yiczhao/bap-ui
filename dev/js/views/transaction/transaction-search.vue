@@ -102,8 +102,8 @@
                 :page_current.sync="searchData.pageIndex"
                 :total="objectotalNumber"
                 :page_size.sync="searchData.pageSize"
-                v-on:current_change="getList"
-                v-on:size_change="getList"
+                v-on:current_change="sizeChange"
+                v-on:size_change="sizeChange"
                 ></pagegroup>
         </div>
     </div>
@@ -292,6 +292,14 @@
                         this.trade_echart=0;
                     }
                 });
+            },
+            sizeChange(){
+                this.model.getList(this.searchData).then((res)=>{
+                    if(res.data.code===0){
+                        this.$set('dataList',res.data.dataList);
+                        this.objectotalNumber=res.data.objectotalNumber;
+                    }
+                })
             },
             getBankList(){
                 let data={

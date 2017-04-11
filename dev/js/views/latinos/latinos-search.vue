@@ -287,7 +287,12 @@
                    let firstResult=(page-1)*this.searchData.maxResult;
                    this.searchData.page=page;
                    this.searchData.firstResult=firstResult;
-                   this.getList();
+                   this.model.getLatinosCumulative(this.searchData).then((res)=>{
+                       if (res.data.code==0) {
+                           this.$set('dataList',res.data.data);
+                           this.searchData.total=res.data.total;
+                       }
+                   })
                },
                getList(){
                    this.model.getLatinosCumulative(this.searchData).then((res)=>{
