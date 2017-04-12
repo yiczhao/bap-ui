@@ -3,16 +3,17 @@
 		    <div class="search-div search-table">
           <div class="conditions-list">
             <span class="show-position">
-              <input class="input " type="text" v-model="searchData.favorName" placeholder="输入权益名称"
+              <!-- <input class="input " type="text" v-model="searchData.favorName" placeholder="输入权益名称"
                      @keyup="getActivity($event)" @keyup.enter="searchList"
                      @keyup.up="changeLiIndex('up')" @keyup.down="changeLiIndex('down')"
-              />
-              <div class="showList showLi" v-show="showList">
+              /> -->
+              <input class="input " type="text" v-model="searchData.favorName" placeholder="输入权益名称"/>
+              <!-- <div class="showList showLi" v-show="showList">
                   <ul class="showLi">
                       <li class="showLi" v-for="n in activityList" :class="{'checked':liIndex==$index}" @click="getId(n)">{{n.couponName}}</li>
                       <li class="showLi" v-if="!activityList.length">未查询到{{searchData.favorName}}活动</li>
                   </ul>
-              </div>
+              </div> -->
             </span>
               <select class="select" v-model="bankUuidString" @change="getBankString">
                   <option value="">请选择结算方（银行）</option>
@@ -74,7 +75,7 @@
                   </tr>
                   <tr v-for="n in dataList">
                       <td>{{n.activityName}}</td><!-- 活动名称-->
-                      <td>{{n.couponName}}</td><!-- 权益名称-->
+                      <td>{{n.favorConfigName}}</td><!-- 权益名称-->
                       <td>{{n.uuid | get_bank uuidsList}}</td>
                       <td>
                           <template v-if="n.couponType=='cash'">优惠金额券</template>
@@ -153,6 +154,7 @@
                        total:0,
                        favorName:'',
                        favorTypesStr:'',
+                       // activityID:'',
                        firstResult:0,
                        maxResult:10,
                        sorts:'id|desc',
@@ -175,11 +177,11 @@
                    this.searchData.endTime=val[1];
                },
                searchList(){
-                   if(this.showList){
-                       this.searchData.favorName=this.activityList[this.liIndex].couponName;
-                       this.searchData.activityID=this.activityList[this.liIndex].couponID;
-                   }
-                   this.showList=false;
+                   // if(this.showList){
+                   //     this.searchData.favorName=this.activityList[this.liIndex].couponName;
+                   //     // this.searchData.activityID=this.activityList[this.liIndex].couponID;
+                   // }
+                   // this.showList=false;
                    this.getList();
                },
                getActivity: _.debounce(function(e){
@@ -193,7 +195,7 @@
                        favorName:vm.replaceName,
                        maxResult:10,
                        uuidsStr:vm.searchData.uuidsStr,
-                       favorTypesStr:'cash,discount',
+                       favorTypesStr:'',
                        sorts:'id|desc'
                    }
                    this.model.getLatinosCumulative(data).then((res)=>{
@@ -218,10 +220,10 @@
                            break;
                    }
                },
-               getId({couponID,couponName}){
+               getId(couponName){
                    this.showList=false;
                    this.searchData.favorName=couponName;
-                   this.searchData.activityID=couponID;
+                   // this.searchData.activityID=couponID;
                },
                 latinosEchart(divID,data1,data_name,color_1,baseData,color_2){
                     var myChart=echarts.init(document.getElementById(divID));

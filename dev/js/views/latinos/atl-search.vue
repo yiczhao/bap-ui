@@ -103,7 +103,7 @@
                        page:1,
                        total:0,
                        favorName:'',
-                       favorTypesStr:'cash,discount',
+                       favorTypesStr:'',
                        firstResult:0,
                        maxResult:10,
                        sorts:'id|desc',
@@ -208,7 +208,7 @@
                   favorName:(this.searchData.favorName).replace(/(^\s+)|(\s+$)/g, ""),
                   maxResult:this.searchData.maxResult,
                   uuidsStr:this.searchData.uuidsStr,
-                  favorTypesStr:'cash,discount',
+                  favorTypesStr:'',
                   sorts:'id|desc'
                 }
                     this.model.getLatinosCumulative(data).then((res)=>{

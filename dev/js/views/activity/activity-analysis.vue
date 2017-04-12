@@ -285,14 +285,8 @@
 					    xAxis : [{type:'category',boundaryGap:false,data:hours,axisLabel:{textStyle:{color:'#fff'}},}],
 					    yAxis : [{type : 'value', axisLine:{show:false}, axisLabel:{show:false}, splitLine:{show:false}, axisTick:{lineStyle:{color:'#777778',width:2,}}} ],
 					    series : [
-					        {
-					            name:'交易笔数',
-					            type:'line',
-					            areaStyle: {normal: {color:'#10b283'}},
-					            lineStyle: {normal: {color:'#b9babd'}},
-					            itemStyle:{normal:{color:'#10b283'}},
-					            data:data
-					        },
+					        {name:'交易笔数',type:'line',areaStyle: {normal: {color:'#10b283'}},lineStyle: {normal: {color:'#b9babd'}},itemStyle:{normal:{color:'#10b283'}},
+					            data:data},
 					    ],
 					};
 				let myChart = echarts.init(document.getElementById('trade-time'));
@@ -322,7 +316,6 @@
 				this.model.getOneCardTotal(this.searchData).then((res)=>{if(res.data.code===0){this.oneCard=res.data.data;}})
 			},
 		},
-		created(){},
 		ready(){
 			this.initList();
 			this.echartRadar();
