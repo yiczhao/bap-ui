@@ -41,7 +41,7 @@
                   </tr>
                   <tr v-for="n in searchList">
                       <td>{{n.activityName}}</td><!-- 活动名称-->
-                      <td>{{n.couponName}}</td><!-- 权益名称-->
+                      <td>{{n.favorConfigName}}</td><!-- 权益名称-->
                       <td>{{n.uuid | get_bank uuidsList}}</td>
                       <td>
                           <template v-if="n.couponType=='cash'">优惠金额券</template>
@@ -66,8 +66,9 @@
                       <td>{{n.expiredAmount}}</td><!-- 过期-->
                       <td>{{n.startTime }}</td><!-- 开始时间-->
                       <td>{{n.endTime}}</td><!-- 结束时间-->
-                      <td> 
+                      <td>
                         <a v-if="n.status==='OFF'&&n.activityStatus==='online'" v-link="{name:'set-receive',params:{'setReceiveId':n.id,'setReceiveActivityId':n.activityID}}">权益设置</a>
+                        <span v-if="n.status==='ON'&&n.activityStatus==='online'" class="colorRed" @click="latinosOff(n.id)">权益下线</span>
                         <a v-show="n.activityStatus=='online'" v-link="{name:'latinos-batch',params:{'batchId':n.activityID,'batchUserId':n.couponID}}">批量赠送</a>
                         <a v-link="{name:'latinos-detail',params:{'latinosID':n.couponID,'couponName':n.couponName,'activityName':n.activityName,'startTime':n.startTime,'endTime':n.endTime,'couponFaceValue':n.couponFaceValue,'couponType':n.couponType}}">查看明细</a>
                       </td><!--操作-->
@@ -234,6 +235,13 @@
                 window.open(origin+this.$API.latinosSearchExcel+data);
                this.searchData.sorts = 'id|desc';
               },
+              latinosOff(id){
+                  this.model.getOnOff(id,'OFF').then((res)=>{
+                    if (res.data.code==0) {
+                      this.getList();
+                    }
+                  })
+               },
            },
            ready(){
             document.addEventListener('click', (e) => {
