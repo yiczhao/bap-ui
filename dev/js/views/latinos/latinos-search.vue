@@ -3,7 +3,7 @@
 		    <div class="search-div search-table">
           <div class="conditions-list">
             <span class="show-position">
-              <input class="input " type="text" v-model="searchData.favorName" @keyup.down="doSearch" placeholder="输入权益名称"/>
+              <input class="input " type="text" v-model="searchData.favorConfigName" @keyup.down="doSearch" placeholder="输入权益名称"/>
             </span>
               <select class="select" v-model="bankUuidString" @change="getBankString">
                   <option value="">请选择结算方（银行）</option>
@@ -142,7 +142,7 @@
                    searchData:{
                        page:1,
                        total:0,
-                       favorName:'',
+                       favorConfigName:'',
                        favorTypesStr:'',
                        firstResult:0,
                        maxResult:10,
@@ -164,10 +164,6 @@
                date_multi_picker_change(val){
                    this.searchData.startTime=val[0];
                    this.searchData.endTime=val[1];
-               },
-               getId(couponName){
-                   this.showList=false;
-                   this.searchData.favorName=couponName;
                },
                 latinosEchart(divID,data1,data_name,color_1,baseData,color_2){
                     var myChart=echarts.init(document.getElementById(divID));
