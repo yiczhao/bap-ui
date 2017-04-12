@@ -3,7 +3,7 @@
         <div class="rule-row">
             <div class="rule-label"><i>*</i>权益名称</div>
             <div class="rule-input">
-                <input class="input" type="text" v-model="latinosData.favorName" placeholder="请输入权益名称" readonly/>
+                <input class="input" type="text" v-model="latinosData.name" placeholder="请输入权益名称" readonly/>
             </div>
         </div>
         <div class="rule-row">
