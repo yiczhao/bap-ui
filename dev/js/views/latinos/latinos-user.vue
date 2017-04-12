@@ -38,7 +38,7 @@
             <div class="type-text">
                 <textarea class="textarea" v-model="userData.messageContent" placeholder="请输入短信内容"></textarea>
             </div>
-            <div><label>*注：含标点符号56个汉字。可自定义</label></div>
+            <div><label>*注：含标点符号56个汉字，签名必须前置，如【中国银行】尽享五折活动，单笔消费最高可优惠200元。可自定义</label></div>
         </div>
     </div>
     <div class="latinos-user-btn">
