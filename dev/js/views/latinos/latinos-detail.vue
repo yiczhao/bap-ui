@@ -55,15 +55,13 @@
                  </tr>
                  <tr v-for="n in latinosDetailList">
                     <td>{{n.mobileNumber}}</td><!-- 手机号码 -->
-                    <td>{{n.useTime}}</td><!-- 使用时间 -->
+                    <td>{{n.useTime }}</td><!-- 使用时间 -->
                     <td>{{n.storeName}}</td><!-- 商户名称 -->
                     <td><!-- 状态 -->
-                        <template v-if="n.usedFlag==0">未使用</template>
-                        <template v-if="n.usedFlag==1">已使用</template>
-                    </td>
+                        {{n.statusStr}}</td>
                  </tr>
                  <tr v-show="!latinosDetailList.length">
-                      <td colspan="7">未查询到数据</td>
+                      <td colspan="4">未查询到数据</td>
                   </tr>
              </table>
          </div>

@@ -3,17 +3,7 @@
 		    <div class="search-div search-table">
           <div class="conditions-list">
             <span class="show-position">
-              <!-- <input class="input " type="text" v-model="searchData.favorName" placeholder="输入权益名称"
-                     @keyup="getActivity($event)" @keyup.enter="searchList"
-                     @keyup.up="changeLiIndex('up')" @keyup.down="changeLiIndex('down')"
-              /> -->
-              <input class="input " type="text" v-model="searchData.favorName" placeholder="输入权益名称"/>
-              <!-- <div class="showList showLi" v-show="showList">
-                  <ul class="showLi">
-                      <li class="showLi" v-for="n in activityList" :class="{'checked':liIndex==$index}" @click="getId(n)">{{n.couponName}}</li>
-                      <li class="showLi" v-if="!activityList.length">未查询到{{searchData.favorName}}活动</li>
-                  </ul>
-              </div> -->
+              <input class="input " type="text" v-model="searchData.favorName" @keyup.down="doSearch" placeholder="输入权益名称"/>
             </span>
               <select class="select" v-model="bankUuidString" @change="getBankString">
                   <option value="">请选择结算方（银行）</option>
@@ -154,7 +144,6 @@
                        total:0,
                        favorName:'',
                        favorTypesStr:'',
-                       // activityID:'',
                        firstResult:0,
                        maxResult:10,
                        sorts:'id|desc',
@@ -176,54 +165,9 @@
                    this.searchData.startTime=val[0];
                    this.searchData.endTime=val[1];
                },
-               searchList(){
-                   // if(this.showList){
-                   //     this.searchData.favorName=this.activityList[this.liIndex].couponName;
-                   //     // this.searchData.activityID=this.activityList[this.liIndex].couponID;
-                   // }
-                   // this.showList=false;
-                   this.getList();
-               },
-               getActivity: _.debounce(function(e){
-                   if(e.keyCode == 38 || e.keyCode == 40|| e.keyCode == 13){  //向上向下
-                       console.log(e.keyCode);
-                       return ;
-                   }
-                   let vm=this;
-                   vm.replaceName=(vm.searchData.favorName).replace(/(^\s+)|(\s+$)/g, "");
-                   let data={
-                       favorName:vm.replaceName,
-                       maxResult:10,
-                       uuidsStr:vm.searchData.uuidsStr,
-                       favorTypesStr:'',
-                       sorts:'id|desc'
-                   }
-                   this.model.getLatinosCumulative(data).then((res)=>{
-                       if (res.data.code==0&&res.data.data!=vm.searchData.favorName) {
-                           this.liIndex=0;
-                           vm.$set('activityList',res.data.data);
-                           vm.showList=true;
-                       }
-
-                   })
-               },300),
-               changeLiIndex(type){
-                   if(!this.activityList.length)return;
-                   switch (type){
-                       case 'up':
-                           this.liIndex==0?this.liIndex=this.activityList.length-1:this.liIndex--;
-                           break;
-                       case 'down':
-                           this.liIndex==this.activityList.length-1?this.liIndex=0:this.liIndex++;
-                           break;
-                       default:
-                           break;
-                   }
-               },
                getId(couponName){
                    this.showList=false;
                    this.searchData.favorName=couponName;
-                   // this.searchData.activityID=couponID;
                },
                 latinosEchart(divID,data1,data_name,color_1,baseData,color_2){
                     var myChart=echarts.init(document.getElementById(divID));
@@ -283,7 +227,7 @@
                doSearch(){
                    this.searchData.page=1;
                    this.searchData.firstResult=(this.searchData.page-1)*this.searchData.maxResult;
-                   this.searchList();
+                   this.getList();
                },
                getfirstResult(){
                    let page=this.searchData.page;
@@ -316,9 +260,6 @@
                        }
                    })
                },
-               resetName(){
-                    this.showList=false;
-               },
                getExcel(){
                    this.searchData.sorts = 'id%7Cdesc';
                    let data=getFormData(this.searchData);
@@ -335,14 +276,6 @@
                },
            },
            ready(){
-                document.addEventListener('click', (e) => {
-                    if (!e.target.classList.contains('showLi')) {
-                        this.resetName();
-                    }
-                }, false);
-           },
-           beforeDestroy() {
-                document.removeEventListener('click', this.resetName, false);
            },
            created(){
                this.getBankList();
