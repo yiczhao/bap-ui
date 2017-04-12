@@ -173,7 +173,7 @@
                 :show.sync="infoshow" :is-button="false" :type.sync="'infos'"
                 :title.sync="'查看详情'"
         >
-            <div class="infor-user">
+            <div class="create-user">
                 <div class="form-group">
                     <label class="name-left"><i>*</i>银行名称</label>
                     <span class="catch-infor">{{addList.bankName}}</span>
@@ -205,41 +205,55 @@
                 <div class="form-group">
                     <label class="name-left"><i>*</i>功能级</label>
                     <div class="function-area">
-                        <template v-for="n in privileges" v-if="n.type==1">
-                            <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
-                                <span>卡类{{n.name}}</span>
-                            </ks-checkbox>
-                        </template>
-                        <template v-for="n in privileges" v-if="n.type==2">
-                            <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
-                                <span>券码{{n.name}}</span>
-                            </ks-checkbox>
-                        </template>
-                        <template v-for="n in privileges" v-if="n.type==3">
-                            <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
-                                <span>{{n.name}}</span>
-                            </ks-checkbox>
-                        </template>
-                        <template v-for="n in privileges" v-if="n.type==4">
-                            <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
-                                <span>{{n.name}}</span>
-                            </ks-checkbox>
-                        </template>
-                        <template v-for="n in privileges" v-if="n.type==5">
-                            <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
-                                <span>{{n.name}}</span>
-                            </ks-checkbox>
-                        </template>
-                        <template v-for="n in privileges" v-if="n.type==6">
-                            <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
-                                <span>{{n.name}}</span>
-                            </ks-checkbox>
-                        </template>
-                        <template v-for="n in privileges" v-if="n.type==7">
-                            <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
-                                <span>{{n.name}}</span>
-                            </ks-checkbox>
-                        </template>
+                        <div class="choose-checkbox">
+                            <template v-for="n in privileges" v-if="n.type==1">
+                                <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
+                                    <span>卡类{{n.name}}</span>
+                                </ks-checkbox>
+                            </template>
+                        </div>
+                        <div class="choose-checkbox">
+                            <template v-for="n in privileges" v-if="n.type==2">
+                                <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
+                                    <span>券码{{n.name}}</span>
+                                </ks-checkbox>
+                            </template>
+                        </div>
+                        <div class="choose-checkbox">
+                            <template v-for="n in privileges" v-if="n.type==3">
+                                <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
+                                    <span>{{n.name}}</span>
+                                </ks-checkbox>
+                            </template>
+                        </div>
+                        <div class="choose-checkbox">
+                            <template v-for="n in privileges" v-if="n.type==4">
+                                <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
+                                    <span>{{n.name}}</span>
+                                </ks-checkbox>
+                            </template>
+                        </div>
+                        <div class="choose-checkbox">
+                            <template v-for="n in privileges" v-if="n.type==5">
+                                <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
+                                    <span>{{n.name}}</span>
+                                </ks-checkbox>
+                            </template>
+                        </div>
+                        <!-- <div class="choose-checkbox">
+                            <template v-for="n in privileges" v-if="n.type==6">
+                                <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
+                                    <span>{{n.name}}</span>
+                                </ks-checkbox>
+                            </template>
+                        </div> -->
+                        <div class="choose-checkbox">
+                            <template v-for="n in privileges" v-if="n.type==7">
+                                <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
+                                    <span>{{n.name}}</span>
+                                </ks-checkbox>
+                            </template>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group close-center">
