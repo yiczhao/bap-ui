@@ -41,6 +41,12 @@
 		b:before {
 			opacity: 1; background: #e76b5f; }
 	}
+
+	.checkAll.checked.disable {
+		b:before {
+			opacity: 0.6; }
+	}
+
 	.form-group{
 		margin:0 auto 20px auto;width:650px;
 		display:flex;
