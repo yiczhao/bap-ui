@@ -56,7 +56,7 @@
                           <template v-if="n.activityStatus=='wait_early_offline'">运行中</template>
                           <template v-if="n.activityStatus=='draft'">待审核</template>
                           <template v-if="n.activityStatus=='wait_check'">待审核</template>
-                          <template v-if="n.activityStatus=='check_fail'">审核失败</template>·
+                          <template v-if="n.activityStatus=='check_fail'">审核失败</template>
                           <template v-if="n.activityStatus=='online'">运行中</template>
                           <template v-if="n.activityStatus=='early_offline'">已结束</template>
                           <template v-if="n.activityStatus=='finish'">已结束</template>
