@@ -93,7 +93,7 @@
                           <span v-if="n.status==='ON'&&n.activityStatus==='online'" class="colorRed" @click="latinosOff(n.id)">权益下线</span>
                           <a v-if="n.activityStatus=='online'&&n.status==='ON'" v-link="{name:'latinos-user',params:{'latinosUserId':n.couponID}}">批量赠送</a>
                           <span v-else class="color999">批量赠送</span>
-                          <a v-link="{name:'latinos-detail',params:{'latinosID':n.couponID,'couponName':n.couponName,'activityName':n.activityName,'startTime':n.startTime,'endTime':n.endTime,'couponFaceValue':n.couponFaceValue,'couponType':n.couponType}}">查看明细</a>
+                          <a v-link="{name:'latinos-detail',params:{'latinosID':n.couponID,'couponName':n.favorConfigName,'activityName':n.activityName,'startTime':n.startTime,'endTime':n.endTime,'couponFaceValue':n.couponFaceValue,'couponType':n.couponType}}">查看明细</a>
                       </td><!--操作-->
                   </tr>
                   <tr v-show="!dataList.length">
