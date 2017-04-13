@@ -402,6 +402,7 @@
                 }
                 !!sessionStorage.getItem('activityId')?data.id=sessionStorage.getItem('activityId'):(data.id=this.$route.params.activityId << 0 ===0?'':this.$route.params.activityId << 0 );
                 data.includeTimesList=this.includeTimes.split(',');
+                (this.$route.params.rulename==='Ticket')?data.actType='ticket_act':data.actType='common_act';
                 this.model.addBasic(data).then((res)=>{
                     if(res.data.code===0){
                         let activityId = this.$route.params.activityId << 0;
