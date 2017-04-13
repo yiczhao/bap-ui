@@ -269,7 +269,7 @@ export default function (Vue,router){
                     }
                 },
                 /* 活动分析页面 */
-                'activity-data-overview/:adoActivityId/:mainStepChance': {
+                'activity-data-overview/:adoActivityId/:mainStepChance/:adoActivityIds': {
                     name: 'activity-data-overview',
                     router_type:[
                         {link:'activity-analysis',text:'活动分析'},
@@ -281,7 +281,7 @@ export default function (Vue,router){
                     }
                 },
                 /* 活动分析页面pdf导出页面 */
-                'activity-pdfout/:pdfActivityId': {
+                'activity-pdfout/:pdfActivityId/:pdfActivityIds': {
                     name: 'activity-pdfout',
                     router_type:[
                         {link:'activity-analysis',text:'活动分析'},

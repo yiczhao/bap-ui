@@ -3,7 +3,7 @@
 		<div class="analysis-title">
 			<h1>
 				<span><i>/</i>活动分析数据总览</span>
-				<a class="btn btn-primary" v-link="{name:'activity-pdfout',params:{'pdfActivityId':!searchData.activityID?':pdfActivityId':searchData.activityID}}">查看分析报告</a>
+				<a class="btn btn-primary" v-link="{name:'activity-pdfout',params:{'pdfActivityIds':!searchData.id?':pdfActivityIds':searchData.id,'pdfActivityId':!searchData.activityID?':pdfActivityId':searchData.activityID}}">查看分析报告</a>
 			</h1>
 			<h3>Activity analysis report</h3>
 		</div>
@@ -170,6 +170,7 @@
 				},
 				uuids:sessionStorage.getItem('loginList').bankUUID,
 				searchData:{
+				    id:'',
 					activityID:'',
 					activityName:'',
 				},
@@ -422,7 +423,7 @@
 		},
 		ready(){
 			(this.$route.params.adoActivityId!=':adoActivityId')?this.searchData.activityID=this.$route.params.adoActivityId:null;
-			console.log(this.$route.params.adoActivityId);
+			(this.$route.params.adoActivityIds!=':adoActivityIds')?this.searchData.id=this.$route.params.adoActivityIds:null;
 			(this.$route.params.mainStepChance!=':mainStepChance')?this.mainStep=this.$route.params.mainStepChance>>0:null;
 			this.initStep(this.getTradeInit[this.mainStep].url,this.mainStep+1);
 		}

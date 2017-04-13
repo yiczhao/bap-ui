@@ -17,21 +17,21 @@
 		</div>
 		<div class="chart-show">
 			<div class="flex border">
-				<div class="left" v-link="{name:'activity-data-overview',params:{'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':1}}">
+				<div class="left" v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':1}}">
 					<h4>交易区域</h4>
 					<div class="echart-div" id="trade-area"></div>
 				</div>
-				<div class="center" v-link="{name:'activity-data-overview',params:{'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':0}}">
+				<div class="center" v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':0}}">
 					<h4>交易数据</h4>
 					<div class="echart-div" id="trade-data"></div>
 				</div>
-				<div class="right" v-link="{name:'activity-data-overview',params:{'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':2}}">
+				<div class="right" v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':2}}">
 					<h4>交易时段</h4>
 					<div class="echart-div" id="trade-time"></div>
 				</div>
 			</div>
 			<div class="flex short">
-				<div class="left" v-link="{name:'activity-data-overview',params:{'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':3}}">
+				<div class="left" v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':3}}">
 					<h4>商户数据</h4>
 					<div class="echart-div">
 						<table>
@@ -48,7 +48,7 @@
 						</table>
 					</div>
 				</div>
-				<div class="center" v-link="{name:'activity-data-overview',params:{'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':4}}">
+				<div class="center" v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':4}}">
 					<h4>卡BIN数据</h4>
 					<div class="echart-div">
 						<table>
@@ -66,7 +66,7 @@
 						</table>
 					</div>
 				</div>
-				<div class="right" v-link="{name:'activity-data-overview',params:{'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':5}}">
+				<div class="right" v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':5}}">
 					<h4>单卡交易</h4>
 					<div class="echart-div">
 						<table>
@@ -108,6 +108,7 @@
 			return{
 				mainStep:0,
 				searchData:{
+				    id:'',
 					activityName:'',
 					activityID:'',
 					compareFlag:true,
@@ -144,6 +145,7 @@
                 if(this.showList){
 					this.searchData.activityName=this.activityList[this.liIndex].name;
 					this.searchData.activityID=this.activityList[this.liIndex].uniqueId;
+					this.searchData.id=this.activityList[this.liIndex].id;
 				}
                 this.showList=false;
 				this.initList();
@@ -161,6 +163,7 @@
                 }
                 if(!vm.replaceName){
                     vm.searchData.activityID="";
+                    vm.searchData.id="";
                     vm.showList=false;
                     return;
                 }else{
@@ -186,10 +189,11 @@
                         break;
                 }
             },
-            getId({uniqueId,name}){
+            getId({uniqueId,name,id}){
                 this.showList=false;
                 this.searchData.activityName=name;
                 this.searchData.activityID=uniqueId;
+                this.searchData.id=id;
                 this.searchData.bankUuidString='';
             },
 			initList(){
