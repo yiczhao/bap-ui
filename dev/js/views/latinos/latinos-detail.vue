@@ -12,10 +12,11 @@
          <div class="search-div search-table">
             <div class="conditions-list">
                 <input class="input" type="text" v-model="searchData.mobileNumber" @keyup.enter="doSearch" placeholder="输入手机号码"/>
-                <select class="select" v-model="searchData.usedFlag">
+                <select class="select" v-model="searchData.status">
                      <option value="">请选择状态</option>
-                     <option value="true">已使用</option>
-                     <option value="false">未使用</option>
+                     <option value="USED">已使用</option>
+                     <option value="UNUSE">未使用</option>
+                     <option value="EXPIRED">已过期</option>
                  </select>
                 </div>
             <div class="do-search">
@@ -86,7 +87,7 @@
                  searchData:{
                     page:1,
                      id:'',
-                     usedFlag:'',
+                     status:'',
                      mobileNumber :'',
                      firstResult :0,//当前选中的分页值
                      total:0,//数据总条数
