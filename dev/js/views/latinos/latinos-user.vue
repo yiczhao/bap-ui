@@ -38,7 +38,7 @@
             <div class="type-text">
                 <textarea class="textarea" v-model="userData.messageContent" placeholder="请输入短信内容"></textarea>
             </div>
-            <div><label>*注：含标点符号56个汉字，签名必须前置，如【中国银行】尽享五折活动，单笔消费最高可优惠200元。可自定义</label></div>
+            <div><label class="batch-upload-label">*注：含标点符号56个汉字，签名必须前置，如【中国银行】尽享五折活动，单笔消费最高可优惠200元。可自定义</label></div>
         </div>
     </div>
     <div class="latinos-user-btn">
@@ -77,6 +77,9 @@
             margin: 10px 0;padding: 0 60px;
             label{
                 color:red;
+            }
+            .batch-upload-label{
+                cursor: text;
             }
             textarea{
                 width: 100%;  height: 80px;  margin-top:10px;
