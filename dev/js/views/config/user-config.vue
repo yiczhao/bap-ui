@@ -405,6 +405,14 @@
                 this.addTitle='新增用户';
                 this.getBankList();
                 this.addshow=true;
+                this.clear();
+            },
+            clear(){
+                    this.checkText.bankName=false;
+                    this.checkText.name=false;
+                    this.checkText.phone=false;
+                    this.checkText.curPassword=false;
+                    this.checkText.privilegeIDs=false;
             },
             showInfo(_id){
                 this.model.getUserInfo(_id).then((res)=>{

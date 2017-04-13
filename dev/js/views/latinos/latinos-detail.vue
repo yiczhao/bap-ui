@@ -2,7 +2,7 @@
 	 <div class="latinos-detail">
          <div class="detailInfo">
              <span class="activity-name">活动名称：<strong>{{showTitle.activityName}}</strong></span>
-             <span class="infor-num">权益名称：<strong>{{showTitle.couponName}}</strong></span>
+             <span class="infor-num">权益名称：<strong>{{showTitle.favorConfigName}}</strong></span>
              <span class="infor-num">面额/折扣：
                 <strong v-if="showTitle.couponType=='cash'">{{showTitle.couponFaceValue}}元</strong>
                 <strong v-if="showTitle.couponType=='discount'">{{showTitle.couponFaceValue}}折</strong>
