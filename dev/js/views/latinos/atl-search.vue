@@ -46,20 +46,17 @@
                       <td>
                           <template v-if="n.couponType=='cash'">优惠金额券</template>
                           <template v-if="n.couponType=='discount'">优惠折扣券</template>
+                          <template v-if="n.couponType=='zero'">零元券</template>
                       </td><!-- 权益类型-->
                       <td>
                           <template v-if="n.couponType=='cash'">{{n.couponFaceValue}}元</template>
                           <template v-if="n.couponType=='discount'">{{n.couponFaceValue}}折</template>
+                          <template v-if="n.couponType=='zero'">{{n.couponFaceValue}}元</template>
                       </td><!-- 面值/折扣-->
                       <td>
-                          <template v-if="n.activityStatus=='draft_other'">草稿</template>
-                          <template v-if="n.activityStatus=='wait_early_offline'">运行中</template>
-                          <template v-if="n.activityStatus=='draft'">待审核</template>
-                          <template v-if="n.activityStatus=='wait_check'">待审核</template>
-                          <template v-if="n.activityStatus=='check_fail'">审核失败</template>
-                          <template v-if="n.activityStatus=='online'">运行中</template>
-                          <template v-if="n.activityStatus=='early_offline'">已结束</template>
-                          <template v-if="n.activityStatus=='finish'">已结束</template>
+                          <template v-if="n.status!=='OFF'&&(n.activityStatus==='early_offline'||n.activityStatus==='finish')">已结束</template>
+                          <template v-if="n.status==='OFF'">已结束</template>
+                          <template v-if="n.status=='ON'&&n.activityStatus!=='finish'&&n.activityStatus!=='early_offline'">运行中</template>
                       </td><!-- 状态-->
                       <td>{{n.circulation }}</td><!-- 发行量-->
                       <td>{{n.usedAmount}} </td><!-- 使用量-->
