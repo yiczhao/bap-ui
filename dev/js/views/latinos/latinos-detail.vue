@@ -6,6 +6,7 @@
              <span class="infor-num">面额/折扣：
                 <strong v-if="showTitle.couponType=='cash'">{{showTitle.couponFaceValue}}元</strong>
                 <strong v-if="showTitle.couponType=='discount'">{{showTitle.couponFaceValue}}折</strong>
+                <strong v-if="showTitle.couponType=='zero'">{{showTitle.couponFaceValue}}元</strong>
             </span>
              <span class="infor-num">活动时间：<strong>{{showTitle.startTime}}~{{showTitle.endTime}}</strong></span>
          </div>
