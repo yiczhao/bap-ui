@@ -7,7 +7,7 @@
             <upload
                     :src.sync="upCheck.upload_src"
                     :size="1048576"
-                    :exts="['xlsx','doc','docx','xls']"
+                    :exts="['xlsx','xls']"
                     :url="'./upload/file'"></upload>
             <span>/</span>
             <a @click="downLoad">下载手机号Excel表</a>
@@ -23,7 +23,8 @@
                 </tr>
                 <tr v-if="!!phoneList.length" v-for="n in phoneList">
                     <td v-for="m in n">
-                        <ks-checkbox v-if="!!m.phone" :checked.sync="m.ischeck">{{m.phone}}</ks-checkbox>
+                        <!--<ks-checkbox v-if="!!m.phone" :checked.sync="m.ischeck">{{m.phone}}</ks-checkbox>-->
+                        <span v-if="!!m.phone">{{m.phone}}</span>
                         <span v-if="!m.phone"></span>
                     </td>
                 </tr>
@@ -37,7 +38,7 @@
             <div class="type-text">
                 <textarea class="textarea" v-model="userData.messageContent" placeholder="请输入短信内容"></textarea>
             </div>
-            <div><label>*注：含标点符号56个汉字。可自定义</label></div>
+            <div><label class="batch-upload-label">*注：含标点符号56个汉字，签名必须前置，如【中国银行】尽享五折活动，单笔消费最高可优惠200元。可自定义</label></div>
         </div>
     </div>
     <div class="latinos-user-btn">
@@ -48,8 +49,8 @@
     .latinos-user{
         .user-title{
             position: relative;
+            margin: 10px 0;padding: 0 60px;
             overflow: hidden;
-            margin: 10px 0;
             h5{
                 float: left;
                 i{
@@ -63,22 +64,25 @@
                 margin: 0 10px;
             }
             .upload{
-                position: absolute;
-                right: 0px;
-                top: 0;
+                position: absolute;  right: 60px;  top: -10px;
                 width: 110px;
-                opacity: 0;
+                opacity: 0;  cursor: pointer;
             }
         }
+        .table-row{
+            padding: 0 60px; max-height: 500px;
+            overflow: auto;
+        }
         .batch-upload{
-            margin: 10px 0;
+            margin: 10px 0;padding: 0 60px;
             label{
                 color:red;
             }
+            .batch-upload-label{
+                cursor: text;
+            }
             textarea{
-                width: 100%;
-                height: 80px;
-                margin-top:10px;
+                width: 100%;  height: 80px;  margin-top:10px;
             }
         }
     }
@@ -94,8 +98,10 @@ export default{
     data(){
         this.model=model(this);
         return{
-            datas:['生成宣传页','选择用户'],
-            showstep:1,
+            // datas:['生成宣传页','选择用户'],
+            datas:['选择用户'],
+            // showstep:1,
+            showstep:0,
             id:'',
             upCheck:{
                 upload_src:'',
@@ -145,24 +151,22 @@ export default{
                 dialog('info','请输入短信内容！')
                 return
             }
-            let phones=_.cloneDeep(this.phoneList);
-            let userMobiles=[];
-            _.map(phones,(val)=>{
-                _.map(val,(value)=>{
-                    if(value.ischeck){
-                        userMobiles.push(value.phone);
-                    }
-                })
-            })
-            if(!userMobiles.length){
-                dialog('info','请选择手机号码！')
+            if(!this.phoneList.length){
+                dialog('info','请上传手机号码！')
                 return
             }
+            let phone=[];
+            _.map(_.flattenDeep(this.phoneList),(n)=>{
+                if(!!n.phone){
+                    phone.push(n.phone)
+                }
+            })
             let data={
-                userMobiles:userMobiles,
+                userMobiles:phone,
                 messageContent:this.userData.messageContent,
                 favorID:this.id
             }
+            console.log(phone);
             this.model.submitUser(data).then((res)=>{
                 if(res.data.code===0){
                     dialog('successTime','已保存！')

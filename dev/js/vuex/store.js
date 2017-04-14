@@ -8,12 +8,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import ajax from './modules/ajax'
+import titles from './modules/titles'
+import showMenu from './modules/show-menu'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   strict: Vue.config.debug,
   modules: {
-    ajax
+    ajax,titles,showMenu
   }
 })

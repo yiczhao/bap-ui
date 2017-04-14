@@ -1,11 +1,10 @@
 <template>
 <activity-main :propclass="'bussiness-set'" :showstep.sync="showstep">
     <div class="rule-row rule-title">
-        <a class="btn btn-primary" @click="addBtn">添加商户</a>
-        <a class="mr15" @click="">上传文件</a>
-        <a @click="">下载商户模板（excel）</a>
+        <a class="btn btn-info" @click="addBtn">添加商户</a>
         <div class="search-div">
             <input class="input" type="text" v-model="storeName" placeholder="输入商户名称/商户ID筛选"/>
+            <!--<a class="btn btn-primary" @click="dosearch">搜索</a>-->
         </div>
     </div>
     <div class="table-row">
@@ -13,33 +12,24 @@
             <tr>
                 <th>商户ID</th>
                 <th>商户名称</th>
-                <th>操作</th>
+                <th class="txt-right">操作</th>
             </tr>
             <tr v-show="!!searchList" v-for="n in searchList | filterBy storeName in 'id' 'name'">
                 <td>{{n.id}}</td>
                 <td>{{n.name}}</td>
-                <td><a @click="searchList.splice($index,1)">移除</a></td>
+                <td class="txt-right"><a @click="searchList.splice($index,1)">移除</a></td>
             </tr>
             <tr v-show="!searchList.length">
-                <td colspan="3">
+                <td colspan="3" style="text-align:center">
                     请添加商户
                 </td>
             </tr>
         </table>
-        <!--<div v-show="!!dataList">-->
-            <!--<pagegroup-->
-                    <!--:total="searchData.total"-->
-                    <!--:page_size.sync="searchData.maxResult"-->
-                    <!--:page_current.sync="searchData.page"-->
-                    <!--v-on:current_change="getList"-->
-                    <!--v-on:size_change="getList"-->
-            <!--&gt;</pagegroup>-->
-        <!--</div>-->
     </div>
-    <div class="rule-row tc">
-        <a class="btn btn-primary" @click="backBasic">上一步</a>
-        <a class="btn btn-gray" @click="submitAdd(false)">保存草稿</a>
+    <div class="rule-row tc footer-btns">
+        <a class="btn btn-gray" @click="backBasic">上一步</a>
         <a class="btn btn-primary" @click="submitAdd(true)">保存并提交审核</a>
+        <a @click="submitAdd(false)">保存为草稿</a>
     </div>
     <content-dialog
             :show.sync="addshow" :is-button="false" :type.sync="'infos'"
@@ -48,8 +38,8 @@
         <div class="add-table">
             <div class="add-search">
                 <span>商户名称</span>
-                <input class="input" type="text" v-model="addsearchData.name"/>
-                <a class="btn btn-primary" @click="getaddList">搜索</a>
+                <input class="input" type="text" v-model="addsearchData.name" @keyup.enter="dosearch"/>
+                <a class="btn btn-primary" @click="dosearch">搜索</a>
             </div>
             <div class="addtable-row">
                 <table class="table">
@@ -96,12 +86,12 @@
 <style type="text/css" scoped>
     .mr15{
         margin: 0 15px;
-    }
+    } 
     #all{
         display: none;
     }
     #all:checked + .KSNRCheckbox__skin:before {
-        background: #00A5E0!important;
+        background: #e76b5f!important;
         opacity: 1;
     }
     .KSNRCheckbox__skin:before {
@@ -115,6 +105,12 @@
         transition: opacity .3s;
     }
 </style>
+<style type="text/css">
+    
+    .KsPage .active, .KsPageGroup .active{
+        background: #ea6953 !important;
+    }
+</style>
 <script type="text/javascript">
     import activityMain from './activity-main.vue'
     import model from '../../ajax/activity/basic_model'
@@ -125,7 +121,7 @@
                 submitRemarks:'',
                 waring:'请搜索商户',
                 addshow:false,
-                showstep:2,
+                showstep:3,
                 storeName: "",
                 searchData:{
                     total:0,
@@ -158,6 +154,10 @@
             }
         },
         methods:{
+            dosearch(){
+                this.addsearchData.page=1;
+                this.getfirstResult();
+            },
             getfirstResult(){
                 this.addsearchData.firstResult=(this.addsearchData.page-1)*this.addsearchData.maxResult;
                 this.getaddList();
@@ -182,7 +182,7 @@
                     this.addIDs.push(_list);
                 }else{
                     _.remove(this.addIDs, function(n) {
-                        return n.storeId==_list.id;
+                        return n.id==_list.id;
                     })
                 }
             },
@@ -219,7 +219,7 @@
             backBasic(){
                 let ruleId='';
                 !!sessionStorage.getItem('activityId')?ruleId=sessionStorage.getItem('activityId') << 0:ruleId=this.$route.params.bactivityId;
-                this.$router.go({'name':sessionStorage.getItem('rulename'),params:{'ruleId':ruleId}});
+                (sessionStorage.getItem('props')=='online')?this.$router.go({'name':'latinos-receive',params:{'receiveId':ruleId}}):this.$router.go({'name':sessionStorage.getItem('rulename'),params:{'ruleId':ruleId}});
             },
             /**
              * @description 错误处理
@@ -229,6 +229,7 @@
                 dialog('info', err)
             },
             getList(){
+                this.addIDs=[];
                 this.model.getBussinessList(this.searchData).then((res)=>{
                     if(res.data.code===0){
                         let data=[];
@@ -301,7 +302,7 @@
                         storeName:val.name
                     })
                 })
-//                if(!this.submitRemarks&&!this.dataList.length){
+//                if(!this.dataList.length){
 //                    dialog('info','请添加商户或输入备注信息！');
 //                    return;
 //                }

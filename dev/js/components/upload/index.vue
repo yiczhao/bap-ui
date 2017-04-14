@@ -26,6 +26,11 @@
     left: -1px;
     width: 80px;
     top: 1px;
+    content: "选择文件";
+        background-color: #f5f5f5;
+        display: inline-block;
+        width:80px;
+        text-align: center;
   }
   
 </style>
@@ -36,7 +41,7 @@
 
     <style>
       .upload-text:before{
-        content: "选择文件";
+        content: "上传需求文档";
         background-color: #f5f5f5;
         display: inline-block;
         width:80px;
@@ -55,7 +60,7 @@
           2.200*200，大小不超过200k。<br>
         </p>
         <div class="rol upload-style">
-          &emsp;<span class="upload-text" v-text="src"></span>
+          &emsp;<span class="upload-text">上传需求文档</span>
           {{src}}
           <input type="file" :accept="hasimg && 'image/gif, image/jpeg, image/png'" @change="change($event)">
         </div>

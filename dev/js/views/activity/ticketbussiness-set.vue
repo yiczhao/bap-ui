@@ -2,8 +2,6 @@
 <activity-main :propclass="'bussiness-set'" :showstep.sync="showstep">
     <div class="rule-row rule-title">
         <a class="btn btn-primary" @click="addBtn">添加商户</a>
-        <a class="mr15" @click="">上传文件</a>
-        <a @click="">下载商户模板（excel）</a>
         <div class="search-div">
             <input class="input" type="text" v-model="storeName" placeholder="输入商户名称/商户ID筛选"/>
         </div>
@@ -20,7 +18,7 @@
                 <td>{{n.id}}</td>
                 <td>{{n.name}}</td>
                 <td>{{n.ticketName}}</td>
-                <td><a @click="searchList.splice($index,1)">移除</a></td>
+                <td class="txt-right"><a @click="searchList.splice($index,1)">移除</a></td>
             </tr>
             <tr v-show="!searchList.length">
                 <td colspan="4">
@@ -29,10 +27,10 @@
             </tr>
         </table>
     </div>
-    <div class="rule-row tc">
-        <a class="btn btn-primary" @click="backBasic">上一步</a>
-        <a class="btn btn-gray" @click="submitAdd(false)">保存草稿</a>
+    <div class="rule-row tc footer-btns">
+        <a class="btn btn-gray" @click="backBasic">上一步</a>
         <a class="btn btn-primary" @click="submitAdd(true)">保存并提交审核</a>
+        <a @click="submitAdd(false)">保存为草稿</a>
     </div>
     <content-dialog
             :show.sync="addshow" :is-button="false" :type.sync="'infos'"
@@ -41,8 +39,8 @@
         <div class="add-table">
             <div class="add-search">
                 <span>商户名称</span>
-                <input class="input" type="text" v-model="addsearchData.name"/>
-                <a class="btn btn-primary" @click="getaddList">搜索</a>
+                <input class="input" type="text" v-model="addsearchData.name" @keyup.enter="dosearch"/>
+                <a class="btn btn-primary" @click="dosearch">搜索</a>
             </div>
             <div class="add-search">
                 <ks-checkbox v-for="n in ticketData" :checked.sync="n.ischeck">{{n.ticketName}}</ks-checkbox>
@@ -155,6 +153,10 @@
             }
         },
         methods:{
+            dosearch(){
+                this.addsearchData.page=1;
+                this.getfirstResult();
+            },
             getfirstResult(){
                 this.addsearchData.firstResult=(this.addsearchData.page-1)*this.addsearchData.maxResult;
                 this.getaddList();
@@ -179,14 +181,14 @@
                     this.addIDs.push(_list);
                 }else{
                     _.remove(this.addIDs, function(n) {
-                        return n.storeId==_list.id;
+                        return n.id==_list.id;
                     })
                 }
             },
             backBasic(){
                 let ruleId='';
                 !!sessionStorage.getItem('activityId')?ruleId=sessionStorage.getItem('activityId') << 0:ruleId=this.$route.params.tactivityId;
-                this.$router.go({'name':sessionStorage.getItem('rulename'),params:{'ruleId':ruleId}});
+                (sessionStorage.getItem('props')=='online')?this.$router.go({'name':'latinos-receive',params:{'receiveId':ruleId}}):this.$router.go({'name':sessionStorage.getItem('rulename'),params:{'ruleId':ruleId}});
             },
             /**
              * @description 错误处理
@@ -215,6 +217,7 @@
                 })
             },
             getaddList(){
+                this.addIDs=[];
                 this.waring='未查询到商户数据';
                 this.model.getAddBussinessList(this.addsearchData).then((res)=>{
                     if(res.data.code===0){

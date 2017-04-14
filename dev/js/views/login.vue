@@ -4,8 +4,8 @@
             <div class="header">
                 <div class="header-left">
                     <div class="header-logo"></div>
-                    <div class="header-text">·</div>
-                    <div class="header-text">银行管理后台</div>
+                    <!-- <div class="header-text">·</div> -->
+                    <!-- <div class="header-text">银行管理后台</div> -->
                 </div>
                 <!-- <div class="header-right">
                     <div>语言选择</div>
@@ -14,8 +14,8 @@
                 </div> -->
             </div>
             <div class="section">
-                <div class="section-title">致力于构建支付增值平台</div>
-                <div class="section-infor">卡说利用现代金融技术和互联网技术手段，以智能POS终端和移动支付终端为载体，融合多种支付方式，搭建一个全方位资源整合的支付增值。</div>
+                <div class="section-title">场景全支付增值平台</div>
+                <!-- <div class="section-infor">卡说利用现代金融技术和互联网技术手段，以智能POS终端和移动支付终端为载体，融合多种支付方式，搭建一个全方位资源整合的支付增值。</div> -->
                 <div class="section-about">
                     <div><span></span>平台体系</div>
                     <div><span></span>专业服务</div>
@@ -40,12 +40,12 @@
                 </div>
             </div>
         </div>
-        <div class="footer">
+        <div class="login_footer">
             <div class="footer-container">
                 <div class="footer-title">上海新卡说信息技术有限公司</div>
                 <div class="footer-infor">
                     <div>
-                        <span>上海市杨浦区黄兴路2077号蓝天大厦1901室</span>
+                        <span>上海市杨浦区黄兴路2218号合生国际广场18楼</span>
                         <span>400 0192 266</span>
                         <span>service@kashuo.com</span>
                     </div>
@@ -55,7 +55,7 @@
                         <span>南昌网安备案第3601010110</span>
                     </div>
                     <div>
-                        <span>©2010-2016 kashuo.com</span>
+                        <span>©2010-2017 kashuo.com</span>
                     </div>
                 </div>
             </div>

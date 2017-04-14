@@ -1,219 +1,98 @@
 <template>
-    <div class="header" style="margin-bottom: 20px;">
-        <div class="header-title">银行活动管理系统</div>
+    <div class="header">
+        <div class="header-logo"></div>
+        <div class="header-title">场景全支付增值平台</div>
         <div class="header-infor">
-            <div class="function-click" style="border:0">
-                <a v-link="{'name':'login'}">登录</a>
-            </div>
+            <div class="function-click" v-link="{name:'login'}"></div>
         </div>
     </div>
+    <div class="page-title">{{title}}</div>
     <div class="forgetpassword-config">
         <div class="bg">
             <div class="four-type">
-                <div class="pr">
-                    <div class="w265" :class="{'active':forgetShow=='1'}">1.输入账号</div>
-                    <div class="triangle-right" :class="{'active':forgetShow=='1'}"></div>
-                    <div class="triangle-right-white" v-if="forgetShow!=1"></div>
+                <div class="pr" :class="{'active':forgetShow=='1'}">
+                    <div class="w265" >1.输入账号</div>
                 </div>
-                <div class="pr">
-                    <div class="w265" :class="{'active':forgetShow=='2'}">2.验证身份</div>
-                    <div class="triangle-right" :class="{'active':forgetShow=='2'}"></div>
-                    <div class="triangle-right-white" v-if="forgetShow!=2"></div>
+                <div class="pr" :class="{'active':forgetShow=='2'}">
+                    <div class="w265" >2.验证身份</div>
                 </div>
-                <div class="pr">
-                    <div class="w265" :class="{'active':forgetShow=='3'}">3.验证密保手机</div>
-                    <div class="triangle-right" :class="{'active':forgetShow=='3'}"></div>
-                    <div class="triangle-right-white" v-if="forgetShow!=3"></div>
+                <div class="pr" :class="{'active':forgetShow=='3'}">
+                    <div class="w265" >3.验证密保手机</div>
                 </div>
-                <div class="pr">
-                    <div class="w265" :class="{'active':forgetShow=='4'}">4.设置新密码</div>
+                <div class="pr" :class="{'active':forgetShow=='4'}">
+                    <div class="w265" >4.设置新密码</div>
                 </div>
             </div>
             <div class="forget-1" v-show="forgetShow==1">
                 <div class="form-row">
-                    <div class="form-label"><i>*</i>手机号码</div>
                     <div class="form-input"><input v-model="passwordData.phone" maxlength="11" v-limitnumber="passwordData.phone" type="text" class="input" placeholder="请输入手机号"/></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-label"><i>*</i> 图片验证码</div>
                     <div class="form-input"><input @keyup.enter="savePassword(1)" type="text" v-model="passwordData.usrImgCode" class="input input245" placeholder="请输入图片中的数字或字母"/></div>
                     <div class="img" @click="getusrImgCode"><img :src="sysCodeImg"/></div>
                 </div>
-                <div class="form-row">
+                <div class="form-row f11">
                     <a class="btn btn-primary" @click="savePassword(1)">下一步</a>
                 </div>
             </div>
             <div class="forget-2" v-show="forgetShow==2">
-                <div class="form-row f18">您正在为账号{{passwordData.phone}}找回密码，为了保护账号安全，需要身份验证
-                </div>
+                <div class="verify-title">您正在为账号{{passwordData.phone}}找回密码，为了保护账号安全，需要身份验证</div>
                 <div class="form-row f18">
                     <img src="../../../img/phone.png" alt="">
                     通过密保手机{{passwordData.phone | filter_phone}}验证
-                    <a class="btn btn-primary" @click="savePassword(2)">立即验证</a>
+                    <a style="width: 70px;float:right;margin-top: 22px;background-color: #e76b5f" class="btn btn-primary" @click="savePassword(2)">立即验证</a>
                 </div>
             </div>
             <div class="forget-3" v-show="forgetShow==3">
-                <div class="form-row f18">
+                <div class="form-row f2">
                     短信验证码已发送至{{passwordData.phone | filter_phone}}
                 </div>
-                <div class="form-row">
+                <div class="form-row f18">
                     <div class="form-label">
                         <input type="text" v-model="passwordData.userMessageCode"  @keyup.enter="savePassword(3)" class="input" placeholder="请输入短信验证码"/>
                         <a class="btn btn-gray" v-show="time>0">倒计时{{time}}</a>
                         <a class="btn btn-primary" @click="getUserMessageCode" v-show="time==0">重发验证码</a>
                     </div>
                 </div>
-                <div class="form-row">
+                <div class="form-row f11">
                     <a class="btn btn-primary" @click="savePassword(3)">下一步</a>
                 </div>
                 <div class="form-row f17">
-                    如无法接收验证码，请于客服联系。<br>客服电话：400-0192-266
+                    如无法接收验证码，请与客服联系。客服电话：400-0192-266
                 </div>
             </div>
             <div class="forget-4" v-show="forgetShow==4">
-                <div class="form-row f18">
+                <div class="form-row f2">
                     密码长度6-20位，建议字母、数字与标点的组合来提高账号安全度
                 </div>
                 <div class="form-row">
-                    <div class="form-label"><i>*</i>请输入密码</div>
                     <div class="form-input"><input type="password" maxlength="20" v-model="passwordData.newPassword" class="input" placeholder="请输入新密码"/></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-label"><i>*</i>请再次确认密码</div>
                     <div class="form-input"><input type="password" maxlength="20" @keyup.enter="savePassword(4)" v-model="passwordData.confirmPassword" class="input" placeholder="请再次输入新密码"/></div>
                 </div>
-                <div class="form-row">
+                <div class="form-row f11">
                     <a class="btn btn-primary" @click="savePassword(4)">提交</a>
                 </div>
             </div>
         </div>
     </div>
+    <div class="footer" style="margin-top: 233px">
+        <div class="footer-title" style="margin-left: 0px">
+            <div>©2010-2016 kashuo.com</div>
+            <div>
+                <span>赣ICP备11001642号-1</span>
+                <span>赣工商网备第201011300310427299号</span>
+                <span>南昌网安备案第36010</span>
+            </div>
+        </div>
+    </div>
 </template>
-<style lang="scss">
-    .forgetpassword-config{
-        .four-type{
-            margin-bottom: 140px;
-            overflow: hidden;
-            div{
-                text-align: center;
-                float: left;
-            }
-        }
-        .pr{
-            position: relative;
-        }
-        .w265{
-            width: 265px;
-            border: 1px solid #ddd;
-            height:50px;
-            line-height: 50px;
-            box-sizing: border-box;
-            color:#000;
-        }
-        .w265.active{
-            border: 1px solid #2196F3;
-            background: #2196F3;
-            color:#fff;
-        }
-        .triangle-right {
-            position: absolute;
-            z-index: 2;
-            right:-25px;
-            width: 0;
-            height: 0;
-            border-top: 25px solid transparent;
-            border-left: 25px solid #ddd;
-            border-bottom: 25px solid transparent;
-        }
-        .triangle-right-white {
-            position: absolute;
-            z-index: 3;
-            right: -24px;
-            width: 0;
-            height: 0;
-            border-top: 24px solid transparent;
-            border-left: 25px solid #fff;
-            border-bottom: 24px solid transparent;
-            top: 1px;
-        }
-        .triangle-right.active{
-            border-left: 25px solid #2196F3;
-        }
-        .bg{
-            background:#fff;
-            width:1060px;
-            height: 600px;
-            margin: 0px auto;
-        }
-        .f18{
-            font-size: 18px;
-        }
-        .form-row{
-            margin-bottom: 50px;
-            text-align: center;
-            overflow: hidden;
-            div{
-                display: inline-block;
-                float: left;
-                line-height: 35px;
-            }
-            .form-label{
-                width: 110px;
-                margin-right: 10px;
-                text-align: right;
-                margin-left: 265px;
-                i{
-                    color:red;
-                    margin-right: 5px;
-                }
-            }
-            .form-input{
-                input{
-                    width: 350px;
-                }
-                .input245{
-                    width: 245px;
-                }
-            }
-            .img{
-                width: 95px;
-                border: 1px solid #dadada;
-                border-radius: 3px;
-                height: 33px;
-                margin-left: 10px;
-                cursor:pointer;
-                img{
-                    height: 33px;
-                    width: 97px;
-                }
-            }
-            .btn{
-                width: 100px;
-            }
-        }
-        .f17{
-            color:red;
-        }
-        .forget-3{
-            .form-label{
-                width: 450px;
-                .input{
-                    width: 250px;
-                }
-            }
-            .btn{
-                display: inline-block;
-                line-height: 100%;
-                box-sizing:border-box;
-                width: 100px;
-            }
-        }
-    }
-</style>
 <script type="text/javascript">
     export default{
         data(){
             return{
+                title:'忘记密码设置',
                 time:60,
                 forgetShow:1,
                 id:'',
@@ -267,7 +146,7 @@
                         }
                         if(_.capitalize(this.usrImgCode)!=_.capitalize(this.passwordData.usrImgCode)){
                             this.getusrImgCode();
-                            dialog('info','验证码不正确请重新输入！');
+                            dialog('info','验证码不正确,请重新输入！');
                             return;
                         }
                         let data0={
@@ -317,6 +196,10 @@
                         }
                         if(this.passwordData.newPassword!==this.passwordData.confirmPassword){
                             dialog('info','两次密码输入不一致！');
+                            return;
+                        }
+                        if(!this.passwordData.newPassword.replace(/\s/g, "")){
+                            dialog('info','密码不能为全部空格！');
                             return;
                         }
                         let data2={

@@ -2,9 +2,8 @@
     <div class="custom" >
         <div><span></span></div>
         <div class="custom-section">
-            <div class="title">活动自定义</div>
             <div class="type-text">
-            <span class="title"><span>*</span>活动描述</span><!-- 旧版样式 -->
+            <span class="title">活动描述</span><!-- 旧版样式 -->
             <textarea class="textarea" v-model="upCheck.textarea" placeholder="如所给模板没有能满足您的活动需求时，请您将您的问题在此进行描述。尽量将您的需求描述完整，方便我们为您提供更好的服务。"></textarea>
             </div>
             <div class="upload-file">
@@ -30,6 +29,9 @@
     .upload-text{
             overflow: hidden;
     }
+    .custom-section{
+        padding:20px;
+    }
 </style>
 <script type="text/javascript">
     export default{
@@ -43,14 +45,10 @@
         },
         methods:{
             submit(){
-                if(!this.upCheck.textarea){
-                    dialog('info','请完善信息！');
+                if(!this.upCheck.textarea && !this.upCheck.id){
+                   dialog('info','请完善信息或请上传文件！');
                     return
-                };
-                // if(!this.upCheck.id){
-                //     dialog('info','请上传文件！');
-                //     return
-                // };
+                }
                 let data={
                     description:this.upCheck.textarea,
                     id:this.upCheck.id
@@ -61,7 +59,10 @@
                     data: data
                 }).then((res)=>{
                     if(res.data.code===0){
-                        dialog('successTime','已保存！')
+                        dialog('successTime','已保存！');
+                        setTimeout(()=>{
+                            this.$router.go({'name':'create-acitvity'})
+                        },2000)
                     }
                 })
             }

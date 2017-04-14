@@ -1,19 +1,20 @@
 <template>
 <div class="rule-input DateDiscount" v-for="(index,n) in submitdata">
     <span style="position:relative" class="daters" @mouseleave="close(index)">
-        <input class="input" @click="showDater(index)" v-model="n.date" readonly/>
+        <input class="input padding-input" @click="showDater(index)" v-model="n.date" readonly/>
         <div class="days" v-show="n.show">
             <div v-for="n in days" :class="{checked:n.select}" @click="setDate(n,index)">{{n.date}}</div>
         </div>
-    </span>
+    </span> 
     <span>号</span>
-    <input class="input" type="text" v-model="n.discount" v-limitaddprice="n.discount"/>
-    <span>折</span>
-    <i v-if="index===0" class="icon-add" @click="addLine"></i>
-    <i v-if="index!==0" class="icon-remove" @click="submitdata.splice(index, 1)"></i>
+    <input class="input padding-input" type="text" v-model="n.discount" v-limitdiscount="n.discount"/>
+    <span class="margin-span">折</span>
+    <i v-if="index===0" class="icon-add" @click="addLine">新增一条</i>
+    <i v-if="index!==0" class="icon-remove" @click="submitdata.splice(index, 1)">删除一条</i>
 </div>
 </template>
 <style lang="scss">
+.DateDiscount{
     .DateDiscount{
         .KsDatePicker{
             position: absolute;
@@ -45,6 +46,21 @@
             border-radius: 5px;
         }
     }
+    .padding-input{
+        width:90px !important ;
+        padding-right: 28px !important;
+    }
+    .margin-span{
+        margin-left: -35px !important;
+    }
+    .icon-add,.icon-remove{
+        font-size: 15px !important;
+        margin-top: 24px !important;
+    }
+    .icon-add:before,.icon-remove:before{
+        padding-right: 5px !important;
+    }
+}
 </style>
 <script type="text/javascript">
     export default{
@@ -136,7 +152,7 @@
             },
             addLine(){
                 this.submitdata.push({'date':'','discount':'','show':false})
-            }
+            },
         },
         events:{
             getData(){

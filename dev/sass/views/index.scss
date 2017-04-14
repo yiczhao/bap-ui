@@ -1,6 +1,8 @@
 @import "./Login";
 @import "./home";
+@import "./footer";
 @import "./activity/create-activity";
+@import "./activity/activity-data-overview";
 @import "./activity/activity-analysis";
 @import "./activity/activity-pdfout";
 @import "./activity/basic-rule";
@@ -8,12 +10,15 @@
 @import "./activity/bussiness-set";
 @import "./activity/activity-manage";
 @import "./activity/custom";
+@import "./activity/activity-info";
 @import "./config/bank-config";
 @import "./config/user-config";
 @import "./config/password-config";
+@import "./config/forgetpassword-config";
 @import "./config/branch-bank";
 @import "./transaction/transaction-detail";
 @import "./transaction/transaction-search";
 @import "./latinos/latinos-search";
 @import "./latinos/latinos-detail";
 @import "./latinos/latinos-batch";
+

@@ -1,17 +1,18 @@
 <template>
 <activity-main :propclass="'activity-rule'" :datas="datas" :showstep.sync="showstep">
-    <div class="rule-row">
+    <div class="rule-row rule-span">
         <h3><i>*</i>活动规则</h3>
-        <router-view></router-view>
+        <router-view></router-view> 
     </div>
     <div class="dashed"></div>
-    <div class="rule-row">
+    <div class="rule-row reset">
         <h3>活动条件设置</h3>
         <div class="rule-input">
-            <ks-checkbox v-for="n in ruleLists" :checked.sync="n.checked">{{n.name}}</ks-checkbox>
+            <!-- <ks-checkbox v-for="n in ruleLists" :checked.sync="n.checked">{{n.name}}</ks-checkbox> -->
+            <span v-for="n in ruleLists" class="span" :class="{checked:n.checked}" @click="n.checked=!n.checked">{{n.name}}</span>
         </div>
     </div>
-    <div class="rule-row" v-for="n in ruleLists.length" v-show="ruleLists[n].checked">
+    <div class="rule-row rechoose" v-for="n in ruleLists.length" v-show="ruleLists[n].checked">
         <h3><i>*</i>{{ruleLists[n].name}}</h3>
         <div class="rule-input" v-if="ruleLists[n].types=='CardBin'">
             <div class="db" v-for="(index,n) in ruleDatas.CardBin">
@@ -21,8 +22,8 @@
                     <option v-for="n in cardBinLists" :value="n.id">{{n.name}}</option>
                 </select>
                 <input class="input" type="text" v-model="n.extData" v-limitids="n.extData"/>
-                <i v-if="index===0" class="icon-add" @click="ruleDatas.CardBin.push({data :'',extData :''})"></i>
-                <i v-if="index!==0" class="icon-remove" @click="ruleDatas.CardBin.splice(index, 1)"></i>
+                <i v-if="index===0" class="icon-add" @click="ruleDatas.CardBin.push({data :'',extData :''})">新增一条</i>
+                <i v-if="index!==0" class="icon-remove" @click="ruleDatas.CardBin.splice(index, 1)">删除一条</i>
             </div>
         </div>
         <div class="rule-input" v-if="ruleLists[n].types=='act_total'">
@@ -81,13 +82,53 @@
         </div>
     </div>
     <div class="dashed"></div>
-    <div class="rule-row tc">
-        <a class="btn btn-primary" @click="backBasic">上一步</a>
-        <a class="btn btn-gray" @click="submitAdd(false)">保存草稿</a>
+    <div class="rule-row tc footer-btns">
+        <a class="btn btn-gray" @click="backBasic">上一步</a>
         <a class="btn btn-primary" @click="submitAdd(true)">下一步</a>
+        <a @click="submitAdd(false)">保存为草稿</a>
     </div>
 </activity-main>
 </template>
+<style lang="scss">
+.activity-rule .rule-row .rule-input .checked{
+    background-color: #ea6953!important;color: #fff!important;
+}
+.activity-rule .rule-row .rule-input .span{
+    padding: 0 20px;margin-top: 0;
+    color: #777777;background-color: #ededed;cursor: pointer;
+}
+.activity-rule{
+    .KSNRCheckbox__skin{
+            opacity: 0;
+        }
+        .reset h3{
+            float: left;
+            width: 110px !important;
+        }
+        .reset .rule-input{
+            float: left;
+            line-height: 30px !important;font-size: 14px;
+        }
+        .rechoose{
+            padding-left: 160px !important;
+        }
+        .reset + .rechoose input{
+            width: 190px !important;
+        }
+        .rechoose:not(:first-child) input{
+            width: 90px ;
+        }
+        .icon-add,.icon-remove{
+            margin-top: 24px!important;
+            font-size: 15px!important;
+            color: #159ff7!important;
+        }
+        .icon-add:before,.icon-remove:before{
+            content:'';
+            padding-right: 5px!important;
+        }
+}
+</style>
 <script type="text/javascript">
     import activityMain from './activity-main.vue'
     import model from '../../ajax/activity/rule_model'
@@ -342,10 +383,10 @@
                               _.map(res.data.data.tickets,(val)=>{
                                   ticketData.push({'ticketId':val.id,'ticketName':val.name});
                               })
-                              sessionStorage.setItem('ticketData',JSON.stringify(ticketData))
-                              this.$router.go({'name':'ticketbussiness-set','params':{"tactivityId":submitData.id }});
+                              sessionStorage.setItem('ticketData',JSON.stringify(ticketData));
+                              (sessionStorage.getItem('props')==='online')?this.$router.go({'name':'latinos-receive',params:{'receiveId':submitData.id}}):this.$router.go({'name':'ticketbussiness-set','params':{"bactivityId":submitData.id }});
                           }else{
-                              this.$router.go({'name':'bussiness-set','params':{"bactivityId":submitData.id }});
+                              (sessionStorage.getItem('props')==='online')?this.$router.go({'name':'latinos-receive',params:{'receiveId':submitData.id}}):this.$router.go({'name':'bussiness-set','params':{"bactivityId":submitData.id }});
                           }
                       }else{
                           dialog('successTime','草稿保存成功！')

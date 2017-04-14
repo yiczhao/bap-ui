@@ -1,10 +1,19 @@
 <template>
 <div class="rule-input">
     <span>立减</span>
-    <input class="input" type="text" v-model="submitdata.money" v-limitaddprice="submitdata.money"/>
-    <span>元</span>
+    <input class="input padding-input" type="text" v-model="submitdata.money" v-limitaddprice="submitdata.money"/>
+    <span class="margin-span">元</span>
 </div>
 </template>
+<style type="text/css" scpoed>
+    .margin-span{
+        margin-left: -35px !important;
+    }
+    .padding-input{
+        width:90px !important ;
+        padding-right: 28px !important;
+    }
+</style>
 <script type="text/javascript">
     export default{
         data(){

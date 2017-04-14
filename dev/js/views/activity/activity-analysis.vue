@@ -1,900 +1,328 @@
 <template>
-	<div class="activity-analysis">
-		<div class="activity-search">
-			<div class="search-left">
-				<span>活动名称</span>
-				<input class="input" type="text" placeholder="输入活动名称" v-model="searchData.activityName" @keyup.enter="getActivity">
+	<div class="activity-data-overview">
+		<div class="search-bg">
+			<div class="search-show">
+				<input type="text" class="input" placeholder="请输入活动名称" v-model="searchData.activityName"
+				@keyup="getActivity($event)" @keyup.enter="searchList"
+                @keyup.up="changeLiIndex('up')" @keyup.down="changeLiIndex('down')"/>
+				<input type="button" class="btn btn-primary searchBtn" @click="searchList" value="搜 索">
+				<div class="showList showLi" v-show="showList">
+	                <ul class="showLi">
+	                    <li class="showLi" v-for="n in activityList" :class="{'checked':liIndex==$index}" @click="getId(n)">{{n.name}}</li>
+	                    <li class="showLi" v-if="!activityList.length">未查询到{{searchData.activityName}}活动</li>
+	                </ul>
+	            </div>
 			</div>
-			<div class="showList" v-show="searchData.showList">
-                <ul>
-                    <li v-for="n in activityList | filterBy searchData.activityName in 'name'" @click="getId(n)">{{n.name}}</li>
-                    <li v-if="!activityList.length">未查询到{{searchData.activityName}}活动</li>
-                </ul>
-            </div>
-			<div class="search-right">
-				<span class="search-time">活动进行中，数据截止到{{times.todayDate}}</span>
-				<a v-if="!!tradeGET.pdfId" class="view-report" v-link="{name:'activity-pdfout',params:{'pdfoutId':tradeGET.pdfId,'pdfActivityId':tradeGET.activityID}}">查看分析报告</a>
-				<a v-else class="view-report" v-link="{name:'activity-pdfout'}">查看分析报告</a>
-
-			</div>
+			<span>展示活动的交易数据、微信关注量数据、现金红包发放量等数据<i>/</i>活动进行中，数据截止到16:00，2016-06-16</span>
 		</div>
-		<div class="transaction-data border">
-			<div class="data-title">
-				<span class="title-left">交易数据分析</span>
-				<span class="title-right" @click="transactionDataToggle('transaDataToggleUp')" v-if="upDownToggle.transactionDataShowArea" >收起</span>
-				<span class="title-right" @click="transactionDataToggle('transaDataToggleDown')" v-else>展开</span>
+		<div class="chart-show">
+			<div class="flex border">
+				<div class="left" v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':1}}">
+					<h4>交易区域</h4>
+					<div class="echart-div" id="trade-area"></div>
+				</div>
+				<div class="center" v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':0}}">
+					<h4>交易数据</h4>
+					<div class="echart-div" id="trade-data"></div>
+				</div>
+				<div class="right" v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':2}}">
+					<h4>交易时段</h4>
+					<div class="echart-div" id="trade-time"></div>
+				</div>
 			</div>
-			<span v-show="upDownToggle.transactionDataShowArea">
-				<div class="data-today-table">
-					<span class="title"><i></i>今日关键数据</span>
-					<table>
-						<tr>
-							<td>
-								<span>交易总金额(元)</span>
-								<strong>{{transactionDataShow.tradeDataModelToday.tradeAmount}}</strong>
-							</td>
-							<td>
-								<span>补贴总金额(元)</span>
-								<strong>{{transactionDataShow.tradeDataModelToday.subsidyAmount}}</strong>
-							</td>
-							<td>
-								<span>交易总笔数(笔)</span>
-								<strong>{{transactionDataShow.tradeDataModelToday.tradeNum}}</strong>
-							</td>
-							<td>
-								<span>参与活动卡数量(个)</span>
-								<strong>{{transactionDataShow.tradeDataModelToday.tradeCardNum}}</strong>
-							</td>
-							<td>
-								<span>单笔平均交易金额(元)</span>
-								<strong>{{transactionDataShow.tradeDataModelToday.averageTradeAmount}}</strong>
-							</td>
-							<td>
-								<span>单笔平均补贴金额(元)</span>
-								<strong>{{transactionDataShow.tradeDataModelToday.averageSubsidyAmount}}</strong>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<div class="data-cumulative-table">
-					<span class="title"><i></i>累计关键数据</span>
-					<table>
-						<tr>
-							<td>
-								<span>交易总金额(元)</span>
-								<strong>{{transactionDataShow.tradeDataModelTotail.tradeAmount}}</strong>
-							</td>
-							<td>
-								<span>补贴总金额(元)</span>
-								<strong>{{transactionDataShow.tradeDataModelTotail.subsidyAmount}}</strong>
-							</td>
-							<td>
-								<span>交易总笔数(笔)</span>
-								<strong>{{transactionDataShow.tradeDataModelTotail.tradeNum}}</strong>
-							</td>
-							<td>
-								<span>参与活动卡数量(个)</span>
-								<strong>{{transactionDataShow.tradeDataModelTotail.tradeCardNum}}</strong>
-							</td>
-							<td>
-								<span>单笔平均交易金额(元)</span>
-								<strong>{{transactionDataShow.tradeDataModelTotail.averageTradeAmount}}</strong>
-							</td>
-							<td>
-								<span>单笔平均补贴金额(元)</span>
-								<strong>{{transactionDataShow.tradeDataModelTotail.averageSubsidyAmount}}</strong>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<div class="data-detail">
-					<span class="title"><i></i>7日/30日关键数据详解</span>
-					<div class="choose-btn">
-						<a class="btn" :class="transactionDataJudgeName=='TradeAmountList'?'btn-primary':'btn-gray'" @click="changeDataShow('TradeAmountList')">交易总金额</a>
-						<a class="btn" :class="transactionDataJudgeName=='SubsidyAmountList'?'btn-primary':'btn-gray'" @click="changeDataShow('SubsidyAmountList')">补贴总金额</a>
-						<a class="btn" :class="transactionDataJudgeName=='TradeNumList'?'btn-primary':'btn-gray'" @click="changeDataShow('TradeNumList')">交易总笔数</a>
-					</div>
-					<div class="choose-btn">
-						<a class="btn btn-primary" :class="transactionDataJudgeTime=='7'?'btn-primary':'btn-gray'" @click="dateChange('week')">7日关键数据</a>
-						<a class="btn btn-gray" :class="transactionDataJudgeTime=='30'?'btn-primary':'btn-gray'" @click="dateChange('month')">30日关键数据</a>
-					</div>
-					<div class="data-echart" id="data-echart-weekmonth"></div>
-				</div>
-			</span>
-		</div>
-		<div class="transaction-region border">
-			<div class="region-title">
-				<span class="title-left">交易区域分析</span>
-				<span class="title-right" v-if="upDownToggle.transactionRegionShowArea" @click="transactionDataToggle('transaRegionToggleUp')">收起</span>
-				<span class="title-right" v-else @click="transactionDataToggle('transaRegionToggleDown')">展开</span>
-			</div>
-			<span v-show="upDownToggle.transactionRegionShowArea">
-				<div class="region-table">
-					<span class="title"><i></i>关键数据</span>
-					<table>
-						<tr>
-							<td>
-								<span>产生交易区域（个）</span>
-								<strong>{{transactionRegion.tradeAreaModel.tradeAreaNum}}</strong>
-							</td>
-							<td>
-								<span>区域平均交易笔数(笔)</span>
-								<strong>{{transactionRegion.tradeAreaModel.averageTradeNum}}</strong>
-							</td>
-							<td>
-								<span>最高交易区域</span>
-								<strong>{{transactionRegion.tradeAreaModel.maxTradeArea}}</strong>
-							</td>
-							<td>
-								<span>最高交易区域交易笔数(笔)</span>
-								<strong>{{transactionRegion.tradeAreaModel.maxTradeAreaTradeNum}}</strong>
-							</td>
-						 	<td>
-								<span>最高交易区域交易额（元）</span>
-								<strong>{{transactionRegion.tradeAreaModel.maxTradeAreaTradeAmount}}</strong>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<div class="region-detail">
-					<span class="title"><i></i>交易区域关键数据排行</span>
-					<div class="choose-btn">
-						<a class="btn btn-primary" :class="regionDetailJudgeChoose=='amount'?'btn-primary':'btn-gray'" @click="regionDetailAmount">交易金额</a>
-						<a class="btn btn-primary" :class="regionDetailJudgeChoose=='num'?'btn-primary':'btn-gray'" @click="regionDetailNumber">交易笔数</a>
-					</div>
-					<div class="region-echart" id="region-echart" style="height:500px;"></div>
-				</div>
-			</span>
-		</div>
-		<div class="transaction-time border">
-			<div class="time-title">
-				<span class="title-left">交易时段分析</span>
-				<span class="title-right" v-if="upDownToggle.transactionTimeShowArea" @click="transactionDataToggle('transaTimeToggleUp')">收起</span>
-				<span class="title-right" v-else @click="transactionDataToggle('transaTimeToggleDown')">展开</span>
-			</div>
-			<span v-show="upDownToggle.transactionTimeShowArea">
-				<div class="time-show">
-					<div class="time-echart" id="time-echart"></div>
-				</div>
-			</span>
-		</div>
-		<div class="merchant-data border">
-			<div class="merchant-title">
-				<span class="title-left">商户数据分析</span>
-				<span class="title-right" v-if="upDownToggle.merchantDataShowArea" @click="transactionDataToggle('merchantToggleUp')">收起</span>
-				<span class="title-right" v-else @click="transactionDataToggle('merchantToggleDown')">展开</span>
-			</div>
-			<span v-show="upDownToggle.merchantDataShowArea">
-				<div class="merchant-table">
-					<span class="title"><i></i>关键数据</span>
-					<table>
-						<tr>
-							<td>
-								<span>参与门店数（个）</span>
-								<strong>{{merchantDataArea.merchantDataTotal.storeNumbers}}</strong>
-							</td>
-							<td>
-								<span>产生交易门店数(个)</span>
-								<strong>{{merchantDataArea.merchantDataTotal.generateTradeStoreNumbers}}</strong>
-							</td>
-							<td>
-								<span>店均交易笔数(个)</span>
-								<strong>{{merchantDataArea.merchantDataTotal.averageTradeNumbers}}</strong>
-							</td>
-							<td>
-								<span>店均补贴金额(元)</span>
-								<strong>{{merchantDataArea.merchantDataTotal.averageSubsidyAmount}}</strong>
-							</td>
-							<td>
-								<span>店均交易金额（元）</span>
-								<strong>{{merchantDataArea.merchantDataTotal.averageTradeAmount}}</strong>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<div class="merchant-detail">
-					<span class="title"><i></i>商户关键数据排行</span>
-					<div class="choose-btn">
-						<a class="btn btn-primary" :class="merchantDataDetailJudgeName=='amount'?'btn-primary':'btn-gray'" @click="merchantDataTradeAmountChange">交易金额</a>
-						<a class="btn btn-primary" :class="merchantDataDetailJudgeName=='num'?'btn-primary':'btn-gray'" @click="merchantDataTradeCountChange">交易笔数</a>
-					</div>
-					<div class="merchant-echart" id="merchant-echart" style="height:500px;">
+			<div class="flex short">
+				<div class="left" v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':3}}">
+					<h4>商户数据</h4>
+					<div class="echart-div">
+						<table>
+							<tr>
+								<td>{{merchant.averageTradeNumbers}}</td>
+								<td>{{merchant.averageTradeAmount[0]}}
+									<i class="float-num" v-if="!merchant.averageTradeAmount[1]"><span>.</span>00</i>
+									<i class="float-num" v-else><span>.</span>{{merchant.averageTradeAmount[1]}}</i></td>
+							</tr>
+							<tr>
+								<td>店均交易笔数</td>
+								<td>店均交易金额</td>
+							</tr>
+						</table>
 					</div>
 				</div>
-			</span>
-		</div>
-		<div class="cardBIN-data border">
-			<div class="cardBIN-title">
-				<span class="title-left">卡BIN数据分析</span>
-				<span class="title-right" v-if="upDownToggle.cardBINDataShowArea" @click="transactionDataToggle('cardBINToggleUp')">收起</span>
-				<span class="title-right" v-else @click="transactionDataToggle('cardBINToggleDown')">展开</span>
-			</div>
-			<span v-show="upDownToggle.cardBINDataShowArea">
-				<div class="cardBIN-ranking-table">
-					<span class="title"><i></i>关键数据</span>
-					<table>
-						<tr>
-							<td>
-								<span>卡BIN个数（个）</span>
-								<strong>{{cardBINDataArea.CardBinModel.cardBinNum}}</strong>
-							</td>
-							<td>
-								<span>卡BIN平均交易笔数(个)</span>
-								<strong>{{cardBINDataArea.CardBinModel.averageTradeNum}}</strong>
-							</td>
-							<td>
-								<span>卡BIN平均交易金额（元）</span>
-								<strong>{{cardBINDataArea.CardBinModel.averageTradeAmount}}</strong>
-							</td>
-							<td>
-								<span>卡BIN平均补贴金额(元)</span>
-								<strong>{{cardBINDataArea.CardBinModel.averageSubsidyAmount}}</strong>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<div class="cardBIN-detail">
-					<span class="title"><i></i>卡BIN关键数据排行</span>
-					<div class="choose-btn">
-						<a class="btn btn-primary" :class="cardBINDetailJudgeChoose=='amount'?'btn-primary':'btn-gray'" @click="cardBINDetailAmount">交易金额</a>
-						<a class="btn btn-primary" :class="cardBINDetailJudgeChoose=='num'?'btn-primary':'btn-gray'" @click="cardBINDetailNumber">交易笔数</a>
-					</div>
-					<div class="cardBIN-echart" id="cardBIN-echart" style="height:500px;">
+				<div class="center" v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':4}}">
+					<h4>卡BIN数据</h4>
+					<div class="echart-div">
+						<table>
+							<tr>
+								<td>{{cardBin.averageTradeNum}}</td>
+								<td>{{cardBin.averageTradeAmount[0]}}
+									<i class="float-num" v-if="!cardBin.averageTradeAmount[1]"><span>.</span>00</i>
+									<i class="float-num" v-else><span>.</span>{{cardBin.averageTradeAmount[1]}}</i>
+								</td>
+							</tr>
+							<tr>
+								<td>卡BIN交易笔数</td>
+								<td>卡BIN交易金额</td>
+							</tr>
+						</table>
 					</div>
 				</div>
-			</span>
-		</div>
-		<div class="one-card border">
-			<div class="one-title">
-				<span class="title-left">单卡交易分析</span>
-				<span class="title-right" v-if="upDownToggle.oneCardShowArea" @click="transactionDataToggle('oneCardoggleUp')">收起</span>
-				<span class="title-right" v-else @click="transactionDataToggle('oneCardoggleDown')">展开</span>
+				<div class="right" v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':5}}">
+					<h4>单卡交易</h4>
+					<div class="echart-div">
+						<table>
+							<tr>
+								<td>{{oneCard.cardNumbers}}</td>
+								<td>{{oneCard.averageCardNumbers}}</td>
+							</tr>
+							<tr>
+								<td>参与卡数量</td>
+								<td>卡均参与数量</td>
+							</tr>
+						</table>
+					</div>
+				</div>
 			</div>
-			<span v-show="upDownToggle.oneCardShowArea==true">
-				<div class="one-ranking-table">
-					<span class="title"><i></i>关键数据</span>
-					<table>
-						<tr>
-							<td>
-								<span>参与卡数量（个）</span>
-								<strong>{{oneCardArea.oneCardModel.cardNumbers}}</strong>
-							</td>
-							<td>
-								<span>卡均参与次数(次)</span>
-								<strong>{{oneCardArea.oneCardModel.averageCardNumbers}}</strong>
-							</td>
-							<td>
-								<span>单卡最高参与次数（次）</span>
-								<strong>{{oneCardArea.oneCardModel.maxSwipedCardNumbers}}</strong>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<div class="one-detail">
-					<span class="title"><i></i>单卡参与次数（次）</span>
-					<div class="one-echart" id="one-echart" style="height:500px;"></div>
-				</div>
-			</span>
 		</div>
-		
 	</div>
 </template>
-<script type="text/javascript">
-    import model from '../../ajax/activity/activity-analysis';
+<style type="text/css">
+	.float-num{
+		font-style: normal;
+		font-size: 14px;
+	}
+	.float-num span{
+		font-size:22px;
+	}
+	.activity-data-overview td{
+		border-width: 0px !important;
+	}
+	.searchBtn:hover{
+		background-color: #e74c39!important;
+	}
+</style>
+<script>
+	import model from '../../ajax/activity/activity-analysis'
 	export default{
 		data(){
-            this.model=model(this)
+			this.model=model(this)
 			return{
-				origin:window.origin,
-				transactionDataJudgeName:'TradeAmountList',//数据分析Judge
-				transactionDataJudgeTime:'7',//数据分析Judge
-				merDataJudgeTime:'7',//数据分析Judge
-				merchantDataDetailJudgeName:'amount',//商户分析Judge
-				regionDetailJudgeChoose:'amount',//交易区域Judge;
-				cardBINDetailJudgeChoose:'amount',//卡binJudge;
-				upDownToggle:{//展开收起判断true or false
-					transactionDataShowArea:false,//交易数据分析
-					transactionRegionShowArea:false,//交易区域分析
-					transactionTimeShowArea:false,//交易时段分析
-					merchantDataShowArea:false,//商户数据分析
-					cardBINDataShowArea:false,//卡BIN数据分析
-					oneCardShowArea:false,//单卡交易分析
-				},
-				tableTitleChoose:{
-					title:'',
-					sevenAmount:'7日交易总金额数据展示图',
-					sevenSubsidy:'7日补贴总金额数据展示图',
-					sevenCount:'7日交易总笔数数据展示图',
-					monthAmount:'30日交易总金额数据展示图',
-					monthSubsidy:'30日补贴总金额数据展示图',
-					monthCount:'30日交易总笔数数据展示图',
-				},
-				times:{//时间初始化数据
-					todayDate:'',
-					lastWeek:'',
-					monthAgo:''
-				},
-				tradeSearchData:{
-					xAxisData:[],
-					weekThis:[],
-					weekLast:[],
-				},
-				tradeGET:{
-					startDate:'',
-					endDate:'',
-					compareFlag:true,
-					activityID:'',
-					pdfId:''
-				},
-				tradeCompare:{
-					compareFlag:true,
-					activityID:'',
-				},
-				transactionDataShow:{//交易数据分析
-					tradeDataModelToday:[],//交易数据今日累计关键数据
-					tradeDataModelTotail:[],//交易数据累计关键数据
-					XData:[],
-					PData:[],
-					Ldata:[],
-					tableTitle:'',
-				},
-				transactionRegion:{//交易区域数据
-					tradeAreaModel:[],//交易区域累计的关键数据
-					tradeAreaAmount:[],//交易区域交易金额排行数据
-					tradeAreaNum:[],//交易区域交易笔数排行数据
-				},
-				transactionTime:{//交易时段分析数据
-					timeData:[],
-					timePoint:[],
-				},
-				merchantDataArea:{//商户数据分析
-					merchantDataTotal:[],//商户数据关键数据
-					storeName:[],
-					tradeAmount:[],
-				},
-				cardBINDataArea:{//卡BIN数据分析
-					CardBinModel:[],
-					averageSubsidyAmount:'',//卡BIN平均补贴金额
-					averageTradeAmount:'',//卡BIN平均交易金额
-					averageTradeNum :'',//卡BIN平均交易笔数
-					binType:'',//卡BIN种类
-					cardBinNum:'',//卡BIN个数
-					subsidyAmount:'',//补贴金额（单位，元）
-					tradeAmount:'',//交易金额（单位，元）
-					tradeNum:'',//交易笔数
-					binStartNumber:'',//卡BIN开头数字
-					tradeAmountCardBINChange:'',//交易金额排行change
-					tradeNumCardBINChange:'',//交易笔数排行change
-				},
-				oneCardArea:{//单卡数据
-					oneCardModel:[],
-				},
-				uuids:[JSON.parse(sessionStorage.getItem('loginList')).bankUUID],
-				activityList:[],
+				mainStep:0,
 				searchData:{
-					activityID:'',
+				    id:'',
 					activityName:'',
-					showList:false
+					activityID:'',
+					compareFlag:true,
+					bankUuidString:sessionStorage.getItem('uuids'),
 				},
-				tradeDataEchart:{
-					echartDivID:'data-echart-weekmonth',
-					now:'当前数据(元)',
-					contrast:'对比数据(元)',
+				compareFlag:true,
+				times:{//时间初始化数据
+                    today:getDates().today,
+                    aweekAgo:getDates().aweekAgo,
+                    amonthAgo:getDates().amonthAgo
 				},
+				tradeArea:'',
+				tradeData:{
+					today:'',
+					total:'',
+				},
+				tradeTime:[],
+				merchant:{
+					averageTradeNumbers:[],
+					averageTradeAmount:[],
+				},
+				cardBin:{
+					averageTradeNum:[],
+					averageTradeAmount:[],
+				},
+				oneCard:{},
+                activityList:[],
+                liIndex:0,
+                showList:false,
 			}
 		},
 		methods:{
-			dateGetShow(){
-				var date = new Date(),lyear = date.getFullYear(),lmonth = date.getMonth() + 1,agoMonth = lmonth-1,lday = date.getDate(),pdate = new Date(date.getTime() - 7 * 24 * 3600 * 1000),pyear = pdate.getFullYear(),pmonth = pdate.getMonth() + 1,pday = pdate.getDate(),locakDate=lyear + '-' + lmonth + '-' + lday,pastDate=pyear + '-' + pmonth + '-' + pday,agoMonthDate=lyear+'-'+agoMonth+'-'+lday;
-				this.times.lastWeek=pastDate;
-				this.times.todayDate=locakDate;
-				this.times.monthAgo=agoMonthDate;
-			},
-			// =================================================================================================
-			dataLineEchart(divID,title,duibi,xData,parentDataName,parentData,passDataName,passData){
-				var myChart=echarts.init(document.getElementById(divID));
-				var option = {
-				    title: {text: title},//表名称
-				    tooltip: {trigger: 'axis'},
-				    legend: {data:duibi},
-				    xAxis: {
-				        type: 'category',
-				        boundaryGap: false,
-				        data: xData,
-				    },
-				    yAxis: {
-				        type: 'value'
-				    },
-				    series: [
-				        {
-				            name:parentDataName,
-				            type:'line',
-				            data:parentData,
-				            itemStyle:{normal:{color:'#e75035'}},
-				        },
-				        {
-				            name:passDataName,
-				            type:'line',
-				            data:passData,
-				            itemStyle:{normal:{color:'#429eeb'}},
-				        }
-				    ]
-				};
-        		myChart.setOption(option);
-        		// this.imgURL = myChart.getDataURL('png');//获取base64编码
-			},
-			justChart(timePoint){
-				var myChart = echarts.init(document.getElementById('time-echart'));
-				var option = {
-				    tooltip: {trigger: 'axis'},
-				    toolbox: {show: true},
-				    legend: {data:['交易笔数(笔)']},
-				    xAxis:  {type: 'category',boundaryGap: false,data:["00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"],
-				        name:['时间段']
-				    },
-				    yAxis: {
-				    	type: 'value',
-				        name:['交易笔数(笔)'],
-					},
-				    series: [{
-				            name:'交易笔数(笔)',
-				            type:'line',
-				            data:timePoint,
-				            itemStyle:{normal:{color:'#429eeb'}}
-				        }]
+			searchList(){
+                if(this.showList){
+					this.searchData.activityName=this.activityList[this.liIndex].name;
+					this.searchData.activityID=this.activityList[this.liIndex].uniqueId;
+					this.searchData.id=this.activityList[this.liIndex].id;
 				}
-				myChart.setOption(option);
-				// this.imgURL = myChart.getDataURL('png');//获取base64编码
-			},
-			dataBarEchart(chartID,dataTitle,yAxisTitle,cityName,dataName,cityData){
-				var myChart = echarts.init(document.getElementById(chartID));
-				var option ={
-				    tooltip: {
-				        trigger: 'axis',
-				        axisPointer: {type: 'shadow'}
-				    },
-				    legend: {data:dataTitle},
-				    grid: {
-				        left: '3%',
-				        right: '4%',
-				        bottom: '3%',
-				        top:'33px',
-				        containLabel: true
-				    },
-				    xAxis: {
-				        type: 'value',
-				    },
-				    yAxis: {
-				        type: 'category',
-				        axisTick : {show: false},
-				        data: cityName,
-				        name:yAxisTitle,
-				    },
-				    series: [
-				        {
-				            name: dataName,
-				            type: 'bar',
-				            barWidth:'23px',
-				            data: cityData,
-				            sort: 'descending',
-				            itemStyle:{
-				            	normal:{
-				            		color:'#429eeb'
-				            		// color:function (params) {
-				            		// 	var colorList = ['#429eeb','#a91f8c','#5a2d8c','#045aad','#0173ba','#00a9ae','#22af47','#a1cd38','#fdd503','#f7b717'];
-                  //       				return colorList[params.dataIndex]
-				            		// }
-				            		}//单色color后直接加rgb色号
-				            },
-				            label:{
-				                normal:{
-				                    show: true,
-				                    position: 'right',
-                    				offset:[0,-3],
-                    				textStyle:{
-                    					color:'#429eeb'
-                    				}
-				                }
-				            },
-				        }
-				    ]
-				}
-				myChart.setOption(option);
-				// this.imgURL = myChart.getDataURL('png');//获取base64编码
-			},
-			// =================================================================================================
-			//交易数据分析
-			tradeSetData(data,duibi,parentDataName,passDataName){
-				this.$set('transactionDataShow.XData',data.category);
-				this.$set('transactionDataShow.PData',data.series[0].dataDecimal);
-				this.$set('transactionDataShow.Ldata',data.series[1].dataDecimal);
-         		this.dataLineEchart(
-         			this.tradeDataEchart.echartDivID,
-         			this.transactionDataShow.tableTitle,
-         			duibi,
-					this.transactionDataShow.XData,
-					parentDataName,this.transactionDataShow.PData,
-					passDataName,this.transactionDataShow.Ldata
-				)
-			},
-			tradeDataModelToday(){//获取今日关键数据
-				let data={
-					startDate:this.times.todayDate,
-					endDate:this.times.todayDate,
-					activityID:this.tradeGET.activityID
-				};
-                (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
-        		this.model.getTradeDataTotal(data).then((res)=>{
-        			if (res.data.code==0){
-        				this.$set('transactionDataShow.tradeDataModelToday',res.data.data);
-        			}
-        		})
-			},
-			tradeDataModelTotail(){//获取累计交易数据
-				let data={
-					compareFlag:true,
-					activityID:this.tradeGET.activityID
-				};
-                (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
-        		this.model.getTradeDataTotal(data).then((res)=>{
-        			if (res.data.code==0){
-        				this.$set('transactionDataShow.tradeDataModelTotail',res.data.data);
-        			}
-        		})
-			},
-        	changeDataShow(toggle){//数据切换
-        		switch(toggle){
-        			case 'TradeAmountList':
-						this.transactionDataJudgeName="TradeAmountList";
-						this.transactionDataShow.tableTitle="交易总金额数据展示图";
-                		(!this.tradeGET.activityID)? this.tradeGET.bankUuidString=sessionStorage.getItem('uuids'):this.tradeGET.bankUuidString='';
-	        			this.model.getTradeAmount(this.tradeGET).then((res)=>{
-	        				if (res.data.code==0){
-								this.tradeSetData(res.data.data,['当前数据(元)','对比数据(元)'],'当前数据(元)','对比数据(元)')
-	        				};
-	        			});
-	        			break;
-	        		case 'SubsidyAmountList':
-						this.transactionDataJudgeName="SubsidyAmountList";
-						this.transactionDataShow.tableTitle="补贴总金额数据展示图";
-                		(!this.tradeGET.activityID)? this.tradeGET.bankUuidString=sessionStorage.getItem('uuids'):this.tradeGET.bankUuidString='';
-
-						this.model.getSubsidyAmount(this.tradeGET).then((res)=>{
-		        			if (res.data.code==0){
-		        				this.tradeSetData(res.data.data,['当前数据(元)','对比数据(元)'],'当前数据(元)','对比数据(元)')
-		        			}
-		        		});
-		        		break;
-	        		case 'TradeNumList':
-						this.transactionDataJudgeName="TradeNumList";
-						this.transactionDataShow.tableTitle="交易总笔数数据展示图";
-                		(!this.tradeGET.activityID)? this.tradeGET.bankUuidString=sessionStorage.getItem('uuids'):this.tradeGET.bankUuidString='';
-						this.model.getTradeNum(this.tradeGET).then((res)=>{
-		        			if (res.data.code==0){
-		        				this.$set('transactionDataShow.XData',res.data.data.category);
-								this.$set('transactionDataShow.PData',res.data.data.series[0].dataLong);
-								this.$set('transactionDataShow.Ldata',res.data.data.series[1].dataLong);
-		         				this.dataLineEchart(
-		         					this.tradeDataEchart.echartDivID,
-		         					this.transactionDataShow.tableTitle,
-		         					['当前数据(笔)','对比数据(笔)'],
-									this.transactionDataShow.XData,
-									'当前数据(笔)',this.transactionDataShow.PData,
-									'对比数据(笔)',this.transactionDataShow.Ldata
-								);
-		        			}
-		        		});
-		        		break;
-		        	default:
-						break;
-		        	};
-        	},
-        	dateChange(toggle){
-        		switch(toggle){
-        			case 'week':
-        				this.transactionDataJudgeTime="7";
-						this.tradeGET.startDate=this.times.lastWeek;
-						this.tradeGET.endDate=this.times.todayDate;
-						if(this.transactionDataJudgeName=="TradeAmountList"){
-							this.changeDataShow('TradeAmountList');
-		        			break;
-						}else if (this.transactionDataJudgeName=="SubsidyAmountList") {
-							this.changeDataShow('SubsidyAmountList');
-			        		break;
-						}else if (this.transactionDataJudgeName=="TradeNumList") {
-							this.changeDataShow('TradeNumList');
-			        		break;
-						}
-						break;
-        			case 'month':
-        				this.transactionDataJudgeTime="30";
-						this.tradeGET.startDate=this.times.monthAgo;
-						this.tradeGET.endDate=this.times.todayDate;
-						if(this.transactionDataJudgeName=="TradeAmountList"){
-							this.changeDataShow('TradeAmountList');
-		        			break;
-						}else if (this.transactionDataJudgeName=="SubsidyAmountList") {
-							this.changeDataShow('SubsidyAmountList');
-			        		break;
-						}else if (this.transactionDataJudgeName=="TradeNumList") {
-							this.changeDataShow('TradeNumList');
-			        		break;
-						}
-						break;
-					default:
-						break;
-        		}
-        	},
-			// =================================================================================================
-        	//交易区域 sucess
-        	regionDetailReady(){//交易区域数据获取
-        		let data={
-        			activityID:this.tradeGET.activityID
-        		};
-                (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
-        		this.model.getTradeAreaTotal(data).then((res)=>{
-        			if (res.data.code==0){
-        				this.$set('transactionRegion.tradeAreaModel',res.data.data);
-        			}
-        		});
-        	},
-        	regionDetailAmount(){//交易区域交易金额切换
-        		this.regionDetailJudgeChoose='amount';
-        		let data={
-        			activityID:this.tradeGET.activityID
-        		};
-                (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
-        		this.model.getTradeAreaTotalAmountList(data).then((res)=>{
-        			if (res.data.code==0){
-						this.transactionRegion.tradeArea=res.data.data.category;
-						this.transactionRegion.cityData=res.data.data.series[0].dataDecimal;
-        			}
-						this.dataBarEchart('region-echart',['交易金额(元)'],['区域名称'],this.transactionRegion.tradeArea,'交易金额(元)',this.transactionRegion.cityData);
-        		})
-
-        	},
-			regionDetailNumber(){//交易区域交易笔数切换
-				this.regionDetailJudgeChoose='num';
-				let data={
-        			activityID:this.tradeGET.activityID
-				};
-                (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
-				this.model.getTradeAreaNumList(data).then((res)=>{
-        			if (res.data.code==0){
-						this.transactionRegion.tradeArea=res.data.data.category;
-						this.transactionRegion.cityData=res.data.data.series[0].dataLong;
-        			}
-						this.dataBarEchart('region-echart',['交易笔数(笔)'],['区域名称'],this.transactionRegion.tradeArea,'交易笔数(笔)',this.transactionRegion.cityData);
-        		})
-			},
-			// =================================================================================================
-			//交易时段分析 sucess
-			transactionTimeReady(){//交易时段加载数据
-				let data={
-        			activityID:this.tradeGET.activityID
-				};
-                (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
-				this.model.getTradePeriodTotal(data).then((res)=>{
-					if (res.data.code==0){
-						this.$set('transactionTime.timePoint',res.data.data.series);
-        			}
-						this.justChart(this.transactionTime.timePoint);
-				})
-			},
-			// =================================================================================================
-			//商户数据分析
-			merchantDataAreaReady(){//商户关键数据
-				let data={
-        			activityID:this.tradeGET.activityID
-				};
-                (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
-				this.model.getMerchantTradeTotal(data).then((res)=>{
-					if (res.data.code==0){
-						this.$set('merchantDataArea.merchantDataTotal',res.data.data);
-					}
-				})
-			},
-			merchantDataTradeAmountChange(){//商户数据交易金额
-				this.merchantDataDetailJudgeName='amount';
-				let data={
-        			activityID:this.tradeGET.activityID
-				};
-                (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
-				this.model.getMerchantTradeAmount(data).then((res)=>{
-					if (res.data.code==0){
-						// debugger;
-						this.merchantDataArea.storeName=res.data.data.series[0].storeAndMerchantName;//商户数据名称
-						this.merchantDataArea.tradeAmount=res.data.data.series[0].dataDecimal;//商户数据刷卡金额
-					}
-						this.dataBarEchart('merchant-echart',['刷卡金额(元)'],['门店名称，所属商户'],this.merchantDataArea.storeName,'刷卡金额(元)',this.merchantDataArea.tradeAmount);
-				})
-			},
-			merchantDataTradeCountChange(){//商户数据交易笔数
-				this.merchantDataDetailJudgeName='num';
-				let data={
-        			activityID:this.tradeGET.activityID
-				};
-                (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
-
-				this.model.getMerchantTradeCount(data).then((res)=>{
-					if (res.data.code==0){
-						this.merchantDataArea.storeName=res.data.data.series[0].storeAndMerchantName;//商户数据名称
-						this.merchantDataArea.tradeCount=res.data.data.series[0].dataLong;//商户数据刷卡笔数
-					}
-						this.dataBarEchart('merchant-echart',['刷卡笔数(笔)'],['门店名称，所属商户'],this.merchantDataArea.storeName,'刷卡笔数(笔)',this.merchantDataArea.tradeCount);
-				})
-			},
-			// =================================================================================================
-			//卡BIN数据分析 success
-			cardBINDataAreaReady(){//卡BIN数据分析获取数据
-				let data={
-        			activityID:this.tradeGET.activityID
-				};
-                (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
-				this.model.getCardBINTotal(data).then((res)=>{
-					if (res.data.code==0){
-						this.$set('cardBINDataArea.CardBinModel',res.data.data);
-        			}
-				})
-				this.cardBINDetailAmount();
-			},
-			cardBINDetailAmount(){//卡BIN交易金额chenge
-				this.cardBINDetailJudgeChoose='amount';
-				let data={
-        			activityID:this.tradeGET.activityID
-
-				};
-                (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
-				this.model.getCardBINTradeAmountList(data).then((res)=>{
-					if (res.data.code==0) {
-						this.cardBINDataArea.binStartNumber=res.data.data.category;
-						this.cardBINDataArea.tradeAmountCardBINChange=res.data.data.series[0].dataDecimal;
-					}
-					this.dataBarEchart('cardBIN-echart',['卡BIN刷卡金额(元)'],['卡BIN'],this.cardBINDataArea.binStartNumber,'卡BIN刷卡金额(元)',this.cardBINDataArea.tradeAmountCardBINChange);
-				});
-			},
-			cardBINDetailNumber(){//卡BIN交易笔数change
-				this.cardBINDetailJudgeChoose='num';
-				let data={
-        			activityID:this.tradeGET.activityID
-				};
-                (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
-				this.model.getCardBINTradeNumList(data).then((res)=>{
-					if (res.data.code==0) {
-						this.$set('cardBINDataArea.binStartNumber',res.data.data.category)
-						this.$set('cardBINDataArea.tradeNumCardBINChange',res.data.data.series[0].dataLong)
-					}
-					this.dataBarEchart('cardBIN-echart',['卡BIN刷卡笔数(笔)'],['卡BIN'],this.cardBINDataArea.binStartNumber,'卡BIN刷卡笔数(笔)',this.cardBINDataArea.tradeNumCardBINChange);
-				});
-				//cardBIN-echart
-			},
-			// =================================================================================================
-			oneCardDataReady(){//单卡获取total
-				let data={
-        			activityID:this.tradeGET.activityID
-				};
-				(!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
-				this.model.getOneCardTotal(data).then((res)=>{
-					if (res.data.code==0) {
-						this.$set('oneCardArea.oneCardModel',res.data.data);
-					}
-				});
-			},
-			oneCardDataOnceData(){//获取单卡参与次数数据
-				let data={
-        			activityID:this.tradeGET.activityID
-				};
-                (!this.tradeGET.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
-				this.model.getOneCardSwipedCount(data).then((res)=>{
-					if (res.data.code==0) {
-						this.$set('oneCardArea.oneCardNum',res.data.data.series[0].dataLong);//x轴
-						this.$set('oneCardArea.oneCardChance',res.data.data.series[0].data);//y轴
-					}
-						this.dataBarEchart('one-echart',['卡数量(张)'],['次数(次)'],this.oneCardArea.oneCardChance,'卡数量(张)',this.oneCardArea.oneCardNum);
-				})
-			},
-			//展开收起触发======================================================================
-				//交易数据分析
-			transactionDataToggle(toggle){
-				switch(toggle){
-					case 'transaDataToggleUp'://交易数据分析
-						this.upDownToggle.transactionDataShowArea=false;
-						break;
-					case 'transaDataToggleDown'://交易数据分析
-						this.upDownToggle.transactionDataShowArea=true;
-        				this.tradeDataModelToday();
-        				this.tradeDataModelTotail();
-        				this.changeDataShow('TradeAmountList');
-						break;
-					case 'transaRegionToggleUp'://交易区域分析
-						this.upDownToggle.transactionRegionShowArea=false;
-						break;
-					case 'transaRegionToggleDown'://交易区域分析
-						this.upDownToggle.transactionRegionShowArea=true;
-						this.regionDetailAmount();//交易区域交易金额数据读取
-        				this.regionDetailReady();//交易区域数据获取
-						break;
-					case 'transaTimeToggleUp'://交易时段分析
-						this.upDownToggle.transactionTimeShowArea=false;
-						break;
-					case 'transaTimeToggleDown'://交易时段分析
-						this.upDownToggle.transactionTimeShowArea=true;
-        				this.transactionTimeReady();//交易时段数据读取
-						break;
-					case 'merchantToggleUp'://商户数据分析
-						this.upDownToggle.merchantDataShowArea=false;
-						break;
-					case 'merchantToggleDown'://商户数据分析
-						this.upDownToggle.merchantDataShowArea=true;
-						this.merchantDataAreaReady();//商户数据读取
-        				this.merchantDataTradeAmountChange();//商户数据交易金额		
-						break;
-					case 'cardBINToggleUp'://卡BIN数据分析
-						this.upDownToggle.cardBINDataShowArea=false;
-						break;
-					case 'cardBINToggleDown'://卡BIN数据分析
-						this.upDownToggle.cardBINDataShowArea=true;
-						this.cardBINDataAreaReady();//卡BIN数据分析获取
-        				this.cardBINDetailAmount();//卡BIN交易金额读取
-						break;
-					case 'oneCardoggleUp'://单卡交易分析
-						this.upDownToggle.oneCardShowArea=false;
-						break;
-					case 'oneCardoggleDown'://单卡交易分析
-						this.upDownToggle.oneCardShowArea=true;
-						this.oneCardDataReady();//单卡获取total
-        				this.oneCardDataOnceData();//单卡读取参与数据
-						break;
-					default:
-						break;
-				}
-			},
-			//搜索活动
-			getActivity(){
-				 let data={
-                    name:this.searchData.activityName,
-                    maxResult:100,
-                    uuids:_.split(sessionStorage.getItem('uuids'), ','),
-                    activityID:this.searchData.activityID
-                };
-                if(!this.searchData.activityName){
-                	this.tradeGET.activityID="";
-	                this.searchData.showList=false;
-                	this.transactionDataToggle("transaDataToggleDown");
-                }else{
-	                this.$common_model.getActivityList(data).then((res)=>{
-	                    if(res.data.code===0){
-	                        this.$set('activityList',res.data.data);
-	                		this.searchData.showList=true;
-	                    }
-	                })
+                this.showList=false;
+				this.initList();
+            },
+            getActivity: _.debounce(function(e){
+                if(e.keyCode == 38 || e.keyCode == 40|| e.keyCode == 13){  //向上向下
+                    return ;
                 }
-			},
-			getId({uniqueId,name,id}){
-                this.searchData.showList=false;
+                let vm=this;
+                vm.replaceName=(vm.searchData.activityName).replace(/(^\s+)|(\s+$)/g, "");
+                let data={
+                    name:vm.replaceName,
+                    maxResult:10,
+                    uuids:_.split(sessionStorage.getItem('uuids'), ',')
+                }
+                if(!vm.replaceName){
+                    vm.searchData.activityID="";
+                    vm.searchData.id="";
+                    vm.showList=false;
+                    return;
+                }else{
+                    vm.$common_model.getActivityList(data).then((res)=>{
+                        if(res.data.code===0&&res.data.data!=vm.searchData.activityName){
+                            this.liIndex=0;
+                            vm.$set('activityList',res.data.data);
+                            vm.showList=true;
+                        }
+                    })
+                }
+            },300),
+            changeLiIndex(type){
+                if(!this.activityList.length)return;
+                switch (type){
+                    case 'up':
+                        this.liIndex==0?this.liIndex=this.activityList.length-1:this.liIndex--;
+                        break;
+                    case 'down':
+                        this.liIndex==this.activityList.length-1?this.liIndex=0:this.liIndex++;
+                        break;
+                    default:
+                        break;
+                }
+            },
+            getId({uniqueId,name,id}){
+                this.showList=false;
                 this.searchData.activityName=name;
-                this.tradeGET.activityID=uniqueId;
-                this.tradeGET.pdfId=id;
-                this.transactionDataToggle("transaDataToggleDown");
+                this.searchData.activityID=uniqueId;
+                this.searchData.id=id;
+                this.searchData.bankUuidString='';
             },
-            resetName(){
-                this.searchData.showList=false;
-            },
+			initList(){
+				this.echartRadar();
+				this.tradeDataGet();
+				this.tradeTimeGet();
+				this.tradeAreaData();
+				this.dataGet();
+			},
+			tradeAreaData(){
+			(!this.searchData.activityID)?this.searchData.bankUuidString=this.searchData.bankUuidString : this.searchData.activityID=this.searchData.activityID;
+				this.model.getTradeAreaTotal(this.searchData).then((res)=>{
+					if(res.data.code===0){
+						// this.echartRadar();
+					}
+				})
+			},
+			echartRadar(){
+				let option = {
+					title: {text: '',textStyle:{fontSize:12,color:"#fff"},},
+					tooltip: {},
+				    radar: {
+				        indicator: [{ name: '产生交易区域', },{ name: '区域平均交易笔数', },{ name: '最高交易区域', },{ name: '最高交易区域交易笔数', },{ name: '最高交易区域交易额'}],
+				        name:{textStyle:{color:'#fff'}},axisTick:{show:false},axisLabel:{show:false},splitArea:{show:false},splitLine:{show:false},axisLine:{show:false}},
+				    series: [{
+				        type: 'radar',
+				        data : [{value : [1, 51,51,70,50], name : '交易区域'}],
+				        areaStyle: {normal: {color:'#10b283'}},lineStyle: {normal: {color:'#b9babd'}},itemStyle:{normal:{color:'#3ba686'}}
+				    }]
+				};
+				let id=document.getElementById('trade-area');
+				var resizeWorldMapContainer = function () {
+					    id.style.width = id.parentNode.style.width+'px';
+					    id.style.height = id.parentNode.style.height+'px';
+					};
+				resizeWorldMapContainer();
+				let myChart=echarts.init(document.getElementById('trade-area'))
+				myChart.setOption(option);
+				window.onresize = function () {
+				    resizeWorldMapContainer();
+				    myChart.resize();
+				};
+			},
+			tradeDataGet(){
+				(!this.searchData.activityID)?this.searchData.bankUuidString=this.searchData.bankUuidString : this.searchData.activityID=this.searchData.activityID;
+				this.model.getTradeDataTotal(this.searchData).then((res)=>{
+					if(res.data.code===0){
+						this.tradeData.today=res.data.data.tradeAmount;
+						this.model.getTradeDataTotalAll(this.searchData).then((res)=>{
+							if(res.data.code===0){
+								this.tradeData.total=res.data.data.tradeAmount;
+								this.echartBar([this.tradeData.today,this.tradeData.total]);
+							}
+						})
+					}
+				});
+			},
+			echartBar(data){
+				let option = {
+				    tooltip : {trigger: 'axis',axisPointer : {type : 'shadow'}},
+				    grid: {left: '0',right: '4%',top:'20px',bottom: '3%',containLabel: true},
+				    xAxis : [{type : 'category',data : [{value:'今日交易总金额',textStyle:{color:'#fff'}},{value:'累计交易总金额',textStyle:{color:'#fff'}}],splitLine:{show:false},axisLine:{show:false},axisTick:{show:false}}],
+				    yAxis : [{type : 'value',axisLine:{show:false},axisLabel:{show:false},splitLine:{show:false},axisTick:{lineStyle:{color:'#777778',width:2,}}}],
+				    series : [{name:'交易金额（元）',type:'bar',data:data,barWidth:80,itemStyle:{normal:{color:'#3ba686'}}}]
+				};
+				let id=document.getElementById('trade-data');
+				let resizeIdContainer = function () {
+				    id.style.width = id.parentNode.style.width+'px';
+				    id.style.height = id.parentNode.style.height+'px';
+				};
+				resizeIdContainer();
+				window.onresize = function () {
+				    resizeIdContainer();
+				    myChart.resize();
+				};
+				let myChart=echarts.init(document.getElementById('trade-data'))
+				myChart.setOption(option);
+			},
+			tradeTimeGet(){
+				(!this.searchData.activityID)?this.searchData.bankUuidString=this.searchData.bankUuidString : this.searchData.activityID=this.searchData.activityID;
+				this.model.getTradePeriodTotal(this.searchData).then((res)=>{
+					if(res.data.code===0){
+						this.tradeTime=res.data.data.series
+						this.echartLine(this.tradeTime);
+					}
+				})
+			},
+			echartLine(data){
+				let hours=["00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"];
+				let option = {
+					    tooltip : {trigger: 'axis'},
+					    grid: {left: '0px',right: '4%',top:'20px',bottom: '3%',containLabel: true},
+					    xAxis : [{type:'category',boundaryGap:false,data:hours,axisLabel:{textStyle:{color:'#fff'}},}],
+					    yAxis : [{type : 'value', axisLine:{show:false}, axisLabel:{show:false}, splitLine:{show:false}, axisTick:{lineStyle:{color:'#777778',width:2,}}} ],
+					    series : [
+					        {name:'交易笔数',type:'line',areaStyle: {normal: {color:'#10b283'}},lineStyle: {normal: {color:'#b9babd'}},itemStyle:{normal:{color:'#10b283'}},
+					            data:data},
+					    ],
+					};
+				let myChart = echarts.init(document.getElementById('trade-time'));
+				myChart.setOption(option);
+				let id=document.getElementById('trade-time');
+				let resizeIdContainer = function () {
+				    id.style.width = id.parentNode.style.width+'px';
+				    id.style.height = id.parentNode.style.height+'px';
+				};
+				resizeIdContainer();
+				window.onresize = function () {
+				    resizeIdContainer();
+				    myChart.resize();
+				};
+			},
+			dataGet(){
+				this.model.getMerchantTradeTotal(this.searchData).then((res)=>{if(res.data.code===0){
+					let Amount=String(res.data.data.averageTradeAmount);
+					this.merchant.averageTradeAmount=Amount.split('.');
+					this.merchant.averageTradeNumbers=res.data.data.averageTradeNumbers;
+				}})
+				this.model.getCardBINTotal(this.searchData).then((res)=>{if(res.data.code===0){
+					this.cardBin.averageTradeNum=res.data.data.averageTradeNum;
+					let Amount=String(res.data.data.averageTradeAmount);
+					this.cardBin.averageTradeAmount=Amount.split('.');
+				}})
+				this.model.getOneCardTotal(this.searchData).then((res)=>{if(res.data.code===0){this.oneCard=res.data.data;}})
+			},
 		},
 		ready(){
-			this.tradeGET.startDate=this.times.lastWeek;
-			this.tradeGET.endDate=this.times.todayDate;
-			document.addEventListener('click', (e) => {
-                if (!e.target.classList.contains('showLi')) {
-                    this.resetName();
-                }
-            }, false);
+			this.initList();
+			this.echartRadar();
 		},
-		beforeDestroy () {
-            document.removeEventListener('click', this.resetName, false);
-        },
-        created(){
-			this.dateGetShow();
-        }
 	}
 </script>

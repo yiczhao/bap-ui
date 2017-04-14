@@ -1,16 +1,14 @@
 @mixin input-radio() {
-  vertical-align: middle;
   margin-right: 5px;
+  vertical-align: middle;
 }
 
 @mixin width-margin($width,$left) {
-  width: $width;
-  margin-left: $left;
+  margin-left: $left;width: $width;
 }
 
 @mixin width-lineheight($width,$lineh) {
-  width: $width;
-  line-height: $lineh;
+  width: $width;line-height: $lineh;
 }
 
 .branch-bank {
@@ -22,19 +20,21 @@
   }
   .kdialog{
     left:60%;
+    .primary:hover{
+      background-color: #e74c39 !important;
+    }
   }
   .form-group {
-    display: flex;
-    width: 650px;
-    margin: 0 auto 20px auto;
+    display: flex;display: flex;
+    margin: 0 auto 20px auto;width: 520px;
     .name-left {
       display: block;
       height: 36px;
       @include width-lineheight(100px, 36px);
       text-align: right;
       i {
-        color: red;
         margin-right: 5px;
+        color: red;
       }
     }
     .KSNRCheckbox {
@@ -48,13 +48,12 @@
       // text-align:right;
       margin-left: 15px;
       input[type="checkbox"] {
-        vertical-align: middle;
         margin-right: 5px;
+        vertical-align: middle;
       }
     }
     .catch-infor {
-      line-height: 36px;
-      margin-left: 15px;
+      margin-left: 15px;line-height: 36px;
     }
     .v-select {
       @include width-margin(485px, 15px);
@@ -88,8 +87,7 @@
       }
       .function-choose {
         float: left;
-        line-height: 36px;
-        margin-right: 15px;
+        margin-right: 15px;line-height: 36px;
         input {
           @include input-radio;
         }
@@ -102,6 +100,13 @@
       float:right;
       margin: 20px 20px 20px 0;
     }
+    .btn-info{
+      margin-left: 20px;
+      background-color:#66BB6A;
+    }
+    .btn-info:hover{
+      background-color:#4caf50;
+    }
   }
   .close-center {
     a {
@@ -109,7 +114,6 @@
     }
   }
   .span {
-    margin-left: 20px;
-    line-height: 2.7;
+    margin-left: 20px;line-height: 2.7;
   }
 }

@@ -1,7 +1,7 @@
 <template>
     <div class="latinos-batch">
         <activity-step :datas="datas" :showstep.sync="showstep"></activity-step>
-        <h5>宣传页面预览</h5>
+        <h5 class="padding-40">宣传页面预览</h5>
         <div class="batch-upload">
             <div class="up-load">
                 <div class="file"><input type="file" name=""></div>
@@ -45,7 +45,8 @@ export default{
     data(){
         this.model=model(this);
         return{
-            datas:['生成宣传页','选择用户'],
+            // datas:['生成宣传页','选择用户'],
+            datas:['选择用户'],
             showstep:0,
             id:'',
             bacthRule:{

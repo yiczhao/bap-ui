@@ -1,5 +1,8 @@
 <template>
 <activity-main :propclass="'basic-rule'" :showstep.sync="showstep">
+    <div class="rule-row m40">
+        活动基本信息
+    </div>
     <div class="rule-row">
         <div class="rule-label"><i>*</i>活动名称</div>
         <div class="rule-input">
@@ -20,7 +23,7 @@
         </div>
     </div> -->
     <div class="rule-row">
-        <div class="rule-label">活动预算</div>
+        <div class="rule-label"><i>&nbsp;</i>活动预算</div>
         <div class="rule-input">
             <input class="input" maxlength="8" type="text" v-model="addData.budget" v-limitaddprice="addData.budget" placeholder="请输入预算" />
             <span>元</span>
@@ -30,9 +33,12 @@
     <div class="rule-row">
         <div class="rule-label"><i>*</i>活动持续时间</div>
         <div class="rule-input">
-            <ks-date-picker @change="setincludeTimes" type="datetime" time="00:00:00" placeholder="活动时间" :value.sync="addData.startTime"></ks-date-picker>
-            <div class="m20">---</div>
-            <ks-date-picker @change="setincludeTimes" type="datetime" time="23:59:59" placeholder="活动时间" :value.sync="addData.endTime"></ks-date-picker>
+            <div class="inline">
+                <ks-date-picker @change="setincludeTimes" type="datetime" time="00:00:00" placeholder="活动时间" :value.sync="addData.startTime"></ks-date-picker>
+                <div class="m20">---</div>
+                <ks-date-picker @change="setincludeTimes" type="datetime" time="23:59:59" placeholder="活动时间" :value.sync="addData.endTime"></ks-date-picker>
+                <span class="all-time">活动持续<i>{{includeTimes.split(',').length}}</i>天/<i>{{Math.ceil(includeTimes.split(',').length / 7)}}</i>周</span>
+            </div>
         </div>
     </div>
     <div class="rule-row">
@@ -42,13 +48,13 @@
         </div>
     </div>
     <div class="rule-row">
-        <div class="rule-label">全天</div>
+        <div class="rule-label"><i>&nbsp;</i>全天</div>
         <div class="rule-input">
-            <ks-switch :color="'#2196F3'" :checked.sync="switch" @change="addtimesList"></ks-switch>
+            <ks-switch :color="'#ea6953'" :checked.sync="switch" @change="addtimesList"></ks-switch>
         </div>
     </div>
     <div class="rule-row" v-show="!switch">
-        <div class="rule-label">可选时间段</div>
+        <div class="rule-label"><i>&nbsp;</i>可选时间段</div>
         <!-- 时间多段设定 -->
         <div class="rule-input">
             <div class="db" v-for="n in timesList.length">
@@ -69,7 +75,7 @@
         </div>
     </div>
     <div class="rule-row">
-        <div class="rule-label"><i>*</i>删选时间</div>
+        <div class="rule-label">    删选时间</div>
         <div class="rule-input" style="position:relative;" v-ks-click-outside="close">
             <a @click="dater.show = true" class="btn btn-primary">删选时间</a>
             <div style="position:absolute;width: 233px;left: 0;top: 40px;">
@@ -82,8 +88,8 @@
     <div class="dashed"></div>
     <div class="rule-row">
         <div class="rule-label"><i>*</i>活动主题</div>
-        <div class="rule-input">
-            <textarea class="input textarea"
+        <div class="rule-input"> 
+            <textarea class="input textarea theme"
                       placeholder="最多可输入200个字符"
                       maxlength="200"
                       v-model="addData.subject" ></textarea>
@@ -92,22 +98,25 @@
     <div class="rule-row">
         <div class="rule-label"><i>*</i>活动细则</div>
         <div class="rule-input">
-            <textarea class="input textarea"
+            <textarea class="input textarea rule"
                       placeholder="最多可输入500个字符"
                       maxlength="500"
                       v-model="addData.detail"></textarea>
         </div>
     </div>
     <div class="rule-row">
-        <div class="bg-gray">
-            <div class="rule-input">
-                <span>消费短信提醒</span>
-                <ks-switch :color="'#2196F3'" :checked.sync="smsContentswitch" @change="addtimesList"></ks-switch>
-            </div>
-            <div class="rule-input">
-                <textarea v-show="smsContentswitch" class="input textarea" v-model="addData.smsContent"
-                          maxlength="56"
-                          placeholder="请输入发送内容：含标点符号56个汉字加上签名括号，签名必须前置。如【建设银行】尽享5折活动,单笔消费最高可优惠200元"></textarea>
+        <div class="rule-label"></div>
+        <div class="rule-input">
+            <div class="bg-gray">
+                <div class="rule-input">
+                    <span><i>&nbsp;</i>消费短信提醒</span>
+                    <ks-switch :color="'#ea6953'" :checked.sync="smsContentswitch"></ks-switch>
+                </div>
+                <div class="rule-input">
+                    <textarea v-show="smsContentswitch" class="input textarea" v-model="addData.smsContent"
+                              maxlength="56"
+                              placeholder="请输入发送内容：含标点符号56个汉字加上签名括号，签名必须前置。如【建设银行】尽享5折活动,单笔消费最高可优惠200元"></textarea>
+                </div>
             </div>
         </div>
     </div>
@@ -115,33 +124,39 @@
     <div class="rule-row">
         <div class="rule-label"><i>*</i>POS小票内容设置</div>
         <div class="rule-input pos-div">
-            <div class="pos-span">
-                <span @click="insertPosTicketWildcard('%DISRATE%')">用户折扣</span>
-                <span @click="insertPosTicketWildcard('%FAVORAMT%')">优惠金额</span>
-                <span @click="insertPosTicketWildcard('%DAYLEFT%')">当天剩余名额</span>
-                <span @click="insertPosTicketWildcard('%TOTALLEFT%')">总剩余名额</span>
-            </div>
             <div>
-                <textarea  v-el:pos-print  class="input textarea"
-                           v-model="addData.posPrint"
-                           :maxlength="77"
-                           placeholder="恭喜您，总共优惠了n（n=优惠金额）元"></textarea>
-            </div>
-            <div class="red">
-                注：插入“当天剩余名额”必须设置“限制条件：活动总次数中的“每天次数”。
-                插入“总剩余名额”必须设置“限制条件：活动总次数中的“总次数”。
+                <div class="pos-span">
+                    <!--<span @click="insertPosTicketWildcard('%DISRATE%')">用户折扣</span>-->
+                    <!--<span @click="insertPosTicketWildcard('%FAVORAMT%')">优惠金额</span>-->
+                    <!--<span @click="insertPosTicketWildcard('%DAYLEFT%')">当天剩余名额</span>-->
+                    <!--<span @click="insertPosTicketWildcard('%TOTALLEFT%')">总剩余名额</span>-->
+                    <span :class="{'tab-active':addData.posPrint.indexOf('%用户折扣%')>=0}" @click="insertPosTicketWildcard('%用户折扣%')">用户折扣<b v-show="(addData.posPrint.split('%用户折扣%').length-1) >0">*{{addData.posPrint.split('%用户折扣%').length-1}}</b></span>
+                    <span :class="{'tab-active':addData.posPrint.indexOf('%优惠金额%')>=0}" @click="insertPosTicketWildcard('%优惠金额%')">优惠金额<b v-show="addData.posPrint.split('%优惠金额%').length-1 >0">*{{addData.posPrint.split('%优惠金额%').length-1}}</b></span>
+                    <span :class="{'tab-active':addData.posPrint.indexOf('%当天剩余名额%')>=0}" @click="insertPosTicketWildcard('%当天剩余名额%')">当天剩余名额<b v-show="addData.posPrint.split('%当天剩余名额%').length-1 >0">*{{addData.posPrint.split('%当天剩余名额%').length-1}}</b></span>
+                    <span :class="{'tab-active':addData.posPrint.indexOf('%总剩余名额%')>=0}" @click="insertPosTicketWildcard('%总剩余名额%')">总剩余名额<b v-show="addData.posPrint.split('%总剩余名额%').length-1 >0">*{{addData.posPrint.split('%总剩余名额%').length-1}}</b></span>
+                </div>
+                <div>
+                    <textarea  v-el:pos-print  class="input textarea"
+                               v-model="addData.posPrint"
+                               :maxlength="77"
+                               placeholder="恭喜您，总共优惠了n（n=优惠金额）元"></textarea>
+                </div>
+                <div class="red">
+                    注：插入“当天剩余名额”必须设置“限制条件：活动总次数中的“每天次数”。
+                    插入“总剩余名额”必须设置“限制条件：活动总次数中的“总次数”。
+                </div>
             </div>
         </div>
     </div>
     <div class="rule-row">
-        <div class="rule-label">二维码</div>
+        <div class="rule-label"><i>&nbsp;</i>二维码</div>
         <div class="rule-input">
             <input class="input" type="text" v-model="addData.qrcodeUrl" placeholder="请输入POS小票上需要打印的二维码链接" />
         </div>
     </div>
-    <div class="rule-row tc">
-        <a class="btn btn-gray" @click="submitAdd(false)">保存草稿</a>
+    <div class="rule-row tc footer-btns">
         <a class="btn btn-primary" @click="submitAdd(true)">下一步</a>
+        <a @click="submitAdd(false)">保存为草稿</a>
     </div>
 </activity-main>
 </template>
@@ -230,9 +245,9 @@
                 })
                 return newIncludeTimes;
             },
-            setincludeTimes(){
+            setincludeTimes(val){
                 if(!this.addData.startTime||!this.addData.endTime){
-                    this.includeTimes=this.addData.startTime.split(' ')[0]||this.addData.endTime.split(' ')[0];
+                    this.includeTimes=this.addData.startTime||this.addData.endTime;
                     return;
                 }
                 if(this.addData.startTime>this.addData.endTime){
@@ -307,36 +322,6 @@
                 })
                 return arr;
             },
-            // getProvince(){
-            //     this.$common_model.getProvince().then((res)=>{
-            //         if(res.data.code===0){
-            //             this.$set('provinceList',res.data.data);
-            //         }
-            //     })
-            // },
-            // initCity(){
-            //     if(!this.addData.province)return;
-            //     let data={
-            //         province:this.addData.province
-            //     }
-            //     this.$common_model.getCity(data).then((res)=>{
-            //         if(res.data.code===0){
-            //             this.$set('cityList',res.data.data);
-            //         }
-            //     })
-            // },
-            // getCity(){
-            //     this.addData.city='';
-            //     if(!this.addData.province)return;
-            //     let data={
-            //         province:this.addData.province
-            //     }
-            //     this.$common_model.getCity(data).then((res)=>{
-            //         if(res.data.code===0){
-            //             this.$set('cityList',res.data.data);
-            //         }
-            //     })
-            // },
             settimesList(data){
                 // 解析 req 数据
                 let times=[];
@@ -402,6 +387,11 @@
                 data.timesList=this.gettimesList(this.timesList);
                 data.uuid =JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
                 data.organizer =JSON.parse(sessionStorage.getItem('loginList')).organizerID;
+                data.posPrint=data.posPrint.replace(new RegExp(/(用户折扣)/g),'DISRATE');
+                data.posPrint=data.posPrint.replace(new RegExp(/(优惠金额)/g),'FAVORAMT');
+                data.posPrint=data.posPrint.replace(new RegExp(/(当天剩余名额)/g),'DAYLEFT');
+                data.posPrint=data.posPrint.replace(new RegExp(/(总剩余名额)/g),'TOTALLEFT');
+                data.smsContent=!this.smsContentswitch?'':data.smsContent;
                 if (true) {
                     try {
                         this.verifyField(data)
@@ -412,6 +402,7 @@
                 }
                 !!sessionStorage.getItem('activityId')?data.id=sessionStorage.getItem('activityId'):(data.id=this.$route.params.activityId << 0 ===0?'':this.$route.params.activityId << 0 );
                 data.includeTimesList=this.includeTimes.split(',');
+                (this.$route.params.rulename==='Ticket')?data.actType='ticket_act':data.actType='common_act';
                 this.model.addBasic(data).then((res)=>{
                     if(res.data.code===0){
                         let activityId = this.$route.params.activityId << 0;
@@ -438,7 +429,6 @@
             insertPosTicketWildcard (wildcard) {
                 let posPrintTextarea = this.$els.posPrint
                 let ABM = this.addData
-
                 if (typeof posPrintTextarea.selectionStart === 'number' &&
                         typeof posPrintTextarea.selectionEnd === 'number') {
                     let startPos = posPrintTextarea.selectionStart
@@ -452,7 +442,7 @@
                     ABM.posPrint = resultStr
 
                     // 将光标移动到文本段末尾
-                    cursorPos += tStr.length
+                    cursorPos += resultStr.length
                     posPrintTextarea.selectionStart = posPrintTextarea.selectionEnd = cursorPos
                 } else {
                     ABM.posPrint += wildcard
@@ -467,6 +457,11 @@
             if (activityId) {
                 // 获取活动信息
                 this.model.getAddList(activityId).then((res)=>{
+                    res.data.data.posPrint=res.data.data.posPrint.replace(new RegExp(/(DISRATE)/g),'用户折扣');
+                    res.data.data.posPrint=res.data.data.posPrint.replace(new RegExp(/(FAVORAMT)/g),'优惠金额');
+                    res.data.data.posPrint=res.data.data.posPrint.replace(new RegExp(/(DAYLEFT)/g),'当天剩余名额');
+                    res.data.data.posPrint=res.data.data.posPrint.replace(new RegExp(/(TOTALLEFT)/g),'总剩余名额');
+                    this.smsContentswitch=!res.data.data.smsContent?false:true;
                     this.$set('addData',res.data.data);
                     this.$set('weeksList',this.setweeks(res.data.data.weeksList,this.weeksList));
                     this.$set('timesList',this.settimesList(res.data.data.timesList));

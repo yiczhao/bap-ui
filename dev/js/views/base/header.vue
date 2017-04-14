@@ -1,6 +1,7 @@
 <template>
     <div class="header">
-        <div class="header-title">银行活动管理系统</div>
+        <div class="header-logo"></div>
+        <div class="header-title">场景全支付增值平台</div>
         <div class="header-infor">
             <div class="img-area">
                 <img class="logo-img" :src="bankLogo" v-show="!!bankLogo" alt="">
@@ -9,8 +10,7 @@
                 <span>{{bankName}}</span>
                 <span>{{name}}</span>
             </div>
-            <div class="function-click">
-                <a @click="loginOut">退出</a>
+            <div class="function-click" @click="loginOut">
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
 .clearfix:before,.clearfix:after{
-	content:"";
 	display:table;
+	content:"";
 }
 .clearfix:after{clear:both;}
 .clearfix{
@@ -9,13 +9,10 @@
 .activity-rule{
 	padding-top: 20px;
 	.dashed{
-		border-bottom: 1px dotted #c8c8c8;
-		margin: 25px;
-		width: 90%;
+		margin: 25px;width: 90%;border-bottom: 1px dotted #c8c8c8;
 	}
 	.rule-row{
-		padding: 0 20px;
-		margin: 0 auto 20px;
+		padding: 0 20px;margin: 0 auto 20px;
 		@extend .clearfix;
 		font-size: 15px;
 		h3{
@@ -24,52 +21,43 @@
 				color: red;
 			}
 		}
+
 		.rule-input{
 			@extend .clearfix;
-			min-width: 500px;
-			padding-left: 30px;
+			padding-left: 30px;min-width: 500px;
 			& > div,& > span,& > input,& > select,& > a{
 				float: left;
-				margin-right: 10px;
-				margin-top: 15px;
+				margin-right: 10px;margin-top: 15px;
 			}
 			& > .select{
 				width: 250px;
 			}
 			.db{
 				display: block;
-				width: 100%;
-				margin-top: 0px;
+				margin-top: 0px;width: 100%;
 				.select{
 					width:195px;
 				}
 				& > div,& > span,& > input,& > select,& > a{
 					float: left;
-					margin-right: 10px;
-					margin-top: 15px;
+					margin-right: 10px;margin-top: 15px;
 				}
 			}
 			.db:first-child{
 				margin-top: 0;
 			}
 			.icon-add,.icon-remove{
-				font-size: 24px;
-				color: #2196F3;
-				margin: 19px 0 4px 5px;
-				cursor: pointer;
-				float: left;
+				margin: 19px 0 4px 5px;float: left;
+				font-size: 24px;color: #ea6953;cursor: pointer;
 			}
 			.icon-remove{
 				color:#666;
 			}
 			.m20{
-				margin: 0 10px;
-				position: relative;
-				top: -15px;
+				margin: 0 10px;position: relative;top: -15px;
 			}
 			.KSNRCheckbox{
-				margin-right:10px;
-				top: -3px;
+				margin-right:10px;top: -3px;
 			}
 		}
 		.rule-label,.rule-input{

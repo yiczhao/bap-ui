@@ -16,7 +16,7 @@
           <k-button class="r" type="primary" size="xl"
                     style="width: 90px;margin-left: 5px;"
                     @kclick="$emit('kok')"
-          >确定</k-button>
+          >提交</k-button>
           <k-button class="r" type="dark" :ghost="true"
                     size="xl" style="width: 90px;"
                     @kclick="$emit('kcancel')" v-if="isCancel"
@@ -62,6 +62,7 @@
   .kdialog-mask {
     writing-mode: vertical-lr;
     text-align: center;
+    z-index: 1000005;
   }
   .kdialog-mask-shadow {
     writing-mode: horizontal-tb;
@@ -118,8 +119,7 @@
   }
 
   .kdialog__header--infos{
-    margin: 0 20px;
-    padding: 20px 0;
+    padding: 20px 20px;
     border-bottom: 1px solid #e0e0e0;
      .title,.kdialog__close{
       color:#444;
@@ -127,7 +127,7 @@
        &:active {background: #fff;color: #444}
      }
     .kdialog__close{
-      right: 0;
+      right: 20px;
     }
   }
     // 内容区样式

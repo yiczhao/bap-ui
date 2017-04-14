@@ -1,14 +1,32 @@
 <template>
     <div class="rule-input" v-for="(index,n) in submitdata">
         <span>随机立减</span>
-        <input class="input" type="text" v-model="n.amount" v-limitaddprice="n.amount"/>
-        <span>元</span>
-        <input class="input" type="text" v-model="n.number" v-limitnumber="n.number"/>
-        <span>名</span>
-        <i v-if="index===0" class="icon-add" @click="submitdata.push({'amount':'','number':''})"></i>
-        <i v-if="index!==0" class="icon-remove" @click="submitdata.splice(index,1)"></i>
+        <input class="input padding-input" type="text" v-model="n.amount" v-limitaddprice="n.amount"/>
+        <span class="margin-span">元</span>
+        <input class="input padding-input" type="text" v-model="n.number" v-limitnumber="n.number"/>
+        <span class="margin-span">名</span>
+        <i v-if="index===0" class="icon-add" @click="submitdata.push({'amount':'','number':''})">新增一条</i>
+        <i v-if="index!==0" class="icon-remove" @click="submitdata.splice(index,1)">删除一条</i>
     </div>
 </template>
+<style type="text/css" scoped>
+    .padding-input{
+        width:90px !important ;
+        padding-right: 28px !important;
+    }
+    .margin-span{
+        margin-left: -35px !important;
+    }
+    .icon-add,.icon-remove{
+        margin-top: 24px!important;
+        font-size: 15px!important;
+        color: #159ff7!important;
+    }
+    .icon-add:before,.icon-remove:before{
+        content:'';
+        padding-right: 5px!important;
+    }
+</style>
 <script type="text/javascript">
     export default{
         data(){

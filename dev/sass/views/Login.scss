@@ -11,33 +11,21 @@ $color:#ddd;
 	cursor: default;
 }
 #app{
-	width:100%;
-	height:100%;
-	min-height: 768px;
+	width:100%;height:100%;min-height: 768px;
 	.login-container{
-		width:100%;
-		height:100%;
-		background-image:url("../img/bankbg.jpg");
-		background-size:100% 100%;
-		background-repeat:no-repeat;
+		width:100%;height:100%;
+		background-image:url("../img/bankbg.jpg");background-size:100% 100%;background-repeat:no-repeat;
 		.container{
-			width:1280px;
-			height:100%;
-			margin:auto;
+			margin:auto;width:1280px;height:100%;
 			.header{
-				background-color:rgba(0,0,0,0);
 				line-height: 50px;
+				background-color:rgba(0,0,0,0);
 				.header-left{
-					display: flex;
-				    float: left;
+					float: left;display: flex;
 				    font-size: 18px;
 				    .header-logo{
-				    	background-image:url("../img/logo横版.png");
-				    	background-repeat:no-repeat;
-				    	background-size: 100%;
-						height: 32px;
-						width: 135px;
-						margin-top: 9px;
+						margin-top: 9px;height: 32px;width: 135px;
+				    	background-image:url("../img/logo横版.png");background-repeat:no-repeat;background-size: 100%;
 				    }
 				    .header-text{
 				    	margin-left:5px;
@@ -45,21 +33,12 @@ $color:#ddd;
 				    }
 				}
 				.header-right{
-					display:flex;
-					float: right;
+					float: right;display:flex;
 				    font-size: 12px;
 				    .change-language{
-						height: 24px;
-						width: 65px;
-						margin:13px 0 0 10px;
-						line-height: 24px;
-				    	background-repeat:no-repeat;
-						background-size: 43%;
-						background-position:4px 3px;
-						border-radius: 4px;
-						-webkit-cursor: pointer;
-						-moz-cursor: pointer;
-						-ms-cursor: pointer;
+						margin:13px 0 0 10px;height: 24px;width: 65px;line-height: 24px;border-radius: 4px;
+				    	background-repeat:no-repeat;background-size: 43%;background-position:4px 3px;
+						-webkit-cursor: pointer;-moz-cursor: pointer;-ms-cursor: pointer;
 						cursor: pointer;
 				    	span{
 							padding-left: 37px;
@@ -71,8 +50,7 @@ $color:#ddd;
 				    .english{
 						// background-image:url("../img/english.png");
 						width: 89px;
-						background-size: 35%;
-						background-position: 2px 2px;
+						background-size: 35%;background-position: 2px 2px;
 						span{
 							padding-left:40px;
 						}
@@ -80,36 +58,27 @@ $color:#ddd;
 				}
 			}
 			.section{
-				text-align:center;
-				z-index: 2;
+				text-align:center;z-index: 2;
 				.section-title{
-					color:#fff;
-					font-size:26px;
-					margin-top: 5vw;
+					margin-top: 10vw;
+					color:#fff;font-size:30px;
 					@include user-select-default();
 				}
 				.section-infor{
-					width: 580px;
-					margin: auto;
+					margin-top: 20px;margin: auto;width: 580px;
 					color: #aaaca8;
-					margin-top: 20px;
 					@include user-select-default();
 				}
 				.section-about{
 					display: flex;
-					width: 260px;
-					margin: auto;
+					margin: auto;margin-top:10px;width: 260px;
 					color: #fff;
-					margin-top:10px;
 					@include user-select-default();
 					div{
 						span{
 							display: inline-block;
-							width: 10px;
-							height: 10px;
+							width: 10px;height: 10px;margin: 0 5px;border-radius: 50px;
 							background-color: #fe8800;
-							border-radius: 50px;
-							margin: 0 5px;
 						}
 					}
 					div:not(:first-child){
@@ -118,30 +87,21 @@ $color:#ddd;
 				}
 				.section-type{
 					display:flex;
-					width: 845px;
-					line-height: 36px;
-					margin: auto;
-					margin-top: 83px;
+					width: 845px;line-height: 36px;margin: auto;margin-top: 83px;
 					.type-title{
 						color: #fff;
 						font-size: 16px;
 						span{
-							color: #f48302;
-							font-size: 14px;
 							padding-left: 5px;
+							color: #f48302;font-size: 14px;
 						}
 					}
 					.type-into{
-						border-bottom: 1px solid #fff;
-						margin-left: 15px;
+						margin-left: 15px;border-bottom: 1px solid #fff;
 						.input{
+							padding-left: 28px;border-color: transparent;
+							background-color: transparent;background-repeat:no-repeat;background-size: 9%;background-position: -2px 6px;
 							color: #fff;
-							border-color: transparent;
-							padding-left: 28px;
-							background-color: transparent;
-							background-repeat:no-repeat;
-							background-size: 9%;
-							background-position: -2px 6px;
 						}
 					}
 					.username{
@@ -162,42 +122,27 @@ $color:#ddd;
 						.input-check{
 							width:140px;
 							.input{
-								background-size: 10%;
-								background-image:url("../img/security.png");
+								background-size: 10%;background-image:url("../img/security.png");
 							}
 						}
 						.img{
-							float: left;
-							display: block;
-							width: 42px;
-							height: 20px;
-							margin-top: 8px;
-							border: 1px solid rgba(255,255,255,0.5);
+							float: left;display: block;
+							width: 42px;height: 20px;margin-top: 8px;border: 1px solid rgba(255,255,255,0.5);
 							img{
 								height:100%;
-				    			-webkit-cursor: pointer;
-								-moz-cursor: pointer;
-								-ms-cursor: pointer;
-								cursor: pointer;
+				    			-webkit-cursor: pointer;-moz-cursor: pointer;-ms-cursor: pointer;cursor: pointer;
 							}
 						}
 						.icon{
-							width: 20px;
-							height: 20px;
-							color: #0586dd;
-							margin-top: 10px;
-							margin-left: 5px;
-							-webkit-cursor: pointer;
-							-moz-cursor: pointer;
-							-ms-cursor: pointer;
-							cursor: pointer;
+							margin-top: 10px;margin-left: 5px;width: 20px;height: 20px;
+							color: #0586dd; cursor: pointer;-webkit-cursor: pointer;-moz-cursor: pointer;-ms-cursor: pointer;
 						}
 					}
 					.save-password{
 						margin-left: 15px;
 						span{
-							color: #fff;
 							padding-left: 5px;
+							color: #fff;
 						}
 					}
 				}
@@ -207,10 +152,12 @@ $color:#ddd;
 						width: 160px;
 						background-color: #e76b5f;
 					}
+					.btn-primary:hover{
+						background-color: #e74c39!important;
+					}
 				}
 				.forget-password{
-					padding-left: 325px;
-					margin-top: -29px;
+					padding-left: 325px;margin-top: -29px;
 					z-index: 0;
 					a{
 						color:#ccc;
@@ -221,24 +168,19 @@ $color:#ddd;
 				}
 			}
 		}
-		.footer{
-			width:100%;
-			height:152px;
-			margin-top:-152px;
+		.login_footer{
+			margin-top:-152px;height:152px;
+			background-color:#fff;
 			@include user-select-default();
 			.footer-container{
-				width:1280px;
-				margin:auto;
-				padding-top: 20px;
+				margin:auto;padding-top: 20px;width:1280px;
 				.footer-title{
-					font-weight: bold;
-					color: #666666;
+					font-weight: bold;color: #666666;
 				}
 				.footer-infor{
-					display: flex;
-					color: #999999;
-					font-size: 12px;
 					margin-top:15px;
+					display: flex;
+					color: #999999;font-size: 12px;
 					div{
 						flex:1;
 						span{

@@ -165,7 +165,8 @@
 .KsDatePicker{ @extend %date; position: relative; }
 
 // 日期样式——周——范围——纯净
-.KsDaterMulti{ 
+.KsDaterMulti{
+	z-index: 99;
 	@extend %picker-wrap;
 	_date{
 		_btn{ border-top: 1px solid $bor-color; }
