@@ -47,7 +47,7 @@
   @import "./style/bootstrap";
 
   $buttonSize: "ssl" "sl" "normal" "xl" "xxl";
-  $buttonSizeExt: 30px 12px, 32xp 13px, 34px 13px, 38px 16px, 40px 18px;
+  $buttonSizeExt: 30px 12px, 32xp 13px, 34px 13px, 37px 16px, 40px 18px;
 
   @mixin buttonFactory ($order) {
     @each $type, $colors in $order {

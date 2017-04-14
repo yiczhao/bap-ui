@@ -173,7 +173,7 @@
                 :show.sync="infoshow" :is-button="false" :type.sync="'infos'"
                 :title.sync="'查看详情'"
         >
-            <div class="infor-user">
+            <div class="create-user">
                 <div class="form-group">
                     <label class="name-left"><i>*</i>银行名称</label>
                     <span class="catch-infor">{{addList.bankName}}</span>
@@ -205,41 +205,54 @@
                 <div class="form-group">
                     <label class="name-left"><i>*</i>功能级</label>
                     <div class="function-area">
-                        <template v-for="n in privileges" v-if="n.type==1">
-                            <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
-                                <span>卡类{{n.name}}</span>
-                            </ks-checkbox>
-                        </template>
-                        <template v-for="n in privileges" v-if="n.type==2">
-                            <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
-                                <span>券码{{n.name}}</span>
-                            </ks-checkbox>
-                        </template>
-                        <template v-for="n in privileges" v-if="n.type==3">
-                            <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
-                                <span>{{n.name}}</span>
-                            </ks-checkbox>
-                        </template>
-                        <template v-for="n in privileges" v-if="n.type==4">
-                            <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
-                                <span>终端{{n.name}}</span>
-                            </ks-checkbox>
-                        </template>
-                        <template v-for="n in privileges" v-if="n.type==5">
-                            <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
-                                <span>商户{{n.name}}</span>
-                            </ks-checkbox>
-                        </template>
-                        <template v-for="n in privileges" v-if="n.type==6">
-                            <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
-                                <span>{{n.name}}</span>
-                            </ks-checkbox>
-                        </template>
-                        <template v-for="n in privileges" v-if="n.type==7">
-                            <ks-checkbox :disable="true" @change="getCheckAll" :checked.sync="n.selected" :name="n.name">
-                                <span>{{n.name}}</span>
-                            </ks-checkbox>
-                        </template>
+                        <div class="choose-checkbox">
+                            <div class="checkAll disable" :class="{'checked':checkAll[0]}"><b></b><span>卡类活动</span></div>
+                            <template v-for="n in privileges" v-if="n.type==1">
+                                <ks-checkbox  :disable="true" :checked.sync="n.selected" :name="n.name">
+                                    <span>卡类{{n.name}}</span>
+                                </ks-checkbox>
+                            </template>
+                        </div>
+                        <div class="choose-checkbox">
+                            <div class="checkAll disable" :class="{'checked':checkAll[1]}"><b></b><span>券码活动</span></div>
+                            <template v-for="n in privileges" v-if="n.type==2">
+                                <ks-checkbox  :disable="true" :checked.sync="n.selected" :name="n.name">
+                                    <span>券码{{n.name}}</span>
+                                </ks-checkbox>
+                            </template>
+                        </div>
+                        <div class="choose-checkbox">
+                            <div class="checkAll disable" :class="{'checked':checkAll[2]}"><b></b><span>查询</span></div>
+                            <template v-for="n in privileges" v-if="n.type==3">
+                                <ks-checkbox  :disable="true" :checked.sync="n.selected" :name="n.name">
+                                    <span>{{n.name}}</span>
+                                </ks-checkbox>
+                            </template>
+                        </div>
+                        <div class="choose-checkbox">
+                            <div class="checkAll disable" :class="{'checked':checkAll[3]}"><b></b><span>终端管理</span></div>
+                            <template v-for="n in privileges" v-if="n.type==4">
+                                <ks-checkbox  :disable="true" :checked.sync="n.selected" :name="n.name">
+                                    <span>{{n.name}}</span>
+                                </ks-checkbox>
+                            </template>
+                        </div>
+                        <div class="choose-checkbox">
+                            <div class="checkAll disable" :class="{'checked':checkAll[4]}"><b></b><span>商户管理</span></div>
+                            <template v-for="n in privileges" v-if="n.type==5">
+                                <ks-checkbox  :disable="true" :checked.sync="n.selected" :name="n.name">
+                                    <span>{{n.name}}</span>
+                                </ks-checkbox>
+                            </template>
+                        </div>
+                        <div class="choose-checkbox">
+                            <div class="checkAll disable" :class="{'checked':checkAll[6]}"><b></b><span>设置</span></div>
+                            <template v-for="n in privileges" v-if="n.type==7">
+                                <ks-checkbox  :disable="true" :checked.sync="n.selected" :name="n.name">
+                                    <span>{{n.name}}</span>
+                                </ks-checkbox>
+                            </template>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group close-center">
@@ -249,9 +262,14 @@
         </content-dialog>
     </div>
 </template>
-<style type="text/css">
-    .user-config .kdialog__btnwrap{
-        padding-top:0;padding-bottom:0;height:65px;
+<style lang="scss">
+    .user-config{
+        .kdialog__btnwrap{
+            padding-top:0;padding-bottom:0;height:65px;
+        }
+        .disable b{
+            background: rgba(77, 77, 77, 0.1);
+        }
     }
 </style>
 <script type="text/javascript">
@@ -387,12 +405,21 @@
                 this.addTitle='新增用户';
                 this.getBankList();
                 this.addshow=true;
+                this.clear();
+            },
+            clear(){
+                    this.checkText.bankName=false;
+                    this.checkText.name=false;
+                    this.checkText.phone=false;
+                    this.checkText.curPassword=false;
+                    this.checkText.privilegeIDs=false;
             },
             showInfo(_id){
                 this.model.getUserInfo(_id).then((res)=>{
                     if(res.data.code===0){
                         this.$set('addList',res.data.data);
                         this.$set('privileges',res.data.data.privilegeList);
+                        this.getCheckAll();
                         this.infoshow=true;
                     }
                 })
@@ -459,6 +486,7 @@
             },
             addUserTrue(){
                 if(this.checkedData()){
+                    this.addList.privilegeList=_.cloneDeep(this.privileges);
                     this.model.addUser(this.addList).then((res)=>{
                         if(res.data.code===0){
                             dialog('success',res.data.message)
@@ -469,6 +497,7 @@
             },
             editUserTrue(){
                 if(this.checkedData()){
+                    this.addList.privilegeList=_.cloneDeep(this.privileges);
                     this.model.editUser(this.addList).then((res)=>{
                         if(res.data.code===0){
                             dialog('success',res.data.message)

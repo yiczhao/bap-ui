@@ -3,7 +3,7 @@
     <div class="rule-row">
         <div class="rule-label"><i>*</i>权益名称</div>
         <div class="rule-input">
-            <input class="input" type="text" v-model="latinosData.favorName" placeholder="请输入权益名称" />
+            <input class="input" type="text" v-model="latinosData.name" placeholder="请输入权益名称" />
         </div>
     </div>
     <div class="rule-row">
@@ -78,7 +78,7 @@
         </div>
     </div>
     <div class="rule-row">
-        <div class="rule-label"><i>*</i>规则描述</div>
+        <div class="rule-label">规则描述</div>
         <div class="rule-input">
             <textarea class="textarea" v-model="latinosData.description"></textarea>
         </div>
@@ -141,7 +141,7 @@
                     receiveEndTime:'',
                     receiveStartTime:'',
                     validPeriod:-1,
-                    favorName:'',
+                    name:'',
                     total:'',
                     totalOneDay:'',
                     description:'',
@@ -218,10 +218,9 @@
                 let errMapper = {
                     receiveEndTime:'权益领取开始时间',
                     receiveStartTime:'权益领取结束时间',
-                    favorName:'权益名称',
                     total:'权益总数量',
                     totalOneDay:'权益每天数量',
-                    description:'规则描述',
+                    name:'权益名称'
                 }
                 // 检测是否存在未填写项
                 for (let k in data) {
@@ -235,6 +234,9 @@
                 // 活动时间检查
                 if (data.endTime <= data.startTime) {
                     throw new Error('活动开始时间不能大于等于活动结束时间!')
+                }
+                if (+data.total < +data.totalOneDay) {
+                    throw new Error('权益每天数量不能大于权益总数量!')
                 }
                 if(this.latinosData.hasWeeksAndTimes){
                     // 活动时间段检查
@@ -463,17 +465,19 @@
                     this.latinosData.description=this.getRules(res.data.data);
                     if(!_.isEmpty(res.data.data.favorConfigs)){
                         this.addFirst=false;
-                        this.model.searchReceive(this.favorList[this.favorList.length-1].id).then((res)=>{
-                            this.$set('latinosData',res.data.data);
-                            this.$set('weeksList',this.setweeks(this.latinosData.weeksList,this.weeksList));
-                            this.$set('timesList',this.settimesList(this.latinosData.timesList));
+                        this.model.searchReceive(res.data.data.favorConfigs[this.favorList.length-1].favorId).then((res)=>{
+                            if(res.data.code===0){
+                                this.$set('latinosData',res.data.data);
+                                this.$set('weeksList',this.setweeks(this.latinosData.weeksList,this.weeksList));
+                                this.$set('timesList',this.settimesList(this.latinosData.timesList));
+                            }
                         })
                     }else{
                         this.addFirst=true;
                     }
                 })
             };
-            (this.$route.params.latinosName!=':latinosName')?this.latinosData.favorName=this.$route.params.latinosName:null;
+            (this.$route.params.latinosName!=':latinosName')?this.latinosData.name=this.$route.params.latinosName:null;
         },
         components: { activityMain }
     }

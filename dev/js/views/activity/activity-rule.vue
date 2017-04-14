@@ -90,16 +90,16 @@
 </activity-main>
 </template>
 <style lang="scss">
+.activity-rule .rule-row .rule-input .checked{
+    background-color: #ea6953!important;color: #fff!important;
+}
+.activity-rule .rule-row .rule-input .span{
+    padding: 0 20px;margin-top: 0;
+    color: #777777;background-color: #ededed;cursor: pointer;
+}
 .activity-rule{
     .KSNRCheckbox__skin{
             opacity: 0;
-        }
-        .activity-rule .rule-row .rule-input .span{
-            padding: 0 20px;margin-top: 0;
-            color: #777777;background-color: #ededed;cursor: pointer;
-        }
-        .activity-rule .rule-row .rule-input .checked{
-            background-color: #ea6953;color: #fff;
         }
         .reset h3{
             float: left;
@@ -383,13 +383,10 @@
                               _.map(res.data.data.tickets,(val)=>{
                                   ticketData.push({'ticketId':val.id,'ticketName':val.name});
                               })
-                              sessionStorage.setItem('ticketData',JSON.stringify(ticketData))
-                              this.$router.go({'name':'latinos-receive',params:{'receiveId':submitData.id}});
+                              sessionStorage.setItem('ticketData',JSON.stringify(ticketData));
+                              (sessionStorage.getItem('props')==='online')?this.$router.go({'name':'latinos-receive',params:{'receiveId':submitData.id}}):this.$router.go({'name':'ticketbussiness-set','params':{"bactivityId":submitData.id }});
                           }else{
-//                              this.$router.go({'name':'bussiness-set','params':{"bactivityId":submitData.id }});
-                              // this.$router.go({'name':'latinos-receive'});
-                              // this.$router.go({'name':'bussiness-set','params':{"bactivityId":submitData.id }});
-                              this.$router.go({'name':'latinos-receive',params:{'receiveId':submitData.id}});
+                              (sessionStorage.getItem('props')==='online')?this.$router.go({'name':'latinos-receive',params:{'receiveId':submitData.id}}):this.$router.go({'name':'bussiness-set','params':{"bactivityId":submitData.id }});
                           }
                       }else{
                           dialog('successTime','草稿保存成功！')

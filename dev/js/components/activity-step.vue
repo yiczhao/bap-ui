@@ -1,7 +1,8 @@
 <template>
     <div class="rule-step"> 
         <div v-for="(index,n) in datas" class="pr" :class="{'active':showstep==index}">
-            {{index+1}}.{{n}}
+            <!-- {{index+1}}.{{n}} -->
+            {{n}}
         </div>
     </div>
 </template>

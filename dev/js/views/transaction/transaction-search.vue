@@ -78,7 +78,10 @@
                     <tr v-for="n in dataList">
                         <td>{{n.activityName}}</td><!-- 活动名称 -->
                         <td>{{n.bankUuidsName}}</td><!-- 发起方 -->
-                        <td><span v-if="n.subType==online">线上</span><span v-else>线下</span></td><!-- 子类型 -->
+                        <td>
+                            <template v-if="n.subType=='online'">线上</template><!-- 子类型 -->
+                            <template v-else>线下</template>
+                        </td>
                         <td>{{n.activitStatus}}</td><!-- 活动状态 -->
                         <td>{{n.totalNumber}}</td><!-- 总笔数 -->
                         <td>{{n.totalAmount}}</td><!-- 总金额 -->
@@ -99,8 +102,8 @@
                 :page_current.sync="searchData.pageIndex"
                 :total="objectotalNumber"
                 :page_size.sync="searchData.pageSize"
-                v-on:current_change="getList"
-                v-on:size_change="getList"
+                v-on:current_change="sizeChange"
+                v-on:size_change="sizeChange"
                 ></pagegroup>
         </div>
     </div>
@@ -281,7 +284,7 @@
                     if(res.data.code===0){
                         this.$set('cumulative',res.data.data);
                         this.tradeEchart('num-echart',this.cumulative.totalNumber,'交易总笔数','#e76b5f');
-                        this.tradeEchart('amount-echart',this.cumulative.totalAmount,'交易总金额','#ffcf7a','#ffcf7a');
+                        this.tradeEchart('amount-echart',this.cumulative.totalAmount,'交易总金额','#ffcf7a');
                         this.tradeEchart('disAmoun-echart',this.cumulative.canDisAmount,'可打折金额','#b6d15d',this.cumulative.totalAmount-this.cumulative.canDisAmount,'#ffcf7a');
                         this.tradeEchart('pay-echart',this.cumulative.payAmount,'实付总金额','#3ba686',this.cumulative.totalAmount-this.cumulative.payAmount,'#f0f0f0');
                         this.tradeEchart('subsidy-echart',this.cumulative.subsidyAmount,'补贴总金额','#163b7d',this.cumulative.totalAmount,'#f0f0f0');
@@ -289,6 +292,14 @@
                         this.trade_echart=0;
                     }
                 });
+            },
+            sizeChange(){
+                this.model.getList(this.searchData).then((res)=>{
+                    if(res.data.code===0){
+                        this.$set('dataList',res.data.dataList);
+                        this.objectotalNumber=res.data.objectotalNumber;
+                    }
+                })
             },
             getBankList(){
                 let data={

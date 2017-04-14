@@ -3,7 +3,7 @@
         <div class="rule-row">
             <div class="rule-label"><i>*</i>权益名称</div>
             <div class="rule-input">
-                <input class="input" type="text" v-model="latinosData.favorName" placeholder="请输入权益名称" readonly/>
+                <input class="input" type="text" v-model="latinosData.name" placeholder="请输入权益名称" readonly/>
             </div>
         </div>
         <div class="rule-row">
@@ -78,7 +78,7 @@
             </div>
         </div>
         <div class="rule-row">
-            <div class="rule-label"><i>*</i>规则描述</div>
+            <div class="rule-label">规则描述</div>
             <div class="rule-input">
                 <textarea class="textarea" v-model="latinosData.description"></textarea>
             </div>
@@ -214,8 +214,7 @@
                     receiveStartTime:'权益领取结束时间',
                     favorName:'权益名称',
                     total:'权益总数量',
-                    totalOneDay:'权益每天数量',
-                    description:'规则描述',
+                    totalOneDay:'权益每天数量'
                 }
                 // 检测是否存在未填写项
                 for (let k in data) {
@@ -229,6 +228,9 @@
                 // 活动时间检查
                 if (data.endTime <= data.startTime) {
                     throw new Error('活动开始时间不能大于等于活动结束时间!')
+                }
+                if (+data.total < +data.totalOneDay) {
+                    throw new Error('权益每天数量不能大于权益总数量!')
                 }
                 if(this.latinosData.hasWeeksAndTimes){
                     // 活动时间段检查
@@ -272,6 +274,9 @@
                         this.model.getOnOff(data.favorId,'ON').then((res)=>{
                             if(res.data.code===0){
                                 dialog('successTime','保存成功！');
+                                setTimeout(()=>{
+                                    this.$router.go({'name':'latinos-search'});
+                                },1500)
                             }
                         })
                     }

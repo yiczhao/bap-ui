@@ -1063,21 +1063,21 @@
 				this.id.activityID=this.$route.params.pdfActivityId;
 				this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id=this.$route.params.pdfActivityId;
 				this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].uri= this.$API.getinfoList + this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id;
-				if(!!this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id){ 
-					this.model.getinfoList(this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id).then((res)=>{
-						if(res.data.code===0){
-							this.$set('basicData',res.data.data.base);
-				            let data={
-				            	uuid:this.basicData.uuid
-				            }
-				            this.model.getBankByUuid(data).then((res)=>{
-								if(res.data.code===0){
-									this.shortName=res.data.data.shortName;
-								}
-					        })
-			            }
-		            })
-				}    	
+                if(this.$route.params.pdfActivityIds!=':pdfActivityIds'){
+                    this.model.getinfoList(this.$route.params.pdfActivityIds).then((res)=>{
+                        if(res.data.code===0){
+                            this.$set('basicData',res.data.data.base);
+                            let data={
+                                uuid:this.basicData.uuid
+                            }
+                            this.model.getBankByUuid(data).then((res)=>{
+                                if(res.data.code===0){
+                                    this.shortName=res.data.data.shortName;
+                                }
+                            })
+                        }
+                    })
+                }
 			}else{
 				this.id.activityID='';
 				this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id='';

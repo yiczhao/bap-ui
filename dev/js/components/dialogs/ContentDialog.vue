@@ -16,7 +16,7 @@
           <k-button class="r" type="primary" size="xl"
                     style="width: 90px;margin-left: 5px;"
                     @kclick="$emit('kok')"
-          >确定</k-button>
+          >提交</k-button>
           <k-button class="r" type="dark" :ghost="true"
                     size="xl" style="width: 90px;"
                     @kclick="$emit('kcancel')" v-if="isCancel"

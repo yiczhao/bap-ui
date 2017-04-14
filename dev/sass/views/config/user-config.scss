@@ -41,6 +41,12 @@
 		b:before {
 			opacity: 1; background: #e76b5f; }
 	}
+
+	.checkAll.checked.disable {
+		b:before {
+			opacity: 0.6; }
+	}
+
 	.form-group{
 		margin:0 auto 20px auto;width:650px;
 		display:flex;
@@ -136,6 +142,7 @@
 		}
 	}
 	.close-center{
+		padding: 20px 0;
 		a{
 			margin:auto;
 		}
@@ -158,6 +165,9 @@
 		}
 		.close-center{
 			margin: 10px 0 20px 0;
+			.btn-gray{
+				padding: 9px 18px;
+			}
 		}
 	}
 }

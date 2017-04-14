@@ -12,10 +12,11 @@
          <div class="search-div search-table">
             <div class="conditions-list">
                 <input class="input" type="text" v-model="searchData.mobileNumber" @keyup.enter="doSearch" placeholder="输入手机号码"/>
-                <select class="select" v-model="searchData.usedFlag">
+                <select class="select" v-model="searchData.status">
                      <option value="">请选择状态</option>
-                     <option value="true">已使用</option>
-                     <option value="false">未使用</option>
+                     <option value="USED">已使用</option>
+                     <option value="UNUSE">未使用</option>
+                     <option value="EXPIRED">已过期</option>
                  </select>
                 </div>
             <div class="do-search">
@@ -55,15 +56,13 @@
                  </tr>
                  <tr v-for="n in latinosDetailList">
                     <td>{{n.mobileNumber}}</td><!-- 手机号码 -->
-                    <td>{{n.useTime}}</td><!-- 使用时间 -->
+                    <td>{{n.useTime }}</td><!-- 使用时间 -->
                     <td>{{n.storeName}}</td><!-- 商户名称 -->
                     <td><!-- 状态 -->
-                        <template v-if="n.usedFlag==0">未使用</template>
-                        <template v-if="n.usedFlag==1">已使用</template>
-                    </td>
+                        {{n.statusStr}}</td>
                  </tr>
                  <tr v-show="!latinosDetailList.length">
-                      <td colspan="7">未查询到数据</td>
+                      <td colspan="4">未查询到数据</td>
                   </tr>
              </table>
          </div>
@@ -88,7 +87,7 @@
                  searchData:{
                     page:1,
                      id:'',
-                     usedFlag:'',
+                     status:'',
                      mobileNumber :'',
                      firstResult :0,//当前选中的分页值
                      total:0,//数据总条数
@@ -174,7 +173,12 @@
                 let firstResult=(page-1)*this.searchData.maxResult;
                 this.searchData.page=page;
                 this.searchData.firstResult=firstResult;
-                this.getList();
+                this.model.getLatinosCumulative(this.searchData).then((res)=>{
+                   if (res.data.code==0) {
+                       this.$set('latinosDetailList',res.data.data);
+                       this.searchData.total=res.data.total;
+                   }
+               })
             },
             doSearch(){
                 this.searchData.page=1;

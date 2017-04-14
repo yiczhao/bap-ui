@@ -45,7 +45,7 @@ export default function install(Vue,router_proto) {
                 return response;
             }
             else if(!response.ok){
-                // dialog('error','系统错误,请及时联系开发人员解决！');
+                dialog('error','当前网络质量不佳，请刷新页面重试！');
             }
             else if(response.data.code !== 0&&response.data.code !== 10000){
                 dialog('error',response.data.message||response.data.msg||response.data.codeDesc);

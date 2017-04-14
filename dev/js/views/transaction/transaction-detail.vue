@@ -80,7 +80,7 @@
                 :total="searchData.total"
                 :page_size.sync="searchData.pageSize"
                 v-on:current_change="getList"
-                v-on:size_change="getList"
+                v-on:size_change="sizeChange"
                 ></pagegroup>
         </div>
     </div>
@@ -195,6 +195,14 @@
                     }
                 })
             },
+            sizeChange(){
+                this.model.getDetailList(this.searchData).then((res)=>{
+                    if(res.data.code===0){
+                        this.$set('dataList',res.data.dataList)
+                        this.$set('searchData.total',res.data.objectotalNumber);
+                    }
+                })
+            },
             getExcel(){
                 let data=getFormData(this.searchData);
                 data+='&methodName=statisticsDetailDataExportExcel&mid='+JSON.parse(sessionStorage.getItem('loginList')).token;
@@ -202,7 +210,7 @@
             },
         },
         ready(){
-            // this.getList();
+            this.getList();
             // this.searchData.startDate='';
             // this.searchData.endDate='';
         },

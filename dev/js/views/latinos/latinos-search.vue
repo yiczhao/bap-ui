@@ -3,25 +3,17 @@
 		    <div class="search-div search-table">
           <div class="conditions-list">
             <span class="show-position">
-              <input class="input " type="text" v-model="searchData.favorName" placeholder="输入权益名称"
-                     @keyup="getActivity($event)" @keyup.enter="searchList"
-                     @keyup.up="changeLiIndex('up')" @keyup.down="changeLiIndex('down')"
-              />
-              <div class="showList showLi" v-show="showList">
-                  <ul class="showLi">
-                      <li class="showLi" v-for="n in activityList" :class="{'checked':liIndex==$index}" @click="getId(n)">{{n.couponName}}</li>
-                      <li class="showLi" v-if="!activityList.length">未查询到{{searchData.favorName}}活动</li>
-                  </ul>
-              </div>
+              <input class="input " type="text" v-model="searchData.favorConfigName" @keyup.down="doSearch" placeholder="输入权益名称"/>
             </span>
               <select class="select" v-model="bankUuidString" @change="getBankString">
                   <option value="">请选择结算方（银行）</option>
                   <option v-for="n in bankFullName" :value="n.uuid">{{n.shortName}}</option>
               </select>
               <select class="select" v-model="searchData.favorTypesStr">
-                  <option value="cash,discount">请选择权益类型</option>
+                  <option value="">请选择权益类型</option>
                   <option value="cash">优惠金额券</option>
                   <option value="discount">优惠折扣券</option>
+                  <option value="zero">零元券</option>
               </select>
               <ks-date-range-picker placeholder="开始时间,结束时间"
                                     :range.sync="daterange"
@@ -55,7 +47,7 @@
             </div>
           </div>
           <div class="flex-chart text" v-show="latinos_echart==0">未查询到数据</div>
-          <div class="table">
+          <div class="table overflow">
               <table>
                   <tr>
                       <th>活动名称</th>
@@ -73,19 +65,22 @@
                   </tr>
                   <tr v-for="n in dataList">
                       <td>{{n.activityName}}</td><!-- 活动名称-->
-                      <td>{{n.couponName}}</td><!-- 权益名称-->
+                      <td>{{n.favorConfigName}}</td><!-- 权益名称-->
                       <td>{{n.uuid | get_bank uuidsList}}</td>
                       <td>
                           <template v-if="n.couponType=='cash'">优惠金额券</template>
                           <template v-if="n.couponType=='discount'">优惠折扣券</template>
+                          <template v-if="n.couponType=='zero'">零元券</template>
                       </td><!-- 权益类型-->
                       <td>
                           <template v-if="n.couponType=='cash'">{{n.couponFaceValue}}元</template>
                           <template v-if="n.couponType=='discount'">{{n.couponFaceValue}}折</template>
+                          <template v-if="n.couponType=='zero'">{{n.couponFaceValue}}元</template>
                       </td><!-- 面值/折扣-->
                       <td>
+                          <template v-if="n.status!=='OFF'&&(n.activityStatus==='early_offline'||n.activityStatus==='finish')">已结束</template>
                           <template v-if="n.status==='OFF'">已结束</template>
-                          <template v-if="n.status=='ON'">运行中</template>
+                          <template v-if="n.status=='ON'&&n.activityStatus!=='finish'&&n.activityStatus!=='early_offline'">运行中</template>
                       </td><!-- 状态-->
                       <td>{{n.circulation }}</td><!-- 发行量-->
                       <td>{{n.usedAmount}} </td><!-- 使用量-->
@@ -93,12 +88,12 @@
                       <td>{{n.startTime }}</td><!-- 开始时间-->
                       <td>{{n.endTime}}</td><!-- 结束时间-->
                       <td>
-                          <a v-if="n.status==='OFF'&&n.activityStatus==='online'" v-link="{name:'set-receive',params:{'setReceiveId':n.id,'setReceiveActivityId':n.activityID}}">配置权益</a>
-                          <a v-if="n.status==='ON'&&n.activityStatus==='online'" @click="latinosOff(n.id)">权益下线</a>
-                          <span v-if="n.activityStatus!=='online'" class="color999">配置权益</span>
-                          <a v-if="n.activityStatus=='online'" v-link="{name:'latinos-batch',params:{'batchId':n.activityID,'batchUserId':n.couponID}}">批量赠送</a>
+                          <a v-if="n.status==='OFF'&&n.activityStatus==='online'" v-link="{name:'set-receive',params:{'setReceiveId':n.id,'setReceiveActivityId':n.activityID}}">权益设置</a>
+                          <span v-if="n.activityStatus!=='online'" class="color999">权益设置</span>
+                          <span v-if="n.status==='ON'&&n.activityStatus==='online'" class="colorRed" @click="latinosOff(n.id)">权益下线</span>
+                          <a v-if="n.activityStatus=='online'&&n.status==='ON'" v-link="{name:'latinos-user',params:{'latinosUserId':n.couponID}}">批量赠送</a>
                           <span v-else class="color999">批量赠送</span>
-                          <a v-link="{name:'latinos-detail',params:{'latinosID':n.couponID,'couponName':n.couponName,'activityName':n.activityName,'startTime':n.startTime,'endTime':n.endTime,'couponFaceValue':n.couponFaceValue,'couponType':n.couponType}}">查看明细</a>
+                          <a v-link="{name:'latinos-detail',params:{'latinosID':n.couponID,'couponName':n.favorConfigName,'activityName':n.activityName,'startTime':n.startTime,'endTime':n.endTime,'couponFaceValue':n.couponFaceValue,'couponType':n.couponType}}">查看明细</a>
                       </td><!--操作-->
                   </tr>
                   <tr v-show="!dataList.length">
@@ -147,8 +142,8 @@
                    searchData:{
                        page:1,
                        total:0,
-                       favorName:'',
-                       favorTypesStr:'cash,discount',
+                       favorConfigName:'',
+                       favorTypesStr:'',
                        firstResult:0,
                        maxResult:10,
                        sorts:'id|desc',
@@ -169,55 +164,6 @@
                date_multi_picker_change(val){
                    this.searchData.startTime=val[0];
                    this.searchData.endTime=val[1];
-               },
-               searchList(){
-                   if(this.showList){
-                       this.searchData.favorName=this.activityList[this.liIndex].couponName;
-                       this.searchData.activityID=this.activityList[this.liIndex].couponID;
-                   }
-                   this.showList=false;
-                   this.getList();
-               },
-               getActivity: _.debounce(function(e){
-                   if(e.keyCode == 38 || e.keyCode == 40|| e.keyCode == 13){  //向上向下
-                       console.log(e.keyCode);
-                       return ;
-                   }
-                   let vm=this;
-                   vm.replaceName=(vm.searchData.favorName).replace(/(^\s+)|(\s+$)/g, "");
-                   let data={
-                       favorName:vm.replaceName,
-                       maxResult:10,
-                       uuidsStr:vm.searchData.uuidsStr,
-                       favorTypesStr:'cash,discount',
-                       sorts:'id|desc'
-                   }
-                   this.model.getLatinosCumulative(data).then((res)=>{
-                       if (res.data.code==0&&res.data.data!=vm.searchData.favorName) {
-                           this.liIndex=0;
-                           vm.$set('activityList',res.data.data);
-                           vm.showList=true;
-                       }
-
-                   })
-               },300),
-               changeLiIndex(type){
-                   if(!this.activityList.length)return;
-                   switch (type){
-                       case 'up':
-                           this.liIndex==0?this.liIndex=this.activityList.length-1:this.liIndex--;
-                           break;
-                       case 'down':
-                           this.liIndex==this.activityList.length-1?this.liIndex=0:this.liIndex++;
-                           break;
-                       default:
-                           break;
-                   }
-               },
-               getId({couponID,couponName}){
-                   this.showList=false;
-                   this.searchData.favorName=couponName;
-                   this.searchData.activityID=couponID;
                },
                 latinosEchart(divID,data1,data_name,color_1,baseData,color_2){
                     var myChart=echarts.init(document.getElementById(divID));
@@ -277,14 +223,19 @@
                doSearch(){
                    this.searchData.page=1;
                    this.searchData.firstResult=(this.searchData.page-1)*this.searchData.maxResult;
-                   this.searchList();
+                   this.getList();
                },
                getfirstResult(){
                    let page=this.searchData.page;
                    let firstResult=(page-1)*this.searchData.maxResult;
                    this.searchData.page=page;
                    this.searchData.firstResult=firstResult;
-                   this.getList();
+                   this.model.getLatinosCumulative(this.searchData).then((res)=>{
+                       if (res.data.code==0) {
+                           this.$set('dataList',res.data.data);
+                           this.searchData.total=res.data.total;
+                       }
+                   })
                },
                getList(){
                    this.model.getLatinosCumulative(this.searchData).then((res)=>{
@@ -305,9 +256,6 @@
                        }
                    })
                },
-               resetName(){
-                    this.showList=false;
-               },
                getExcel(){
                    this.searchData.sorts = 'id%7Cdesc';
                    let data=getFormData(this.searchData);
@@ -324,14 +272,6 @@
                },
            },
            ready(){
-                document.addEventListener('click', (e) => {
-                    if (!e.target.classList.contains('showLi')) {
-                        this.resetName();
-                    }
-                }, false);
-           },
-           beforeDestroy() {
-                document.removeEventListener('click', this.resetName, false);
            },
            created(){
                this.getBankList();

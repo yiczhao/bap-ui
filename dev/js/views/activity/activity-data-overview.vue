@@ -3,7 +3,7 @@
 		<div class="analysis-title">
 			<h1>
 				<span><i>/</i>活动分析数据总览</span>
-				<a class="btn btn-primary" v-link="{name:'activity-pdfout',params:{'pdfActivityId':!searchData.activityID?':pdfActivityId':searchData.activityID}}">查看分析报告</a>
+				<a class="btn btn-primary" v-link="{name:'activity-pdfout',params:{'pdfActivityIds':!searchData.id?':pdfActivityIds':searchData.id,'pdfActivityId':!searchData.activityID?':pdfActivityId':searchData.activityID}}">查看分析报告</a>
 			</h1>
 			<h3>Activity analysis report</h3>
 		</div>
@@ -19,10 +19,10 @@
 				</div>
 				<div v-if="mainStep==1" class="labels-lists">
 					<div>
-						<p>{{totalData.tradeAmount}}</p>
+						<p>{{totalData.tradeAmount | currency '''2'}}</p>
 						<p>交易总金额（元）</p>
 					</div><div>
-						<p>{{totalData.subsidyAmount}}</p>
+						<p>{{totalData.subsidyAmount | currency '''2'}}</p>
 						<p>补贴总金额（元）</p>
 					</div><div>
 						<p>{{totalData.tradeNum}}</p>
@@ -31,10 +31,10 @@
 						<p>{{totalData.tradeCardNum}}</p>
 						<p>参与活动卡数量（个）</p>
 					</div><div>
-						<p>{{totalData.averageTradeAmount}}</p>
+						<p>{{totalData.averageTradeAmount | currency '''2'}}</p>
 						<p>单笔平均交易金额（元）</p>
 					</div><div>
-						<p>{{totalData.averageSubsidyAmount}}</p>
+						<p>{{totalData.averageSubsidyAmount | currency '''2'}}</p>
 						<p>单笔平均补贴金额（元）</p>
 					</div>
 				</div>
@@ -52,7 +52,7 @@
 						<p>{{totalData.maxTradeAreaTradeNum}}</p>
 						<p>最高交易区域交易笔数(笔)</p>
 					</div><div>
-						<p>{{totalData.maxTradeAreaTradeAmount}}</p>
+						<p>{{totalData.maxTradeAreaTradeAmount | currency '''2'}}</p>
 						<p>最高交易区域交易额（元）</p>
 					</div>
 				</div>
@@ -67,10 +67,10 @@
 						<p>{{totalData.averageTradeNumbers}}</p>
 						<p>店均交易笔数(个)</p>
 					</div><div>
-						<p>{{totalData.averageSubsidyAmount}}</p>
+						<p>{{totalData.averageSubsidyAmount | currency '''2'}}</p>
 						<p>店均补贴金额(元)</p>
 					</div><div>
-						<p>{{totalData.averageTradeAmount}}</p>
+						<p>{{totalData.averageTradeAmount | currency '''2'}}</p>
 						<p>店均交易金额（元）</p>
 					</div>
 				</div>
@@ -82,10 +82,10 @@
 						<p>{{totalData.averageTradeNum}}</p>
 						<p>卡BIN平均交易笔数(个)</p>
 					</div><div>
-						<p>{{totalData.averageTradeAmount}}</p>
+						<p>{{totalData.averageTradeAmount | currency '''2'}}</p>
 						<p>卡BIN平均交易金额（元）</p>
 					</div><div>
-						<p>{{totalData.averageSubsidyAmount}}</p>
+						<p>{{totalData.averageSubsidyAmount | currency '''2'}}</p>
 						<p>卡BIN平均补贴金额(元)</p>
 					</div>
 				</div>
@@ -170,6 +170,7 @@
 				},
 				uuids:sessionStorage.getItem('loginList').bankUUID,
 				searchData:{
+				    id:'',
 					activityID:'',
 					activityName:'',
 				},
@@ -374,7 +375,7 @@
 						this.tableText='卡BIN刷卡金额（元）';
                         if(this.carBinIndex==1){
 							this.tableText='卡BIN刷卡笔数（笔）';
-							this.initBar(data.category,data.series[0].dataDecimal,'#3ba686');
+							this.initBar(data.category,data.series[0].dataLong,'#3ba686');
                         }else{
 							this.initBar(data.category,data.series[0].dataDecimal,'#3ba686');
                         }
@@ -422,7 +423,7 @@
 		},
 		ready(){
 			(this.$route.params.adoActivityId!=':adoActivityId')?this.searchData.activityID=this.$route.params.adoActivityId:null;
-			console.log(this.$route.params.adoActivityId);
+			(this.$route.params.adoActivityIds!=':adoActivityIds')?this.searchData.id=this.$route.params.adoActivityIds:null;
 			(this.$route.params.mainStepChance!=':mainStepChance')?this.mainStep=this.$route.params.mainStepChance>>0:null;
 			this.initStep(this.getTradeInit[this.mainStep].url,this.mainStep+1);
 		}

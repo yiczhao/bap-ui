@@ -216,9 +216,9 @@ export default function (Vue,router){
                     name:'latinos-receive',
                     router_type:[
                         {link:'create-acitvity',text:'创建活动'},
-                        {link:'latinos-receive',text:'权益领取设置'}
+                        {link:'latinos-receive',text:'权益设置'}
                     ],
-                    router_tile:'权益领取设置',
+                    router_tile:'权益设置',
                     component:(resolve)=>{
                         require(['./views/activity/latinos-receive.vue'],resolve)
                     }
@@ -269,7 +269,7 @@ export default function (Vue,router){
                     }
                 },
                 /* 活动分析页面 */
-                'activity-data-overview/:adoActivityId/:mainStepChance': {
+                'activity-data-overview/:adoActivityId/:mainStepChance/:adoActivityIds': {
                     name: 'activity-data-overview',
                     router_type:[
                         {link:'activity-analysis',text:'活动分析'},
@@ -281,7 +281,7 @@ export default function (Vue,router){
                     }
                 },
                 /* 活动分析页面pdf导出页面 */
-                'activity-pdfout/:pdfActivityId': {
+                'activity-pdfout/:pdfActivityId/:pdfActivityIds': {
                     name: 'activity-pdfout',
                     router_type:[
                         {link:'activity-analysis',text:'活动分析'},

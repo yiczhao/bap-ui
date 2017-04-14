@@ -37,6 +37,7 @@
                 <ks-date-picker @change="setincludeTimes" type="datetime" time="00:00:00" placeholder="活动时间" :value.sync="addData.startTime"></ks-date-picker>
                 <div class="m20">---</div>
                 <ks-date-picker @change="setincludeTimes" type="datetime" time="23:59:59" placeholder="活动时间" :value.sync="addData.endTime"></ks-date-picker>
+                <span class="all-time">活动持续<i>{{includeTimes.split(',').length}}</i>天/<i>{{Math.ceil(includeTimes.split(',').length / 7)}}</i>周</span>
             </div>
         </div>
     </div>
@@ -74,7 +75,7 @@
         </div>
     </div>
     <div class="rule-row">
-        <div class="rule-label"><i>&nbsp;</i>删选时间</div>
+        <div class="rule-label">    删选时间</div>
         <div class="rule-input" style="position:relative;" v-ks-click-outside="close">
             <a @click="dater.show = true" class="btn btn-primary">删选时间</a>
             <div style="position:absolute;width: 233px;left: 0;top: 40px;">
@@ -87,8 +88,8 @@
     <div class="dashed"></div>
     <div class="rule-row">
         <div class="rule-label"><i>*</i>活动主题</div>
-        <div class="rule-input">
-            <textarea class="input textarea"
+        <div class="rule-input"> 
+            <textarea class="input textarea theme"
                       placeholder="最多可输入200个字符"
                       maxlength="200"
                       v-model="addData.subject" ></textarea>
@@ -97,7 +98,7 @@
     <div class="rule-row">
         <div class="rule-label"><i>*</i>活动细则</div>
         <div class="rule-input">
-            <textarea class="input textarea"
+            <textarea class="input textarea rule"
                       placeholder="最多可输入500个字符"
                       maxlength="500"
                       v-model="addData.detail"></textarea>
@@ -401,6 +402,7 @@
                 }
                 !!sessionStorage.getItem('activityId')?data.id=sessionStorage.getItem('activityId'):(data.id=this.$route.params.activityId << 0 ===0?'':this.$route.params.activityId << 0 );
                 data.includeTimesList=this.includeTimes.split(',');
+                (this.$route.params.rulename==='Ticket')?data.actType='ticket_act':data.actType='common_act';
                 this.model.addBasic(data).then((res)=>{
                     if(res.data.code===0){
                         let activityId = this.$route.params.activityId << 0;

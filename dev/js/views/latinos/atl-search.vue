@@ -23,7 +23,7 @@
             </div>
           </div>
           <div class="flex-chart text" v-show="latinos_echart==0">未查询到数据</div>
-          <div class="table">
+          <div class="table overflow">
               <table>
                   <tr>
                       <th>活动名称</th>
@@ -41,25 +41,22 @@
                   </tr>
                   <tr v-for="n in searchList">
                       <td>{{n.activityName}}</td><!-- 活动名称-->
-                      <td>{{n.couponName}}</td><!-- 权益名称-->
+                      <td>{{n.favorConfigName}}</td><!-- 权益名称-->
                       <td>{{n.uuid | get_bank uuidsList}}</td>
                       <td>
                           <template v-if="n.couponType=='cash'">优惠金额券</template>
                           <template v-if="n.couponType=='discount'">优惠折扣券</template>
+                          <template v-if="n.couponType=='zero'">零元券</template>
                       </td><!-- 权益类型-->
                       <td>
                           <template v-if="n.couponType=='cash'">{{n.couponFaceValue}}元</template>
                           <template v-if="n.couponType=='discount'">{{n.couponFaceValue}}折</template>
+                          <template v-if="n.couponType=='zero'">{{n.couponFaceValue}}元</template>
                       </td><!-- 面值/折扣-->
                       <td>
-                          <template v-if="n.activityStatus=='draft_other'">草稿</template>
-                          <template v-if="n.activityStatus=='wait_early_offline'">运行中</template>
-                          <template v-if="n.activityStatus=='draft'">待审核</template>
-                          <template v-if="n.activityStatus=='wait_check'">待审核</template>
-                          <template v-if="n.activityStatus=='check_fail'">审核失败</template>
-                          <template v-if="n.activityStatus=='online'">运行中</template>
-                          <template v-if="n.activityStatus=='early_offline'">已结束</template>
-                          <template v-if="n.activityStatus=='finish'">已结束</template>
+                          <template v-if="n.status!=='OFF'&&(n.activityStatus==='early_offline'||n.activityStatus==='finish')">已结束</template>
+                          <template v-if="n.status==='OFF'">已结束</template>
+                          <template v-if="n.status=='ON'&&n.activityStatus!=='finish'&&n.activityStatus!=='early_offline'">运行中</template>
                       </td><!-- 状态-->
                       <td>{{n.circulation }}</td><!-- 发行量-->
                       <td>{{n.usedAmount}} </td><!-- 使用量-->
@@ -67,8 +64,12 @@
                       <td>{{n.startTime }}</td><!-- 开始时间-->
                       <td>{{n.endTime}}</td><!-- 结束时间-->
                       <td>
-                        <a v-show="n.activityStatus=='online'" v-link="{name:'latinos-batch',params:{'batchId':n.activityID,'batchUserId':n.couponID}}">批量赠送</a>
-                        <a v-link="{name:'latinos-detail',params:{'latinosID':n.couponID,'couponName':n.couponName,'activityName':n.activityName,'startTime':n.startTime,'endTime':n.endTime,'couponFaceValue':n.couponFaceValue,'couponType':n.couponType}}">查看明细</a>
+                        <a v-if="n.status==='OFF'&&n.activityStatus==='online'" v-link="{name:'set-receive',params:{'setReceiveId':n.id,'setReceiveActivityId':n.activityID}}">权益设置</a>
+                        <span v-if="n.activityStatus!=='online'" class="color999">权益设置</span>
+                        <span v-if="n.status==='ON'&&n.activityStatus==='online'" class="colorRed" @click="latinosOff(n.id)">权益下线</span>
+                        <a v-if="n.activityStatus=='online'&&n.status==='ON'" v-link="{name:'latinos-user',params:{'latinosUserId':n.couponID}}">批量赠送</a>
+                        <span v-else class="color999">批量赠送</span>
+                        <a v-link="{name:'latinos-detail',params:{'latinosID':n.couponID,'couponName':n.favorConfigName,'activityName':n.activityName,'startTime':n.startTime,'endTime':n.endTime,'couponFaceValue':n.couponFaceValue,'couponType':n.couponType}}">查看明细</a>
                       </td><!--操作-->
                   </tr>
                   <tr v-show="!searchList.length" style="text-align:center">
@@ -103,7 +104,7 @@
                        page:1,
                        total:0,
                        favorName:'',
-                       favorTypesStr:'cash,discount',
+                       favorTypesStr:'',
                        firstResult:0,
                        maxResult:10,
                        sorts:'id|desc',
@@ -208,7 +209,7 @@
                   favorName:(this.searchData.favorName).replace(/(^\s+)|(\s+$)/g, ""),
                   maxResult:this.searchData.maxResult,
                   uuidsStr:this.searchData.uuidsStr,
-                  favorTypesStr:'cash,discount',
+                  favorTypesStr:'',
                   sorts:'id|desc'
                 }
                     this.model.getLatinosCumulative(data).then((res)=>{
@@ -233,6 +234,13 @@
                 window.open(origin+this.$API.latinosSearchExcel+data);
                this.searchData.sorts = 'id|desc';
               },
+              latinosOff(id){
+                  this.model.getOnOff(id,'OFF').then((res)=>{
+                    if (res.data.code==0) {
+                      this.getList();
+                    }
+                  })
+               },
            },
            ready(){
             document.addEventListener('click', (e) => {
