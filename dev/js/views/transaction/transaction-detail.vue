@@ -119,11 +119,11 @@
                     phone:'',
                     activityName:'',//活动名称 
                     cardNumber:'',//银行卡号
-                    startDate:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime+' 00:00:00',//开始时间
-                    endDate:stringify(new Date())+' 23:59:59',//结束时间
+                    startDate:'2017-01-01 00:00:00',//开始时间
+                    endDate:'2017-12-31 23:59:59',//结束时间
                     activityID:''
                 },
-                daterange:[JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,stringify(new Date())]
+                daterange:["2017-01-01","2017-12-31"]
             }
         },
         methods:{

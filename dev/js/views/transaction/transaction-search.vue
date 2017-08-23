@@ -148,8 +148,8 @@
                     bankUuidString:'',
                     activityStatus:'',//活动状态
                     sorts:'id|desc',
-                    startDate:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime+' 00:00:00',//开始时间
-                    endDate:stringify(new Date())+' 23:59:59',//结束时间
+                    startDate:'2017-01-01 00:00:00',//开始时间
+                    endDate:'2017-12-31 23:59:59',//结束时间
                     pageIndex:1,//当前选中的分页值
                     pageSize:10,//每页展示多少条数
                 },
@@ -160,7 +160,7 @@
                 trade_echart:1,
                 replaceName:'',
                 liIndex:0,
-                daterange:[JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,stringify(new Date())]
+                daterange:["2017-01-01","2017-12-31"]
             }
         },
         methods:{
