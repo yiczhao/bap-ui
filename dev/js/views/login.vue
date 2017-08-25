@@ -26,10 +26,11 @@
                     </div>
                     <div class="type-into username"><input class="input" type="text" placeholder="手机号/账户名" v-model="loginData.name" @keyup.enter="login"></div>
                     <div class="type-into password"><input class="input" type="password" placeholder="请输入您的密码" v-model="loginData.password" @keyup.enter="login"></div>
-                    <div class="type-into check">
+                    <div class="type-into check" v-if="waringTips>=5">
                         <span class="input-check"><input class="input" type="text" placeholder="请输入数字或字母" v-model="loginData.usrImgCode" @keyup.enter="login"></span>
                         <span class="img"><img :src="sysCodeImg" @click="getusrImgCode"></span>
-                        <span class="icon icon-spinner" @click="getusrImgCode"></span></div>
+                        <span class="icon icon-spinner" @click="getusrImgCode"></span>
+                    </div>
                     <div class="save-password">
                         <ks-switch :disable="false" @change="autoType" :def-checked="true" color="#2196F3" size="mini" :checked.sync="checked"></ks-switch><span>记住密码</span>
                     </div>
@@ -72,6 +73,7 @@ export default {
                     usrImgCode:'',
                     verifyID:'',
                 },
+                waringTips:0,
                 checked:false,
                 color:1,
                 sysCodeImg:'',
@@ -80,7 +82,7 @@ export default {
         },
         methods:{
             login(){
-                if(!this.loginData.usrImgCode){
+                if(!this.loginData.usrImgCode&&this.waringTips>=5){
                   dialog('info','未输入验证码') ;
                   return
                 };
@@ -91,8 +93,14 @@ export default {
                 let data={
                     name:this.loginData.name,
                     password:this.loginData.password,
-                    verifyID:this.loginData.verifyID,
-                    verifyCode:this.loginData.usrImgCode,
+                }
+                if(this.waringTips>=5){
+                    data={
+                        name:this.loginData.name,
+                        password:this.loginData.password,
+                        verifyID:this.loginData.verifyID,
+                        verifyCode:this.loginData.usrImgCode,
+                    }
                 }
                 this.$http.post('./user/login',data).then((data)=>{
                     if(data.data.code===0){
@@ -106,6 +114,12 @@ export default {
                             setCookie('userInfor',JSON.stringify(data),30);
                         }
                         this.$router.go({'name':'home'});
+                    }else{
+                        this.waringTips=data.data.data.loginErrorCount;
+                        console.log(this.waringTips);
+                        if(this.waringTips>=5){
+                            this.getusrImgCode();
+                        }
                     }
                 });
             },
@@ -130,7 +144,6 @@ export default {
                 this.checked=true;
             }
             sessionStorage.clear()
-            this.getusrImgCode();
         }
     }
 </script>
