@@ -276,7 +276,7 @@
             },
             editUserTrue(){
                 if(this.checkedData()){
-                    this.model.editUser(this.addList).then((res)=>{
+                    this.model.addUser(this.addList).then((res)=>{
                         if(res.data.code===0){
                             dialog('success',res.data.message)
                             this.initList();
