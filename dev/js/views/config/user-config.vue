@@ -30,12 +30,7 @@
                         <template v-else>禁用</template>
                     </td>
                     <td>
-                        <template v-if="n.editable == null">
-                            <a @click="showEdit(n.id)">编辑</a>
-                        </template>
-                        <template v-else>
-                            <span class="color999">编辑</span>
-                        </template>
+                        <a @click="showEdit(n.id)">编辑</a>
                     </td>
                 </tr>
             </table>
@@ -54,7 +49,7 @@
             <div class="create-user">
                 <div class="form-group">
                     <label class="name-left"><i>*</i>用户身份</label>
-                    <select v-model="addList.roleID" class="select">
+                    <select v-model="addList.roleID" class="select" :disabled="addTitle=='编辑用户'">
                         <option :value="1">银行用户</option>
                         <option :value="2">管理员</option>
                     </select>
@@ -62,24 +57,19 @@
                 <div class="form-group confirm-text">
                     <label class="name-left" v-show="checkText.roleID==true">请选择用户身份</label>
                 </div>
-                <div class="form-group" v-if="addList.id!=loginUserID&&addList.roleID==1">
+                <div class="form-group" v-if="addList.roleID==1">
                     <label class="name-left"><i>*</i>银行名称</label>
                     <select v-model="addList.bankID" class="select">
                         <option :value="" disabled="disabled">选择银行</option>
                         <option v-for="(index,n) in bankLists" :value="n.id">{{n.shortName}}</option>
                     </select>
                 </div>
-                <div class="form-group confirm-text" v-if="addList.id!=loginUserID&&addList.roleID==1">
+                <div class="form-group confirm-text" v-if="addList.roleID==1">
                     <label class="name-left" v-show="checkText.bankName==true">请选择银行</label>
-                </div>
-                <div class="form-group" v-if="addList.id==loginUserID">
-                    <label class="name-left"><i>*</i>银行名称</label>
-                    <span class="catch-infor">{{addList.bankName}}</span>
                 </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>用户名</label>
                     <input type="text" class="input" v-model="addList.name" placeholder=" 请输入用户名">
-                    <ks-checkbox :checked.sync="loginAccountType1"  @change="getloginAccountType(loginAccountType1,loginAccountType2)">可作为登录账号</ks-checkbox>
                 </div>
                 <div class="form-group confirm-text">
                     <label class="name-left" v-show="checkText.name==true">请输入用户名</label>
@@ -87,7 +77,6 @@
                 <div class="form-group">
                     <label class="name-left"><i>*</i>手机号码</label>
                     <input type="text" class="input" v-model="addList.phone" @change="changePassword(false)" v-limitnumber="addList.phone" placeholder="请输入真实手机号码">
-                    <ks-checkbox :checked.sync="loginAccountType2"  @change="getloginAccountType(loginAccountType1,loginAccountType2)">可作为登录账号</ks-checkbox>
                 </div>
                 <div class="form-group confirm-text">
                     <label class="name-left" v-show="checkText.phone==true">请输入真实的手机号码</label>
@@ -106,7 +95,7 @@
                 </div>
                 <div class="form-group confirm-text">
                 </div>
-                <div class="form-group">
+                <div class="form-group" v-if="addList.id!=loginUserID">
                     <label class="name-left"><i>*</i>状态</label>
                         <ks-radio :checked.sync="addList.status" :value="'false'" name="TEST1">禁用</ks-radio>
                         <ks-radio :checked.sync="addList.status" :value="'true'" name="TEST1">启用</ks-radio>
@@ -140,8 +129,6 @@
                 },
                 addTitle:'',
                 addshow:false,
-                loginAccountType1:true,
-                loginAccountType2:true,
                 passWordCheck:false,
                 userList:[],
                 bankLists:[],
@@ -152,7 +139,6 @@
                     phone:'',
                     curPassword :'',
                     status:'true',
-                    loginAccountType:'3',
                     department:'',
                     roleID:1
                 },
@@ -200,12 +186,9 @@
                     phone:'',
                     curPassword :'',
                     status:'true',
-                    loginAccountType:'3',
                     department:'',
                     roleID:1
                 }
-                this.loginAccountType1=true;
-                this.loginAccountType2=true;
                 this.addTitle='新增用户';
                 this.getBankList();
                 this.addshow=true;
@@ -228,22 +211,6 @@
                         this.$set('addList',res.data.data);
                         this.addList.status=''+this.addList.status;
                         this.addList.curPassword='::::::';
-                        if(!this.addList.loginAccountType){
-                            this.loginAccountType1=false;
-                            this.loginAccountType2=false;
-                        } 
-                        if(this.addList.loginAccountType=='1'){
-                            this.loginAccountType1=true;
-                            this.loginAccountType2=false;
-                        }
-                        if(this.addList.loginAccountType=='2'){
-                            this.loginAccountType1=false;
-                            this.loginAccountType2=true;
-                        }
-                        if(this.addList.loginAccountType=='3'){
-                            this.loginAccountType1=true;
-                            this.loginAccountType2=true;
-                        }
                         this.addshow=true;
                     }
                 })
@@ -282,20 +249,6 @@
                             this.initList();
                         }
                     })
-                }
-            },
-            getloginAccountType(bool1,bool2){
-                if(bool1){
-                    this.addList.loginAccountType='1';
-                }
-                if(bool2){
-                    this.addList.loginAccountType='2';
-                }
-                if(bool1&&bool2){
-                    this.addList.loginAccountType='3';
-                }
-                if(!bool1&&!bool2){
-                    this.addList.loginAccountType='';
                 }
             },
             changePassword(bool){
