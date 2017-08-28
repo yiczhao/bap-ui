@@ -5,7 +5,6 @@
             <template  v-for="n in menuLists">
                 <li><a :class="{'link-active':links==n.code&&!!n.code}" v-link="{name:n.code}">{{n.name}}</a></li>
             </template>
-            <li><i class="icon icon-wrench"></i><a v-link="{name:'password-config'}">密码设置</a></li>
         </ul>
     </div>
 </template>
