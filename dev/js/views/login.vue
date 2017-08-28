@@ -21,17 +21,16 @@
                     <div><span></span>专业服务</div>
                     <div><span></span>卡说版图</div>
                 </div>
-                <div class="section-type">
-                    <div class="type-title">用户登录
-                    </div>
-                    <div class="type-into username"><input class="input" type="text" placeholder="手机号/账户名" v-model="loginData.name" @keyup.enter="login"></div>
-                    <div class="type-into password"><input class="input" type="password" placeholder="请输入您的密码" v-model="loginData.password" @keyup.enter="login"></div>
-                    <div class="type-into check" v-if="waringTips>=5">
+                <div class="section-type" style="display:block;width: 930px;">
+                    <div style="display:inline-block" class="type-title">用户登录</div>
+                    <div style="display:inline-block" class="type-into username"><input class="input" type="text" placeholder="手机号/账户名" v-model="loginData.name" @keyup.enter="login"></div>
+                    <div style="display:inline-block" class="type-into password"><input class="input" type="password" placeholder="请输入您的密码" v-model="loginData.password" @keyup.enter="login"></div>
+                    <div style="display:inline-block;position: relative;top: 15px;" class="type-into check" v-if="waringTips>=5">
                         <span class="input-check"><input class="input" type="text" placeholder="请输入数字或字母" v-model="loginData.usrImgCode" @keyup.enter="login"></span>
                         <span class="img"><img :src="sysCodeImg" @click="getusrImgCode"></span>
                         <span class="icon icon-spinner" @click="getusrImgCode"></span>
                     </div>
-                    <div class="save-password">
+                    <div style="display:inline-block" class="save-password">
                         <ks-switch :disable="false" @change="autoType" :def-checked="true" color="#2196F3" size="mini" :checked.sync="checked"></ks-switch><span>记住密码</span>
                     </div>
                 </div>
@@ -86,7 +85,7 @@ export default {
                   dialog('info','未输入验证码') ;
                   return
                 };
-                if(this.usrImgCode.toLowerCase()!==this.loginData.usrImgCode.toLowerCase()){
+                if(this.waringTips>=5&&this.usrImgCode.toLowerCase()!==this.loginData.usrImgCode.toLowerCase()){
                     dialog('info','请输入正确的验证码！') ;
                     return
                 }

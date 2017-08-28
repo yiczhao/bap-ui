@@ -8,6 +8,7 @@
                 <tr>
                     <th>序号</th>
                     <th>银行名称</th>
+                    <th>所属部门</th>
                     <th>用户名</th>
                     <th>手机号</th>
                     <th>创建时间</th>
@@ -18,6 +19,7 @@
                 <tr v-show="!!userList" v-for="n in userList">
                     <td>{{$index+1}}</td>
                     <td>{{n.bankName}}</td>
+                    <td>{{n.department}}</td>
                     <td>{{n.name}}</td>
                     <td>{{n.phone}}</td>
                     <td>{{n.createTime | datetime}}</td>
@@ -29,7 +31,7 @@
                     </td>
                     <td>
                         <a @click="showInfo(n.id)">详情</a>
-                        <template v-if="n.editable">
+                        <template v-if="n.editable == null">
                             <a @click="showEdit(n.id)">编辑</a>
                         </template>
                         <template v-else>
@@ -51,6 +53,16 @@
                 :title.sync="addTitle" @kok="addBtn" @kcancel="cancelAll"
         >
             <div class="create-user">
+                <div class="form-group">
+                    <label class="name-left"><i>*</i>用户身份</label>
+                    <select v-model="addList.roleID" class="select">
+                        <option :value="1">银行用户</option>
+                        <option :value="2">管理员</option>
+                    </select>
+                </div>
+                <div class="form-group confirm-text">
+                    <label class="name-left" v-show="checkText.roleID==true">请选择银行</label>
+                </div>
                 <div class="form-group" v-if="addList.id!=loginUserID">
                     <label class="name-left"><i>*</i>银行名称</label>
                     <select v-model="addList.bankID" class="select">
@@ -90,6 +102,12 @@
                     <label class="name-left" v-show="checkText.curPassword==true">请填写密码或者勾选</label>
                 </div>
                 <div class="form-group">
+                    <label class="name-left">所属部门</label>
+                    <input type="text" class="input" v-model="addList.department" placeholder="填写所属部门">
+                </div>
+                <div class="form-group confirm-text">
+                </div>
+                <div class="form-group">
                     <label class="name-left"><i>*</i>状态</label>
                         <ks-radio :checked.sync="addList.status" :value="'false'" name="TEST1">禁用</ks-radio>
                         <ks-radio :checked.sync="addList.status" :value="'true'" name="TEST1">启用</ks-radio>
@@ -102,6 +120,10 @@
         >
             <div class="create-user">
                 <div class="form-group">
+                    <label class="name-left"><i>*</i>用户身份</label>
+                    <span class="catch-infor">{{addList.roleID}}</span>
+                </div>
+                <div class="form-group">
                     <label class="name-left"><i>*</i>银行名称</label>
                     <span class="catch-infor">{{addList.bankName}}</span>
                 </div>
@@ -112,6 +134,10 @@
                 <div class="form-group">
                     <label class="name-left"><i>*</i>手机号码</label>
                     <span class="catch-infor">{{addList.phone}}</span>
+                </div>
+                <div class="form-group">
+                    <label class="name-left"><i>*</i>所属部门</label>
+                    <span class="catch-infor">{{addList.department}}</span>
                 </div>
                 <div class="form-group">
                     <label class="name-left"><i>*</i>状态</label>
@@ -166,14 +192,15 @@
                     curPassword :'',
                     status:'true',
                     loginAccountType:'3',
-                    privilegeIDs:[]
+                    department:'',
+                    roleID:1
                 },
                 checkText:{
+                    roleID:false,
                     bankName:false,
                     name:false,
                     phone:false,
                     curPassword :false,
-                    privilegeIDs:false,
                 },
             }
         },
@@ -213,7 +240,8 @@
                     curPassword :'',
                     status:'true',
                     loginAccountType:'3',
-                    privilegeIDs:[]
+                    department:'',
+                    roleID:1
                 }
                 this.loginAccountType1=true;
                 this.loginAccountType2=true;
@@ -227,7 +255,7 @@
                     this.checkText.name=false;
                     this.checkText.phone=false;
                     this.checkText.curPassword=false;
-                    this.checkText.privilegeIDs=false;
+                    this.checkText.roleID=false;
             },
             showInfo(_id){
                 this.model.getUserInfo(_id).then((res)=>{
@@ -272,7 +300,7 @@
                 this.checkText.name=false;
                 this.checkText.phone=false;
                 this.checkText.curPassword=false;
-                this.checkText.privilegeIDs=false;
+                this.checkText.roleID=false;
                 (this.addTitle=='新增用户')?this.addUserTrue():this.editUserTrue();
             },
             checkedData(){
@@ -280,6 +308,7 @@
                 if(!this.addList.name){this.checkText.name=true;return false}else{this.checkText.name=false};
                 if(!this.addList.phone){this.checkText.phone=true;return false}else{this.checkText.phone=false};
                 if(!this.addList.curPassword){this.checkText.curPassword=true;return false}else{this.checkText.curPassword=false};
+                if(!this.addList.roleID){this.checkText.roleID=true;return false}else{this.checkText.roleID=false};
                 return true;
             },
             addUserTrue(){
