@@ -30,7 +30,6 @@
                         <template v-else>禁用</template>
                     </td>
                     <td>
-                        <a @click="showInfo(n.id)">详情</a>
                         <template v-if="n.editable == null">
                             <a @click="showEdit(n.id)">编辑</a>
                         </template>
@@ -61,16 +60,16 @@
                     </select>
                 </div>
                 <div class="form-group confirm-text">
-                    <label class="name-left" v-show="checkText.roleID==true">请选择银行</label>
+                    <label class="name-left" v-show="checkText.roleID==true">请选择用户身份</label>
                 </div>
-                <div class="form-group" v-if="addList.id!=loginUserID">
+                <div class="form-group" v-if="addList.id!=loginUserID&&addList.roleID==1">
                     <label class="name-left"><i>*</i>银行名称</label>
                     <select v-model="addList.bankID" class="select">
                         <option :value="" disabled="disabled">选择银行</option>
                         <option v-for="(index,n) in bankLists" :value="n.id">{{n.shortName}}</option>
                     </select>
                 </div>
-                <div class="form-group confirm-text">
+                <div class="form-group confirm-text" v-if="addList.id!=loginUserID&&addList.roleID==1">
                     <label class="name-left" v-show="checkText.bankName==true">请选择银行</label>
                 </div>
                 <div class="form-group" v-if="addList.id==loginUserID">
@@ -114,43 +113,6 @@
                 </div>
             </div>
         </content-dialog>
-        <content-dialog
-                :show.sync="infoshow" :is-button="false" :type.sync="'infos'"
-                :title.sync="'查看详情'"
-        >
-            <div class="create-user">
-                <div class="form-group">
-                    <label class="name-left"><i>*</i>用户身份</label>
-                    <span class="catch-infor">{{addList.roleID}}</span>
-                </div>
-                <div class="form-group">
-                    <label class="name-left"><i>*</i>银行名称</label>
-                    <span class="catch-infor">{{addList.bankName}}</span>
-                </div>
-                <div class="form-group">
-                    <label class="name-left"><i>*</i>用户名</label>
-                    <span class="catch-infor">{{addList.name}}</span>
-                </div>
-                <div class="form-group">
-                    <label class="name-left"><i>*</i>手机号码</label>
-                    <span class="catch-infor">{{addList.phone}}</span>
-                </div>
-                <div class="form-group">
-                    <label class="name-left"><i>*</i>所属部门</label>
-                    <span class="catch-infor">{{addList.department}}</span>
-                </div>
-                <div class="form-group">
-                    <label class="name-left"><i>*</i>状态</label>
-                    <span class="catch-infor">
-                        <template v-if="!addList.status">禁用</template>
-                        <template v-if="addList.status">启用</template>
-                    </span>
-                </div>
-                <div class="form-group close-center">
-                    <a class="btn btn-gray" @click="this.infoshow=false">关闭</a>
-                </div>
-            </div>
-        </content-dialog>
     </div>
 </template>
 <style lang="scss">
@@ -178,7 +140,6 @@
                 },
                 addTitle:'',
                 addshow:false,
-                infoshow:false,
                 loginAccountType1:true,
                 loginAccountType2:true,
                 passWordCheck:false,
@@ -257,14 +218,6 @@
                     this.checkText.curPassword=false;
                     this.checkText.roleID=false;
             },
-            showInfo(_id){
-                this.model.getUserInfo(_id).then((res)=>{
-                    if(res.data.code===0){
-                        this.$set('addList',res.data.data);
-                        this.infoshow=true;
-                    }
-                })
-            },
             showEdit(_id){
                 this.addTitle='编辑用户';
                 this.passWordCheck=false;
@@ -304,7 +257,7 @@
                 (this.addTitle=='新增用户')?this.addUserTrue():this.editUserTrue();
             },
             checkedData(){
-                if(!this.addList.bankID){this.checkText.bankName=true;return false}else{this.checkText.bankName=false};
+                if(this.addList.roleID==1&&!this.addList.bankID){this.checkText.bankName=true;return false}else{this.checkText.bankName=false};
                 if(!this.addList.name){this.checkText.name=true;return false}else{this.checkText.name=false};
                 if(!this.addList.phone){this.checkText.phone=true;return false}else{this.checkText.phone=false};
                 if(!this.addList.curPassword){this.checkText.curPassword=true;return false}else{this.checkText.curPassword=false};
