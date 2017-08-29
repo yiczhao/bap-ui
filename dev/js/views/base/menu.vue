@@ -1,7 +1,6 @@
 <template>
     <div class="menu">
         <ul class="menu-first">
-            <li><a v-link="{name:'home'}"><i class="icon icon-home"></i>首页</a></li>
             <template  v-for="n in menuLists">
                 <li><a :class="{'link-active':links==n.code&&!!n.code}" v-link="{name:n.code}">{{n.name}}</a></li>
             </template>

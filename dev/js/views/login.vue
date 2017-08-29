@@ -112,7 +112,11 @@ export default {
                             }
                             setCookie('userInfor',JSON.stringify(data),30);
                         }
-                        this.$router.go({'name':'home'});
+                        if(data.data.data.roleID==1){
+                            this.$router.go({'name':'home'});
+                        }else{
+                            this.$router.go({'name':'user-config'});
+                        }
                     }else{
                         this.waringTips=data.data.data.loginErrorCount;
                         console.log(this.waringTips);
