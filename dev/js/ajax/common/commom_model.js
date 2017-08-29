@@ -29,7 +29,14 @@ export default function install(Vue) {
         getCity(data) {
             return formDataRequest('./area/city/list').get(data)
         },
-
+        /**
+         * @description 通过省份获取城市列表
+         * @param data
+         * @returns {*}
+         */
+        getBankList(data) {
+            return formDataRequest('./bank/bank_list').get(data)
+        },
         /**
          * @description 活动列表查询
          * @param data
@@ -38,6 +45,7 @@ export default function install(Vue) {
         getActivityList(data) {
             return Vue.http.post('./transfer/activity_configure/api/v1/activity/list',data)
         }
+
     };
     Object.defineProperties(Vue.prototype, {
         $common_model: {get(){return _m}}

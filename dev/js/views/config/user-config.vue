@@ -49,7 +49,7 @@
             <div class="create-user">
                 <div class="form-group">
                     <label class="name-left"><i>*</i>用户身份</label>
-                    <select v-model="addList.roleID" class="select" :disabled="addTitle=='编辑用户'">
+                    <select v-model="addList.roleID" @change="addList.bankName=addList.bankId=''" class="select" :disabled="addTitle=='编辑用户'">
                         <option :value="1">银行用户</option>
                         <option :value="2">管理员</option>
                     </select>
@@ -57,20 +57,16 @@
                 <div class="form-group confirm-text">
                     <label class="name-left" v-show="checkText.roleID==true">请选择用户身份</label>
                 </div>
-                <div class="form-group" v-if="addList.roleID==1">
+                <div class="form-group" v-if="addList.roleID==1" style="position:relative">
                     <label class="name-left"><i>*</i>银行名称</label>
-                    <select v-model="addList.bankID" class="select">
-                        <option :value="" disabled="disabled">选择银行</option>
-                        <option v-for="(index,n) in bankLists" :value="n.id">{{n.shortName}}</option>
-                    </select>
-                    <input class="input " type="text" v-model="searchData.name" placeholder="输入银行名称"
+                    <input class="input " type="text" v-model="addList.bankName" placeholder="输入银行名称"
                            @keyup="getActivity($event)" @keyup.enter="searchList"
                            @keyup.up="changeLiIndex('up')" @keyup.down="changeLiIndex('down')"
                     />
                     <div class="showList showLi" v-show="showList">
                         <ul class="showLi">
-                            <li class="showLi" v-for="n in activityList" :class="{'checked':liIndex==$index}" @click="getId(n)">{{n.name}}</li>
-                            <li class="showLi" v-if="!activityList.length">未查询到{{searchData.name}}银行</li>
+                            <li class="showLi" v-for="n in activityList" :class="{'checked':liIndex==$index}" @click="getId(n)">{{n.shortName}}</li>
+                            <li class="showLi" v-if="!activityList.length">未查询到{{addList.bankName}}银行</li>
                         </ul>
                     </div>
                 </div>
@@ -154,6 +150,7 @@
                     department:'',
                     roleID:1
                 },
+                replaceName:'',
                 checkText:{
                     bankName:false,
                     name:false,
@@ -163,27 +160,31 @@
             }
         },
         methods:{
+            searchList(){
+                if(this.showList){
+                    this.addList.bankName=this.activityList[this.liIndex].shortName;
+                    this.addList.bankID=this.activityList[this.liIndex].id;
+                }
+                this.getList();
+            },
             getActivity: _.debounce(function(e){
                 if(e.keyCode == 38 || e.keyCode == 40|| e.keyCode == 13){  //向上向下
                     return ;
                 }
                 let vm=this;
-                vm.replaceName=(vm.searchData.name).replace(/(^\s+)|(\s+$)/g, "");
+                vm.replaceName=(vm.addList.bankName).replace(/(^\s+)|(\s+$)/g, "");
                 let data={
-                    name:vm.replaceName,
-                    maxResult:10,
-                    uuids:_.split(sessionStorage.getItem('uuids'), ',')
+                    bankName:vm.replaceName,
                 }
                 if(!vm.replaceName){
-                    vm.searchData.activityID="";
+                    vm.addList.bankName="";
                     vm.showList=false;
                     return;
-//                        vm.getList();
                 }else{
                     vm.$common_model.getBankList(data).then((res)=>{
-                        if(res.data.code===0&&res.data.data!=vm.searchData.name){
+                        if(res.data.code===0&&res.data.data!=vm.addList.bankName){
                             this.liIndex=0;
-                            vm.$set('activityList',res.data.data);
+                            vm.$set('activityList',res.data.dataList);
                             vm.showList=true;
                         }
                     })
@@ -202,6 +203,11 @@
                         break;
                 }
             },
+            getId({id,shortName}){
+                this.showList=false;
+                this.addList.bankName=shortName;
+                this.addList.bankID=id;
+            },
             cancelAll(){
                 this.addshow=false;
             },
@@ -217,18 +223,6 @@
                 this.cancelAll();
                 this.getList();
             },
-            getBankList(){
-                let requestParam = {
-                    "noPage":1,
-                    "status":1,
-                    "isEdit":1
-                };
-                this.model.getBankList(requestParam).then((res)=>{
-                    if (res.data.code ===0){
-                        this.$set('bankLists', res.data.dataList);
-                    }
-                })
-            },
             addUser(){
                 this.addList={
                     bankName:'',
@@ -240,21 +234,18 @@
                     roleID:1
                 }
                 this.addTitle='新增用户';
-                this.getBankList();
                 this.addshow=true;
                 this.clear();
             },
             clear(){
-                    this.checkText.bankName=false;
-                    this.checkText.name=false;
-                    this.checkText.phone=false;
-                    this.checkText.curPassword=false;
-                    this.checkText.roleID=false;
+                this.checkText.bankName=false;
+                this.checkText.name=false;
+                this.checkText.phone=false;
+                this.checkText.curPassword=false;
             },
             showEdit(_id){
                 this.addTitle='编辑用户';
                 this.passWordCheck=false;
-                this.getBankList();
                 this.model.getUserInfo(_id).then((res)=>{
                     if(res.data.code===0){
                         // console.log(res.data.data);
@@ -280,6 +271,7 @@
                 return true;
             },
             addUserTrue(){
+                this.showList=false;
                 if(this.checkedData()){
                     this.model.addUser(this.addList).then((res)=>{
                         if(res.data.code===0){

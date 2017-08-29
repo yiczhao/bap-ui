@@ -9,6 +9,23 @@
 	width:$width;line-height:$lineh;
 }
 .user-config{
+	.showList{
+		position: absolute;top: 38px;left: 115px;padding: 15px 15px 0 15px;
+		min-width: 300px;max-height: 400px;
+		background: #fff;border: 1px solid #ddd;border-radius: 5px;overflow: auto;
+		ul{
+			li{
+				margin-bottom: 10px;
+				cursor: pointer;
+				&:hover{
+					color:#2196f3;
+				}
+			}
+			.checked{
+				color:#2196f3;
+			}
+		}
+	}
 	.table{
 		margin-top: 20px;
 	}
