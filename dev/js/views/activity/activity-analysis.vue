@@ -112,7 +112,7 @@
 					activityName:'',
 					activityID:'',
 					compareFlag:true,
-					bankUuidString:sessionStorage.getItem('uuids'),
+                    bankId:sessionStorage.getItem('loginList').bapBankId,
 				},
 				compareFlag:true,
 				times:{//时间初始化数据
@@ -194,7 +194,7 @@
                 this.searchData.activityName=name;
                 this.searchData.activityID=uniqueId;
                 this.searchData.id=id;
-                this.searchData.bankUuidString='';
+                this.searchData.bankId='';
             },
 			initList(){
 				this.echartRadar();
@@ -204,7 +204,7 @@
 				this.dataGet();
 			},
 			tradeAreaData(){
-			(!this.searchData.activityID)?this.searchData.bankUuidString=this.searchData.bankUuidString : this.searchData.activityID=this.searchData.activityID;
+			(!this.searchData.activityID)?this.searchData.bankId=this.searchData.bankId : this.searchData.activityID=this.searchData.activityID;
 				this.model.getTradeAreaTotal(this.searchData).then((res)=>{
 					if(res.data.code===0){
 						// this.echartRadar();
@@ -238,7 +238,7 @@
 				};
 			},
 			tradeDataGet(){
-				(!this.searchData.activityID)?this.searchData.bankUuidString=this.searchData.bankUuidString : this.searchData.activityID=this.searchData.activityID;
+				(!this.searchData.activityID)?this.searchData.bankId=this.searchData.bankId : this.searchData.activityID=this.searchData.activityID;
 				this.model.getTradeDataTotal(this.searchData).then((res)=>{
 					if(res.data.code===0){
 						this.tradeData.today=res.data.data.tradeAmount;
@@ -273,7 +273,7 @@
 				myChart.setOption(option);
 			},
 			tradeTimeGet(){
-				(!this.searchData.activityID)?this.searchData.bankUuidString=this.searchData.bankUuidString : this.searchData.activityID=this.searchData.activityID;
+				(!this.searchData.activityID)?this.searchData.bankId=this.searchData.bankId : this.searchData.activityID=this.searchData.activityID;
 				this.model.getTradePeriodTotal(this.searchData).then((res)=>{
 					if(res.data.code===0){
 						this.tradeTime=res.data.data.series
