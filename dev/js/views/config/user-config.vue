@@ -63,6 +63,16 @@
                         <option :value="" disabled="disabled">选择银行</option>
                         <option v-for="(index,n) in bankLists" :value="n.id">{{n.shortName}}</option>
                     </select>
+                    <input class="input " type="text" v-model="searchData.name" placeholder="输入银行名称"
+                           @keyup="getActivity($event)" @keyup.enter="searchList"
+                           @keyup.up="changeLiIndex('up')" @keyup.down="changeLiIndex('down')"
+                    />
+                    <div class="showList showLi" v-show="showList">
+                        <ul class="showLi">
+                            <li class="showLi" v-for="n in activityList" :class="{'checked':liIndex==$index}" @click="getId(n)">{{n.name}}</li>
+                            <li class="showLi" v-if="!activityList.length">未查询到{{searchData.name}}银行</li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="form-group confirm-text" v-if="addList.roleID==1">
                     <label class="name-left" v-show="checkText.bankName==true">请选择银行</label>
@@ -127,6 +137,8 @@
                     pageIndex:1,
                     pageSize:10,
                 },
+                activityList:[],
+                showList:false,
                 addTitle:'',
                 addshow:false,
                 passWordCheck:false,
@@ -143,7 +155,6 @@
                     roleID:1
                 },
                 checkText:{
-                    roleID:false,
                     bankName:false,
                     name:false,
                     phone:false,
@@ -152,6 +163,45 @@
             }
         },
         methods:{
+            getActivity: _.debounce(function(e){
+                if(e.keyCode == 38 || e.keyCode == 40|| e.keyCode == 13){  //向上向下
+                    return ;
+                }
+                let vm=this;
+                vm.replaceName=(vm.searchData.name).replace(/(^\s+)|(\s+$)/g, "");
+                let data={
+                    name:vm.replaceName,
+                    maxResult:10,
+                    uuids:_.split(sessionStorage.getItem('uuids'), ',')
+                }
+                if(!vm.replaceName){
+                    vm.searchData.activityID="";
+                    vm.showList=false;
+                    return;
+//                        vm.getList();
+                }else{
+                    vm.$common_model.getBankList(data).then((res)=>{
+                        if(res.data.code===0&&res.data.data!=vm.searchData.name){
+                            this.liIndex=0;
+                            vm.$set('activityList',res.data.data);
+                            vm.showList=true;
+                        }
+                    })
+                }
+            },300),
+            changeLiIndex(type){
+                if(!this.activityList.length)return;
+                switch (type){
+                    case 'up':
+                        this.liIndex==0?this.liIndex=this.activityList.length-1:this.liIndex--;
+                        break;
+                    case 'down':
+                        this.liIndex==this.activityList.length-1?this.liIndex=0:this.liIndex++;
+                        break;
+                    default:
+                        break;
+                }
+            },
             cancelAll(){
                 this.addshow=false;
             },
@@ -220,7 +270,6 @@
                 this.checkText.name=false;
                 this.checkText.phone=false;
                 this.checkText.curPassword=false;
-                this.checkText.roleID=false;
                 (this.addTitle=='新增用户')?this.addUserTrue():this.editUserTrue();
             },
             checkedData(){
@@ -228,7 +277,6 @@
                 if(!this.addList.name){this.checkText.name=true;return false}else{this.checkText.name=false};
                 if(!this.addList.phone){this.checkText.phone=true;return false}else{this.checkText.phone=false};
                 if(!this.addList.curPassword){this.checkText.curPassword=true;return false}else{this.checkText.curPassword=false};
-                if(!this.addList.roleID){this.checkText.roleID=true;return false}else{this.checkText.roleID=false};
                 return true;
             },
             addUserTrue(){

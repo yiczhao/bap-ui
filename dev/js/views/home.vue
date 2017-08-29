@@ -74,9 +74,9 @@
                     subsidyAmount:'',
                 },
                 activityList:[],
+                showList:false,
                 TradeAreaNumList:[],
                 CardBINTradeNumList:[],
-                showList:false,
                 searchData:{
                     type:'',
                     name:'',
