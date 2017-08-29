@@ -5,10 +5,6 @@
             <span class="show-position">
               <input class="input " type="text" v-model="searchData.favorConfigName" @keyup.down="doSearch" placeholder="输入权益名称"/>
             </span>
-              <select class="select" v-model="bankUuidString" @change="getBankString">
-                  <option value="">请选择结算方（银行）</option>
-                  <option v-for="n in bankFullName" :value="n.uuid">{{n.shortName}}</option>
-              </select>
               <select class="select" v-model="searchData.favorTypesStr">
                   <option value="">请选择权益类型</option>
                   <option value="cash">优惠金额券</option>
@@ -52,7 +48,6 @@
                   <tr>
                       <th>活动名称</th>
                       <th>权益名称</th>
-                      <th>结算方</th>
                       <th>权益类型</th>
                       <th>面值/折扣</th>
                       <th>状态</th>
@@ -66,7 +61,6 @@
                   <tr v-for="n in dataList">
                       <td>{{n.activityName}}</td><!-- 活动名称-->
                       <td>{{n.favorConfigName}}</td><!-- 权益名称-->
-                      <td>{{n.uuid | get_bank uuidsList}}</td>
                       <td>
                           <template v-if="n.couponType=='cash'">优惠金额券</template>
                           <template v-if="n.couponType=='discount'">优惠折扣券</template>
@@ -88,11 +82,6 @@
                       <td>{{n.startTime }}</td><!-- 开始时间-->
                       <td>{{n.endTime}}</td><!-- 结束时间-->
                       <td>
-                          <a v-if="n.status==='OFF'&&n.activityStatus==='online'" v-link="{name:'set-receive',params:{'setReceiveId':n.id,'setReceiveActivityId':n.activityID}}">权益设置</a>
-                          <span v-if="n.activityStatus!=='online'" class="color999">权益设置</span>
-                          <span v-if="n.status==='ON'&&n.activityStatus==='online'" class="colorRed" @click="latinosOff(n.id)">权益下线</span>
-                          <a v-if="n.activityStatus=='online'&&n.status==='ON'" v-link="{name:'latinos-user',params:{'latinosUserId':n.couponID}}">批量赠送</a>
-                          <span v-else class="color999">批量赠送</span>
                           <a v-link="{name:'latinos-detail',params:{'latinosID':n.couponID,'couponName':n.favorConfigName,'activityName':n.activityName,'startTime':n.startTime,'endTime':n.endTime,'couponFaceValue':n.couponFaceValue,'couponType':n.couponType}}">查看明细</a>
                       </td><!--操作-->
                   </tr>
@@ -152,7 +141,6 @@
                        uuidsStr:sessionStorage.getItem('uuids'),
                    },
                    searchTotal:'',
-                   bankFullName:'',
                    uuidsList:JSON.parse(sessionStorage.getItem('bankNames')),
                    latinos_echart:1,
                    replaceName:'',
@@ -206,13 +194,6 @@
                     }
                     myChart.setOption(option);
                 },
-               getBankList(){
-                   this.model.getBankList().then((res)=>{
-                       if (res.data.code==0) {
-                           this.$set('bankFullName',res.data.dataList);
-                       }
-                   })
-               },
                getBankString(){
                    if (!this.bankUuidString) {
                        this.searchData.uuidsStr=sessionStorage.getItem('uuids');
@@ -274,7 +255,6 @@
            ready(){
            },
            created(){
-               this.getBankList();
                this.getList();
            },
       }

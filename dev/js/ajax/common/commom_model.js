@@ -36,7 +36,7 @@ export default function install(Vue) {
          * @returns {*}
          */
         getActivityList(data) {
-            return Vue.http.post('./activity/list',data)
+            return Vue.http.post('./transfer/activity_configure/api/v1/activity/list',data)
         }
     };
     Object.defineProperties(Vue.prototype, {

@@ -14,10 +14,6 @@
                         </ul>
                     </div>
                 </span>
-                <select class="select" v-model="bankUuidString" @change="setBank">
-                    <option value="">请选择发起方</option>
-                    <option v-for="n in bankFullName" :value="n.uuid" @change="getBankString">{{n.shortName}}</option>
-                </select>
                 <select class="select" v-model="searchData.activityStatus">
                     <option value="">请选择活动状态</option>
                     <option value="1">运行中</option>
@@ -65,7 +61,6 @@
                 <table class="table">
                     <tr>
                         <th>活动名称</th>
-                        <th>发起方</th>
                         <th>类型</th>
                         <th>活动状态</th>
                         <th>总笔数</th>
@@ -77,7 +72,6 @@
                     </tr>
                     <tr v-for="n in dataList">
                         <td>{{n.activityName}}</td><!-- 活动名称 -->
-                        <td>{{n.bankUuidsName}}</td><!-- 发起方 -->
                         <td>
                             <template v-if="n.subType=='online'">线上</template><!-- 子类型 -->
                             <template v-else>线下</template>
@@ -134,7 +128,6 @@
             return{
                 cumulative:[],
                 activityList:[],
-                bankFullName:[],
                 showList:false,
                 tradeTotalNumber:50,
                 activityStatues:[
@@ -145,7 +138,6 @@
                 searchData:{
                     activityName:'',
                     activityID:'',
-                    bankUuidString:'',
                     activityStatus:'',//活动状态
                     sorts:'id|desc',
                     startDate:'2017-01-01 00:00:00',//开始时间
@@ -156,7 +148,6 @@
                 objectotalNumber:0,
                 activityName:'',
                 privilegeList:[],
-                bankUuidString:'',
                 trade_echart:1,
                 replaceName:'',
                 liIndex:0,
@@ -261,16 +252,7 @@
                 }
                 myChart.setOption(option);
             },
-            getBankString(){
-                if (!this.searchData.bankUuidString) {
-                    this.searchData.bankUuidString=sessionStorage.getItem('uuids');
-                }
-            },
-            setBank(){
-                this.searchData.bankUuidString=this.bankUuidString
-            },
             getList(){
-                this.getBankString();
                 if(!this.searchData.activityName){
                     this.searchData.activityID="";
                 }
@@ -301,15 +283,6 @@
                     }
                 })
             },
-            getBankList(){
-                let data={
-                };
-                this.model.getBankList(data).then((res)=>{
-                    if (res.data.code==0) {
-                        this.$set('bankFullName',res.data.dataList);
-                    }
-                })
-            },
             resetName(){
                 this.showList=false;
             },
@@ -328,7 +301,6 @@
             },
         },
         ready(){
-            this.getBankList();
             document.addEventListener('click', (e) => {
                 if (!e.target.classList.contains('showLi')) {
                     this.resetName();

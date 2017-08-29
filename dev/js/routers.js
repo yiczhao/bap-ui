@@ -37,6 +37,41 @@ export default function (Vue,router){
                         require(['./views/home.vue'], resolve)
                     }
                 },
+                /* 活动分析数据总览 */
+                'activity-analysis': {
+                    name: 'activity-analysis',
+                    router_type:[
+                        {link:'activity-analysis',text:'活动分析'}
+                    ],
+                    router_tile:'活动分析',
+                    component: (resolve) => {
+                        require(['./views/activity/activity-analysis.vue'], resolve)
+                    }
+                },
+                /* 活动分析页面 */
+                'activity-data-overview/:adoActivityId/:mainStepChance/:adoActivityIds': {
+                    name: 'activity-data-overview',
+                    router_type:[
+                        {link:'activity-analysis',text:'活动分析'},
+                        {link:'activity-data-overview',text:'活动分析-表格总览'}
+                    ],
+                    router_tile:'活动分析',
+                    component: (resolve) => {
+                        require(['./views/activity/activity-data-overview.vue'], resolve)
+                    }
+                },
+                /* 活动分析页面pdf导出页面 */
+                'activity-pdfout/:pdfActivityId/:pdfActivityIds': {
+                    name: 'activity-pdfout',
+                    router_type:[
+                        {link:'activity-analysis',text:'活动分析'},
+                        {link:'activity-pdfout',text:'活动分析-导出PDF'}
+                    ],
+                    router_tile:'导出PDF',
+                    component: (resolve) => {
+                        require(['./views/activity/activity-pdfout.vue'], resolve)
+                    }
+                },
                 /* 活动详情页面 */
                 'activity-info/:infoId': {
                     name: 'activity-info',

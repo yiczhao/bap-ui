@@ -11,7 +11,7 @@ function model(_this) {
          * @returns {*}
          */
         getinfoList (_id) {
-            return formDataRequest('./activity/view/'+_id).get()
+            return formDataRequest('./transfer/activity_configure/api/v1/activity/view/'+_id).get()
         },
         /**
          * @description 查询活动信息
