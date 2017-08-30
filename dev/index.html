@@ -8,10 +8,12 @@
 <body>
 <div id="app"><router-view ></router-view></div>
 <script>
-    if(window.location.href.indexOf('bank.kashuo.cn')<0){
-        window.origin = 'http://bap.dev.kashuo.net/bap/v1';
-    }else{
+    if(window.location.href.indexOf('bank.kashuo.cn')>0){
         window.origin = 'http://bank.kashuo.cn/bap/v1';
+    }else if(window.location.href.indexOf('bap.qa.kashuo.net')>0){
+        window.origin = 'http://bap.qa.kashuo.net/bap/v1';
+    }else{
+        window.origin = 'http://bap.dev.kashuo.net/bap/v1';
     }
 </script>
 </body>
