@@ -101,10 +101,10 @@
                 </div>
                 <div class="form-group confirm-text">
                 </div>
-                <div class="form-group" v-if="addList.id!=loginUserID">
+                <div class="form-group">
                     <label class="name-left"><i>*</i>状态</label>
-                        <ks-radio :checked.sync="addList.status" :value="'false'" name="TEST1">禁用</ks-radio>
-                        <ks-radio :checked.sync="addList.status" :value="'true'" name="TEST1">启用</ks-radio>
+                        <ks-radio :disable="addList.id==loginUserID" :checked.sync="addList.status" :value="'false'" name="TEST1">禁用</ks-radio>
+                        <ks-radio :disable="addList.id==loginUserID" :checked.sync="addList.status" :value="'true'" name="TEST1">启用</ks-radio>
                 </div>
             </div>
         </content-dialog>
@@ -242,10 +242,14 @@
                 this.checkText.name=false;
                 this.checkText.phone=false;
                 this.checkText.curPassword=false;
+                this.showList=false;
+                this.activityList=[];
             },
             showEdit(_id){
                 this.addTitle='编辑用户';
+                this.activityList=[];
                 this.passWordCheck=false;
+                this.showList=false;
                 this.model.getUserInfo(_id).then((res)=>{
                     if(res.data.code===0){
                         // console.log(res.data.data);

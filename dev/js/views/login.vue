@@ -25,7 +25,7 @@
                     <div style="display:inline-block" class="type-title">用户登录</div>
                     <div style="display:inline-block" class="type-into username"><input class="input" type="text" placeholder="手机号/账户名" v-model="loginData.name" @keyup.enter="login"></div>
                     <div style="display:inline-block" class="type-into password"><input class="input" type="password" placeholder="请输入您的密码" v-model="loginData.password" @keyup.enter="login"></div>
-                    <div style="display:inline-block;position: relative;top: 15px;" class="type-into check" v-if="waringTips>=5">
+                    <div style="display:inline-block;position: relative;top: 15px;" class="type-into check" v-if="waringTips>=3">
                         <span class="input-check"><input class="input" type="text" placeholder="请输入数字或字母" v-model="loginData.usrImgCode" @keyup.enter="login"></span>
                         <span class="img"><img :src="sysCodeImg" @click="getusrImgCode"></span>
                         <span class="icon icon-spinner" @click="getusrImgCode"></span>
@@ -81,11 +81,11 @@ export default {
         },
         methods:{
             login(){
-                if(!this.loginData.usrImgCode&&this.waringTips>=5){
+                if(!this.loginData.usrImgCode&&this.waringTips>=3){
                   dialog('info','未输入验证码') ;
                   return
                 };
-                if(this.waringTips>=5&&this.usrImgCode.toLowerCase()!==this.loginData.usrImgCode.toLowerCase()){
+                if(this.waringTips>=3&&this.usrImgCode.toLowerCase()!==this.loginData.usrImgCode.toLowerCase()){
                     dialog('info','请输入正确的验证码！') ;
                     return
                 }
@@ -93,7 +93,7 @@ export default {
                     name:this.loginData.name,
                     password:this.loginData.password,
                 }
-                if(this.waringTips>=5){
+                if(this.waringTips>=3){
                     data={
                         name:this.loginData.name,
                         password:this.loginData.password,
@@ -119,8 +119,7 @@ export default {
                         }
                     }else{
                         this.waringTips=data.data.data.loginErrorCount;
-                        console.log(this.waringTips);
-                        if(this.waringTips>=5){
+                        if(this.waringTips>=3){
                             this.getusrImgCode();
                         }
                     }

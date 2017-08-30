@@ -3,10 +3,10 @@
     <!-- BtnRadio 选择色块自定义 -->
     <style type="text/css">
       {{ '.KSBtnRadio__UID--' + _uid }} .KSBtnRadio__skin:before {
-        {{ styleCubeColor }}
+      {{ styleCubeColor }}
       }
       {{ '.KSBtnRadio__UID--' + _uid }} .KSBtnRadio__entity:checked + .KSBtnRadio__skin:before {
-        {{ styleCubeColor }}
+      {{ styleCubeColor }}
       }
     </style>
     <input type="radio" class="KSBtnRadio__entity" :name="!!name && name"
@@ -22,22 +22,22 @@
 </template>
 
 <script lang="babel">
-  import radioLogic from '../mixins/radioLogic'
+    import radioLogic from '../mixins/radioLogic'
 
-  export default{
-    name: 'KsNormalRadio',
+    export default{
+        name: 'KsNormalRadio',
 
-    mixins: [radioLogic],
+        mixins: [radioLogic],
 
-    computed: {
-      /**
-       * @description 复选框根 div 的 class
-       * @summary 用于标识复选框
-       * @return {string}
-       */
-      classes () { return `KSBtnRadio KSBtnRadio__UID--${this._uid}` },
+        computed: {
+            /**
+             * @description 复选框根 div 的 class
+             * @summary 用于标识复选框
+             * @return {string}
+             */
+            classes () { return `KSBtnRadio KSBtnRadio__UID--${this._uid}` },
+        }
     }
-  }
 </script>
 
 <style lang="scss">

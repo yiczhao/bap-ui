@@ -1,7 +1,5 @@
 // @description 一个单选框样式
 // @summary 我只是一个单纯的单选框
-// @author pkeros
-// @date 2016/10/14
 
 //
 // 需要的 DOM 结构
@@ -33,11 +31,11 @@ $skin-size: 18px;                                               // 选择框大�
       opacity: 1;
     }
     // checked 禁用样式
-    &[disabled] + .KSNRRadio__skin {
+    &:checked + &[disabled] + .KSNRRadio__skin {
       cursor: not-allowed;
       background: rgba(77, 77, 77, .1)
     }
-    &[disabled] + .KSNRRadio__skin:before {
+    &:checked[disabled] + .KSNRRadio__skin:before {
       opacity: .6;
     }
   }
