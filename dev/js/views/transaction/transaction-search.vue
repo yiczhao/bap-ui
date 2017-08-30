@@ -162,7 +162,7 @@
             searchList(){
                 if(this.showList){
                     this.searchData.activityName=this.activityList[this.liIndex].name;
-                    this.searchData.activityID=this.activityList[this.liIndex].uniqueId;
+                    this.searchData.activityID=this.activityList[this.liIndex].id;
                 }
                 this.showList=false;
                 this.getList();
@@ -206,10 +206,10 @@
                         break;
                 }
             },
-            getId({uniqueId,name}){
+            getId({id,name}){
                 this.showList=false;
                 this.searchData.activityName=name;
-                this.searchData.activityID=uniqueId;
+                this.searchData.activityID=id;
             },
             tradeEchart(divID,data1,data_name,color_1,baseData,color_2){
                 var myChart=echarts.init(document.getElementById(divID));
