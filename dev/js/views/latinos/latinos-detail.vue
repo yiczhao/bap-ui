@@ -30,16 +30,16 @@
                 <div class="flex-title">{{latinosDetailTotal.circulation}}</div>
                 <div class="border-right"></div>
             </div>
-            <div class="flex">
-                <div class="echart-div" id="use-echart"></div>
-                <div class="flex-title">{{latinosDetailTotal.usedAmount}}</div>
-                <div class="border-right"></div>
-            </div>
              <div class="flex">
                  <div class="echart-div" id="get-echart"></div>
                  <div class="flex-title">{{latinosDetailTotal.usedAmount+latinosDetailTotal.unusedAmount+latinosDetailTotal.expiredAmount}}</div>
                  <div class="border-right"></div>
              </div>
+            <div class="flex">
+                <div class="echart-div" id="use-echart"></div>
+                <div class="flex-title">{{latinosDetailTotal.usedAmount}}</div>
+                <div class="border-right"></div>
+            </div>
             <div class="flex">
                 <div class="echart-div" id="unuse-echart"></div>
                 <div class="flex-title">{{latinosDetailTotal.unusedAmount}}</div>

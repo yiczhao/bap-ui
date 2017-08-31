@@ -26,16 +26,16 @@
                 <div class="flex-title">{{searchTotal.circulation}}</div>
                 <div class="border-right"></div>
             </div>
-            <div class="flex">
-                <div class="echart-div" id="use-echart"></div>
-                <div class="flex-title">{{searchTotal.usedAmount}}</div>
-                <div class="border-right"></div>
-            </div>
               <div class="flex">
                   <div class="echart-div" id="get-echart"></div>
                   <div class="flex-title">{{searchTotal.usedAmount+searchTotal.unusedAmount+searchTotal.expiredAmount}}</div>
                   <div class="border-right"></div>
               </div>
+            <div class="flex">
+                <div class="echart-div" id="use-echart"></div>
+                <div class="flex-title">{{searchTotal.usedAmount}}</div>
+                <div class="border-right"></div>
+            </div>
             <div class="flex">
                 <div class="echart-div" id="unuse-echart"></div>
                 <div class="flex-title">{{searchTotal.unusedAmount}}</div>
@@ -54,7 +54,6 @@
                       <th>活动名称</th>
                       <th>权益名称</th>
                       <th>权益类型</th>
-                      <th>面值/折扣</th>
                       <th>状态</th>
                       <th>发行量</th>
                       <th>使用量</th>
@@ -71,11 +70,6 @@
                           <template v-if="n.couponType=='discount'">优惠折扣券</template>
                           <template v-if="n.couponType=='zero'">零元券</template>
                       </td><!-- 权益类型-->
-                      <td>
-                          <template v-if="n.couponType=='cash'">{{n.couponFaceValue}}元</template>
-                          <template v-if="n.couponType=='discount'">{{n.couponFaceValue}}折</template>
-                          <template v-if="n.couponType=='zero'">{{n.couponFaceValue}}元</template>
-                      </td><!-- 面值/折扣-->
                       <td>
                           <template v-if="n.status!=='OFF'&&(n.activityStatus==='early_offline'||n.activityStatus==='finish')">已结束</template>
                           <template v-if="n.status==='OFF'">已结束</template>
