@@ -117,7 +117,7 @@ export default {
                         }else{
                             this.$router.go({'name':'user-config'});
                         }
-                    }else{
+                    }else if(data.data.code===1){
                         this.waringTips=data.data.data.loginErrorCount;
                         if(this.waringTips>=3){
                             this.getusrImgCode();
