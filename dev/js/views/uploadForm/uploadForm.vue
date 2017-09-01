@@ -43,7 +43,7 @@
                 <tr>
                     <td>
                         <input class="input" type="text" v-model="transNo" placeholder="请输入交易流水号(逗号隔开)"/>
-                        <datepicker type="datetime" v-model="tradeTime" placeholder="请选择交易时间(yyyy-MM-dd HH:mm:ss)"></datepicker>
+                        <ks-date-picker type="datetime" :value="tradeTime" placeholder="请选择交易时间(yyyy-MM-dd HH:mm:ss)"></ks-date-picker>
                         交易时间修复(yyyy-MM-dd HH:mm:ss)
                     </td>
                     <td>
