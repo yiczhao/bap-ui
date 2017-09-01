@@ -135,15 +135,15 @@
                        firstResult:0,
                        maxResult:10,
                        sorts:'id|desc',
-                       startTime:'2017-01-01 00:00:00',//开始时间
-                       endTime:'2017-12-31 23:59:59',//结束时间
+                       startTime:'2017-01-01',//开始时间
+                       endTime:'2017-12-31',//结束时间
                        organizers:sessionStorage.getItem('loginList').bankOperationCode,
                    },
                    searchTotal:'',
                    latinos_echart:1,
                    replaceName:'',
                    liIndex:0,
-                   daterange:['2017-01-01 00:00:00','2017-12-31 23:59:59']
+                   daterange:['2017-01-01','2017-12-31']
                }
            },
            methods:{

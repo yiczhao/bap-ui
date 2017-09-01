@@ -163,6 +163,17 @@ export default function (Vue,router){
                     component: (resolve) => {
                         require(['./views/config/user-config.vue'], resolve)
                     }
+                },
+                /* 工具页面 */
+                'uploadForm': {
+                    name: 'uploadForm',
+                    router_type:[
+                        {link:'user-config',text:'用户设置'}
+                    ],
+                    router_tile:'工具页面',
+                    component: (resolve) => {
+                        require(['./views/uploadForm/uploadForm.vue'], resolve)
+                    }
                 }
             }
         },
