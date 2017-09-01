@@ -206,10 +206,10 @@
                         break;
                 }
             },
-            getId({id,name}){
+            getId({uniqueId,name}){
                 this.showList=false;
                 this.searchData.activityName=name;
-                this.searchData.activityID=id;
+                this.searchData.activityID=uniqueId;
             },
             tradeEchart(divID,data1,data_name,color_1,baseData,color_2){
                 var myChart=echarts.init(document.getElementById(divID));
