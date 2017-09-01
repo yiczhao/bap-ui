@@ -109,13 +109,13 @@ export default function install(Vue) {
      * @author 赵勇
      * @method POST
      */
-    _o.tradeSearchExport = '/statistics/export?';
+    _o.tradeSearchExport = '/trade_query/statistics/export?';
     /**
      * @description 交易明细导出
      * @author 赵勇
      * @method POST
      */
-    _o.tradeDetailExport = '/detail/export?';
+    _o.tradeDetailExport = '/trade_query/detail/export?';
     /**
      * @description 上传
      * @author 赵勇
