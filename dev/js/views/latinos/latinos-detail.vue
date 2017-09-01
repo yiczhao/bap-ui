@@ -105,8 +105,8 @@
                  showTitle:{
                     couponName:'',
                     activityName:'',
-                    startTime:'',
-                    endTime:'',
+                    startTime:'2017-01-01 00:00:00',//开始时间
+                    endTime:'2017-12-31 23:59:59',//结束时间
                     couponFaceValue:'',
                     couponType:'',
                  },

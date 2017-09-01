@@ -135,8 +135,8 @@
                        firstResult:0,
                        maxResult:10,
                        sorts:'id|desc',
-                       startTime:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
-                       endTime:stringify(new Date()),//结束时间
+                       startDate:'2017-01-01 00:00:00',//开始时间
+                       endDate:'2017-12-31 23:59:59',//结束时间
                        uuidsStr:sessionStorage.getItem('uuids'),
                    },
                    searchTotal:'',
