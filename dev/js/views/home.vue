@@ -83,7 +83,7 @@
                     activityID:'',
                      startDate:'',
                      endDate:'',
-                     bankUuidString:'',
+                    organizers :'',
                 },
                 replaceName:'',
             }
@@ -112,13 +112,12 @@
                 let data={
                     name:vm.replaceName,
                     maxResult:10,
-                    uuids:_.split(sessionStorage.getItem('uuids'), ',')
+                    organizers :this.searchData.organizers
                 }
                 if(!vm.replaceName){
                     vm.searchData.activityID="";
                     vm.showList=false;
                     return;
-//                        vm.getList();
                 }else{
                     vm.$common_model.getActivityList(data).then((res)=>{
                         if(res.data.code===0&&res.data.data!=vm.searchData.name){
@@ -144,17 +143,15 @@
             },
             getList(){
                 this.showList=false;
-                this.searchData.bankUuidString=sessionStorage.getItem('uuids');
+                this.searchData.organizers =sessionStorage.getItem('loginList').bankOperationCode;
                 let data={
                     activityID:this.searchData.activityID,
                     startDate:this.searchData.startDate,
                     endDate:this.searchData.endDate,
                     compareFlag:true,
-                    // bankUuidString:sessionStorage.getItem('uuids')
-                    bankUuidString:this.searchData.bankUuidString,
+                    organizers :this.searchData.organizers ,
                 };
                 this.liIndex=0;
-                // (!!this.searchData.activityID)? data.bankUuidString='':null;
                 this.model.getTotal(data).then((res)=>{
                     var tradeAmount=String(res.data.data.tradeAmount);
                     var tradeNum=String(res.data.data.tradeNum);
@@ -190,22 +187,7 @@
             document.removeEventListener('click', this.resetName, false);
         },
         created(){
-            formDataRequest('./bank/bank_list').get({'noPage':1}).then((res)=>{
-                if(res.data.code===0){
-                    let data=[]
-                    let datas=[]
-                    _.map(res.data.dataList,(val)=>{
-                        (!!val.uuid)?data.push(val.uuid):null;
-                        (!!val.uuid)?datas.push({
-                            id:val.uuid,
-                            name:val.shortName
-                        }):null;
-                    })
-                    sessionStorage.setItem('uuids',_.join(data, ','));
-                    sessionStorage.setItem('bankNames',JSON.stringify(datas));
-                    this.getList();
-                }
-            });
+            this.getList();
         }
     }
 </script>
