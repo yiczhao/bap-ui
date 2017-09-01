@@ -228,7 +228,7 @@
                            this.$set('searchTotal',res.data.data);
                            this.latinosEchart('all-echart',this.searchTotal.circulation,'权益总数量','#10B283');
                            this.latinosEchart('use-echart',this.searchTotal.usedAmount,'权益使用量','#FF573A',this.searchTotal.circulation-this.searchTotal.usedAmount,'#D1D0CE');
-                           this.latinosEchart('get-echart',res.data.data.usedAmount+res.data.data.unusedAmount+res.data.data.expiredAmount,'权益领取量','#62cca4',this.latinosDetailTotal.circulation-this.latinosDetailTotal.usedAmount-this.latinosDetailTotal.expiredAmoun-this.latinosDetailTotal.unusedAmount,'#10B283');
+                           this.latinosEchart('get-echart',res.data.data.usedAmount+res.data.data.unusedAmount+res.data.data.expiredAmount,'权益领取量','#62cca4',res.data.data.circulation-res.data.data.usedAmount-res.data.data.expiredAmoun-res.data.data.unusedAmount,'#10B283');
                            this.latinosEchart('unuse-echart',this.searchTotal.unusedAmount,'权益未使用量','#62cca4',this.searchTotal.circulation-this.searchTotal.unusedAmount,'#D1D0CE');
                            this.latinosEchart('expired-echart',this.searchTotal.expiredAmount,'权益逾期量','#007EFF',this.searchTotal.circulation-this.searchTotal.expiredAmount,'#D1D0CE');
                        }else{
