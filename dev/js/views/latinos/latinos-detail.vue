@@ -99,7 +99,7 @@
                      total:0,//数据总条数
                      maxResult :10,//每页展示多少条数
                      sorts:'id|desc',
-                     organizers:[sessionStorage.getItem('loginList').bankOperationCode]
+                     organizers:[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]
                  },
                  latinosDetailTotal:'',
                  latinosDetailList:[],
@@ -110,7 +110,7 @@
                     endTime:'2017-12-31 23:59:59',//结束时间
                     couponFaceValue:'',
                     couponType:'',
-                     organizers:[sessionStorage.getItem('loginList').bankOperationCode]
+                     organizers:[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]
                  },
                  latinos_echart:1,
              }

@@ -112,7 +112,7 @@
 					activityName:'',
 					activityID:'',
 					compareFlag:true,
-                    bankId:sessionStorage.getItem('loginList').bapBankId,
+                    bankId:JSON.parse(sessionStorage.getItem('loginList')).bapBankId,
 				},
 				compareFlag:true,
 				times:{//时间初始化数据
@@ -159,7 +159,7 @@
                 let data={
                     name:vm.replaceName,
                     maxResult:10,
-                    organizers:[sessionStorage.getItem('loginList').bankOperationCode]
+                    organizers:[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]
                 }
                 if(!vm.replaceName){
                     vm.searchData.activityID="";

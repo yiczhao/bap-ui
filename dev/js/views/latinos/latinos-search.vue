@@ -137,7 +137,7 @@
                        sorts:'id|desc',
                        startTime:'2017-01-01',//开始时间
                        endTime:'2017-12-31',//结束时间
-                       organizers:[sessionStorage.getItem('loginList').bankOperationCode],
+                       organizers:[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode],
                    },
                    searchTotal:'',
                    latinos_echart:1,
@@ -194,7 +194,7 @@
                 },
                getBankString(){
                    if (!this.organizers) {
-                       this.searchData.organizers=[sessionStorage.getItem('loginList').bankOperationCode];
+                       this.searchData.organizers=[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode];
                    }else{
                        this.searchData.organizers=this.organizers;
                    }

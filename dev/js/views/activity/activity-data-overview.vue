@@ -168,7 +168,7 @@
                     aweekAgo:getDates().aweekAgo,
                     amonthAgo:getDates().amonthAgo
 				},
-                organizers:[sessionStorage.getItem('loginList').bankOperationCode],
+                organizers:[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode],
 				searchData:{
 				    id:'',
 					activityID:'',
@@ -320,7 +320,7 @@
                         activityID:this.searchData.activityID,
                     }
                 }
-                (!this.searchData.activityID)? data.organizers=[sessionStorage.getItem('loginList').bankOperationCode]:data.organizers='';
+                (!this.searchData.activityID)? data.organizers=[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]:data.organizers='';
                 _.map(ajaxArr,(val)=>{
                     this.model[val](data).then((res)=>{
                         if(res.data.code===0){
