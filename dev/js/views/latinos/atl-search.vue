@@ -28,7 +28,6 @@
                   <tr>
                       <th>活动名称</th>
                       <th>权益名称</th>
-                      <th>结算方</th>
                       <th>权益类型</th>
                       <th>面值/折扣</th>
                       <th>状态</th>
@@ -42,7 +41,6 @@
                   <tr v-for="n in searchList">
                       <td>{{n.activityName}}</td><!-- 活动名称-->
                       <td>{{n.favorConfigName}}</td><!-- 权益名称-->
-                      <td>{{n.uuid | get_bank uuidsList}}</td>
                       <td>
                           <template v-if="n.couponType=='cash'">优惠金额券</template>
                           <template v-if="n.couponType=='discount'">优惠折扣券</template>
@@ -99,7 +97,7 @@
                    },
                    activityList:[],
                    showList:false,
-                   bankUuidString:'',
+                   organizers:'',
                    searchData:{
                        page:1,
                        total:0,
@@ -110,11 +108,10 @@
                        sorts:'id|desc',
                        startTime:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
                        endTime:stringify(new Date())+' 23:59:59',//结束时间
-                       uuidsStr:sessionStorage.getItem('uuids'),
+                       organizers:sessionStorage.getItem('loginList').bankOperationCode,
                    },
                    searchTotal:'',
                    bankFullName:'',
-                   uuidsList:JSON.parse(sessionStorage.getItem('bankNames')),
                    latinos_echart:1,
                }
            },
@@ -167,10 +164,10 @@
                    })
                },
                getBankString(){
-                   if (!this.bankUuidString) {
-                       this.searchData.uuidsStr=sessionStorage.getItem('uuids');
+                   if (!this.organizers) {
+                       this.searchData.organizers=sessionStorage.getItem('loginList').bankOperationCode;
                    }else{
-                       this.searchData.uuidsStr=this.bankUuidString;
+                       this.searchData.organizers=this.organizers;
                    }
                },
                doSearch(){
@@ -208,7 +205,7 @@
                 let data={
                   favorName:(this.searchData.favorName).replace(/(^\s+)|(\s+$)/g, ""),
                   maxResult:this.searchData.maxResult,
-                  uuidsStr:this.searchData.uuidsStr,
+                  organizers:this.searchData.organizers,
                   favorTypesStr:'',
                   sorts:'id|desc'
                 }

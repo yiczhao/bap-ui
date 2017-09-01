@@ -99,6 +99,7 @@
                      total:0,//数据总条数
                      maxResult :10,//每页展示多少条数
                      sorts:'id|desc',
+                     organizers:sessionStorage.getItem('loginList').bankOperationCode
                  },
                  latinosDetailTotal:'',
                  latinosDetailList:[],
@@ -109,6 +110,7 @@
                     endTime:'2017-12-31 23:59:59',//结束时间
                     couponFaceValue:'',
                     couponType:'',
+                     organizers:sessionStorage.getItem('loginList').bankOperationCode
                  },
                  latinos_echart:1,
              }
@@ -161,7 +163,7 @@
                        this.$set('latinosDetailTotal',res.data.data);
                        this.latinosEchart('all-echart',this.latinosDetailTotal.circulation,'权益总数量','#10B283');
                        this.latinosEchart('use-echart',this.latinosDetailTotal.usedAmount,'权益使用量','#FF573A',this.latinosDetailTotal.circulation-this.latinosDetailTotal.usedAmount,'#D1D0CE');
-                       this.latinosEchart('get-echart',res.data.data.usedAmount+res.data.data.unusedAmount+res.data.data.expiredAmount,'权益领取量','#FF573A','#D1D0CE');
+                       this.latinosEchart('get-echart',res.data.data.usedAmount+res.data.data.unusedAmount+res.data.data.expiredAmount,'权益领取量','#FF573A',this.latinosDetailTotal.circulation-this.latinosDetailTotal.usedAmount-this.latinosDetailTotal.expiredAmoun-this.latinosDetailTotal.unusedAmount,'#D1D0CE');
                        this.latinosEchart('unuse-echart',this.latinosDetailTotal.unusedAmount,'权益未使用量','#62cca4',this.latinosDetailTotal.circulation-this.latinosDetailTotal.unusedAmount,'#D1D0CE');
                        this.latinosEchart('expired-echart',this.latinosDetailTotal.expiredAmount,'权益逾期量','#007EFF',this.latinosDetailTotal.circulation-this.latinosDetailTotal.expiredAmount,'#D1D0CE');
                    }else{

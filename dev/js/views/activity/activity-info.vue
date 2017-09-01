@@ -15,10 +15,6 @@
                 <div class="activity-type">活动形式 /</div>
                 <div class="activity-val">{{(basicData.propes=='online')?'线上活动':'线下活动'}}</div>
             </div>
-            <div class="mian-row">
-                <div class="activity-type">所属银行 /</div>
-                <div class="activity-val">{{basicData.uuid | get_bank uuidsList}}</div>
-            </div>
         </div>
         <div class="info-title">
             <ul class="tab-bor">
@@ -47,14 +43,6 @@
                     <div class="row-right">
                         <span class="activity-type">参与时间段 /</span>
                         <span class="activity-val">每天参与时间段<template v-for="n in basicData.timesList">【{{n}}】</template></span>
-                    </div>
-                    <div class="row-right">
-                        <span class="activity-type">所属银行 /</span>
-                        <span class="activity-val">{{basicData.uuid | get_bank uuidsList}}</span>
-                    </div>
-                    <div class="row-right">
-                        <span class="activity-type">活动主办方 /</span>
-                        <span class="activity-val">{{basicData.uuid | get_bank uuidsList}}</span>
                     </div>
                 </div>
                 <div class="main-row table-row">
@@ -192,7 +180,6 @@
             this.model=model(this)
             return{
                 step:1,
-                uuidsList:JSON.parse(sessionStorage.getItem('bankNames')),
                 basicData:{},
                 ruleList:{
                     moneys:[],

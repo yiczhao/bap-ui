@@ -121,6 +121,7 @@
                     cardNumber:'',//银行卡号
                     startDate:'2017-01-01 00:00:00',//开始时间
                     endDate:'2017-12-31 23:59:59',//结束时间
+                    bapBankId:JSON.parse(sessionStorage.getItem('loginList')).bapBankId,
                     activityID:''
                 },
                 daterange:["2017-01-01","2017-12-31"]
@@ -173,11 +174,6 @@
                 myChart.setOption(option);
             },
             getList(){
-                if (!this.searchData.activityID) {
-                    this.searchData.bankUuidString=JSON.parse(sessionStorage.getItem('loginList')).bankUUID;
-                }else{
-                    this.searchData.activityID=this.searchData.activityID;
-                }
                 this.model.getDetailList(this.searchData).then((res)=>{
                     if(res.data.code===0){
                         this.$set('dataList',res.data.dataList)

@@ -126,7 +126,7 @@
                    },
                    activityList:[],
                    showList:false,
-                   bankUuidString:'',
+                   organizers:'',
                    searchData:{
                        page:1,
                        total:0,
@@ -135,16 +135,15 @@
                        firstResult:0,
                        maxResult:10,
                        sorts:'id|desc',
-                       startDate:'2017-01-01 00:00:00',//开始时间
-                       endDate:'2017-12-31 23:59:59',//结束时间
-                       uuidsStr:sessionStorage.getItem('uuids'),
+                       startTime:'2017-01-01 00:00:00',//开始时间
+                       endTime:'2017-12-31 23:59:59',//结束时间
+                       organizers:sessionStorage.getItem('loginList').bankOperationCode,
                    },
                    searchTotal:'',
-                   uuidsList:JSON.parse(sessionStorage.getItem('bankNames')),
                    latinos_echart:1,
                    replaceName:'',
                    liIndex:0,
-                   daterange:[JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,stringify(new Date())]
+                   daterange:['2017-01-01 00:00:00','2017-12-31 23:59:59']
                }
            },
            methods:{
@@ -194,10 +193,10 @@
                     myChart.setOption(option);
                 },
                getBankString(){
-                   if (!this.bankUuidString) {
-                       this.searchData.uuidsStr=sessionStorage.getItem('uuids');
+                   if (!this.organizers) {
+                       this.searchData.organizers=sessionStorage.getItem('loginList').bankOperationCode;
                    }else{
-                       this.searchData.uuidsStr=this.bankUuidString;
+                       this.searchData.organizers=this.organizers;
                    }
                },
                doSearch(){
@@ -229,7 +228,7 @@
                            this.$set('searchTotal',res.data.data);
                            this.latinosEchart('all-echart',this.searchTotal.circulation,'权益总数量','#10B283');
                            this.latinosEchart('use-echart',this.searchTotal.usedAmount,'权益使用量','#FF573A',this.searchTotal.circulation-this.searchTotal.usedAmount,'#D1D0CE');
-                           this.latinosEchart('get-echart',res.data.data.usedAmount+res.data.data.unusedAmount+res.data.data.expiredAmount,'权益领取量','#62cca4','#10B283');
+                           this.latinosEchart('get-echart',res.data.data.usedAmount+res.data.data.unusedAmount+res.data.data.expiredAmount,'权益领取量','#62cca4',this.latinosDetailTotal.circulation-this.latinosDetailTotal.usedAmount-this.latinosDetailTotal.expiredAmoun-this.latinosDetailTotal.unusedAmount,'#10B283');
                            this.latinosEchart('unuse-echart',this.searchTotal.unusedAmount,'权益未使用量','#62cca4',this.searchTotal.circulation-this.searchTotal.unusedAmount,'#D1D0CE');
                            this.latinosEchart('expired-echart',this.searchTotal.expiredAmount,'权益逾期量','#007EFF',this.searchTotal.circulation-this.searchTotal.expiredAmount,'#D1D0CE');
                        }else{
