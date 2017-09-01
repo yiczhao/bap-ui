@@ -109,13 +109,13 @@ export default function install(Vue) {
      * @author 赵勇
      * @method POST
      */
-    _o.tradeSearchExport = './trade_query/statistics/list/excel/export?';
+    _o.tradeSearchExport = '/trade_query/statistics/list/excel/export?';
     /**
      * @description 交易明细导出
      * @author 赵勇
      * @method POST
      */
-    _o.tradeDetailExport = './trade_query/detail/list/excel/export?';
+    _o.tradeDetailExport = '/trade_query/detail/list/excel/export?';
     /**
      * @description 上传
      * @author 赵勇
@@ -127,13 +127,13 @@ export default function install(Vue) {
      * @author 赵勇
      * @method POST
      */
-    _o.latinosSearchExcel = './transfer/activity_configure/api/v1/coupon/list/excel/export?';
+    _o.latinosSearchExcel = '/transfer/activity_configure/api/v1/coupon/list/excel/export?';
     /**
      * @description 权益明细导出
      * @author 赵勇
      * @method POST
      */
-    _o.latinosDetailExcel = './transfer/activity_configure/api/v1/coupon/detail/list/excel/export?';
+    _o.latinosDetailExcel = '/transfer/activity_configure/api/v1/coupon/detail/list/excel/export?';
 
     Object.defineProperties(Vue.prototype, {
         $API: {get(){return _o}}
