@@ -159,7 +159,7 @@
                 let data={
                     name:vm.replaceName,
                     maxResult:10,
-                    organizers:sessionStorage.getItem('loginList').bankOperationCode
+                    organizers:[sessionStorage.getItem('loginList').bankOperationCode]
                 }
                 if(!vm.replaceName){
                     vm.searchData.activityID="";

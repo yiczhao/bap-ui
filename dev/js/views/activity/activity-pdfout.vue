@@ -609,7 +609,7 @@
 			},
 			tradeDataModelTodayTotal(){//获取今日\累计关键数据
 				this.searchData.activityID=this.id.activityID;
-                (!this.id.activityID)? this.searchData.organizers=sessionStorage.getItem('loginList').bankOperationCode:this.searchData.organizers='';
+                (!this.id.activityID)? this.searchData.organizers=[sessionStorage.getItem('loginList').bankOperationCode]:this.searchData.organizers='';
         		this.model.getTradeDataTotal(this.searchData).then((res)=>{
         			if (res.data.code==0){
         				this.$set('transactionDataShow.tradeDataToday',res.data.data);
@@ -628,7 +628,7 @@
 					endDate:this.times.todayDate,
 					activityID:this.id.activityID
 				};
-                (!this.id.activityID)? data_7.organizers=sessionStorage.getItem('loginList').bankOperationCode:data_7.organizers='';
+                (!this.id.activityID)? data_7.organizers=[sessionStorage.getItem('loginList').bankOperationCode]:data_7.organizers='';
                 //7日交易金额
 				this.model.getTradeAmount(data_7).then((res)=>{
 	        		if (res.data.code==0){
@@ -659,7 +659,7 @@
 					activityID:this.id.activityID
 				};
 				 //7日交易金额
-                (!this.id.activityID)? data_30.organizers=sessionStorage.getItem('loginList').bankOperationCode:data_30.organizers='';
+                (!this.id.activityID)? data_30.organizers=[sessionStorage.getItem('loginList').bankOperationCode]:data_30.organizers='';
 				this.model.getTradeAmount(data_30).then((res)=>{
 	        		if (res.data.code==0){
 	        			this.tableText='30日交易总金额（元）';
@@ -693,7 +693,7 @@
         		let data={
         			activityID:this.id.activityID
         		};
-                (!this.id.activityID)? data.organizers=sessionStorage.getItem('loginList').bankOperationCode:data.organizers='';
+                (!this.id.activityID)? data.organizers=[sessionStorage.getItem('loginList').bankOperationCode]:data.organizers='';
         		this.model.getTradeAreaTotal(data).then((res)=>{
         			if (res.data.code==0){
         				this.$set('transactionRegion.tradeAreaModel',res.data.data);
@@ -705,7 +705,7 @@
         		let data={
         			activityID:this.id.activityID
         		};
-                (!this.id.activityID)? data.organizers=sessionStorage.getItem('loginList').bankOperationCode:data.organizers='';
+                (!this.id.activityID)? data.organizers=[sessionStorage.getItem('loginList').bankOperationCode]:data.organizers='';
         		this.model.getTradeAreaTotalAmountList(data).then((res)=>{
         			if (res.data.code==0){
         				this.transactionRegion.tradeArea=!res.data.data.category?this.transactionRegion.tradeArea=['0']:res.data.data.category;
@@ -721,7 +721,7 @@
 				let data={
         			activityID:this.id.activityID
 				};
-                (!this.id.activityID)? data.organizers=sessionStorage.getItem('loginList').bankOperationCode:data.organizers='';
+                (!this.id.activityID)? data.organizers=[sessionStorage.getItem('loginList').bankOperationCode]:data.organizers='';
 				this.model.getTradeAreaNumList(data).then((res)=>{
         			if (res.data.code==0){
         				this.tableText='交易区域交易笔数（笔）';
@@ -736,7 +736,7 @@
         			activityID:this.id.activityID
 				};
 				let hours=["00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"];
-                (!this.id.activityID)? data.organizers=sessionStorage.getItem('loginList').bankOperationCode:data.organizers='';
+                (!this.id.activityID)? data.organizers=[sessionStorage.getItem('loginList').bankOperationCode]:data.organizers='';
 				this.model.getTradePeriodTotal(data).then((res)=>{
 					if (res.data.code==0){
 						this.tableText='累计交易笔数（笔）';
@@ -757,7 +757,7 @@
 				let data={
         			activityID:this.id.activityID
 				};
-                (!this.id.activityID)? data.organizers=sessionStorage.getItem('loginList').bankOperationCode:data.organizers='';
+                (!this.id.activityID)? data.organizers=[sessionStorage.getItem('loginList').bankOperationCode]:data.organizers='';
 				this.model.getMerchantTradeTotal(data).then((res)=>{
 					if (res.data.code==0){
 						this.$set('merchantDataArea.merchantDataTotal',res.data.data);
@@ -769,7 +769,7 @@
 				let data={
         			activityID:this.id.activityID
 				};
-                (!this.id.activityID)? data.organizers=sessionStorage.getItem('loginList').bankOperationCode:data.organizers='';
+                (!this.id.activityID)? data.organizers=[sessionStorage.getItem('loginList').bankOperationCode]:data.organizers='';
 				this.model.getMerchantTradeAmount(data).then((res)=>{
 					if (res.data.code==0){
 						this.merchantDataArea.storeName=!res.data.data.series[0].storeAndMerchantName?this.merchantDataArea.storeName=['0']:res.data.data.series[0].storeAndMerchantName;//商户数据名称
@@ -784,7 +784,7 @@
 				let data={
         			activityID:this.id.activityID
 				};
-                (!this.id.activityID)? data.organizers=sessionStorage.getItem('loginList').bankOperationCode:data.organizers='';
+                (!this.id.activityID)? data.organizers=[sessionStorage.getItem('loginList').bankOperationCode]:data.organizers='';
 
 				this.model.getMerchantTradeCount(data).then((res)=>{
 					if (res.data.code==0){
@@ -807,7 +807,7 @@
 				let data={
         			activityID:this.id.activityID
 				};
-                (!this.id.activityID)? data.organizers=sessionStorage.getItem('loginList').bankOperationCode:data.organizers='';
+                (!this.id.activityID)? data.organizers=[sessionStorage.getItem('loginList').bankOperationCode]:data.organizers='';
 				this.model.getCardBINTotal(data).then((res)=>{
 					if (res.data.code==0){
 						this.$set('cardBINDataArea.CardBinModel',res.data.data);
@@ -820,7 +820,7 @@
         			activityID:this.id.activityID
 
 				};
-                (!this.id.activityID)? data.organizers=sessionStorage.getItem('loginList').bankOperationCode:data.organizers='';
+                (!this.id.activityID)? data.organizers=[sessionStorage.getItem('loginList').bankOperationCode]:data.organizers='';
 				this.model.getCardBINTradeAmountList(data).then((res)=>{
 					if (res.data.code==0) {
 						this.cardBINDataArea.tradeAmountCardBINChange=!res.data.data.series[0].dataDecimal[0]?this.cardBINDataArea.tradeAmountCardBINChange=['0']:res.data.data.series[0].dataDecimal;
@@ -835,7 +835,7 @@
 				let data={
         			activityID:this.id.activityID
 				};
-                (!this.id.activityID)? data.organizers=sessionStorage.getItem('loginList').bankOperationCode:data.organizers='';
+                (!this.id.activityID)? data.organizers=[sessionStorage.getItem('loginList').bankOperationCode]:data.organizers='';
 				this.model.getCardBINTradeNumList(data).then((res)=>{
 					if (res.data.code==0) {
 						this.cardBINDataArea.binStartNumber=!res.data.data.series[0].storeAndMerchantName?this.cardBINDataArea.binStartNumber=['0']:res.data.data.series[0].storeAndMerchantName;
@@ -856,7 +856,7 @@
 				let data={
         			activityID:this.id.activityID
 				};
-				(!this.id.activityID)? data.organizers=sessionStorage.getItem('loginList').bankOperationCode:data.organizers='';
+				(!this.id.activityID)? data.organizers=[sessionStorage.getItem('loginList').bankOperationCode]:data.organizers='';
 				this.model.getOneCardTotal(data).then((res)=>{
 					if (res.data.code==0) {
 						this.$set('oneCardArea.oneCardModel',res.data.data);
@@ -867,7 +867,7 @@
 				let data={
         			activityID:this.id.activityID
 				};
-                (!this.id.activityID)? data.organizers=sessionStorage.getItem('loginList').bankOperationCode:data.organizers='';
+                (!this.id.activityID)? data.organizers=[sessionStorage.getItem('loginList').bankOperationCode]:data.organizers='';
 				this.model.getOneCardSwipedCount(data).then((res)=>{
 					if (res.data.code==0) {
 						this.oneCardArea.oneCardNum=!res.data.data.series[0].dataLong?this.oneCardArea.oneCardNum=[0]:res.data.data.series[0].dataLong;//x轴
@@ -894,7 +894,7 @@
 			upID(){
 				//activityBaseInfo
 				//tradeDataAnalysis
-				(!this.id.activityID)?this.id.organizers=sessionStorage.getItem('loginList').bankOperationCode:null;
+				(!this.id.activityID)?this.id.organizers=[sessionStorage.getItem('loginList').bankOperationCode]:null;
 				var dataAnalysis=this.id.pdfMap.tradeDataAnalysis;
 				dataAnalysis.today[0].startDate=this.times.todayDate;
 				dataAnalysis.today[0].endDate=this.times.todayDate;

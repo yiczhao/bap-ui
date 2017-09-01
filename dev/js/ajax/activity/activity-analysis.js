@@ -16,7 +16,7 @@ function model(_this) {
                  endDate:getDates().today,
                  compareFlag:data.compareFlag,
                  activityID:data.activityID,
-                 organizers:data.organizers,
+                 organizers:[data.organizers],
              }
          	return formDataRequest('./trade_data/total').get(datas)
          },
@@ -29,7 +29,7 @@ function model(_this) {
             let datas={
                 compareFlag:data.compareFlag,
                 activityID:data.activityID,
-                organizers:data.organizers,
+                organizers:[data.organizers],
             }
             return formDataRequest('./trade_data/total').get(datas)
         },

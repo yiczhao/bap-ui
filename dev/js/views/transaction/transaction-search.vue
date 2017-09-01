@@ -177,7 +177,7 @@
                 let data={
                     name:vm.replaceName,
                     maxResult:10,
-                    organizers:JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode
+                    organizers:[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]
                 }
                 if(!vm.replaceName){
                     vm.searchData.activityID="";

@@ -83,7 +83,7 @@
                     activityID:'',
                      startDate:'',
                      endDate:'',
-                    organizers :JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode,
+                    organizers :[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode],
                 },
                 replaceName:'',
             }
@@ -112,7 +112,7 @@
                 let data={
                     name:vm.replaceName,
                     maxResult:10,
-                    organizers:JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode
+                    organizers:[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]
                 }
                 if(!vm.replaceName){
                     vm.searchData.activityID="";
@@ -143,13 +143,13 @@
             },
             getList(){
                 this.showList=false;
-                this.searchData.organizers =sessionStorage.getItem('loginList').bankOperationCode;
+                this.searchData.organizers =[sessionStorage.getItem('loginList').bankOperationCode];
                 let data={
                     activityID:this.searchData.activityID,
                     startDate:this.searchData.startDate,
                     endDate:this.searchData.endDate,
                     compareFlag:true,
-                    organizers :this.searchData.organizers ,
+                    organizers :[this.searchData.organizers ],
                 };
                 this.liIndex=0;
                 this.model.getTotal(data).then((res)=>{

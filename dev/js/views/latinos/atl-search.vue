@@ -108,7 +108,7 @@
                        sorts:'id|desc',
                        startTime:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
                        endTime:stringify(new Date())+' 23:59:59',//结束时间
-                       organizers:sessionStorage.getItem('loginList').bankOperationCode,
+                       organizers:[sessionStorage.getItem('loginList').bankOperationCode],
                    },
                    searchTotal:'',
                    bankFullName:'',
@@ -165,7 +165,7 @@
                },
                getBankString(){
                    if (!this.organizers) {
-                       this.searchData.organizers=sessionStorage.getItem('loginList').bankOperationCode;
+                       this.searchData.organizers=[sessionStorage.getItem('loginList').bankOperationCode];
                    }else{
                        this.searchData.organizers=this.organizers;
                    }
