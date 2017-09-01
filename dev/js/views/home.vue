@@ -83,7 +83,7 @@
                     activityID:'',
                      startDate:'',
                      endDate:'',
-                    organizers :'',
+                    organizers :JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode,
                 },
                 replaceName:'',
             }
@@ -112,7 +112,7 @@
                 let data={
                     name:vm.replaceName,
                     maxResult:10,
-                    organizers :this.searchData.organizers
+                    organizers:JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode
                 }
                 if(!vm.replaceName){
                     vm.searchData.activityID="";
