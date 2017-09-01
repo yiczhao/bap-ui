@@ -42,5 +42,10 @@
                 })
             },
         },
+        created(){
+            if(JSON.parse(sessionStorage.getItem('loginList')).roleID==1){
+                this.$router.go({'name':'home'});
+            }
+        }
     }
 </script>
