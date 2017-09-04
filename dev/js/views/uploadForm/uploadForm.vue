@@ -105,7 +105,11 @@
                 })
             },
             repaire(){
-                this.$http.post('./tool/tradeTime/repair?transNo='+this.transNos+'&tradeTime='+this.tradeTime).then((res)=>{
+                let data = {
+                    "transNo":this.transNo,
+                    "tradeTime":this.tradeTime
+                };
+                this.$http.post('./tool/tradeTime/repair',data).then((res)=>{
                     if(res.data.code===0){
                         dialog('success','成功！');
                     }
