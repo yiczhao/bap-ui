@@ -166,8 +166,8 @@ function model(_this) {
          * @param data
          * @returns {*}
          */
-        getBankByUuid (data) {
-            return formDataRequest('./bank/uuid').get(data)
+        getBankByUuid (_id) {
+            return formDataRequest('./bank/info/'+_id).get()
         }
 	}
 }

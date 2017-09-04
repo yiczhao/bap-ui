@@ -12,15 +12,21 @@
 			<div class="activity-flex">
 				<div>活动名称:<span>{{basicData.name}}</span></div>
 				<div>活动预算:<span>{{basicData.budget}}</span></div>
-				<div>所属银行:</div>
+				<div>所属银行:<span>{{bankName}}</span></div>
 			</div>
 			<div class="activity-flex">
 				<div>活动时间:<span>{{basicData.startTime}} 	 {{basicData.endTime}}</span></div>
 				<div>参与时间段:<span v-for="n in basicData.timesList">【{{n}}】</span></div>
 			</div>
-			<div class="activity-flex">活动主题:<span>{{basicData.subject}}</span></div>
-			<div class="activity-flex">活动细则:<span>{{basicData.detail}}</span></div>
-			<div class="activity-flex">POS小票内容设置:<span>{{basicData.posPrint}}</span></div>
+			<div class="activity-flex">
+				<div>活动主题:<span>{{basicData.subject}}</span></div>
+			</div>
+			<div class="activity-flex">
+				<div>活动细则:<span>{{basicData.detail}}</span></div>
+			</div>
+			<div class="activity-flex">
+				<div>POS小票内容设置:<span>{{basicData.posPrint}}</span></div>
+			</div>
 		</div>
 		<div class="analysis-data">
 			<div class="data-title">
@@ -453,6 +459,7 @@
 					tradeNum_30:'number-area-month',
 				},
 				activityInfo:0,
+                bankName:'',
 				basicData:{
 					name:'',
 					budget:'',
@@ -1066,6 +1073,11 @@
                     this.model.getinfoList(this.$route.params.pdfActivityIds).then((res)=>{
                         if(res.data.code===0){
                             this.$set('basicData',res.data.data.base);
+                        }
+                    })
+                    this.model.getBankByUuid(JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode).then((res)=>{
+                        if(res.data.code===0){
+                            this.bankName=res.data.data.fullName
                         }
                     })
                 }
