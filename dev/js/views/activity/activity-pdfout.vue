@@ -1060,7 +1060,7 @@
 			this.dateGetShow();
 			if(this.$route.params.pdfActivityId!=':pdfActivityId'){
 				this.id.activityID=this.$route.params.pdfActivityId;
-				this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id=this.$route.params.pdfActivityId;
+				this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id=this.$route.params.pdfActivityIds;
 				this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].uri= this.$API.getinfoList + this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id;
                 if(this.$route.params.pdfActivityIds!=':pdfActivityIds'){
                     this.model.getinfoList(this.$route.params.pdfActivityIds).then((res)=>{
