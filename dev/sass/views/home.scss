@@ -120,7 +120,7 @@
 		@extend %clearfix;
 		div{
 			float: left;
-			width: 47%;max-height: 450px;min-height: 250px;border-radius: 3px;
+			width: 47%;max-height: 450px;min-height: 250px;border-radius: 3px;overflow: hidden;
 			background-color: #fff;
 			h4{
 				border-bottom: 1px solid #cdcdcd;padding-left: 20px;line-height: 40px;
