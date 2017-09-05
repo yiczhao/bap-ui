@@ -71,7 +71,7 @@
                         <th>操作</th>
                     </tr>
                     <tr v-for="n in dataList">
-                        <td>{{n.activityName}}</td><!-- 活动名称 -->
+                        <td><a v-link="{name:'activity-info',params:{'infoId':n.id}}">{{n.activityName}}</a></td><!-- 活动名称 -->
                         <td>
                             <template v-if="n.subType=='online'">线上</template><!-- 子类型 -->
                             <template v-else>线下</template>
