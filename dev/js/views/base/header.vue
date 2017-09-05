@@ -1,7 +1,7 @@
 <template>
     <div class="header">
         <div class="header-logo"></div>
-        <div class="header-title">卡说银行活动平台</div>
+        <div class="header-title">卡说银行活动后台</div>
         <div class="header-infor">
             <div class="img-area">
                 <img class="logo-img" :src="bankLogo" v-show="!!bankLogo" alt="">
