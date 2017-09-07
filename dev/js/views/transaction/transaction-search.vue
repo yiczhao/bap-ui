@@ -84,8 +84,8 @@
                         <td>{{n.endDate}}</td><!-- 结束日期 -->
                         <td><a v-link="{name:'transaction-detail',params:{'transactionName':n.activityName,'transactionId':n.activityId}}">交易明细</a></td><!-- 操作 -->
                     </tr>
-                     <tr v-if="!dataList.length">
-                        <td colspan="10">未查询到{{activityName}}活动</td>
+                    <tr v-show="!dataList.length">
+                        <td colspan="9">未查询到数据</td>
                     </tr>
                 </table>
             </div>
