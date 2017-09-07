@@ -14,7 +14,7 @@
                 </div> -->
             </div>
             <div class="section">
-                <div class="section-title">卡说银行活动平台</div>
+                <div class="section-title">卡说银行活动后台</div>
                 <!-- <div class="section-infor">卡说利用现代金融技术和互联网技术手段，以智能POS终端和移动支付终端为载体，融合多种支付方式，搭建一个全方位资源整合的支付增值。</div> -->
                 <div class="section-about">
                     <div><span></span>平台体系</div>
