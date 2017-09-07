@@ -56,12 +56,14 @@
 					</h4>
 					<div class="echart-div">
 						<div>店均交易笔数</div>
-						<div>{{merchant.averageTradeNumbers}}</div>
+						<div class="num">
+							<p>{{merchant.averageTradeNumbers}}</p>
+						</div>
 						<div>店均交易金额</div>
-						<div>
-							{{merchant.averageTradeAmount[0]}}
+						<div class="num">
+							<p>{{merchant.averageTradeAmount[0]}}
 							<i class="float-num" v-if="!merchant.averageTradeAmount[1]">.00</i>
-							<i class="float-num" v-else>.{{merchant.averageTradeAmount[1]}}</i>
+							<i class="float-num" v-else>.{{merchant.averageTradeAmount[1]}}</i></p>
 						</div>
 					</div>
 				</div>
@@ -71,12 +73,14 @@
 					</h4>
 					<div class="echart-div">
 						<div>卡BIN交易笔数</div>
-						<div>{{cardBin.averageTradeNum}}</div>
+						<div class="num">
+							<p>{{cardBin.averageTradeNum}}</p>
+						</div>
 						<div>卡BIN交易金额</div>
-						<div>
-							{{cardBin.averageTradeAmount[0]}}
+						<div class="num">
+							<p>{{cardBin.averageTradeAmount[0]}}
 							<i class="float-num" v-if="!cardBin.averageTradeAmount[1]">.00</i>
-							<i class="float-num" v-else>.{{cardBin.averageTradeAmount[1]}}</i>
+							<i class="float-num" v-else>.{{cardBin.averageTradeAmount[1]}}</i></p>
 						</div>
 					</div>
 				</div>
@@ -86,9 +90,13 @@
 					</h4>
 					<div class="echart-div">
 						<div>参与卡数量</div>
-						<div>{{oneCard.cardNumbers}}</div>
+						<div class="num">
+							<p>{{oneCard.cardNumbers}}</p>
+						</div>
 						<div>卡均参与数量</div>
-						<div>{{oneCard.averageCardNumbers}}</div>
+						<div class="num">
+							<p>{{oneCard.averageCardNumbers}}</p>
+						</div>
 					</div>
 				</div>
 			</div>
