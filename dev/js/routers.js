@@ -76,6 +76,7 @@ export default function (Vue,router){
                 'activity-info/:infoId': {
                     name: 'activity-info',
                     router_type:[
+                        {link:'transaction-search',text:'交易查询'},
                         {link:'activity-info',text:'活动详情'}
                     ],
                     router_tile:'活动详情',
