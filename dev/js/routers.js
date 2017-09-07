@@ -76,7 +76,6 @@ export default function (Vue,router){
                 'activity-info/:infoId': {
                     name: 'activity-info',
                     router_type:[
-                        {link:'latinos-search',text:'权益查询'},
                         {link:'activity-info',text:'活动详情'}
                     ],
                     router_tile:'活动详情',
