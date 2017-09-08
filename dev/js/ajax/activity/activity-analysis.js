@@ -62,9 +62,17 @@ function model(_this) {
          * @param id
          * @returns {*}
          */
-         getTradeAreaTotal(data){
-         	return formDataRequest('./trade_area/total').get(data)
-         },
+        getTradeAreaTotal(data){
+            return formDataRequest('./trade_area/total').get(data)
+        },
+        /**
+         * @description 交易区域获取累计关键数据信息
+         * @param id
+         * @returns {*}
+         */
+        getTradeAreaTotals(data){
+            return formDataRequest('./trade_area/trade_area/list').get(data)
+        },
          /**
          * @description 交易区域获取交易金额排行
          * @param id
