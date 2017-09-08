@@ -8,7 +8,7 @@
 				<a v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':0}}">
 					查看活动总览
 				</a>
-				<!--<input type="button" class="btn btn-primary searchBtn" @click="searchList" value="搜 索">-->
+				<input type="button" class="btn btn-primary searchBtn" @click="searchList" value="搜 索">
 				<div class="showList showLi" v-show="showList">
 	                <ul class="showLi">
 	                    <li class="showLi" v-for="n in activityList" :class="{'checked':liIndex==$index}" @click="getId(n)">{{n.name}}</li>
@@ -77,11 +77,11 @@
 						<a v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':4}}">查看详细数据<i class="iconfont">&#xe659;</i></a>
 					</h4>
 					<div class="echart-div">
-						<div>卡BIN交易笔数</div>
+						<div>卡BIN平均交易笔数</div>
 						<div class="num">
 							<span class="blue">{{cardBin.averageTradeNum}}</span>
 						</div>
-						<div>卡BIN交易金额</div>
+						<div>卡BIN平均交易金额</div>
 						<div class="num">
 							<span class="blue">
 								<b>{{cardBin.averageTradeAmount[0]}}.</b>
@@ -213,7 +213,6 @@
                 this.searchData.activityID=uniqueId;
                 this.searchData.id=id;
                 this.searchData.bankId='';
-                this.searchList();
             },
 			initList(){
 				this.tradeDataGet();

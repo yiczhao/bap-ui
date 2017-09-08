@@ -226,11 +226,11 @@
                    this.model.getLationsTotal(this.searchData).then((res)=>{
                        if (res.data.code==0 && !_.isEmpty(res.data.data)) {
                            this.$set('searchTotal',res.data.data);
-                           this.latinosEchart('all-echart',this.searchTotal.circulation,'权益总数量','#10B283');
-                           this.latinosEchart('use-echart',this.searchTotal.usedAmount,'权益使用量','#FF573A',this.searchTotal.circulation-this.searchTotal.usedAmount,'#D1D0CE');
-                           this.latinosEchart('get-echart',res.data.data.usedAmount+res.data.data.unusedAmount+res.data.data.expiredAmount,'权益领取量','#62cca4',res.data.data.circulation-res.data.data.usedAmount-res.data.data.expiredAmoun-res.data.data.unusedAmount,'#10B283');
-                           this.latinosEchart('unuse-echart',this.searchTotal.unusedAmount,'权益未使用量','#62cca4',this.searchTotal.circulation-this.searchTotal.unusedAmount,'#D1D0CE');
-                           this.latinosEchart('expired-echart',this.searchTotal.expiredAmount,'权益逾期量','#007EFF',this.searchTotal.circulation-this.searchTotal.expiredAmount,'#D1D0CE');
+                           this.latinosEchart('all-echart',this.searchTotal.circulation,'权益总数量','#FF8F84');
+                           this.latinosEchart('use-echart',this.searchTotal.usedAmount,'权益使用量','#FCCD08',this.searchTotal.circulation-this.searchTotal.usedAmount,'#FCCD08');
+                           this.latinosEchart('get-echart',res.data.data.usedAmount+res.data.data.unusedAmount+res.data.data.expiredAmount,'权益领取量','#FF9364',res.data.data.circulation-res.data.data.usedAmount-res.data.data.expiredAmoun-res.data.data.unusedAmount,'#FF9364');
+                           this.latinosEchart('unuse-echart',this.searchTotal.unusedAmount,'权益未使用量','#5C94FF',this.searchTotal.circulation-this.searchTotal.unusedAmount,'#5C94FF');
+                           this.latinosEchart('expired-echart',this.searchTotal.expiredAmount,'权益逾期量','#8034FF',this.searchTotal.circulation-this.searchTotal.expiredAmount,'#8034FF');
                        }else{
                          this.latinos_echart=0;
                        }
