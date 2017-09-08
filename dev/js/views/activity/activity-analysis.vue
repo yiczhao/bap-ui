@@ -176,7 +176,7 @@
                 let data={
                     name:vm.replaceName,
                     maxResult:10,
-                    auditStatuses:["finish", "early_offline", "online"],
+                    auditStatuses:["wait_early_offline", "early_offline", "online"],
                     organizers:[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]
                 }
                 if(!vm.replaceName){
