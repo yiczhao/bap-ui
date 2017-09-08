@@ -31,8 +31,8 @@
 						<p class="right"><span></span>今日交易总金额</p>
 					</div>
 					<div>
-						<p>{{tradeData.total}}</p>
-						<p class="right">{{tradeData.today}}</p>
+						<p>{{tradeData.total | currency ''}}</p>
+						<p class="right">{{tradeData.today | currency ''}}</p>
 					</div>
 				</div>
 				<div class="center">
