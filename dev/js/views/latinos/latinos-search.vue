@@ -252,9 +252,9 @@
                                this.latinosEchart('unuse-echart',unusedAmount,'权益使用量','#5C94FF',unusedAmount1,'#DADADA');
                            }
                            if(expiredAmount===expiredAmount1){
-                               this.latinosEchart('expired-echart',unusedAmount,'权益逾期量','#8034FF');
+                               this.latinosEchart('expired-echart',expiredAmount,'权益逾期量','#8034FF');
                            }else{
-                               this.latinosEchart('expired-echart',unusedAmount,'权益逾期量','#8034FF',usedAmount1,'#DADADA');
+                               this.latinosEchart('expired-echart',expiredAmount,'权益逾期量','#8034FF',expiredAmount1,'#DADADA');
                            }
                        }else{
                          this.latinos_echart=0;
