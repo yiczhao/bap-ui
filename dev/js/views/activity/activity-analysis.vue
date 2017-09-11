@@ -42,7 +42,7 @@
 					</h4>
 					<div class="echart-div" v-el:trade-area></div>
 					<div>
-						<p v-if="!!tradeTotalData.category.length"><span></span>产生交易区域：{{tradeTotalData.category.length}}</p>
+						<p v-if="!!tradeTotalData.category"><span></span>产生交易区域：{{tradeTotalData.category.length}}</p>
 						<p v-if="!!tradeTotalData.avg" class="right"><span class="red"></span>区域平均交易笔数：{{tradeTotalData.avg}}</p>
 					</div>
 				</div>
@@ -251,17 +251,37 @@
                                 formatter:function(val){
                                     return val.split("").join("\n");
                                 }
-                            },
+                            }
                         }
                     ],
                     yAxis: [
                         {
                             type: 'value',
-                            name: '',
                             min: 0,
                             axisLabel: {
-                                formatter: '{value} '
-                            }
+                                show:false,
+                            },
+                            axisTick:{
+                                show:false
+                            },
+                            splitLine:{
+                                show:false
+                            },
+                            axisLine:{show:false}
+                        },
+                        {
+                            type: 'value',
+                            axisLabel: {
+                                show:false,
+                            },
+                            axisTick:{
+                                show:false
+                            },
+                            splitLine:{
+                                show:false
+                            },
+                            min: 0,
+                            axisLine:{show:false}
                         }
                     ],
                     series: [
@@ -285,6 +305,7 @@
                         {
                             name:'区域交易笔数',
                             type:'line',
+                            yAxisIndex: 1,
                             itemStyle : {  /*设置折线颜色*/
                                 normal : {
                                     color:'#E76B5F'
@@ -398,13 +419,19 @@
                     ],
                     yAxis: [
                         {
-
                             type: 'value',
                             name: '',
                             min: 0,
                             interval: 50,
                             axisLabel: {
+                                show:false,
                                 formatter: '{value} '
+                            },
+                            axisTick:{
+								show:false
+							},
+                            splitLine:{
+                                show:false
                             },
                             axisLine:{show:false}
                         }
