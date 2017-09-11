@@ -16,7 +16,7 @@
 	                </ul>
 	            </div>
 			</div>
-			<div style="color:#A3A3A3">展示活动的交易数据,截止到{{nowDate}}</div>
+			<div style="color:#A3A3A3">当前数据截止到{{nowDate}}(每30分钟更新数据)</div>
 		</div>
 		<div class="chart-show">
 			<div class="flex border">

@@ -19,7 +19,7 @@
             <a class="btn btn-primary" @click="searchList">搜 索</a>
         </div>
         <div class="right">展示活动今日、累计的刷卡数据，以及活动中不同商户交易、不同卡bin交易的笔数排行。</div>
-        <div class="right">当前数据截止到{{now}} (每整点更新数据)</div>
+        <div class="right">当前数据截止到{{now}}(每30分钟更新数据)</div>
     </div>
     <div class="home">
         <div class="total-div">
