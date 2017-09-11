@@ -42,8 +42,8 @@
 					</h4>
 					<div class="echart-div" v-el:trade-area></div>
 					<div>
-						<p v-if="!!tradeTotalData.category"><span></span>产生交易区域：{{tradeTotalData.category.length}}</p>
-						<p v-if="!!tradeTotalData.avg" class="right"><span class="red"></span>区域平均交易笔数：{{tradeTotalData.avg}}</p>
+						<p v-if="!!tradeTotalData.category">产生交易区域：{{tradeTotalData.category.length}}</p>
+						<p v-if="!!tradeTotalData.avg" class="right">区域平均交易笔数：{{tradeTotalData.avg}}</p>
 					</div>
 				</div>
 				<div class="right">
