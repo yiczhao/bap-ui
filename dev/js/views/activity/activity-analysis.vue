@@ -413,7 +413,17 @@
                     },
                     xAxis: [
                         {
+                            boundaryGap: false,
                             type: 'category',
+                            axisTick:{show:false},
+                            splitLine:{
+                                width:1,
+                                show:true,
+                                lineStyle: {
+                                    color: ['#eaeaea'],
+                                    type:'dotted'
+                                }
+                            },
                             data: hours
                         }
                     ],
@@ -422,17 +432,9 @@
                             type: 'value',
                             name: '',
                             min: 0,
-                            interval: 50,
-                            axisLabel: {
-                                show:false,
-                                formatter: '{value} '
-                            },
-                            axisTick:{
-								show:false
-							},
-                            splitLine:{
-                                show:false
-                            },
+                            axisLabel: {show:false,},
+                            axisTick:{show:false},
+                            splitLine:{show:false},
                             axisLine:{show:false}
                         }
                     ],
