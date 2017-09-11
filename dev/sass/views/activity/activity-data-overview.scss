@@ -1,6 +1,14 @@
 .activity-data-overview{
 	background: #f0f0f0 !important;
 	padding:0 !important;
+	.clearfix:before,.clearfix:after{
+		display:table;
+		content:"";
+	}
+	.clearfix:after{clear:both;}
+	.clearfix{
+		*zoom:1;/*IE/7/6*/
+	}
 	.search-bg{
 		background-color: #212528;
 		color: #fff;
@@ -65,7 +73,6 @@
 					}
 				}
 				div{
-					overflow: hidden;
 					padding: 0 10px;
 					text-align: center;
 					p{
@@ -99,7 +106,6 @@
 		}
 		.border{
 			border-radius:5px;
-			overflow: hidden;
 			.left,.center,.right{
 				height:100%;
 				.echart-div{

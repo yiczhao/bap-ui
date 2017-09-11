@@ -26,11 +26,11 @@
 						<a v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':0}}">查看详细数据<i class="iconfont">&#xe659;</i></a>
 						</h4>
 					<div class="echart-div" v-el:trade-data></div>
-					<div>
+					<div class="clearfix">
 						<p><span class="colora9"></span>累计交易总金额</p>
 						<p class="right"><span></span>今日交易总金额</p>
 					</div>
-					<div>
+					<div class="clearfix">
 						<p>{{tradeData.total | currency ''}}</p>
 						<p class="right">{{tradeData.today | currency ''}}</p>
 					</div>
@@ -41,7 +41,7 @@
 						<a v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':1}}">查看详细数据<i class="iconfont">&#xe659;</i></a>
 					</h4>
 					<div class="echart-div" v-el:trade-area></div>
-					<div>
+					<div class="clearfix" style="margin-top: 20px;">
 						<p v-if="!!tradeTotalData.category">产生交易区域：{{tradeTotalData.category.length}}</p>
 						<p v-if="!!tradeTotalData.avg" class="right">区域平均交易笔数：{{tradeTotalData.avg}}</p>
 					</div>
