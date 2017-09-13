@@ -1,48 +1,29 @@
 <template>
     <div class="activity-info">
-        <!--<span class="activity-name"></span>-->
-        <!--<i class="icon-border"></i>-->
         <div class="activity-head">
             <div class="activity-name">{{basicData.name}}</div>
             <div class="mian-row activity-createtime">
                 <div class="activity-type">创建时间 / {{basicData.createdAt}}</div>
-                <!--<div class="activity-val"></div>-->
             </div>
         </div>
         <div class="activity-title">
             <div class="mian-row">
                 <div class="activity-type">活动种类 /</div>
-                <!--<div class="bias"></div>-->
                 <div class="activity-val" v-if="!!basicData.ruleType">{{ruleTypes[basicData.ruleType][1]}}</div>
             </div>
             <div class="mian-row">
                 <div class="activity-type">活动形式 /</div>
                 <div class="activity-val">{{(basicData.propes=='online')?'线上活动':'线下活动'}}</div>
             </div>
-            <div class="mian-row">
-                <div class="activity-type">所属银行 /</div>
-                <div class="activity-val">{{basicData.uuid | get_bank uuidsList}}</div>
-            </div>
-            <!--<div class="mian-row">-->
-            <!--<div class="activity-type">创建时间</div>-->
-            <!--<div class="activity-val">2017-01-01 00:00:00</div>-->
-            <!--</div>-->
         </div>
         <div class="info-title">
             <ul class="tab-bor">
                 <li @click="step=1" :class="{'active':step===1}">活动基本信息</li>
                 <li v-show="!!ruleList.ruleType" @click="step=2" :class="{'active':step===2}">规则设置</li>
-                <li @click="step=4" :class="{'active':step===4}" v-show="!!equityData">权益信息</li>
                 <li v-show="!!storeList.length" @click="step=3" :class="{'active':step===3}">商户信息</li>
             </ul>
         </div>
         <div class="info-main">
-            <!--<div class="main-title">-->
-            <!--<span class="activity-type">活动名称 /</span><span> {{basicData.name}}</span>-->
-            <!--<span v-if="!!ruleList.ruleName" class="activity-type">活动形式 /</span><span> {{ruleList.ruleName}}</span>-->
-            <!--<span class="activity-type">创建时间 /</span><span> {{basicData.createdAt}}</span>-->
-            <!--<span class="activity-type">所属银行 /</span><span>{{basicData.uuid | get_bank uuidsList}}</span>-->
-            <!--</div>-->
             <div v-show="step===1" class="info-basic">
                 <div class="main-row">
                     <div class="row-right">
@@ -62,14 +43,6 @@
                     <div class="row-right">
                         <span class="activity-type">参与时间段 /</span>
                         <span class="activity-val">每天参与时间段<template v-for="n in basicData.timesList">【{{n}}】</template></span>
-                    </div>
-                    <div class="row-right">
-                        <span class="activity-type">所属银行 /</span>
-                        <span class="activity-val">{{basicData.uuid | get_bank uuidsList}}</span>
-                    </div>
-                    <div class="row-right">
-                        <span class="activity-type">活动主办方 /</span>
-                        <span class="activity-val">{{basicData.uuid | get_bank uuidsList}}</span>
                     </div>
                 </div>
                 <div class="main-row table-row">
@@ -196,90 +169,10 @@
                     </tr>
                 </table>
             </div>
-            <div v-show="step===4" class="info-quanyi">
-                <div class="main-row">
-                    <div class="row-right">
-                        <span class="activity-type">权益名称 /</span>
-                        <span class="activity-val" v-if="!!equityData">{{equityData.name}}</span>
-                    </div>
-                    <div class="row-right">
-                        <span class="activity-type">权益时间 /</span>
-                        <span class="activity-val" v-if="!!equityData"> {{equityData.receiveStartTime|datetime}} ~ {{equityData.receiveEndTime|datetime}}</span>
-                    </div>
-                    <div class="row-right">
-                        <span class="activity-type">使用时间 /</span>
-                        <span class="activity-val" v-if="!!validPeriod"> {{validPeriod}}</span>
-                    </div>
-                </div>
-                <div class="main-row">
-                    <div class="row-right">
-                        <span class="activity-type">权益总数量 /</span>
-                        <span class="activity-val" v-if="!!equityData"> {{equityData.total}}</span>
-                    </div>
-                    <div :class="['row-right',isFlex ? 'divFlex' : '']">
-                        <span class="activity-type">权益每天数量 /</span>
-                        <span class="activity-val" v-if="!!equityData"> {{equityData.totalOneDay}}</span>
-                    </div>
-                    <div class="row-right" v-if="!!equityData">
-                        <template v-if="!!equityData.times">
-                            <span class="activity-type">活动定时抢 /</span>
-                            <span class="activity-val" v-if="!!equityData">{{equityTimeStr}}</span>
-                        </template>
-                    </div>
-                </div>
-                <div class="main-row table-row">
-                    <div class="row-right">
-                        <span class="activity-type">规则描述 /</span>
-                        <textarea v-if="!!equityData" class="textarea-val" readonly="readonly" v-model="equityData.description">
-                        </textarea>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
-    <!--<div class="activity-baseinfo">-->
-    <!--<span class="act-title">活动基本信息</span>-->
-    <!--<div class="baseinfo-boby">-->
-    <!--<div class="mian-row">-->
-    <!--<div class="activity-type">活动名称</div>-->
-    <!--<div class="activity-val">8.8折抵用券</div>-->
-    <!--</div>-->
-    <!--<div class="mian-row">-->
-    <!--<div class="activity-type">活动预算</div>-->
-    <!--<div class="activity-val">50000</div>-->
-    <!--</div>-->
-    <!--<div class="mian-row">-->
-    <!--<div class="activity-type">活动时间</div>-->
-    <!--<div class="activity-val">2017-01-01 00:00:00-2017-01-01 00:00:00</div>-->
-    <!--</div>-->
-    <!--<div class="mian-row">-->
-    <!--<div class="activity-type">所属银行</div>-->
-    <!--<div class="activity-val">江西银行</div>-->
-    <!--</div>-->
-    <!--<div class="mian-row">-->
-    <!--<div class="activity-type">参与时间段</div>-->
-    <!--<div class="activity-val">每天参与时间段【10:00-20:00】</div>-->
-    <!--</div>-->
-    <!--<div class="mian-row">-->
-    <!--<div class="activity-type">活动主题</div>-->
-    <!--<div class="activity-val">1、江西银行</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
 </template>
 
-<!--<template>-->
-<!--<div class="activity-info">-->
-<!--<div class="info-title">-->
-<!--<ul class="tab-bor">-->
-<!--<li @click="step=1" :class="{'active':step===1}">活动基本信息</li>-->
-<!--<li v-show="!!ruleList.ruleType" @click="step=2" :class="{'active':step===2}">规则设置</li>-->
-<!--<li v-show="!!storeList.length" @click="step=3" :class="{'active':step===3}">商户信息</li>-->
-<!--&lt;!&ndash;<li @click="step=4" :class="{'active':step===4}">权益信息</li>&ndash;&gt;-->
-<!--</ul>-->
-<!--</div>-->
-
-<!--</template>-->
 <script type="text/javascript">
     import model from '../../ajax/activity/info_model'
     export default{
@@ -287,7 +180,6 @@
             this.model=model(this)
             return{
                 step:1,
-                uuidsList:JSON.parse(sessionStorage.getItem('bankNames')),
                 basicData:{},
                 ruleList:{
                     moneys:[],
@@ -315,7 +207,6 @@
                     '%TOTALLEFT%':'总剩余名额'
                 },
                 validPeriod:'',
-                equityData:{},
                 equityTimeStr:'',
                 ruleStr:'',
                 isFlex:true,
@@ -331,36 +222,6 @@
                     return;
                 }
                 this.$set('ruleList',datas);
-                if(this.equityData!=null)
-                {
-                    let favorId=this.equityData.favorId;
-                    //this.getActInfo(favorId);
-                    let validPeriod='';
-                    if(this.equityData.validPeriod!=null)
-                    {
-                        validPeriod=this.equityData.validPeriod;
-                        if(validPeriod==-1)
-                        {
-                            this.validPeriod='与活动时间同步';
-                        }
-                        else
-                        {
-                            this.validPeriod='用户得到权益'+validPeriod+'天内';
-                        }
-                    }
-                    if(this.equityData.times!=null&&this.equityData.weeks!=null)
-                    {
-                        let equityTimeStr='';
-                        let weeks=['星期日','星期一','星期二','星期三','星期四','星期五','星期六']
-                        var weekList=this.equityData.weeks.split(',');
-                        _.map(weekList,(val,index)=>{
-                            index===weekList.length-1?equityTimeStr+=weeks[val<<0]:equityTimeStr+=weeks[val<<0]+'、';
-                        })
-                        equityTimeStr+=this.equityData.times;
-                        this.equityTimeStr=equityTimeStr;
-                        this.isFlex=false;
-                    }
-                }
             },
             getActInfo(favorId){
                 this.model.searchReceive(favorId).then((res)=>{
@@ -377,7 +238,6 @@
                     console.log(res.data.data);
                     this.$set('basicData',res.data.data.base);
                     this.$set('storeList',res.data.data.store.bankMarketingStores);
-                    this.$set('equityData',res.data.data.favorConfigs[res.data.data.favorConfigs.length-1]);
                     this.getRules(res.data.data.ruleAndLimit);
                 }
             });

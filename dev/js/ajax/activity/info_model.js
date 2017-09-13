@@ -19,7 +19,7 @@ function model(_this) {
          * @returns {*}
          */
         searchReceive (_id){
-            return formDataRequest('./transfer/activity_configure/api/v1/favorconfig/'+_id).get()
+            return formDataRequest('./favorconfig/'+_id).get()
         }
     }
 }

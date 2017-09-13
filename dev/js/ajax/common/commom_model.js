@@ -11,7 +11,7 @@ export default function install(Vue) {
          * @returns {*}
          */
         getProvince() {
-            return Vue.http.get('./transfer/activity_configure/api/v1/area/province/list')
+            return Vue.http.get('./area/province/list')
         },
         /**
          * @description 获取所有城市列表
@@ -19,7 +19,7 @@ export default function install(Vue) {
          * @returns {*}
          */
         getAllcity() {
-            return Vue.http.get('./transfer/activity_configure/api/v1/area/allCity/list')
+            return Vue.http.get('./area/allCity/list')
         },
         /**
          * @description 通过省份获取城市列表
@@ -27,9 +27,16 @@ export default function install(Vue) {
          * @returns {*}
          */
         getCity(data) {
-            return formDataRequest('./transfer/activity_configure/api/v1/area/city/list').get(data)
+            return formDataRequest('./area/city/list').get(data)
         },
-
+        /**
+         * @description 通过省份获取城市列表
+         * @param data
+         * @returns {*}
+         */
+        getBankList(data) {
+            return formDataRequest('./bank/bank_list').get(data)
+        },
         /**
          * @description 活动列表查询
          * @param data
@@ -38,6 +45,7 @@ export default function install(Vue) {
         getActivityList(data) {
             return Vue.http.post('./transfer/activity_configure/api/v1/activity/list',data)
         }
+
     };
     Object.defineProperties(Vue.prototype, {
         $common_model: {get(){return _m}}

@@ -11,7 +11,7 @@
          * @returns {*}
          */
         getDetailList(data) {
-            return formDataRequest('./transfer/data_analysis/das/api/v1/trade_query/detail/list').get(data)
+            return formDataRequest('./trade_query/detail/list').get(data)
         },
         /**
          * @description 获取各个活动的交易统计信息
@@ -19,7 +19,7 @@
          * @returns {*}
          */
         getTradeStatisticsSumList(data) {
-            return formDataRequest('./transfer/data_analysis/das/api/v1/trade_query/tradeSum/list').get(data)
+            return formDataRequest('./trade_query/tradeSum/list').get(data)
         },
     }
 }

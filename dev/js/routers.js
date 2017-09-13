@@ -37,230 +37,10 @@ export default function (Vue,router){
                         require(['./views/home.vue'], resolve)
                     }
                 },
-                /* 创建活动页面 */
-                'create-activity': {
-                    name: 'create-acitvity',
-                    router_type:[{link:'create-acitvity',text:'创建活动'}],
-                    router_tile:'创建活动',
-                    component: (resolve) => {
-                        require(['./views/activity/create-activity.vue'], resolve)
-                    }
-                },
-                'basic-rule/:activityId/:rulename':{
-                    name:'basic-rule',
-                    router_type:[
-                        {link:'create-acitvity',text:'创建活动'},
-                        {link:'basic-rule',text:'活动基本设置'}
-                    ],
-                    router_tile:'活动基本设置',
-                    component:(resolve)=>{
-                        require(['./views/activity/basic-rule.vue'],resolve)
-                    }
-                },
-                'activity-rule':{
-                    name:'activity-rule',
-                    router_type:[
-                        {link:'create-acitvity',text:'创建活动'},
-                        {link:'activity-rule',text:'活动规则设置'}
-                    ],
-                    router_tile:'活动规则设置',
-                    component:(resolve)=>{
-                        require(['./views/activity/activity-rule.vue'],resolve)
-                    },
-                    subRoutes:{
-                        'MeetMinus/:ruleId':{
-                            name:'MeetMinus',
-                            router_type:[
-                                {link:'create-acitvity',text:'创建活动'},
-                                {link:'activity-rule',text:'活动规则设置'}
-                            ],
-                            component:(resolve)=>{
-                                require(['./views/rule-template/MeetMinus.vue'],resolve)
-                            }
-                        },
-                        'RandomMinus/:ruleId':{
-                            name:'RandomMinus',
-                            router_type:[
-                                {link:'create-acitvity',text:'创建活动'},
-                                {link:'activity-rule',text:'活动规则设置'}
-                            ],
-                            component:(resolve)=>{
-                                require(['./views/rule-template/RandomMinus.vue'],resolve)
-                            }
-                        },
-                        'EveryMeetMinus/:ruleId':{
-                            name:'EveryMeetMinus',
-                            router_type:[
-                                {link:'create-acitvity',text:'创建活动'},
-                                {link:'activity-rule',text:'活动规则设置'}
-                            ],
-                            component:(resolve)=>{
-                                require(['./views/rule-template/EveryMeetMinus.vue'],resolve)
-                            }
-                        },
-                        'ImmediatelyMinus/:ruleId':{
-                            name:'ImmediatelyMinus',
-                            router_type:[
-                                {link:'create-acitvity',text:'创建活动'},
-                                {link:'activity-rule',text:'活动规则设置'}
-                            ],
-                            component:(resolve)=>{
-                                require(['./views/rule-template/ImmediatelyMinus.vue'],resolve)
-                            }
-                        },
-                        'MeetDiscount/:ruleId':{
-                            name:'MeetDiscount',
-                            router_type:[
-                                {link:'create-acitvity',text:'创建活动'},
-                                {link:'activity-rule',text:'活动规则设置'}
-                            ],
-                            component:(resolve)=>{
-                                require(['./views/rule-template/MeetDiscount.vue'],resolve)
-                            }
-                        },
-                        'Ticket/:ruleId':{
-                            name:'Ticket',
-                            router_type:[
-                                {link:'create-acitvity',text:'创建活动'},
-                                {link:'activity-rule',text:'活动规则设置'}
-                            ],
-                            component:(resolve)=>{
-                                require(['./views/rule-template/Ticket.vue'],resolve)
-                            }
-                        },
-                        'SerialDiscount/:ruleId':{
-                            name:'SerialDiscount',
-                            router_type:[
-                                {link:'create-acitvity',text:'创建活动'},
-                                {link:'activity-rule',text:'活动规则设置'}
-                            ],
-                            component:(resolve)=>{
-                                require(['./views/rule-template/SerialDiscount.vue'],resolve)
-                            }
-                        },
-                        'WeekdayDiscount/:ruleId':{
-                            name:'WeekdayDiscount',
-                            router_type:[
-                                {link:'create-acitvity',text:'创建活动'},
-                                {link:'activity-rule',text:'活动规则设置'}
-                            ],
-                            component:(resolve)=>{
-                                require(['./views/rule-template/WeekdayDiscount.vue'],resolve)
-                            }
-                        },
-                        'DateDiscount/:ruleId':{
-                            name:'DateDiscount',
-                            router_type:[
-                                {link:'create-acitvity',text:'创建活动'},
-                                {link:'activity-rule',text:'活动规则设置'}
-                            ],
-                            component:(resolve)=>{
-                                require(['./views/rule-template/DateDiscount.vue'],resolve)
-                            }
-                        },
-                        'RandomDiscount/:ruleId':{
-                            name:'RandomDiscount',
-                            router_type:[
-                                {link:'create-acitvity',text:'创建活动'},
-                                {link:'activity-rule',text:'活动规则设置'}
-                            ],
-                            component:(resolve)=>{
-                                require(['./views/rule-template/RandomDiscount.vue'],resolve)
-                            }
-                        },
-                        'CouponDiscount/:ruleId':{
-                            name:'CouponDiscount',
-                            router_type:[
-                                {link:'create-acitvity',text:'创建活动'},
-                                {link:'activity-rule',text:'活动规则设置'}
-                            ],
-                            component:(resolve)=>{
-                                require(['./views/rule-template/CouponDiscount.vue'],resolve)
-                            }
-                        },
-                        'CouponMinus/:ruleId':{
-                            name:'CouponMinus',
-                            router_type:[
-                                {link:'create-acitvity',text:'创建活动'},
-                                {link:'activity-rule',text:'活动规则设置'}
-                            ],
-                            component:(resolve)=>{
-                                require(['./views/rule-template/CouponMinus.vue'],resolve)
-                            }
-                        },
-                    }
-                },
-                'Custom':{
-                    name:'Custom',
-                    router_type:[
-                        {link:'create-acitvity',text:'创建活动'},
-                        {link:'Custom',text:'活动自定义'},
-                    ],
-                    router_tile:'活动自定义',
-                    component:(resolve)=>{
-                        require(['./views/rule-template/Custom.vue'],resolve)
-                    }
-                },
-                'bussiness-set/:bactivityId':{
-                    name:'bussiness-set',
-                    router_type:[
-                        {link:'create-acitvity',text:'创建活动'},
-                        {link:'bussiness-set',text:'活动商户设置'}
-                    ],
-                    router_tile:'活动商户设置',
-                    component:(resolve)=>{
-                        require(['./views/activity/bussiness-set.vue'],resolve)
-                    }
-                },
-                'latinos-receive/:receiveId/:latinosName/:latinosId':{
-                    name:'latinos-receive',
-                    router_type:[
-                        {link:'create-acitvity',text:'创建活动'},
-                        {link:'latinos-receive',text:'权益设置'}
-                    ],
-                    router_tile:'权益设置',
-                    component:(resolve)=>{
-                        require(['./views/activity/latinos-receive.vue'],resolve)
-                    }
-                },
-                'ticketbussiness-set/:tactivityId':{
-                    name:'ticketbussiness-set',
-                    router_type:[
-                        {link:'create-acitvity',text:'创建活动'},
-                        {link:'bussiness-set',text:'活动商户设置'}
-                    ],
-                    router_tile:'活动商户设置',
-                    component:(resolve)=>{
-                        require(['./views/activity/ticketbussiness-set.vue'],resolve)
-                    }
-                },
-                /* 活动管理页面 */
-                'activity-manage': {
-                    name: 'activity-manage',
-                    router_type:[
-                        {link:'activity-manage',text:'活动管理'}
-                    ],
-                    router_tile:'活动管理',
-                    component: (resolve) => {
-                        require(['./views/activity/activity-manage.vue'], resolve)
-                    }
-                },
-                /* 活动详情页面 */
-                'activity-info/:infoId': {
-                    name: 'activity-info',
-                    router_type:[
-                        {link:'activity-manage',text:'活动管理'},
-                        {link:'activity-info',text:'活动详情'}
-                    ],
-                    router_tile:'活动详情',
-                    component: (resolve) => {
-                        require(['./views/activity/activity-info.vue'], resolve)
-                    }
-                },
                 /* 活动分析数据总览 */
                 'activity-analysis': {
                     name: 'activity-analysis',
-                     router_type:[
+                    router_type:[
                         {link:'activity-analysis',text:'活动分析'}
                     ],
                     router_tile:'活动分析',
@@ -290,6 +70,18 @@ export default function (Vue,router){
                     router_tile:'导出PDF',
                     component: (resolve) => {
                         require(['./views/activity/activity-pdfout.vue'], resolve)
+                    }
+                },
+                /* 活动详情页面 */
+                'activity-info/:infoId': {
+                    name: 'activity-info',
+                    router_type:[
+                        {link:'transaction-search',text:'交易查询'},
+                        {link:'activity-info',text:'活动详情'}
+                    ],
+                    router_tile:'活动详情',
+                    component: (resolve) => {
+                        require(['./views/activity/activity-info.vue'], resolve)
                     }
                 },
                 /* 交易查询*/
@@ -338,17 +130,6 @@ export default function (Vue,router){
                         require(['./views/latinos/latinos-search.vue'], resolve)
                     }
                 },
-                'set-receive/:setReceiveId/:setReceiveActivityId':{
-                    name:'set-receive',
-                    router_type:[
-                        {link:'latinos-search',text:'权益查询'},
-                        {link:'set-receive',text:'权益配置'}
-                    ],
-                    router_tile:'权益配置',
-                    component:(resolve)=>{
-                        require(['./views/latinos/latinos-receive.vue'],resolve)
-                    }
-                },
                 /* 权益明细查询*/
                 'latinos-detail/:latinosID/:couponName/:activityName/:startTime/:endTime/:couponFaceValue/:couponType':{
                     name:'latinos-detail',
@@ -359,41 +140,6 @@ export default function (Vue,router){
                     router_tile:'权益明细',
                     component:(resolve)=>{
                         require(['./views/latinos/latinos-detail.vue'], resolve)
-                    }
-                },
-                /* 批量送权益*/
-                'latinos-batch/:batchId/:batchUserId':{
-                    name:'latinos-batch',
-                    router_type:[
-                        {link:'latinos-search',text:'权益查询'},
-                        {link:'latinos-batch',text:'批量送权益'}
-                    ],
-                    router_tile:'批量送权益',
-                    component:(resolve)=>{
-                        require(['./views/latinos/latinos-batch.vue'], resolve)
-                    }
-                },
-                /* 批量送权益*/
-                'latinos-user/:latinosUserId':{
-                    name:'latinos-user',
-                    router_type:[
-                        {link:'latinos-search',text:'权益查询'},
-                        {link:'latinos-user',text:'批量送权益'}
-                    ],
-                    router_tile:'批量送权益',
-                    component:(resolve)=>{
-                        require(['./views/latinos/latinos-user.vue'], resolve)
-                    }
-                },
-                /* 银行基本设置页面 */
-                'bank-config': {
-                    name: 'bank-config',
-                    router_type:[
-                        {link:'bank-config',text:'银行基本设置'}
-                    ],
-                    router_tile:'银行基本设置',
-                    component: (resolve) => {
-                        require(['./views/config/bank-config.vue'], resolve)
                     }
                 },
                 /* 密码设置页面 */
@@ -418,17 +164,17 @@ export default function (Vue,router){
                         require(['./views/config/user-config.vue'], resolve)
                     }
                 },
-                /* 分支行设置页面 */
-	            'branch-bank': {
-		            name: 'branch-bank',
+                /* 工具页面 */
+                'uploadForm': {
+                    name: 'uploadForm',
                     router_type:[
-                        {link:'branch-bank',text:'分支行设置'}
+                        {link:'user-config',text:'用户设置'}
                     ],
-                    router_tile:'分支行设置',
-		            component: (resolve) => {
-			            require(['./views/config/branch-bank.vue'], resolve)
-		            }
-	            },
+                    router_tile:'工具页面',
+                    component: (resolve) => {
+                        require(['./views/uploadForm/uploadForm.vue'], resolve)
+                    }
+                }
             }
         },
         /* 404路由 */

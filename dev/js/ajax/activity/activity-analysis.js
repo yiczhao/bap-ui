@@ -16,9 +16,9 @@ function model(_this) {
                  endDate:getDates().today,
                  compareFlag:data.compareFlag,
                  activityID:data.activityID,
-                 bankUuidString:data.bankUuidString,
+                 organizers:[data.organizers],
              }
-         	return formDataRequest('./transfer/data_analysis/das/api/v1/trade_data/total').get(datas)
+         	return formDataRequest('./trade_data/total').get(datas)
          },
         /**
          * @description 交易数据分析获取某个时间段的累计关键数据信息
@@ -29,9 +29,9 @@ function model(_this) {
             let datas={
                 compareFlag:data.compareFlag,
                 activityID:data.activityID,
-                bankUuidString:data.bankUuidString,
+                organizers:[data.organizers],
             }
-            return formDataRequest('./transfer/data_analysis/das/api/v1/trade_data/total').get(datas)
+            return formDataRequest('./trade_data/total').get(datas)
         },
          /**
          * @description 交易数据分析获取某个时间段的交易总金额集合
@@ -39,7 +39,7 @@ function model(_this) {
          * @returns {*}
          */
          getTradeAmount(data){
-            return formDataRequest('./transfer/data_analysis/das/api/v1/trade_data/trade_amount/list').get(data)
+            return formDataRequest('./trade_data/trade_amount/list').get(data)
          },
          /**
          * @description 交易数据分析获取某个时间段的补贴总金额集合
@@ -47,7 +47,7 @@ function model(_this) {
          * @returns {*}
          */
          getSubsidyAmount(data){
-            return formDataRequest('./transfer/data_analysis/das/api/v1/trade_data/subsidy_amount/list').get(data)
+            return formDataRequest('./trade_data/subsidy_amount/list').get(data)
          },
          /**
          * @description 交易数据分析获取某个时间段的交易总笔数集合
@@ -55,23 +55,31 @@ function model(_this) {
          * @returns {*}
          */
          getTradeNum(data){
-         	return formDataRequest('./transfer/data_analysis/das/api/v1/trade_data/trade_num/list').get(data)
+         	return formDataRequest('./trade_data/trade_num/list').get(data)
          },
          /**
          * @description 交易区域获取累计关键数据信息
          * @param id
          * @returns {*}
          */
-         getTradeAreaTotal(data){
-         	return formDataRequest('./transfer/data_analysis/das/api/v1/trade_area/total').get(data)
-         },
+        getTradeAreaTotal(data){
+            return formDataRequest('./trade_area/total').get(data)
+        },
+        /**
+         * @description 交易区域获取累计关键数据信息
+         * @param id
+         * @returns {*}
+         */
+        getTradeAreaTotals(data){
+            return formDataRequest('./trade_area/trade_area/list').get(data)
+        },
          /**
          * @description 交易区域获取交易金额排行
          * @param id
          * @returns {*}
          */
          getTradeAreaTotalAmountList(data){
-         	return formDataRequest('./transfer/data_analysis/das/api/v1/trade_area/trade_amount/hot_list').get(data)
+         	return formDataRequest('./trade_area/trade_amount/hot_list').get(data)
          },
           /**
          * @description 交易区域获取交易笔数排行
@@ -79,7 +87,7 @@ function model(_this) {
          * @returns {*}
          */
          getTradeAreaNumList(data){
-         	return formDataRequest('./transfer/data_analysis/das/api/v1/trade_area/trade_num/hot_list').get(data)
+         	return formDataRequest('./trade_area/trade_num/hot_list').get(data)
          },
           /**
          * @description 交易时段分析
@@ -87,7 +95,7 @@ function model(_this) {
          * @returns {*}
          */
          getTradePeriodTotal(data){
-         	return formDataRequest('./transfer/data_analysis/das/api/v1/trade_period/total').get(data)
+         	return formDataRequest('./trade_period/total').get(data)
          },
          /**
          * @description 商户数据累计关键数据
@@ -95,7 +103,7 @@ function model(_this) {
          * @returns {*}
          */
          getMerchantTradeTotal(data){
-         	return formDataRequest('./transfer/data_analysis/das/api/v1/merchant_data/total').get(data)
+         	return formDataRequest('./merchant_data/total').get(data)
          },
          /**
          * @description 商户数据获取交易金额
@@ -103,7 +111,7 @@ function model(_this) {
          * @returns {*}
          */
          getMerchantTradeAmount(data){
-         	return formDataRequest('./transfer/data_analysis/das/api/v1/merchant_data/trade_amount').get(data)
+         	return formDataRequest('./merchant_data/trade_amount').get(data)
          },
          /**
          * @description 商户数据获取交易笔数
@@ -111,7 +119,7 @@ function model(_this) {
          * @returns {*}
          */
          getMerchantTradeCount(data){
-         	return formDataRequest('./transfer/data_analysis/das/api/v1/merchant_data/trade_count').get(data)
+         	return formDataRequest('./merchant_data/trade_count').get(data)
          },
          /**
          * @description 卡BIN获取卡BIN累计关键数据信息
@@ -119,7 +127,7 @@ function model(_this) {
          * @returns {*}
          */
          getCardBINTotal(data){
-         	return formDataRequest('./transfer/data_analysis/das/api/v1/card_bin/total').get(data)
+         	return formDataRequest('./card_bin/total').get(data)
          },
          /**
          * @description 卡BIN获取卡BIN交易金额排行
@@ -127,7 +135,7 @@ function model(_this) {
          * @returns {*}
          */
          getCardBINTradeAmountList(data){
-         	return formDataRequest('./transfer/data_analysis/das/api/v1/card_bin/trade_amount/hot_list').get(data)
+         	return formDataRequest('./card_bin/trade_amount/hot_list').get(data)
          },
          /**
          * @description 卡BIN获取卡BIN交易笔数排行
@@ -135,7 +143,7 @@ function model(_this) {
          * @returns {*}
          */
          getCardBINTradeNumList(data){
-         	return formDataRequest('./transfer/data_analysis/das/api/v1/card_bin/trade_num/hot_list').get(data)
+         	return formDataRequest('./card_bin/trade_num/hot_list').get(data)
          },
          /**
          * @description 单卡获取关键数据
@@ -143,7 +151,7 @@ function model(_this) {
          * @returns {*}
          */
          getOneCardTotal(data){
-         	return formDataRequest('./transfer/data_analysis/das/api/v1/one_card/total').get(data)
+         	return formDataRequest('./one_card/total').get(data)
          },
          /**
          * @description 单卡获取单卡参与次数数据
@@ -151,7 +159,7 @@ function model(_this) {
          * @returns {*}
          */
          getOneCardSwipedCount(data){
-         	return formDataRequest('./transfer/data_analysis/das/api/v1/one_card/swiped_count').get(data)
+         	return formDataRequest('./one_card/swiped_count').get(data)
          },
          /**
          * @description 查询活动所有数据
@@ -166,8 +174,8 @@ function model(_this) {
          * @param data
          * @returns {*}
          */
-        getBankByUuid (data) {
-            return formDataRequest('./bank/uuid').get(data)
+        getBankByUuid (_id) {
+            return formDataRequest('./bank/info/'+_id).get()
         }
 	}
 }

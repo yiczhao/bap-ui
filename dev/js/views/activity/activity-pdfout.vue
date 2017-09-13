@@ -12,15 +12,21 @@
 			<div class="activity-flex">
 				<div>活动名称:<span>{{basicData.name}}</span></div>
 				<div>活动预算:<span>{{basicData.budget}}</span></div>
-				<div>所属银行:</div>
+				<div>所属银行:<span>{{bankName}}</span></div>
 			</div>
 			<div class="activity-flex">
 				<div>活动时间:<span>{{basicData.startTime}} 	 {{basicData.endTime}}</span></div>
 				<div>参与时间段:<span v-for="n in basicData.timesList">【{{n}}】</span></div>
 			</div>
-			<div class="activity-flex">活动主题:<span>{{basicData.subject}}</span></div>
-			<div class="activity-flex">活动细则:<span>{{basicData.detail}}</span></div>
-			<div class="activity-flex">POS小票内容设置:<span>{{basicData.posPrint}}</span></div>
+			<div class="activity-flex">
+				<div>活动主题:<span>{{basicData.subject}}</span></div>
+			</div>
+			<div class="activity-flex">
+				<div>活动细则:<span>{{basicData.detail}}</span></div>
+			</div>
+			<div class="activity-flex">
+				<div>POS小票内容设置:<span>{{basicData.posPrint}}</span></div>
+			</div>
 		</div>
 		<div class="analysis-data">
 			<div class="data-title">
@@ -438,7 +444,6 @@
 				oneCardArea:{//单卡数据
 					oneCardModel:[],
 				},
-				uuids:[JSON.parse(sessionStorage.getItem('loginList')).bankUUID],
 				activityList:[],
 				tradeDataEchart:{
 					echartDivID:'data-echart-weekmonth',
@@ -454,6 +459,7 @@
 					tradeNum_30:'number-area-month',
 				},
 				activityInfo:0,
+                bankName:'',
 				basicData:{
 					name:'',
 					budget:'',
@@ -467,7 +473,7 @@
 				shortName:'',
 				id:{
 					activityID:'',
-					bankUuidString:'',
+                    organizers:'',
 					pdfMap:{
 						activityBaseInfo:{
 							"activityBaseInfo":[{'id':'','uri':''}],
@@ -526,7 +532,7 @@
 				saveArray:'',
 				exportPdfData:{
 					activityID:'',
-					bankUuidString:'',
+                    organizers:'',
 					pdfMap:{},
 				},
 				searchData:{
@@ -534,7 +540,7 @@
 					endDate:'',
 					compareFlag:true,
 					activityID:'',
-					bankUuidString:'',
+                    organizers:'',
 				},
 				tableText:'',
 				compareFlag:true,
@@ -610,7 +616,7 @@
 			},
 			tradeDataModelTodayTotal(){//获取今日\累计关键数据
 				this.searchData.activityID=this.id.activityID;
-                (!this.id.activityID)? this.searchData.bankUuidString=sessionStorage.getItem('uuids'):this.searchData.bankUuidString='';
+                (!this.id.activityID)? this.searchData.organizers=[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]:this.searchData.organizers='';
         		this.model.getTradeDataTotal(this.searchData).then((res)=>{
         			if (res.data.code==0){
         				this.$set('transactionDataShow.tradeDataToday',res.data.data);
@@ -629,7 +635,7 @@
 					endDate:this.times.todayDate,
 					activityID:this.id.activityID
 				};
-                (!this.id.activityID)? data_7.bankUuidString=sessionStorage.getItem('uuids'):data_7.bankUuidString='';
+                (!this.id.activityID)? data_7.organizers=[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]:data_7.organizers='';
                 //7日交易金额
 				this.model.getTradeAmount(data_7).then((res)=>{
 	        		if (res.data.code==0){
@@ -660,7 +666,7 @@
 					activityID:this.id.activityID
 				};
 				 //7日交易金额
-                (!this.id.activityID)? data_30.bankUuidString=sessionStorage.getItem('uuids'):data_30.bankUuidString='';
+                (!this.id.activityID)? data_30.organizers=[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]:data_30.organizers='';
 				this.model.getTradeAmount(data_30).then((res)=>{
 	        		if (res.data.code==0){
 	        			this.tableText='30日交易总金额（元）';
@@ -694,7 +700,7 @@
         		let data={
         			activityID:this.id.activityID
         		};
-                (!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.id.activityID)? data.organizers=[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]:data.organizers='';
         		this.model.getTradeAreaTotal(data).then((res)=>{
         			if (res.data.code==0){
         				this.$set('transactionRegion.tradeAreaModel',res.data.data);
@@ -706,7 +712,7 @@
         		let data={
         			activityID:this.id.activityID
         		};
-                (!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.id.activityID)? data.organizers=[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]:data.organizers='';
         		this.model.getTradeAreaTotalAmountList(data).then((res)=>{
         			if (res.data.code==0){
         				this.transactionRegion.tradeArea=!res.data.data.category?this.transactionRegion.tradeArea=['0']:res.data.data.category;
@@ -722,7 +728,7 @@
 				let data={
         			activityID:this.id.activityID
 				};
-                (!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.id.activityID)? data.organizers=[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]:data.organizers='';
 				this.model.getTradeAreaNumList(data).then((res)=>{
         			if (res.data.code==0){
         				this.tableText='交易区域交易笔数（笔）';
@@ -737,7 +743,7 @@
         			activityID:this.id.activityID
 				};
 				let hours=["00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"];
-                (!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.id.activityID)? data.organizers=[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]:data.organizers='';
 				this.model.getTradePeriodTotal(data).then((res)=>{
 					if (res.data.code==0){
 						this.tableText='累计交易笔数（笔）';
@@ -758,7 +764,7 @@
 				let data={
         			activityID:this.id.activityID
 				};
-                (!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.id.activityID)? data.organizers=[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]:data.organizers='';
 				this.model.getMerchantTradeTotal(data).then((res)=>{
 					if (res.data.code==0){
 						this.$set('merchantDataArea.merchantDataTotal',res.data.data);
@@ -770,7 +776,7 @@
 				let data={
         			activityID:this.id.activityID
 				};
-                (!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.id.activityID)? data.organizers=[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]:data.organizers='';
 				this.model.getMerchantTradeAmount(data).then((res)=>{
 					if (res.data.code==0){
 						this.merchantDataArea.storeName=!res.data.data.series[0].storeAndMerchantName?this.merchantDataArea.storeName=['0']:res.data.data.series[0].storeAndMerchantName;//商户数据名称
@@ -785,7 +791,7 @@
 				let data={
         			activityID:this.id.activityID
 				};
-                (!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.id.activityID)? data.organizers=[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]:data.organizers='';
 
 				this.model.getMerchantTradeCount(data).then((res)=>{
 					if (res.data.code==0){
@@ -808,7 +814,7 @@
 				let data={
         			activityID:this.id.activityID
 				};
-                (!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.id.activityID)? data.organizers=[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]:data.organizers='';
 				this.model.getCardBINTotal(data).then((res)=>{
 					if (res.data.code==0){
 						this.$set('cardBINDataArea.CardBinModel',res.data.data);
@@ -821,7 +827,7 @@
         			activityID:this.id.activityID
 
 				};
-                (!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.id.activityID)? data.organizers=[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]:data.organizers='';
 				this.model.getCardBINTradeAmountList(data).then((res)=>{
 					if (res.data.code==0) {
 						this.cardBINDataArea.tradeAmountCardBINChange=!res.data.data.series[0].dataDecimal[0]?this.cardBINDataArea.tradeAmountCardBINChange=['0']:res.data.data.series[0].dataDecimal;
@@ -836,7 +842,7 @@
 				let data={
         			activityID:this.id.activityID
 				};
-                (!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.id.activityID)? data.organizers=[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]:data.organizers='';
 				this.model.getCardBINTradeNumList(data).then((res)=>{
 					if (res.data.code==0) {
 						this.cardBINDataArea.binStartNumber=!res.data.data.series[0].storeAndMerchantName?this.cardBINDataArea.binStartNumber=['0']:res.data.data.series[0].storeAndMerchantName;
@@ -857,7 +863,7 @@
 				let data={
         			activityID:this.id.activityID
 				};
-				(!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+				(!this.id.activityID)? data.organizers=[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]:data.organizers='';
 				this.model.getOneCardTotal(data).then((res)=>{
 					if (res.data.code==0) {
 						this.$set('oneCardArea.oneCardModel',res.data.data);
@@ -868,7 +874,7 @@
 				let data={
         			activityID:this.id.activityID
 				};
-                (!this.id.activityID)? data.bankUuidString=sessionStorage.getItem('uuids'):data.bankUuidString='';
+                (!this.id.activityID)? data.organizers=[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]:data.organizers='';
 				this.model.getOneCardSwipedCount(data).then((res)=>{
 					if (res.data.code==0) {
 						this.oneCardArea.oneCardNum=!res.data.data.series[0].dataLong?this.oneCardArea.oneCardNum=[0]:res.data.data.series[0].dataLong;//x轴
@@ -895,7 +901,7 @@
 			upID(){
 				//activityBaseInfo
 				//tradeDataAnalysis
-				(!this.id.activityID)?this.id.bankUuidString=sessionStorage.getItem('uuids'):null;
+				(!this.id.activityID)?this.id.organizers=[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]:null;
 				var dataAnalysis=this.id.pdfMap.tradeDataAnalysis;
 				dataAnalysis.today[0].startDate=this.times.todayDate;
 				dataAnalysis.today[0].endDate=this.times.todayDate;
@@ -983,7 +989,7 @@
 			// 		return;
 			// 	};
 			// 	this.exportPdfData.activityID=this.id.activityID;
-			// 	this.exportPdfData.bankUuidString=this.id.bankUuidString;
+			// 	this.exportPdfData.organizers=this.id.organizers;
 			// 	let formdata = {};
 	  //           _.map(this.exportPdfData,(val,key)=>{
 	  //           	formdata[key]=val;
@@ -999,12 +1005,12 @@
 			kok(postData,type){
 				//
 				if(_.isEmpty(postData.pdfMap)){//
-					this.chooseShow=false;				
+					dialog('info','请选择需要导出的区域！');
 					return;
 				};
 				if(type=="choose"){
 					postData.activityID=this.id.activityID;
-					postData.bankUuidString=this.id.bankUuidString;
+					postData.organizers=this.id.organizers;
 				}
 				let formdata = {};
 	            _.map(postData,(val,key)=>{
@@ -1061,20 +1067,17 @@
 			this.dateGetShow();
 			if(this.$route.params.pdfActivityId!=':pdfActivityId'){
 				this.id.activityID=this.$route.params.pdfActivityId;
-				this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id=this.$route.params.pdfActivityId;
+				this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id=this.$route.params.pdfActivityIds;
 				this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].uri= this.$API.getinfoList + this.id.pdfMap.activityBaseInfo.activityBaseInfo[0].id;
                 if(this.$route.params.pdfActivityIds!=':pdfActivityIds'){
                     this.model.getinfoList(this.$route.params.pdfActivityIds).then((res)=>{
                         if(res.data.code===0){
                             this.$set('basicData',res.data.data.base);
-                            let data={
-                                uuid:this.basicData.uuid
-                            }
-                            this.model.getBankByUuid(data).then((res)=>{
-                                if(res.data.code===0){
-                                    this.shortName=res.data.data.shortName;
-                                }
-                            })
+                        }
+                    })
+                    this.model.getBankByUuid(JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode).then((res)=>{
+                        if(res.data.code===0){
+                            this.bankName=res.data.data.fullName
                         }
                     })
                 }

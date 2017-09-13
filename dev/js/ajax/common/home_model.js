@@ -11,7 +11,7 @@ function model(_this) {
          * @returns {*}
          */
          getTotal(data){
-         	return formDataRequest('./transfer/data_analysis/das/api/v1/trade_data/total').get(data)
+         	return formDataRequest('./trade_data/total').get(data)
          },
           /**
          * @description 获取商户交易笔数排行
@@ -19,7 +19,7 @@ function model(_this) {
          * @returns {*}
          */
          getTradeAreaNumList(data){
-         	return formDataRequest('./transfer/data_analysis/das/api/v1/home/merchant/topten').get(data)
+         	return formDataRequest('./home/merchant/topten').get(data)
          },
          /**
          * @description 获取卡BIN交易笔数排行
@@ -27,7 +27,7 @@ function model(_this) {
          * @returns {*}
          */
          getCardBINTradeNumList(data){
-         	return formDataRequest('./transfer/data_analysis/das/api/v1/home/cardbin/topten').get(data)
+         	return formDataRequest('./home/cardbin/topten').get(data)
          }
 	}
 }

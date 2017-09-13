@@ -14,10 +14,6 @@
                         </ul>
                     </div>
                 </span>
-                <select class="select" v-model="bankUuidString" @change="setBank">
-                    <option value="">请选择发起方</option>
-                    <option v-for="n in bankFullName" :value="n.uuid" @change="getBankString">{{n.shortName}}</option>
-                </select>
                 <select class="select" v-model="searchData.activityStatus">
                     <option value="">请选择活动状态</option>
                     <option value="1">运行中</option>
@@ -65,7 +61,6 @@
                 <table class="table">
                     <tr>
                         <th>活动名称</th>
-                        <th>发起方</th>
                         <th>类型</th>
                         <th>活动状态</th>
                         <th>总笔数</th>
@@ -76,8 +71,7 @@
                         <th>操作</th>
                     </tr>
                     <tr v-for="n in dataList">
-                        <td>{{n.activityName}}</td><!-- 活动名称 -->
-                        <td>{{n.bankUuidsName}}</td><!-- 发起方 -->
+                        <td><a v-link="{name:'activity-info',params:{'infoId':n.id}}">{{n.activityName}}</a></td><!-- 活动名称 -->
                         <td>
                             <template v-if="n.subType=='online'">线上</template><!-- 子类型 -->
                             <template v-else>线下</template>
@@ -90,8 +84,8 @@
                         <td>{{n.endDate}}</td><!-- 结束日期 -->
                         <td><a v-link="{name:'transaction-detail',params:{'transactionName':n.activityName,'transactionId':n.activityId}}">交易明细</a></td><!-- 操作 -->
                     </tr>
-                     <tr v-if="!dataList.length">
-                        <td colspan="10">未查询到{{activityName}}活动</td>
+                    <tr v-show="!dataList.length">
+                        <td colspan="9">未查询到数据</td>
                     </tr>
                 </table>
             </div>
@@ -134,7 +128,6 @@
             return{
                 cumulative:[],
                 activityList:[],
-                bankFullName:[],
                 showList:false,
                 tradeTotalNumber:50,
                 activityStatues:[
@@ -145,7 +138,6 @@
                 searchData:{
                     activityName:'',
                     activityID:'',
-                    bankUuidString:'',
                     activityStatus:'',//活动状态
                     sorts:'id|desc',
                     startDate:'2017-01-01 00:00:00',//开始时间
@@ -156,7 +148,6 @@
                 objectotalNumber:0,
                 activityName:'',
                 privilegeList:[],
-                bankUuidString:'',
                 trade_echart:1,
                 replaceName:'',
                 liIndex:0,
@@ -171,7 +162,7 @@
             searchList(){
                 if(this.showList){
                     this.searchData.activityName=this.activityList[this.liIndex].name;
-                    this.searchData.activityID=this.activityList[this.liIndex].uniqueId;
+                    this.searchData.activityID=this.activityList[this.liIndex].id;
                 }
                 this.showList=false;
                 this.getList();
@@ -186,7 +177,8 @@
                 let data={
                     name:vm.replaceName,
                     maxResult:10,
-                    uuids:_.split(sessionStorage.getItem('uuids'), ',')
+                    statuses:["finish", "early_offline", "online"],
+                    organizers:[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]
                 }
                 if(!vm.replaceName){
                     vm.searchData.activityID="";
@@ -261,16 +253,7 @@
                 }
                 myChart.setOption(option);
             },
-            getBankString(){
-                if (!this.searchData.bankUuidString) {
-                    this.searchData.bankUuidString=sessionStorage.getItem('uuids');
-                }
-            },
-            setBank(){
-                this.searchData.bankUuidString=this.bankUuidString
-            },
             getList(){
-                this.getBankString();
                 if(!this.searchData.activityName){
                     this.searchData.activityID="";
                 }
@@ -301,15 +284,6 @@
                     }
                 })
             },
-            getBankList(){
-                let data={
-                };
-                this.model.getBankList(data).then((res)=>{
-                    if (res.data.code==0) {
-                        this.$set('bankFullName',res.data.dataList);
-                    }
-                })
-            },
             resetName(){
                 this.showList=false;
             },
@@ -328,7 +302,6 @@
             },
         },
         ready(){
-            this.getBankList();
             document.addEventListener('click', (e) => {
                 if (!e.target.classList.contains('showLi')) {
                     this.resetName();

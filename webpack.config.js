@@ -18,10 +18,10 @@ module.exports = {
         vuecore: __dirname + '/dev/js/vuecore.js'
     },
     output: {
-        path:__dirname+'/dist',
+        path:'./dist',
         filename:'[name].js',
         chunkFilename: '[name].chunk.js',
-        publicPath: '/dist/'
+        publicPath: '/'
     },
     module: {
         preLoaders: [
@@ -66,7 +66,7 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({                        //根据模板插入css/js等生成最终HTML
             favicon:'./dev/img/title.png', //favicon路径
-            filename:__dirname+'/index.html',    //生成的html存放路径，相对于 path
+            filename:'./index.html',    //生成的html存放路径，相对于 path
             template:'./dev/index.html',    //html模板路径
             inject:true,    //允许插件修改哪些内容，包括head与body
             hash:true,    //为静态资源生成hash值

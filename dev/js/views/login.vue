@@ -14,23 +14,23 @@
                 </div> -->
             </div>
             <div class="section">
-                <div class="section-title">场景全支付增值平台</div>
+                <div class="section-title">卡说银行活动后台</div>
                 <!-- <div class="section-infor">卡说利用现代金融技术和互联网技术手段，以智能POS终端和移动支付终端为载体，融合多种支付方式，搭建一个全方位资源整合的支付增值。</div> -->
                 <div class="section-about">
                     <div><span></span>平台体系</div>
                     <div><span></span>专业服务</div>
                     <div><span></span>卡说版图</div>
                 </div>
-                <div class="section-type">
-                    <div class="type-title">用户登录
-                    </div>
-                    <div class="type-into username"><input class="input" type="text" placeholder="手机号/账户名" v-model="loginData.name" @keyup.enter="login"></div>
-                    <div class="type-into password"><input class="input" type="password" placeholder="请输入您的密码" v-model="loginData.password" @keyup.enter="login"></div>
-                    <div class="type-into check">
+                <div class="section-type" style="display:block;width: 930px;">
+                    <div style="display:inline-block" class="type-title">用户登录</div>
+                    <div style="display:inline-block" class="type-into username"><input class="input" type="text" placeholder="手机号/账户名" v-model="loginData.name" @keyup.enter="login"></div>
+                    <div style="display:inline-block" class="type-into password"><input class="input" type="password" placeholder="请输入您的密码" v-model="loginData.password" @keyup.enter="login"></div>
+                    <div style="display:inline-block;position: relative;top: 15px;" class="type-into check" v-if="waringTips>=3">
                         <span class="input-check"><input class="input" type="text" placeholder="请输入数字或字母" v-model="loginData.usrImgCode" @keyup.enter="login"></span>
                         <span class="img"><img :src="sysCodeImg" @click="getusrImgCode"></span>
-                        <span class="icon icon-spinner" @click="getusrImgCode"></span></div>
-                    <div class="save-password">
+                        <span class="icon icon-spinner" @click="getusrImgCode"></span>
+                    </div>
+                    <div style="display:inline-block" class="save-password">
                         <ks-switch :disable="false" @change="autoType" :def-checked="true" color="#2196F3" size="mini" :checked.sync="checked"></ks-switch><span>记住密码</span>
                     </div>
                 </div>
@@ -72,6 +72,7 @@ export default {
                     usrImgCode:'',
                     verifyID:'',
                 },
+                waringTips:0,
                 checked:false,
                 color:1,
                 sysCodeImg:'',
@@ -80,19 +81,25 @@ export default {
         },
         methods:{
             login(){
-                if(!this.loginData.usrImgCode){
+                if(!this.loginData.usrImgCode&&this.waringTips>=3){
                   dialog('info','未输入验证码') ;
                   return
                 };
-                if(this.usrImgCode.toLowerCase()!==this.loginData.usrImgCode.toLowerCase()){
+                if(this.waringTips>=3&&this.usrImgCode.toLowerCase()!==this.loginData.usrImgCode.toLowerCase()){
                     dialog('info','请输入正确的验证码！') ;
                     return
                 }
                 let data={
                     name:this.loginData.name,
                     password:this.loginData.password,
-                    verifyID:this.loginData.verifyID,
-                    verifyCode:this.loginData.usrImgCode,
+                }
+                if(this.waringTips>=3){
+                    data={
+                        name:this.loginData.name,
+                        password:this.loginData.password,
+                        verifyID:this.loginData.verifyID,
+                        verifyCode:this.loginData.usrImgCode,
+                    }
                 }
                 this.$http.post('./user/login',data).then((data)=>{
                     if(data.data.code===0){
@@ -105,7 +112,16 @@ export default {
                             }
                             setCookie('userInfor',JSON.stringify(data),30);
                         }
-                        this.$router.go({'name':'home'});
+                        if(data.data.data.roleID==1){
+                            this.$router.go({'name':'home'});
+                        }else{
+                            this.$router.go({'name':'user-config'});
+                        }
+                    }else if(data.data.code===1){
+                        this.waringTips=data.data.data.loginErrorCount;
+                        if(this.waringTips>=3){
+                            this.getusrImgCode();
+                        }
                     }
                 });
             },
@@ -130,7 +146,6 @@ export default {
                 this.checked=true;
             }
             sessionStorage.clear()
-            this.getusrImgCode();
         }
     }
 </script>

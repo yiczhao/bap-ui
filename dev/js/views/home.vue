@@ -1,7 +1,7 @@
 <template>
     <div class="include-area">
         <div class="search-div">
-            <input class="input " type="text" v-model="searchData.name" placeholder="输入活动名称"
+            <input class="input " type="text" v-model="searchData.name" placeholder="全部活动"
                    @keyup="getActivity($event)" @keyup.enter="searchList"
                    @keyup.up="changeLiIndex('up')" @keyup.down="changeLiIndex('down')"
             />
@@ -18,8 +18,8 @@
             </select>
             <a class="btn btn-primary" @click="searchList">搜 索</a>
         </div>
-        <div class="right">展示所有正在进行中的活动今日、累计的刷卡数据，以及活动中不同商户交易、不同卡bin交易的笔数排行。</div>
-        <div class="right">当前数据截止到小时,{{now}} (每整点更新数据)</div>
+        <div class="right">展示活动今日、累计的刷卡数据，以及活动中不同商户交易、不同卡bin交易的笔数排行。</div>
+        <div class="right">当前数据截止到{{now}}(每30分钟更新数据)</div>
     </div>
     <div class="home">
         <div class="total-div">
@@ -74,16 +74,16 @@
                     subsidyAmount:'',
                 },
                 activityList:[],
+                showList:false,
                 TradeAreaNumList:[],
                 CardBINTradeNumList:[],
-                showList:false,
                 searchData:{
                     type:'',
                     name:'',
                     activityID:'',
                      startDate:'',
                      endDate:'',
-                     bankUuidString:'',
+                    organizers :[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode],
                 },
                 replaceName:'',
             }
@@ -112,13 +112,13 @@
                 let data={
                     name:vm.replaceName,
                     maxResult:10,
-                    uuids:_.split(sessionStorage.getItem('uuids'), ',')
+                    statuses:["finish", "early_offline", "online"],
+                    organizers:[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]
                 }
                 if(!vm.replaceName){
                     vm.searchData.activityID="";
                     vm.showList=false;
                     return;
-//                        vm.getList();
                 }else{
                     vm.$common_model.getActivityList(data).then((res)=>{
                         if(res.data.code===0&&res.data.data!=vm.searchData.name){
@@ -144,17 +144,15 @@
             },
             getList(){
                 this.showList=false;
-                this.searchData.bankUuidString=sessionStorage.getItem('uuids');
+                this.searchData.organizers =[sessionStorage.getItem('loginList').bankOperationCode];
                 let data={
                     activityID:this.searchData.activityID,
                     startDate:this.searchData.startDate,
                     endDate:this.searchData.endDate,
                     compareFlag:true,
-                    // bankUuidString:sessionStorage.getItem('uuids')
-                    bankUuidString:this.searchData.bankUuidString,
+                    organizers :[this.searchData.organizers ],
                 };
                 this.liIndex=0;
-                // (!!this.searchData.activityID)? data.bankUuidString='':null;
                 this.model.getTotal(data).then((res)=>{
                     var tradeAmount=String(res.data.data.tradeAmount);
                     var tradeNum=String(res.data.data.tradeNum);
@@ -190,22 +188,7 @@
             document.removeEventListener('click', this.resetName, false);
         },
         created(){
-            formDataRequest('./bank/bank_list').get({'noPage':1}).then((res)=>{
-                if(res.data.code===0){
-                    let data=[]
-                    let datas=[]
-                    _.map(res.data.dataList,(val)=>{
-                        (!!val.uuid)?data.push(val.uuid):null;
-                        (!!val.uuid)?datas.push({
-                            id:val.uuid,
-                            name:val.shortName
-                        }):null;
-                    })
-                    sessionStorage.setItem('uuids',_.join(data, ','));
-                    sessionStorage.setItem('bankNames',JSON.stringify(datas));
-                    this.getList();
-                }
-            });
+            this.getList();
         }
     }
 </script>

@@ -5,10 +5,6 @@
             <span class="show-position">
               <input class="input " type="text" v-model="searchData.favorConfigName" @keyup.down="doSearch" placeholder="输入权益名称"/>
             </span>
-              <select class="select" v-model="bankUuidString" @change="getBankString">
-                  <option value="">请选择结算方（银行）</option>
-                  <option v-for="n in bankFullName" :value="n.uuid">{{n.shortName}}</option>
-              </select>
               <select class="select" v-model="searchData.favorTypesStr">
                   <option value="">请选择权益类型</option>
                   <option value="cash">优惠金额券</option>
@@ -30,6 +26,11 @@
                 <div class="flex-title">{{searchTotal.circulation}}</div>
                 <div class="border-right"></div>
             </div>
+              <div class="flex">
+                  <div class="echart-div" id="get-echart"></div>
+                  <div class="flex-title">{{searchTotal.usedAmount+searchTotal.unusedAmount+searchTotal.expiredAmount}}</div>
+                  <div class="border-right"></div>
+              </div>
             <div class="flex">
                 <div class="echart-div" id="use-echart"></div>
                 <div class="flex-title">{{searchTotal.usedAmount}}</div>
@@ -52,9 +53,7 @@
                   <tr>
                       <th>活动名称</th>
                       <th>权益名称</th>
-                      <th>结算方</th>
                       <th>权益类型</th>
-                      <th>面值/折扣</th>
                       <th>状态</th>
                       <th>发行量</th>
                       <th>使用量</th>
@@ -66,17 +65,11 @@
                   <tr v-for="n in dataList">
                       <td>{{n.activityName}}</td><!-- 活动名称-->
                       <td>{{n.favorConfigName}}</td><!-- 权益名称-->
-                      <td>{{n.uuid | get_bank uuidsList}}</td>
                       <td>
                           <template v-if="n.couponType=='cash'">优惠金额券</template>
                           <template v-if="n.couponType=='discount'">优惠折扣券</template>
                           <template v-if="n.couponType=='zero'">零元券</template>
                       </td><!-- 权益类型-->
-                      <td>
-                          <template v-if="n.couponType=='cash'">{{n.couponFaceValue}}元</template>
-                          <template v-if="n.couponType=='discount'">{{n.couponFaceValue}}折</template>
-                          <template v-if="n.couponType=='zero'">{{n.couponFaceValue}}元</template>
-                      </td><!-- 面值/折扣-->
                       <td>
                           <template v-if="n.status!=='OFF'&&(n.activityStatus==='early_offline'||n.activityStatus==='finish')">已结束</template>
                           <template v-if="n.status==='OFF'">已结束</template>
@@ -88,11 +81,6 @@
                       <td>{{n.startTime }}</td><!-- 开始时间-->
                       <td>{{n.endTime}}</td><!-- 结束时间-->
                       <td>
-                          <a v-if="n.status==='OFF'&&n.activityStatus==='online'" v-link="{name:'set-receive',params:{'setReceiveId':n.id,'setReceiveActivityId':n.activityID}}">权益设置</a>
-                          <span v-if="n.activityStatus!=='online'" class="color999">权益设置</span>
-                          <span v-if="n.status==='ON'&&n.activityStatus==='online'" class="colorRed" @click="latinosOff(n.id)">权益下线</span>
-                          <a v-if="n.activityStatus=='online'&&n.status==='ON'" v-link="{name:'latinos-user',params:{'latinosUserId':n.couponID}}">批量赠送</a>
-                          <span v-else class="color999">批量赠送</span>
                           <a v-link="{name:'latinos-detail',params:{'latinosID':n.couponID,'couponName':n.favorConfigName,'activityName':n.activityName,'startTime':n.startTime,'endTime':n.endTime,'couponFaceValue':n.couponFaceValue,'couponType':n.couponType}}">查看明细</a>
                       </td><!--操作-->
                   </tr>
@@ -138,7 +126,7 @@
                    },
                    activityList:[],
                    showList:false,
-                   bankUuidString:'',
+                   organizers:'',
                    searchData:{
                        page:1,
                        total:0,
@@ -147,17 +135,15 @@
                        firstResult:0,
                        maxResult:10,
                        sorts:'id|desc',
-                       startTime:JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,//开始时间
-                       endTime:stringify(new Date()),//结束时间
-                       uuidsStr:sessionStorage.getItem('uuids'),
+                       startTime:'2017-01-01',//开始时间
+                       endTime:'2017-12-31',//结束时间
+                       organizers:[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode],
                    },
                    searchTotal:'',
-                   bankFullName:'',
-                   uuidsList:JSON.parse(sessionStorage.getItem('bankNames')),
                    latinos_echart:1,
                    replaceName:'',
                    liIndex:0,
-                   daterange:[JSON.parse(sessionStorage.getItem('loginList')).bankCreateTime,stringify(new Date())]
+                   daterange:['2017-01-01','2017-12-31']
                }
            },
            methods:{
@@ -206,18 +192,11 @@
                     }
                     myChart.setOption(option);
                 },
-               getBankList(){
-                   this.model.getBankList().then((res)=>{
-                       if (res.data.code==0) {
-                           this.$set('bankFullName',res.data.dataList);
-                       }
-                   })
-               },
                getBankString(){
-                   if (!this.bankUuidString) {
-                       this.searchData.uuidsStr=sessionStorage.getItem('uuids');
+                   if (!this.organizers) {
+                       this.searchData.organizers=[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode];
                    }else{
-                       this.searchData.uuidsStr=this.bankUuidString;
+                       this.searchData.organizers=this.organizers;
                    }
                },
                doSearch(){
@@ -247,10 +226,36 @@
                    this.model.getLationsTotal(this.searchData).then((res)=>{
                        if (res.data.code==0 && !_.isEmpty(res.data.data)) {
                            this.$set('searchTotal',res.data.data);
-                           this.latinosEchart('all-echart',this.searchTotal.circulation,'权益总数量','#10B283');
-                           this.latinosEchart('use-echart',this.searchTotal.usedAmount,'权益使用量','#FF573A',this.searchTotal.circulation-this.searchTotal.usedAmount,'#D1D0CE');
-                           this.latinosEchart('unuse-echart',this.searchTotal.unusedAmount,'权益未使用量','#62cca4',this.searchTotal.circulation-this.searchTotal.unusedAmount,'#D1D0CE');
-                           this.latinosEchart('expired-echart',this.searchTotal.expiredAmount,'权益逾期量','#007EFF',this.searchTotal.circulation-this.searchTotal.expiredAmount,'#D1D0CE');
+                           let total=this.searchTotal.circulation,
+                               usedAmount= this.searchTotal.usedAmount,
+                               usedAmount1=total-usedAmount,
+                               unusedAmount=this.searchTotal.unusedAmount,
+                               unusedAmount1=total-unusedAmount,
+                               expiredAmount=this.searchTotal.expiredAmount,
+                               expiredAmount1=total-expiredAmount,
+                               getAmount=usedAmount+unusedAmount+expiredAmount,
+                               getAmount1=total-usedAmount-expiredAmount-unusedAmount;
+                           this.latinosEchart('all-echart',total,'权益总数量','#FF8F84');
+                           if(usedAmount===usedAmount1){
+                               this.latinosEchart('use-echart',usedAmount,'权益使用量','#FCCD08');
+                           }else{
+                               this.latinosEchart('use-echart',usedAmount,'权益使用量','#FCCD08',usedAmount1,'#DADADA');
+                           }
+                           if(getAmount===getAmount1){
+                               this.latinosEchart('get-echart',getAmount,'权益领取量','#FF9364');
+                           }else{
+                               this.latinosEchart('get-echart',getAmount,'权益使用量','#FF9364',getAmount1,'#DADADA');
+                           }
+                           if(unusedAmount===unusedAmount1){
+                               this.latinosEchart('unuse-echart',unusedAmount,'权益领取量','#5C94FF');
+                           }else{
+                               this.latinosEchart('unuse-echart',unusedAmount,'权益使用量','#5C94FF',unusedAmount1,'#DADADA');
+                           }
+                           if(expiredAmount===expiredAmount1){
+                               this.latinosEchart('expired-echart',expiredAmount,'权益逾期量','#8034FF');
+                           }else{
+                               this.latinosEchart('expired-echart',expiredAmount,'权益逾期量','#8034FF',expiredAmount1,'#DADADA');
+                           }
                        }else{
                          this.latinos_echart=0;
                        }
@@ -274,7 +279,6 @@
            ready(){
            },
            created(){
-               this.getBankList();
                this.getList();
            },
       }

@@ -6,6 +6,7 @@
              <span class="infor-num">面额/折扣：
                 <strong v-if="showTitle.couponType=='cash'">{{showTitle.couponFaceValue}}元</strong>
                 <strong v-if="showTitle.couponType=='discount'">{{showTitle.couponFaceValue}}折</strong>
+                <strong v-if="showTitle.couponType=='zero'">{{showTitle.couponFaceValue}}元</strong>
             </span>
              <span class="infor-num">活动时间：<strong>{{showTitle.startTime}}~{{showTitle.endTime}}</strong></span>
          </div>
@@ -29,6 +30,11 @@
                 <div class="flex-title">{{latinosDetailTotal.circulation}}</div>
                 <div class="border-right"></div>
             </div>
+             <div class="flex">
+                 <div class="echart-div" id="get-echart"></div>
+                 <div class="flex-title">{{latinosDetailTotal.usedAmount+latinosDetailTotal.unusedAmount+latinosDetailTotal.expiredAmount}}</div>
+                 <div class="border-right"></div>
+             </div>
             <div class="flex">
                 <div class="echart-div" id="use-echart"></div>
                 <div class="flex-title">{{latinosDetailTotal.usedAmount}}</div>
@@ -93,16 +99,18 @@
                      total:0,//数据总条数
                      maxResult :10,//每页展示多少条数
                      sorts:'id|desc',
+                     organizers:[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]
                  },
                  latinosDetailTotal:'',
                  latinosDetailList:[],
                  showTitle:{
                     couponName:'',
                     activityName:'',
-                    startTime:'',
-                    endTime:'',
+                    startTime:'2017-01-01 00:00:00',//开始时间
+                    endTime:'2017-12-31 23:59:59',//结束时间
                     couponFaceValue:'',
                     couponType:'',
+                     organizers:[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]
                  },
                  latinos_echart:1,
              }
@@ -153,10 +161,36 @@
                this.model.getLationsTotal(this.searchData).then((res)=>{
                    if (res.data.code==0 && !_.isEmpty(res.data.data)) {
                        this.$set('latinosDetailTotal',res.data.data);
-                       this.latinosEchart('all-echart',this.latinosDetailTotal.circulation,'权益总数量','#10B283');
-                       this.latinosEchart('use-echart',this.latinosDetailTotal.usedAmount,'权益使用量','#FF573A',this.latinosDetailTotal.circulation-this.latinosDetailTotal.usedAmount,'#D1D0CE');
-                       this.latinosEchart('unuse-echart',this.latinosDetailTotal.unusedAmount,'权益未使用量','#62cca4',this.latinosDetailTotal.circulation-this.latinosDetailTotal.unusedAmount,'#D1D0CE');
-                       this.latinosEchart('expired-echart',this.latinosDetailTotal.expiredAmount,'权益逾期量','#007EFF',this.latinosDetailTotal.circulation-this.latinosDetailTotal.expiredAmount,'#D1D0CE');
+                       let total=this.latinosDetailTotal.circulation,
+                           usedAmount= this.latinosDetailTotal.usedAmount,
+                           usedAmount1=total-usedAmount,
+                           unusedAmount=this.latinosDetailTotal.unusedAmount,
+                           unusedAmount1=total-unusedAmount,
+                           expiredAmount=this.latinosDetailTotal.expiredAmount,
+                           expiredAmount1=total-expiredAmount,
+                           getAmount=usedAmount+unusedAmount+expiredAmount,
+                           getAmount1=total-usedAmount-expiredAmount-unusedAmount;
+                       this.latinosEchart('all-echart',total,'权益总数量','#FF8F84');
+                       if(usedAmount===usedAmount1){
+                           this.latinosEchart('use-echart',usedAmount,'权益使用量','#FCCD08');
+                       }else{
+                           this.latinosEchart('use-echart',usedAmount,'权益使用量','#FCCD08',usedAmount1,'#DADADA');
+                       }
+                       if(getAmount===getAmount1){
+                           this.latinosEchart('get-echart',getAmount,'权益领取量','#FF9364');
+                       }else{
+                           this.latinosEchart('get-echart',getAmount,'权益使用量','#FF9364',getAmount1,'#DADADA');
+                       }
+                       if(unusedAmount===unusedAmount1){
+                           this.latinosEchart('unuse-echart',unusedAmount,'权益领取量','#5C94FF');
+                       }else{
+                           this.latinosEchart('unuse-echart',unusedAmount,'权益使用量','#5C94FF',unusedAmount1,'#DADADA');
+                       }
+                       if(expiredAmount===expiredAmount1){
+                           this.latinosEchart('expired-echart',expiredAmount,'权益逾期量','#8034FF');
+                       }else{
+                           this.latinosEchart('expired-echart',expiredAmount,'权益逾期量','#8034FF',expiredAmount1,'#DADADA');
+                       }
                    }else{
                      this.latinos_echart=0;
                    }

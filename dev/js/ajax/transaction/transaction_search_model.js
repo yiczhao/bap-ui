@@ -11,7 +11,7 @@
          * @returns {*}
          */
         getList(data) {
-            return formDataRequest('./transfer/data_analysis/das/api/v1/trade_query/statistics/list').get(data)
+            return formDataRequest('./trade_query/statistics/list').get(data)
         },
         /**
          * @description 获取各个活动的交易统计信息
@@ -19,7 +19,7 @@
          * @returns {*}
          */
         getTradeStatisticsSumList(data) {
-            return formDataRequest('./transfer/data_analysis/das/api/v1/trade_query/statisticsSum/list').get(data)
+            return formDataRequest('./trade_query/statisticsSum/list').get(data)
         },
         /**
          * @description 获取发起方银行信息
