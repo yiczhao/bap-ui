@@ -1,7 +1,7 @@
 <template>
     <div class="include-area">
         <div class="search-div">
-            <input class="input " type="text" v-model="searchData.name" placeholder="输入活动名称"
+            <input class="input " type="text" v-model="searchData.name" placeholder="全部活动"
                    @keyup="getActivity($event)" @keyup.enter="searchList"
                    @keyup.up="changeLiIndex('up')" @keyup.down="changeLiIndex('down')"
             />
@@ -18,8 +18,8 @@
             </select>
             <a class="btn btn-primary" @click="searchList">搜 索</a>
         </div>
-        <div class="right">展示所有正在进行中的活动今日、累计的刷卡数据，以及活动中不同商户交易、不同卡bin交易的笔数排行。</div>
-        <div class="right">当前数据截止到小时,{{now}} (每整点更新数据)</div>
+        <div class="right">展示活动今日、累计的刷卡数据，以及活动中不同商户交易、不同卡bin交易的笔数排行。</div>
+        <div class="right">当前数据截止到{{now}}(每30分钟更新数据)</div>
     </div>
     <div class="home">
         <div class="total-div">
@@ -112,6 +112,7 @@
                 let data={
                     name:vm.replaceName,
                     maxResult:10,
+                    statuses:["finish", "early_offline", "online"],
                     organizers:[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]
                 }
                 if(!vm.replaceName){

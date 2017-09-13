@@ -5,6 +5,9 @@
 				<input type="text" class="input" placeholder="请输入活动名称" v-model="searchData.activityName"
 				@keyup="getActivity($event)" @keyup.enter="searchList"
                 @keyup.up="changeLiIndex('up')" @keyup.down="changeLiIndex('down')"/>
+				<a v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':0}}">
+					查看活动总览
+				</a>
 				<input type="button" class="btn btn-primary searchBtn" @click="searchList" value="搜 索">
 				<div class="showList showLi" v-show="showList">
 	                <ul class="showLi">
@@ -13,72 +16,93 @@
 	                </ul>
 	            </div>
 			</div>
-			<span>展示活动的交易数据、微信关注量数据、现金红包发放量等数据<i>/</i>活动进行中，数据截止到16:00，2016-06-16</span>
+			<div style="color:#A3A3A3">当前数据截止到{{nowDate}}(每30分钟更新数据)</div>
 		</div>
 		<div class="chart-show">
 			<div class="flex border">
-				<div class="left" v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':1}}">
-					<h4>交易区域</h4>
-					<div class="echart-div" id="trade-area"></div>
+				<div class="left">
+					<h4>
+						交易数据
+						<a v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':0}}">查看详细数据<i class="iconfont">&#xe659;</i></a>
+						</h4>
+					<div class="echart-div" v-el:trade-data></div>
+					<div class="clearfix">
+						<p><span class="colora9"></span>累计交易总金额</p>
+						<p class="right"><span></span>今日交易总金额</p>
+					</div>
+					<div class="clearfix">
+						<p>{{tradeData.total | currency ''}}</p>
+						<p class="right">{{tradeData.today | currency ''}}</p>
+					</div>
 				</div>
-				<div class="center" v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':0}}">
-					<h4>交易数据</h4>
-					<div class="echart-div" id="trade-data"></div>
+				<div class="center">
+					<h4>
+						交易区域
+						<a v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':1}}">查看详细数据<i class="iconfont">&#xe659;</i></a>
+					</h4>
+					<div class="echart-div" v-el:trade-area></div>
+					<div class="clearfix" style="margin-top: 20px;">
+						<p v-if="!!tradeTotalData.category">产生交易区域：{{tradeTotalData.category.length}}</p>
+						<p v-if="!!tradeTotalData.avg" class="right">区域平均交易笔数：{{tradeTotalData.avg}}</p>
+					</div>
 				</div>
-				<div class="right" v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':2}}">
-					<h4>交易时段</h4>
-					<div class="echart-div" id="trade-time"></div>
+				<div class="right">
+					<h4>交易时段
+						<a v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':2}}">查看详细数据<i class="iconfont">&#xe659;</i></a>
+					</h4>
+					<div class="echart-div" v-el:trade-time></div>
 				</div>
 			</div>
 			<div class="flex short">
-				<div class="left" v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':3}}">
-					<h4>商户数据</h4>
+				<div class="left">
+					<h4>商户数据
+						<a v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':3}}">查看详细数据<i class="iconfont">&#xe659;</i></a>
+					</h4>
 					<div class="echart-div">
-						<table>
-							<tr>
-								<td>{{merchant.averageTradeNumbers}}</td>
-								<td>{{merchant.averageTradeAmount[0]}}
-									<i class="float-num" v-if="!merchant.averageTradeAmount[1]"><span>.</span>00</i>
-									<i class="float-num" v-else><span>.</span>{{merchant.averageTradeAmount[1]}}</i></td>
-							</tr>
-							<tr>
-								<td>店均交易笔数</td>
-								<td>店均交易金额</td>
-							</tr>
-						</table>
+						<div>店均交易笔数</div>
+						<div class="num">
+							<span>{{merchant.averageTradeNumbers}}</span>
+						</div>
+						<div>店均交易金额</div>
+						<div class="num">
+							<span>
+								<b>{{merchant.averageTradeAmount[0]}}.</b>
+							<i class="float-num" v-if="!merchant.averageTradeAmount[1]">00</i>
+							<i class="float-num" v-else>{{merchant.averageTradeAmount[1]}}</i></span>
+						</div>
 					</div>
 				</div>
-				<div class="center" v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':4}}">
-					<h4>卡BIN数据</h4>
+				<div class="center">
+					<h4>卡BIN数据
+						<a v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':4}}">查看详细数据<i class="iconfont">&#xe659;</i></a>
+					</h4>
 					<div class="echart-div">
-						<table>
-							<tr>
-								<td>{{cardBin.averageTradeNum}}</td>
-								<td>{{cardBin.averageTradeAmount[0]}}
-									<i class="float-num" v-if="!cardBin.averageTradeAmount[1]"><span>.</span>00</i>
-									<i class="float-num" v-else><span>.</span>{{cardBin.averageTradeAmount[1]}}</i>
-								</td>
-							</tr>
-							<tr>
-								<td>卡BIN交易笔数</td>
-								<td>卡BIN交易金额</td>
-							</tr>
-						</table>
+						<div>卡BIN平均交易笔数</div>
+						<div class="num">
+							<span class="blue">{{cardBin.averageTradeNum}}</span>
+						</div>
+						<div>卡BIN平均交易金额</div>
+						<div class="num">
+							<span class="blue">
+								<b>{{cardBin.averageTradeAmount[0]}}.</b>
+							<i class="float-num" v-if="!cardBin.averageTradeAmount[1]">00</i>
+							<i class="float-num" v-else>{{cardBin.averageTradeAmount[1]}}</i></span>
+						</div>
 					</div>
 				</div>
-				<div class="right" v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':5}}">
-					<h4>单卡交易</h4>
+				<div class="right">
+					<h4>单卡交易
+						<a v-link="{name:'activity-data-overview',params:{'adoActivityIds':!searchData.id?':adoActivityIds':searchData.id,'adoActivityId':!searchData.activityID?':adoActivityId':searchData.activityID,'mainStepChance':5}}">查看详细数据<i class="iconfont">&#xe659;</i></a>
+					</h4>
 					<div class="echart-div">
-						<table>
-							<tr>
-								<td>{{oneCard.cardNumbers}}</td>
-								<td>{{oneCard.averageCardNumbers}}</td>
-							</tr>
-							<tr>
-								<td>参与卡数量</td>
-								<td>卡均参与数量</td>
-							</tr>
-						</table>
+						<div>参与卡数量</div>
+						<div class="num">
+							<span class="green">{{oneCard.cardNumbers}}</span>
+						</div>
+						<div>卡均参与数量</div>
+						<div class="num">
+							<span class="green">{{oneCard.averageCardNumbers}}</span>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -88,16 +112,7 @@
 <style type="text/css">
 	.float-num{
 		font-style: normal;
-		font-size: 14px;
-	}
-	.float-num span{
-		font-size:22px;
-	}
-	.activity-data-overview td{
-		border-width: 0px !important;
-	}
-	.searchBtn:hover{
-		background-color: #e74c39!important;
+		font-size: 15px;
 	}
 </style>
 <script>
@@ -106,6 +121,7 @@
 		data(){
 			this.model=model(this)
 			return{
+			    nowDate:stringify(new Date()),
 				mainStep:0,
 				searchData:{
 				    id:'',
@@ -125,6 +141,7 @@
 					today:'',
 					total:'',
 				},
+                tradeTotalData:[],
 				tradeTime:[],
 				merchant:{
 					averageTradeNumbers:[],
@@ -159,6 +176,7 @@
                 let data={
                     name:vm.replaceName,
                     maxResult:10,
+                    statuses:["finish", "early_offline", "online"],
                     organizers:[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]
                 }
                 if(!vm.replaceName){
@@ -197,45 +215,111 @@
                 this.searchData.bankId='';
             },
 			initList(){
-				this.echartRadar();
 				this.tradeDataGet();
 				this.tradeTimeGet();
 				this.tradeAreaData();
 				this.dataGet();
 			},
+			echatInit(){
+                this.echartRadar(this.tradeTotalData);
+                this.echartBar(this.tradeData);
+                this.echartLine(this.tradeTime);
+			},
 			tradeAreaData(){
 			(!this.searchData.activityID)?this.searchData.bankId=this.searchData.bankId : this.searchData.activityID=this.searchData.activityID;
-				this.model.getTradeAreaTotal(this.searchData).then((res)=>{
+				this.model.getTradeAreaTotals(this.searchData).then((res)=>{
 					if(res.data.code===0){
-						// this.echartRadar();
+					    console.log(res.data.data);
+					    this.$set('tradeTotalData',res.data.data);
+					    this.echartRadar(this.tradeTotalData);
 					}
 				})
 			},
-			echartRadar(){
-				let option = {
-					title: {text: '',textStyle:{fontSize:12,color:"#fff"},},
-					tooltip: {},
-				    radar: {
-				        indicator: [{ name: '产生交易区域', },{ name: '区域平均交易笔数', },{ name: '最高交易区域', },{ name: '最高交易区域交易笔数', },{ name: '最高交易区域交易额'}],
-				        name:{textStyle:{color:'#fff'}},axisTick:{show:false},axisLabel:{show:false},splitArea:{show:false},splitLine:{show:false},axisLine:{show:false}},
-				    series: [{
-				        type: 'radar',
-				        data : [{value : [1, 51,51,70,50], name : '交易区域'}],
-				        areaStyle: {normal: {color:'#10b283'}},lineStyle: {normal: {color:'#b9babd'}},itemStyle:{normal:{color:'#3ba686'}}
-				    }]
-				};
-				let id=document.getElementById('trade-area');
-				var resizeWorldMapContainer = function () {
-					    id.style.width = id.parentNode.style.width+'px';
-					    id.style.height = id.parentNode.style.height+'px';
-					};
-				resizeWorldMapContainer();
-				let myChart=echarts.init(document.getElementById('trade-area'))
+			echartRadar(data){
+                let option = {
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data:[]
+                    },
+                    xAxis: [
+                        {
+                            type: 'category',
+                            data: data.category,
+                            axisLabel: {
+                                formatter:function(val){
+                                    return val.split("").join("\n");
+                                }
+                            }
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value',
+                            min: 0,
+                            axisLabel: {
+                                show:false,
+                            },
+                            axisTick:{
+                                show:false
+                            },
+                            splitLine:{
+                                show:false
+                            },
+                            axisLine:{show:false}
+                        },
+                        {
+                            type: 'value',
+                            axisLabel: {
+                                show:false,
+                            },
+                            axisTick:{
+                                show:false
+                            },
+                            splitLine:{
+                                show:false
+                            },
+                            min: 0,
+                            axisLine:{show:false}
+                        }
+                    ],
+                    series: [
+                        {
+                            name:'产生的交易金额',
+                            type:'bar',
+							/*设置柱状图颜色*/
+                            itemStyle: {
+                                normal: {
+                                    color:'#7ECAC5',
+									/*信息显示方式*/
+                                    label: {
+                                        show: false,
+                                        position: 'top',
+                                        formatter: '{b}\n{c}'
+                                    }
+                                }
+                            },
+                            data:data.series[0].dataDecimal
+                        },
+                        {
+                            name:'区域交易笔数',
+                            type:'line',
+                            yAxisIndex: 1,
+                            itemStyle : {  /*设置折线颜色*/
+                                normal : {
+                                    color:'#E76B5F'
+                                }
+                            },
+                            symbol:'circle',
+                            symbolSize:10,
+                            data:data.series[0].dataLong
+                        }
+                    ]
+                };
+				let id=this.$els.tradeArea;
+				let myChart=echarts.init(id);
 				myChart.setOption(option);
-				window.onresize = function () {
-				    resizeWorldMapContainer();
-				    myChart.resize();
-				};
 			},
 			tradeDataGet(){
 				(!this.searchData.activityID)?this.searchData.bankId=this.searchData.bankId : this.searchData.activityID=this.searchData.activityID;
@@ -245,7 +329,7 @@
 						this.model.getTradeDataTotalAll(this.searchData).then((res)=>{
 							if(res.data.code===0){
 								this.tradeData.total=res.data.data.tradeAmount;
-								this.echartBar([this.tradeData.today,this.tradeData.total]);
+								this.echartBar(this.tradeData);
 							}
 						})
 					}
@@ -253,23 +337,60 @@
 			},
 			echartBar(data){
 				let option = {
-				    tooltip : {trigger: 'axis',axisPointer : {type : 'shadow'}},
-				    grid: {left: '0',right: '4%',top:'20px',bottom: '3%',containLabel: true},
-				    xAxis : [{type : 'category',data : [{value:'今日交易总金额',textStyle:{color:'#fff'}},{value:'累计交易总金额',textStyle:{color:'#fff'}}],splitLine:{show:false},axisLine:{show:false},axisTick:{show:false}}],
-				    yAxis : [{type : 'value',axisLine:{show:false},axisLabel:{show:false},splitLine:{show:false},axisTick:{lineStyle:{color:'#777778',width:2,}}}],
-				    series : [{name:'交易金额（元）',type:'bar',data:data,barWidth:80,itemStyle:{normal:{color:'#3ba686'}}}]
-				};
-				let id=document.getElementById('trade-data');
-				let resizeIdContainer = function () {
-				    id.style.width = id.parentNode.style.width+'px';
-				    id.style.height = id.parentNode.style.height+'px';
-				};
-				resizeIdContainer();
-				window.onresize = function () {
-				    resizeIdContainer();
-				    myChart.resize();
-				};
-				let myChart=echarts.init(document.getElementById('trade-data'))
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b}: {c} ({d}%)"
+                    },
+                    series: [
+                        {
+                            name:'',
+                            type:'pie',
+                            radius: ['50%', '70%'],
+                            avoidLabelOverlap: false,
+                            label: {
+                                normal: {
+                                    show: false,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    show: true,
+                                    textStyle: {
+                                        fontSize: '30',
+                                        fontWeight: 'bold'
+                                    }
+                                }
+                            },
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                }
+                            },
+                            data:[
+                                {
+                                    value:data.today,
+                                    name:'今日交易总金额',
+                                    itemStyle:{normal:{color:'#7ECAC5'}},
+                                    label:{
+                                        normal: {
+                                            show: false
+                                        }
+                                    }
+                                },
+                                {
+                                    value:data.total,
+                                    name:'累计交易总金额',
+                                    itemStyle:{normal:{color:'#DBDBDB'}},
+                                    label:{
+                                        normal: {
+                                            show: false
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                };
+				let myChart=echarts.init(this.$els.tradeData)
 				myChart.setOption(option);
 			},
 			tradeTimeGet(){
@@ -283,28 +404,57 @@
 			},
 			echartLine(data){
 				let hours=["00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"];
-				let option = {
-					    tooltip : {trigger: 'axis'},
-					    grid: {left: '0px',right: '4%',top:'20px',bottom: '3%',containLabel: true},
-					    xAxis : [{type:'category',boundaryGap:false,data:hours,axisLabel:{textStyle:{color:'#fff'}},}],
-					    yAxis : [{type : 'value', axisLine:{show:false}, axisLabel:{show:false}, splitLine:{show:false}, axisTick:{lineStyle:{color:'#777778',width:2,}}} ],
-					    series : [
-					        {name:'交易笔数',type:'line',areaStyle: {normal: {color:'#10b283'}},lineStyle: {normal: {color:'#b9babd'}},itemStyle:{normal:{color:'#10b283'}},
-					            data:data},
-					    ],
-					};
-				let myChart = echarts.init(document.getElementById('trade-time'));
+                let option = {
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data:[]
+                    },
+                    xAxis: [
+                        {
+                            boundaryGap: false,
+                            type: 'category',
+                            axisTick:{show:false},
+                            splitLine:{
+                                width:1,
+                                show:true,
+                                lineStyle: {
+                                    color: ['#eaeaea'],
+                                    type:'dotted'
+                                }
+                            },
+                            data: hours
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value',
+                            name: '',
+                            min: 0,
+                            axisLabel: {show:false,},
+                            axisTick:{show:false},
+                            splitLine:{show:false},
+                            axisLine:{show:false}
+                        }
+                    ],
+                    series: [
+                        {
+                            name:'产生的交易总笔数',
+                            type:'line',
+                            itemStyle : {  /*设置折线颜色*/
+                                normal : {
+                                    color:'#E76B5F'
+                                }
+                            },
+                            symbol:'circle',
+                            symbolSize:10,
+                            data:data
+                        }
+                    ]
+                };
+				let myChart = echarts.init(this.$els.tradeTime);
 				myChart.setOption(option);
-				let id=document.getElementById('trade-time');
-				let resizeIdContainer = function () {
-				    id.style.width = id.parentNode.style.width+'px';
-				    id.style.height = id.parentNode.style.height+'px';
-				};
-				resizeIdContainer();
-				window.onresize = function () {
-				    resizeIdContainer();
-				    myChart.resize();
-				};
 			},
 			dataGet(){
 				this.model.getMerchantTradeTotal(this.searchData).then((res)=>{if(res.data.code===0){
@@ -322,7 +472,9 @@
 		},
 		ready(){
 			this.initList();
-			this.echartRadar();
+			window.onresize=()=>{
+                this.echatInit();
+			}
 		},
 	}
 </script>

@@ -71,6 +71,9 @@
                     <td>{{n.settlementDiscount}}</td><!-- 结算折扣 -->
                     <td>{{n.bankMoney}}</td><!-- 补贴金额 -->
                 </tr>
+                <tr v-show="!dataList.length">
+                    <td colspan="11">未查询到数据</td>
+                </tr>
             </table>
         </div>
         <div class="showInfo">

@@ -71,7 +71,7 @@
                         <th>操作</th>
                     </tr>
                     <tr v-for="n in dataList">
-                        <td>{{n.activityName}}</td><!-- 活动名称 -->
+                        <td><a v-link="{name:'activity-info',params:{'infoId':n.id}}">{{n.activityName}}</a></td><!-- 活动名称 -->
                         <td>
                             <template v-if="n.subType=='online'">线上</template><!-- 子类型 -->
                             <template v-else>线下</template>
@@ -84,8 +84,8 @@
                         <td>{{n.endDate}}</td><!-- 结束日期 -->
                         <td><a v-link="{name:'transaction-detail',params:{'transactionName':n.activityName,'transactionId':n.activityId}}">交易明细</a></td><!-- 操作 -->
                     </tr>
-                     <tr v-if="!dataList.length">
-                        <td colspan="10">未查询到{{activityName}}活动</td>
+                    <tr v-show="!dataList.length">
+                        <td colspan="9">未查询到数据</td>
                     </tr>
                 </table>
             </div>
@@ -177,6 +177,7 @@
                 let data={
                     name:vm.replaceName,
                     maxResult:10,
+                    statuses:["finish", "early_offline", "online"],
                     organizers:[JSON.parse(sessionStorage.getItem('loginList')).bankOperationCode]
                 }
                 if(!vm.replaceName){
